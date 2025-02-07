@@ -31,7 +31,7 @@ class StockPortfolio {
   make_sale(symbol, shares) {
     //Make sale for symbol with given number of shares
     //Check to make sure it exists in the dictionary
-    let current_shares = this.portfolio[symbol];
+    const current_shares = this.portfolio[symbol];
     if (current_shares) {
       //If trying to sell more than user has, just remove from dictionary
       if (current_shares <= shares) {
