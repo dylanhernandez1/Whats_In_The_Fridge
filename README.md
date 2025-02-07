@@ -1,4 +1,4 @@
-##WHATS IN THE FRIDGE?
+#WHATS IN THE FRIDGE?
 
 Run npm install from the root for application to run
 
