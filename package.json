@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm -w packages/react-frontend run dev"
+    "dev": "npm -w packages/react-frontend run dev",
+    "format": "npx prettier . --write",
+    "lint": "npx eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -18,5 +20,6 @@
     "nodemon": "^3.1.9",
     "prettier": "^3.4.2"
   },
-  "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+  "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
+  "type": "module"
 }
