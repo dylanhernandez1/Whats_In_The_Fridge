@@ -1,18 +1,18 @@
 {
-    "extends": [
-        "airbnb", 
-        "airbnb/hooks", 
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:prettier/recommended"
-    ],
-    "env": {
-        "browser": true,
-        "es2021": true,
-        "jest": true
-    },
-    "rules": {
-        "react/prop-types": 0,
-        "react/react-in-jsx-scope": "off"
-    }
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true
+  },
+  "rules": {
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": "off"
+  }
 }
