@@ -14,7 +14,7 @@ app.post("/users", (req, res) => {
   //Handle post request (adding a user)
   const userToAdd = req.body;
 
-  let result = userServices.addUser(userToAdd);
+  const result = userServices.addUser(userToAdd);
   result
     .then((result) => res.status(201).send(result))
     .catch((error) =>
@@ -31,7 +31,7 @@ app.get("/users/:id", (req, res) => {
   //Get user by id logic
   const id = req.params["id"];
 
-  let result = userServices.findUserById(id);
+  const result = userServices.findUserById(id);
   result
     .then((result) => {
       if (!result || result === undefined) {
@@ -48,7 +48,7 @@ app.get("/users/:id", (req, res) => {
 app.delete("/users/:id", (req, res) => {
   //Delete user by id logic
   const id = req.params["id"];
-  let result = userServices.findUserById(id);
+  const result = userServices.findUserById(id);
   result
     .then((result) => {
       if (!result || result === undefined) {
