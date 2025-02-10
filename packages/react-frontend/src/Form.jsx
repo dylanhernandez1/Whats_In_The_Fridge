@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 function Form(props) {
   //Use empty strings for initial text boxes
@@ -6,6 +8,8 @@ function Form(props) {
     name: "",
     job: ""
   });
+  const navigate = useNavigate();
+
 
   //
   function handleChange(event) {
@@ -20,6 +24,10 @@ function Form(props) {
     //When button is clicked handle it and set person back to empty
     props.handleSubmit(person);
     setPerson({ name: "", job: "" });
+  }
+
+  function switchToProfile() {
+    navigate("/profile");
   }
 
   //Return format for form
@@ -41,11 +49,14 @@ function Form(props) {
         value={person.job}
         onChange={handleChange}
       />
-      <input
-        type="button"
-        value="Submit"
-        onClick={submitForm}
-      />
+      <button onClick={submitForm}>Submit</button>
+      <div>
+        <button onClick={switchToProfile}>
+          Profile
+        </button>
+ 
+      </div>
+      
     </form>
   );
 }

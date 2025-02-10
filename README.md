@@ -2,7 +2,9 @@
 
 ## Instructions:
 
-1. Run npm install from the root for application to run
+1. Run ```npm install``` from the root for application to run
+2. Run ```npm run format``` and ```npm run lint``` before committing
+>>>>>>> e1b80a21e781dc6f78a9591817181b265f1d8095
 
 ## Figma/Prototype Information
 

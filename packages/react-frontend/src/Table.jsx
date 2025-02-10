@@ -7,10 +7,7 @@ function TableHeader() {
   return (
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Job</th>
-        <th>Delete Button</th>
+        <th>What's in my fridge</th>
       </tr>
     </thead>
   );
@@ -23,7 +20,7 @@ function TableBody(props) {
       <tr key={index}>
         <td>{row._id}</td>
         <td>{row.name}</td>
-        <td>{row.job}</td>
+        <td>{row.password}</td>
         <td>
           <button onClick={() => props.removeCharacter(index)}>
             Delete

@@ -1,7 +1,8 @@
 // src/MyApp.jsx
 import React, { useState, useEffect } from "react";
-import Table from "./Table";
-import Form from "./Form";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import Home from "./Home";
+import Profile from "./Profile";
 
 function MyApp() {
   //Use empty state
@@ -74,6 +75,24 @@ function MyApp() {
 
   //Return application format (http) with Table and Form and parameters
   return (
+    <Routes>
+      <Route path="/" element={
+        <Home characters={characters} removeCharacter={removeOneCharacter} updateList={updateList}/>} />
+      <Route path="/profile" element={
+        <Profile characters={characters} removeCharacter={removeOneCharacter} updateList={updateList}/>} />
+    </Routes>
+    
+  );
+}
+
+export default MyApp;
+
+
+/*
+  return (
+<Home characters={characters} removeCharacter={removeOneCharacter} updateList={updateList}/>
+
+
     <div className="container">
       <Table
         characterData={characters}
@@ -81,7 +100,20 @@ function MyApp() {
       />
       <Form handleSubmit={updateList} />
     </div>
-  );
-}
 
-export default MyApp;
+    <div className="container">
+      <Routes>
+        <Route path="/" element={
+          <div>
+        <Table characterData={characters} 
+        removeCharacter={removeOneCharacter}/>
+          <Form handleSubmit={updateList} />
+          </div>
+      }/>
+        <Route path="/profile" element={<Profile/>}/>
+      </Routes>
+ 
+    </div>
+  );
+
+*/
