@@ -34,7 +34,8 @@ Note: Need to include auto formatting based on dimensinons on screen.
 ## SPRINT WEEK 1 HELPER
 
 1. Toolbar.jsx is where you create the buttons.
-2. MyApp.jsx is where you modify what paths redirect to what, import your file at the top of MyApp.jsx. For example, `import Home from "./Home"` `import Profile from "./Profile"`
-3. In the app of MyApp.jsx
+2. Create your page via Terminal `touch FORMNAME.jsx` and then modify it, you can use Profile.jsx as reference
+3. MyApp.jsx is where you modify what paths redirect to what, import your file at the top of MyApp.jsx. For example, `import Home from "./Home"` `import Profile from "./Profile"`
+4. In the app of MyApp.jsx
 `<Route path="/PATH" element={ <NAME OF FILE parameters to send to file/> } />`
 
