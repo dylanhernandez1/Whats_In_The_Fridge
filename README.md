@@ -2,7 +2,7 @@
 
 ## Instructions:
 
-1. Run `npm install` from the root for application to run
+1. Run `npm install` and `npm install react-router-dom` from the root for application to run
 2. Run `npm run format` and `npm run lint` before committing
 
 ## Figma/Prototype Information
