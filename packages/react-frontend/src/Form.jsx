@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 function Form(props) {
   //Use empty strings for initial text boxes
   const [person, setPerson] = useState({
@@ -9,7 +8,6 @@ function Form(props) {
     job: ""
   });
   const navigate = useNavigate();
-
 
   //
   function handleChange(event) {
@@ -51,12 +49,8 @@ function Form(props) {
       />
       <button onClick={submitForm}>Submit</button>
       <div>
-        <button onClick={switchToProfile}>
-          Profile
-        </button>
- 
+        <button onClick={switchToProfile}>Profile</button>
       </div>
-      
     </form>
   );
 }

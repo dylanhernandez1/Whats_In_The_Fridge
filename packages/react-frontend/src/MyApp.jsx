@@ -1,6 +1,6 @@
 // src/MyApp.jsx
 import React, { useState, useEffect } from "react";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import Profile from "./Profile";
 
@@ -76,17 +76,31 @@ function MyApp() {
   //Return application format (http) with Table and Form and parameters
   return (
     <Routes>
-      <Route path="/" element={
-        <Home characters={characters} removeCharacter={removeOneCharacter} updateList={updateList}/>} />
-      <Route path="/profile" element={
-        <Profile characters={characters} removeCharacter={removeOneCharacter} updateList={updateList}/>} />
+      <Route
+        path="/"
+        element={
+          <Home
+            characters={characters}
+            removeCharacter={removeOneCharacter}
+            updateList={updateList}
+          />
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <Profile
+            characters={characters}
+            removeCharacter={removeOneCharacter}
+            updateList={updateList}
+          />
+        }
+      />
     </Routes>
-    
   );
 }
 
 export default MyApp;
-
 
 /*
   return (
