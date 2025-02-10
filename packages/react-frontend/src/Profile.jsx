@@ -1,18 +1,9 @@
 // src/Table.jsx
 import React from "react";
 import Toolbar from "./Toolbar";
-import { useNavigate } from "react-router-dom";
 
-function Profile({
-  characters,
-  removeOneCharacter,
-  updateList
-}) {
-  const navigate = useNavigate();
+function Profile() {
 
-  function switchToHome() {
-    navigate("/");
-  }
   //Full table
   return (
     <div className="container">
