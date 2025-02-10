@@ -7,7 +7,7 @@
 ## Merging, Pulling, and Committing
 
 1. Create a branch `git branch BRANCH1`
-2. Go into the branch `git checkout BRANCH1` then retrieve latest from main `git pull origin BRANCH1` or 'git fetch' and do whatever you need to do
+2. Go into the branch `git checkout BRANCH1` then retrieve latest from main `git pull origin BRANCH1` or `git fetch` and do whatever you need to do
 3. After finishing run `npm run format` and `npm run lint`
 4. Commit and push your branch `git commit -m "Message"` and `git push`
 5. Go into the main `git checkout main` and update if there is any change `git pull origin main`
