@@ -3,7 +3,6 @@ import React from "react";
 import Toolbar from "./Toolbar";
 
 function Profile() {
-
   //Full table
   return (
     <div className="container">

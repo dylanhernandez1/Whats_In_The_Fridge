@@ -5,7 +5,6 @@ import Form from "./Form";
 import Toolbar from "./Toolbar";
 
 function Home({ characters, removeOneCharacter, updateList }) {
-
   //Full table
   return (
     <div className="container">
