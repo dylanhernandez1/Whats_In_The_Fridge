@@ -1,7 +1,6 @@
 // src/Table.jsx
 import React from "react";
-import Table from "./Table";
-import Form from "./Form";
+import Toolbar from "./Toolbar";
 import { useNavigate } from "react-router-dom";
 
 function Profile({
@@ -17,16 +16,11 @@ function Profile({
   //Full table
   return (
     <div className="container">
-      <Table
-        characterData={characters}
-        removeCharacter={removeOneCharacter}
-      />
+      <Toolbar />
 
-      <Form handleSubmit={updateList} />
-      <label htmlFor="name">omg it works!!!!!!!</label>
-      <div>
-        <button onClick={switchToHome}>Home</button>
-      </div>
+      <label htmlFor="name">
+        We are in the profile section
+      </label>
     </div>
   );
 }
