@@ -35,7 +35,7 @@ Note: Need to include auto formatting based on dimensinons on screen.
 
 1. Toolbar.jsx is where you create the buttons.
 2. MyApp.jsx is where you modify what paths redirect to what, import your file at the top of MyApp.jsx. For example, `import Home from "./Home"` `import Profile from "./Profile"`
-3. In the app of MyApp.jsx, 
+3. In the app of MyApp.jsx
 `<Route
    path="/PATH"
    element={
@@ -44,3 +44,4 @@ Note: Need to include auto formatting based on dimensinons on screen.
    />
    }
   />`
+
