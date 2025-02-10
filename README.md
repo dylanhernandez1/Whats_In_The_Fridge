@@ -11,8 +11,9 @@
 3. Modify code and files
 4. After finishing run `npm run format` and `npm run lint`
 5. Commit and push your branch `git commit -m "Message"` and `git push`
-6. Go into the main `git checkout main` and update if there is any change `git pull origin main`
-7. Modify any changes if merge error then merge `git merge BRANCH1`
+6. Go into the main `git checkout main` then `git pull origin main` (in case you don't have the lastest version)
+7. If there is modifications, fix and then merge `git merge BRANCH1`
+8. Push all changes to repo `git push origin main`
 
 ## Figma/Prototype Information
 
