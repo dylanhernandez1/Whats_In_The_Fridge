@@ -31,7 +31,7 @@ Note: Need to include auto formatting based on dimensinons on screen.
 **Link:** https://airbnb.io/javascript/react/
 
 
-## SPRINT WEEK 1 HELPER
+## SPRINT 1 HELPER
 
 1. Toolbar.jsx is where you create the buttons.
 2. Create your page via Terminal `touch FORMNAME.jsx` and then modify it, you can use Profile.jsx as reference
