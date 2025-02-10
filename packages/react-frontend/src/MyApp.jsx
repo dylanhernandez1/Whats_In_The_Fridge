@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import Profile from "./Profile";
+import GroceryList from "./GroceryList";
 
 function MyApp() {
   //Use empty state
@@ -90,6 +91,16 @@ function MyApp() {
         path="/profile"
         element={
           <Profile
+            characters={characters}
+            removeCharacter={removeOneCharacter}
+            updateList={updateList}
+          />
+        }
+      />
+      <Route
+        path="/grocery-list"
+        element={
+          <GroceryList
             characters={characters}
             removeCharacter={removeOneCharacter}
             updateList={updateList}

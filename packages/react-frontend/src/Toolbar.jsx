@@ -9,6 +9,10 @@ function Toolbar() {
     navigate("/profile");
   }
 
+  function navToGroceryList() {
+    navigate("/grocery-list");
+  }
+
   function navToHome() {
     navigate("/");
   }
@@ -19,6 +23,7 @@ function Toolbar() {
       <div>
         <button onClick={navToHome}>Home</button>
         <button onClick={navToProfile}>Profile</button>
+        <button onClick={navToGroceryList}>My Groceries</button>
       </div>
     </div>
   );
