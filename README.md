@@ -4,7 +4,7 @@
 
 1. Run `npm install` and `npm install react-router-dom` from the root for application to run
 
-## Merging, Pulling, and Committing
+## Merging, Pulling, Committing, and Pushing
 
 1. Create a branch `git branch TESTBRANCH`
 2. Go into the branch `git checkout TESTBRANCH`
