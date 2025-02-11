@@ -38,6 +38,8 @@ Installing Prettier:
 11. If there is modifications, fix and then merge `git merge TESTBRANCH`
 12. Push all changes to repo `git push origin main`
 
+Sometimes your branch will pull from your branch in the repo. To update your branch after someone else, you have to checkout into your branch and `git merge origin` to have everything updated in your branch.
+
 
 ## SPRINT 1 HELPER
 
