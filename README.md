@@ -30,6 +30,10 @@ Note: Need to include auto formatting based on dimensinons on screen.
 
 **Link:** https://airbnb.io/javascript/react/
 
+Installing Prettier:
+1. Go to extensions on the left hand bar on VS Code
+2. Search `Prettier` and Install
+
 
 ## SPRINT 1 HELPER
 
