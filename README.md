@@ -1,5 +1,21 @@
 # WHATS IN THE FRIDGE?
 
+## Figma/Prototype Information
+
+**Figma Link:** https://www.figma.com/design/2t0g61ZrfOgUqMNpqOzQGS/whats-in-my-fridge?node-id=3-4&t=2IYp4LDfXmCGodHy-1
+
+**Figma Prototype Link:** https://www.figma.com/proto/2t0g61ZrfOgUqMNpqOzQGS/whats-in-my-fridge?node-id=3-4&t=2IYp4LDfXmCGodHy-1
+
+Note: Need to include auto formatting based on dimensinons on screen.
+
+## Format Rules:
+
+**Link:** https://airbnb.io/javascript/react/
+
+Installing Prettier:
+1. Go to extensions on the left hand bar on VS Code
+2. Search `Prettier` and Install
+
 ## Instructions:
 
 1. Run `npm install` and `npm install react-router-dom` from the root for application to run
@@ -17,22 +33,6 @@
 9. Retrieve latest from main again (in case you don't have the lastest version) `git pull origin main` 
 10. If there is modifications, fix and then merge `git merge TESTBRANCH`
 11. Push all changes to repo `git push origin main`
-
-## Figma/Prototype Information
-
-**Figma Link:** https://www.figma.com/design/2t0g61ZrfOgUqMNpqOzQGS/whats-in-my-fridge?node-id=3-4&t=2IYp4LDfXmCGodHy-1
-
-**Figma Prototype Link:** https://www.figma.com/proto/2t0g61ZrfOgUqMNpqOzQGS/whats-in-my-fridge?node-id=3-4&t=2IYp4LDfXmCGodHy-1
-
-Note: Need to include auto formatting based on dimensinons on screen.
-
-## Format Rules:
-
-**Link:** https://airbnb.io/javascript/react/
-
-Installing Prettier:
-1. Go to extensions on the left hand bar on VS Code
-2. Search `Prettier` and Install
 
 
 ## SPRINT 1 HELPER
