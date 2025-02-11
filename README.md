@@ -24,7 +24,7 @@ Installing Prettier:
 
 
 ## Merging, Pulling, Committing, and Pushing
-
+hi
 1. Create a branch `git branch TESTBRANCH`
 2. Update main before branching `git pull origin main`
 3. Go into the branch `git checkout TESTBRANCH`
