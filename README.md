@@ -28,7 +28,7 @@ hi
 1. Create a branch `git branch TESTBRANCH`
 2. Update main before branching `git pull origin main`
 3. Go into the branch `git checkout TESTBRANCH`
-4. Retrieve latest from main `git pull origin TESTBRANCH` OR `git fetch`. If someone updated the repo, refer to #13.
+4. Retrieve latest from main `git pull origin main` OR `git merge origin`
 5. Modify code and files
 6. After finishing run `npm run format` AND `npm run lint`
 7. Commit your branch `git commit -m "Message"`
@@ -37,9 +37,6 @@ hi
 10. Retrieve latest from main again (in case you don't have the lastest version) `git pull origin main` 
 11. If there is modifications, fix and then merge `git merge TESTBRANCH`
 12. Push all changes to repo `git push origin main`
-
-13. Sometimes your branch will pull from your branch in the repo. To update your branch after someone else, you have to checkout into your branch and `git merge origin` to have everything updated in your branch.
-
 
 ## SPRINT 1 HELPER
 
