@@ -17,6 +17,10 @@ function Toolbar() {
     navigate("/");
   }
 
+  function navToRecipeSuggester() {
+    navigate("/recipe-suggester");
+  }
+
   //Full table
   return (
     <div className="container">
@@ -24,6 +28,7 @@ function Toolbar() {
         <button onClick={navToHome}>Home</button>
         <button onClick={navToProfile}>Profile</button>
         <button onClick={navToGroceryList}>My Groceries</button>
+        <button onClick={navToRecipeSuggester}>Reciper Suggester</button>
       </div>
     </div>
   );

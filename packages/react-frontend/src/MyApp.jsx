@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import Profile from "./Profile";
 import GroceryList from "./GroceryList";
+import RecipeSuggester from "./RecipeSuggester";
 
 function MyApp() {
   //Use empty state
@@ -105,6 +106,12 @@ function MyApp() {
             removeCharacter={removeOneCharacter}
             updateList={updateList}
           />
+        }
+      />
+      <Route
+        path="/recipe-suggester"
+        element={
+          <RecipeSuggester/>
         }
       />
     </Routes>
