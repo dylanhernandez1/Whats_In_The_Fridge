@@ -1,10 +1,7 @@
 // src/MyApp.jsx
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "./Home";
-import Profile from "./Profile";
-import GroceryList from "./GroceryList";
-import RecipeSuggester from "./RecipeSuggester";
+import { routes } from "./Routes.jsx";
 
 function MyApp() {
   //Use empty state
@@ -76,74 +73,25 @@ function MyApp() {
   }
 
   //Return application format (http) with Table and Form and parameters
+  const allProps = {
+    characters,
+    removeCharacter: removeOneCharacter,
+    updateList
+  };
+
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          <Home
-            characters={characters}
-            removeCharacter={removeOneCharacter}
-            updateList={updateList}
-          />
-        }
-      />
-      <Route
-        path="/profile"
-        element={
-          <Profile
-            characters={characters}
-            removeCharacter={removeOneCharacter}
-            updateList={updateList}
-          />
-        }
-      />
-      <Route
-        path="/grocery-list"
-        element={
-          <GroceryList
-            characters={characters}
-            removeCharacter={removeOneCharacter}
-            updateList={updateList}
-          />
-        }
-      />
-      <Route
-        path="/recipe-suggester"
-        element={<RecipeSuggester />}
-      />
+      {routes.map(({ path, element }) => (
+        <Route
+          path={path}
+          element={element(
+            // At some point "allProps" needs to be filtered out to only the selected props wanted
+            allProps
+          )}
+        />
+      ))}
     </Routes>
   );
 }
 
 export default MyApp;
-
-/*
-  return (
-<Home characters={characters} removeCharacter={removeOneCharacter} updateList={updateList}/>
-
-
-    <div className="container">
-      <Table
-        characterData={characters}
-        removeCharacter={removeOneCharacter}
-      />
-      <Form handleSubmit={updateList} />
-    </div>
-
-    <div className="container">
-      <Routes>
-        <Route path="/" element={
-          <div>
-        <Table characterData={characters} 
-        removeCharacter={removeOneCharacter}/>
-          <Form handleSubmit={updateList} />
-          </div>
-      }/>
-        <Route path="/profile" element={<Profile/>}/>
-      </Routes>
- 
-    </div>
-  );
-
-*/

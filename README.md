@@ -26,7 +26,7 @@ Installing Prettier:
 1. Create a branch `git branch TESTBRANCH`
 2. Update main before branching `git pull origin main`
 3. Go into the branch `git checkout TESTBRANCH`
-4. Retrieve latest from main `git pull origin main` OR `git merge origin` OR `git fetch` 
+4. Retrieve latest from main `git pull origin main` OR `git merge origin` OR `git fetch`
 5. Modify code and files
 6. After finishing run `npm run format` AND `npm run lint`
 7. Commit your branch `git commit -m "Message"`
