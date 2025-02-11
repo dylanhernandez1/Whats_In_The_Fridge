@@ -28,7 +28,9 @@ function Toolbar() {
         <button onClick={navToHome}>Home</button>
         <button onClick={navToProfile}>Profile</button>
         <button onClick={navToGroceryList}>My Groceries</button>
-        <button onClick={navToRecipeSuggester}>Reciper Suggester</button>
+        <button onClick={navToRecipeSuggester}>
+          Reciper Suggester
+        </button>
       </div>
     </div>
   );

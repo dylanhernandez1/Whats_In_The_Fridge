@@ -110,9 +110,7 @@ function MyApp() {
       />
       <Route
         path="/recipe-suggester"
-        element={
-          <RecipeSuggester/>
-        }
+        element={<RecipeSuggester />}
       />
     </Routes>
   );
