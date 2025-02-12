@@ -1,0 +1,19 @@
+.buttons {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.buttons button {
+  font: inherit;
+  cursor: pointer;
+  color: #aaa;
+  border: 1px solid #cddccd;
+  background-color: transparent;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+}
+
+.buttons button:hover,
+.buttons button:active {
+  background-color: #aaa;
+}

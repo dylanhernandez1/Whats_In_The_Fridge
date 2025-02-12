@@ -125,7 +125,7 @@ samp {
  * Add the correct font size in all browsers.
  */
 small {
-  font-size: 80%;
+  font-size: 100%;
 }
 
 /**
@@ -216,7 +216,7 @@ button::-moz-focus-inner,
 [type="reset"]::-moz-focus-inner,
 [type="submit"]::-moz-focus-inner {
   border-style: none;
-  padding: 0;
+  padding: 1;
 }
 
 /**
