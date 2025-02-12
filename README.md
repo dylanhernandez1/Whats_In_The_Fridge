@@ -40,6 +40,10 @@ Installing Prettier:
 
 1. Toolbar.jsx is where you create the buttons.
 2. Create your page via Terminal `touch FORMNAME.jsx` and then modify it, you can use Profile.jsx as reference
-3. MyApp.jsx is where you modify what paths redirect to what, import your file at the top of MyApp.jsx. For example, `import Home from "./Home"` `import Profile from "./Profile"`
-4. In the app of MyApp.jsx
-   `<Route path="/PATH" element={ <NAME OF FILE parameters to send to file/> } />`
+3. Routes.jsx is where you modify what paths redirect to what, import your file at the top of Routes.jsx. For example, `import Home from "./Home"` `import Profile from "./Profile"`
+4. In Routes.jsx, if your path requires props, you must manually add the prop in MyApp.jsx in the `const allProps` section
+5. Use path `"/"` as a template if you are passing props
+
+## UML
+
+**UML Class Diagram:** https://drive.google.com/file/d/1S4yT_NFGVBmOmzIkn5r9AaRlGA2nTrHd/view?usp=sharing
