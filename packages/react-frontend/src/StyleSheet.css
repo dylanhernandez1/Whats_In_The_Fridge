@@ -6,8 +6,8 @@
 .buttons button {
   font: inherit;
   cursor: pointer;
-  color: #aaa;
-  border: 1px solid #cddccd;
+  color: #2e302b;
+  border: 1px solid #8e9386;
   background-color: transparent;
   padding: 0.5rem 1.5rem;
   border-radius: 4px;
