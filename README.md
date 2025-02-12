@@ -43,3 +43,7 @@ Installing Prettier:
 3. Routes.jsx is where you modify what paths redirect to what, import your file at the top of Routes.jsx. For example, `import Home from "./Home"` `import Profile from "./Profile"`
 4. In Routes.jsx, if your path requires props, you must manually add the prop in MyApp.jsx in the `const allProps` section
 5. Use path `"/"` as a template if you are passing props
+
+## UML
+
+**UML Class Diagram:** https://drive.google.com/file/d/1S4yT_NFGVBmOmzIkn5r9AaRlGA2nTrHd/view?usp=sharing
