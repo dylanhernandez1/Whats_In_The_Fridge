@@ -3,6 +3,7 @@ import Home from "./Home";
 import Profile from "./Profile";
 import GroceryList from "./GroceryList";
 import RecipeSuggester from "./RecipeSuggester";
+import Food from "./Food";
 
 export const routes = [
   {
@@ -18,5 +19,9 @@ export const routes = [
   {
     path: "/recipe-suggester",
     element: (props) => <RecipeSuggester />
+  }, // No props for now
+  {
+    path: "/food",
+    element: (props) => <Food />
   } // No props for now
 ];

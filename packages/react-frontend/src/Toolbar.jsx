@@ -28,6 +28,10 @@ function Toolbar() {
     navigate("/recipe-suggester");
   }
 
+  function navToFood() {
+    navigate("/food");
+  }
+
   //Full table
   return (
     <div className="buttons">
@@ -38,6 +42,7 @@ function Toolbar() {
         <button onClick={navToRecipeSuggester}>
           Reciper Suggester
         </button>
+        <button onClick={navToFood}>Food</button>
       </div>
     </div>
   );
