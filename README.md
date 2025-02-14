@@ -12,6 +12,10 @@
 
 Note: Need to include auto formatting based on dimensinons on screen.
 
+## UML
+
+**UML Class Diagram:** https://drive.google.com/file/d/1S4yT_NFGVBmOmzIkn5r9AaRlGA2nTrHd/view?usp=sharing
+
 ## Format Rules:
 
 **Link:** https://airbnb.io/javascript/react/
@@ -44,6 +48,3 @@ Installing Prettier:
 4. In Routes.jsx, if your path requires props, you must manually add the prop in MyApp.jsx in the `const allProps` section
 5. Use path `"/"` as a template if you are passing props
 
-## UML
-
-**UML Class Diagram:** https://drive.google.com/file/d/1S4yT_NFGVBmOmzIkn5r9AaRlGA2nTrHd/view?usp=sharing
