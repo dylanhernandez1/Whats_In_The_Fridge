@@ -1,16 +1,12 @@
 // src/Table.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { FaHome, FaUser, FaShoppingCart, FaUtensils, FaBook } from "react-icons/fa";
 import "./StyleSheet.css";
 
 function Toolbar() {
   const navigate = useNavigate();
   //TEMPORARY THING TO JUST MAKE IT BLACK AND WHITE
-  const Style = {
-    color: "black",
-    backgroundColor: "white",
-    borderColor: "black"
-  };
 
   function navToProfile() {
     navigate("/profile");
@@ -34,16 +30,12 @@ function Toolbar() {
 
   //Full table
   return (
-    <div className="buttons">
-      <div>
-        <button onClick={navToHome}>Home</button>
-        <button onClick={navToProfile}>Profile</button>
-        <button onClick={navToGroceryList}>My Groceries</button>
-        <button onClick={navToRecipeSuggester}>
-          Reciper Suggester
-        </button>
-        <button onClick={navToFood}>Food</button>
-      </div>
+    <div className="toolbar">
+        <button onClick={navToHome}><FaHome className="icon"/><span className="button-text">Home</span></button>
+        <button onClick={navToFood}><FaUtensils className="icon"/><span className="button-text">Food</span></button>
+        <button onClick={navToGroceryList}><FaShoppingCart className="icon"/><span className="button-text">Groceries</span></button>
+        <button onClick={navToRecipeSuggester}><FaBook className="icon"/><span className="button-text">Recipes</span></button>
+        <button onClick={navToProfile}><FaUser className="icon"/><span className="button-text">Profile</span></button>
     </div>
   );
 }

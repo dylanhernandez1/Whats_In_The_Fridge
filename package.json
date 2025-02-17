@@ -23,6 +23,7 @@
   "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
   "type": "module",
   "dependencies": {
+    "react-icons": "^5.4.0",
     "react-router-dom": "^7.1.5"
   }
 }

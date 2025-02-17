@@ -2,7 +2,7 @@
 
 ## Instructions:
 
-1. Run `npm install` and `npm install react-router-dom` from the root for application to run
+1. Run `npm install` and `npm install react-router-dom` and `npm install react-icons` from the root for application to run
 
 ## Figma/Prototype Information
 
@@ -48,3 +48,6 @@ Installing Prettier:
 4. In Routes.jsx, if your path requires props, you must manually add the prop in MyApp.jsx in the `const allProps` section
 5. Use path `"/"` as a template if you are passing props
 
+## React icons
+
+**Link:** https://react-icons.github.io/react-icons/
