@@ -48,6 +48,10 @@ Installing Prettier:
 4. In Routes.jsx, if your path requires props, you must manually add the prop in MyApp.jsx in the `const allProps` section
 5. Use path `"/"` as a template if you are passing props
 
+## SPRINT 2 HELPER
+
+1. If your container is overlapping with the toolbar, the toolbar is 80px wide so have margin-left: 80px;
+
 ## React icons
 
 **Link:** https://react-icons.github.io/react-icons/
