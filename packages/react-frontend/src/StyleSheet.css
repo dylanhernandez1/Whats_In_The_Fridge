@@ -54,6 +54,26 @@
   transition: color 0.3s ease-in-out;
 }
 
+.search-bar-container {
+  display: flex;
+  justify-content: left;
+  width: 100%;
+  margin-left: 80px;
+  padding: 10px;
+}
+
+.search-input {
+  width: 80%;
+  max-width: 600px;
+  min-width: 200px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
 /* Mobile view */
 @media (max-width: 600px) {
   .toolbar {
@@ -87,5 +107,16 @@
   /* Hide text in mobile mode */
   .button-text {
     display: none;
+  }
+
+  .search-input {
+    width: 90%;
+    margin-left: 0px;
+  }
+
+  .search-bar-container {
+    justify-content: left;
+    width: 100%;
+    margin-left: 0%;
   }
 }
