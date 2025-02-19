@@ -1,6 +1,6 @@
 // src/Table.jsx
 import React from "react";
-import Toolbar from "./Toolbar";
+import Toolbar from "../Components/Toolbar.jsx";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {

@@ -1,9 +1,9 @@
 import React from "react";
-import Home from "./Home";
-import Profile from "./Profile";
-import GroceryList from "./GroceryList";
-import RecipeSuggester from "./RecipeSuggester";
-import Food from "./Food";
+import Home from "../Pages/Home.jsx";
+import Profile from "../Pages/Profile.jsx";
+import GroceryList from "../Pages/GroceryList.jsx";
+import RecipeSuggester from "../Pages/RecipeSuggester.jsx";
+import Food from "../Pages/Food.jsx";
 
 export const routes = [
   {

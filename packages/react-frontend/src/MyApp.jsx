@@ -1,7 +1,7 @@
 // src/MyApp.jsx
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { routes } from "./Routes.jsx";
+import { routes } from "./Utils/Routes.jsx";
 
 function MyApp() {
   //Use empty state

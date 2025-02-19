@@ -1,10 +1,8 @@
 // src/Table.jsx
 import React from "react";
-import Table from "./Table";
-import Form from "./Form";
-import Toolbar from "./Toolbar";
-import SearchBar from "./SearchBar";
-import "./StyleSheet.css";
+import Toolbar from "../Components/Toolbar.jsx";
+import SearchBar from "../Components/SearchBar.jsx";
+import "../Components/StyleSheet.css";
 
 function Home({ characters, removeOneCharacter, updateList }) {
   //Full table
