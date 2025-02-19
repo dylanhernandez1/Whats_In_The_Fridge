@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./StyleSheet.css";
+import { FaSearch, FaFilter } from "react-icons/fa";
 
 function SearchBar() {
   const [text, setText] = useState("Search");
@@ -9,22 +10,25 @@ function SearchBar() {
     setText(event.target.value);
   };
 
-  const handleFocus = () => {
+  const handleFocus = (e) => {
     if (!isFocused) {
       setText("");
       setIsFocused(true);
     }
   };
 
-  const handleUnfocused = () => {
+  const handleUnfocused = (e) => {
     if (text === "") {
       setText("Search");
       setIsFocused(false);
     }
   };
 
+  function addFilterOptions() {}
+
   return (
     <form className="search-bar-container">
+      <FaSearch className="search-bar-container-icon" />
       <input
         type="text"
         value={text}
@@ -32,7 +36,16 @@ function SearchBar() {
         onFocus={handleFocus}
         onBlur={handleUnfocused}
         className="search-input"
+        style={{
+          border: "none",
+          boxShadow: "none",
+          outline: "none"
+        }}
       />
+      <button onClick={addFilterOptions}>
+        <FaFilter className="icon" />
+        <span className="button-text"></span>
+      </button>
     </form>
   );
 }

@@ -12,7 +12,6 @@ import "./StyleSheet.css";
 
 function Toolbar() {
   const navigate = useNavigate();
-  //TEMPORARY THING TO JUST MAKE IT BLACK AND WHITE
 
   function navToProfile() {
     navigate("/profile");

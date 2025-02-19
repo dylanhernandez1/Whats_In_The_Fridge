@@ -4,17 +4,16 @@ import Table from "./Table";
 import Form from "./Form";
 import Toolbar from "./Toolbar";
 import SearchBar from "./SearchBar";
+import "./StyleSheet.css";
 
 function Home({ characters, removeOneCharacter, updateList }) {
   //Full table
   return (
     <div className="container">
       <Toolbar />
-
-      <Table
-        characterData={characters}
-        removeCharacter={removeOneCharacter}
-      />
+      <header className="header-container">
+        What's In My Fridge?
+      </header>
       <SearchBar />
     </div>
   );
