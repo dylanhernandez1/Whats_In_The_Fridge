@@ -75,8 +75,7 @@ body {
   justify-content: left;
   width: calc(100% - 80px);
   margin-left: 80px;
-  background-color: white;
-  border: 2px solid #ccc;
+  background-color: rgb(247, 247, 247);
   border-radius: 5px;
   overflow: hidden;
 }
@@ -94,9 +93,11 @@ body {
   align-items: center;
   transition: background-color 0.3s ease-in-out;
 }
+
 .search-bar-container button:hover {
   background-color: #f0f0f0; /* Light gray background */
 }
+
 .search-bar-container button:hover .icon {
   color: #555; /* Darker icon on hover */
 }
