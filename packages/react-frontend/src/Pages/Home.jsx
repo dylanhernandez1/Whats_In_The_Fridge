@@ -2,6 +2,7 @@
 import React from "react";
 import Toolbar from "../Components/Toolbar.jsx";
 import SearchBar from "../Components/SearchBar.jsx";
+import ExpiringList from "../Components/ExpiringList.jsx";
 import "../Components/StyleSheet.css";
 
 function Home({ characters, removeOneCharacter, updateList }) {
@@ -10,9 +11,10 @@ function Home({ characters, removeOneCharacter, updateList }) {
     <div className="container">
       <Toolbar />
       <header className="header-container">
-        What's In My Fridge?
+        <b>What's In My Fridge?</b>
       </header>
       <SearchBar />
+      <ExpiringList />
     </div>
   );
 }
