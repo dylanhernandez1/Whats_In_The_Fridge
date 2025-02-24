@@ -7,36 +7,34 @@ import "./StyleSheet.css";
         expiring-list:        Contains the foods, formatted in Card components, that are expiring the earliest in a scrollable frame
 */
 function ExpiringList() {
-    const [list, setList] = useState();
+  const [list, setList] = useState();
 
-    /* Have this run each time ExpiringList is mounted */
-    useEffect(() => {
-        
-    }, []);
+  /* Have this run each time ExpiringList is mounted */
+  useEffect(() => {}, []);
 
-    /* navigate to a specific location when clicking on a Card component */
-    function onClick(location) {
+  /* navigate to a specific location when clicking on a Card component */
+  function onClick(location) {}
 
-    }
-
-    return (
-        <div className="expiring-list-container">
-            <div className="expiring-list-header">
-                <div className="expiring-list-title"><b>Expiring Soon</b></div>
-                <div className="expiring-list-see-more">See more</div>
-            </div>
-            <div className="expiring-list">
-                {list?.map((item) => {
-                    <Card
-                        name = {item.name}
-                        expirationDate = {item.expirationDate}
-                        location = {item.location}
-                        onClick = {onClick}
-                    />
-                })}
-            </div>
+  return (
+    <div className="expiring-list-container">
+      <div className="expiring-list-header">
+        <div className="expiring-list-title">
+          <b>Expiring Soon</b>
         </div>
-    );
+        <div className="expiring-list-see-more">See more</div>
+      </div>
+      <div className="expiring-list">
+        {list?.map((item) => {
+          <Card
+            name={item.name}
+            expirationDate={item.expirationDate}
+            location={item.location}
+            onClick={onClick}
+          />;
+        })}
+      </div>
+    </div>
+  );
 }
 
 export default ExpiringList;

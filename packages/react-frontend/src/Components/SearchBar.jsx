@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./StyleSheet.css";
-import { FaSearch} from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import { IoIosOptions } from "react-icons/io";
 
 function SearchBar() {
@@ -25,13 +25,11 @@ function SearchBar() {
     }
   };
 
-  function FilterDropDown() {
-    
-  }
+  function FilterDropDown() {}
 
   return (
     <form className="search-bar-container">
-      <FaSearch className="search-bar-container-icon"/>
+      <FaSearch className="search-bar-container-icon" />
       <input
         type="text"
         value={text}
@@ -45,7 +43,7 @@ function SearchBar() {
           outline: "none"
         }}
       />
-      <button onClick={FilterDropDown} style={{border: 0}}>
+      <button onClick={FilterDropDown} style={{ border: 0 }}>
         <IoIosOptions className="icon" />
       </button>
     </form>

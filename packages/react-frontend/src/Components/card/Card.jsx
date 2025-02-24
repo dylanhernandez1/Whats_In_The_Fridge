@@ -6,10 +6,7 @@ import React from "react";
         expirationDate: the expiration date of the food item
 */
 function Card(props) {
-    return (
-        <>
-        </>
-    );
-}   
+  return <></>;
+}
 
 export default Card;
