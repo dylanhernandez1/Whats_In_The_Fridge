@@ -3,7 +3,7 @@ import "./StyleSheet.css";
 import { FaSearch } from "react-icons/fa";
 import { IoIosOptions } from "react-icons/io";
 
-function SearchBar() {
+function SearchBar(props) {
   const [text, setText] = useState("Search");
   const [isFocused, setIsFocused] = useState(false);
 
@@ -25,6 +25,14 @@ function SearchBar() {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      console.log("Search text: ", text);
+      props.handleSubmit(text);
+    }
+  };
+
   function FilterDropDown() {}
 
   return (
@@ -36,6 +44,7 @@ function SearchBar() {
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleUnfocused}
+        onKeyDown={handleKeyDown}
         className="search-input"
         style={{
           border: "none",
