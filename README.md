@@ -3,8 +3,8 @@
 ## Instructions:
 
 1. Run `npm install` and `npm install react-router-dom` and `npm install react-icons` from the root for application to run
-2. To run the backend, create a .env file `touch .env` and copy and paste this in `MONGODB_URI = "mongodb+srv://whats-in-the-fridge-user:DWIRaCXhO11dWbPY@cluster0.dmiyl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"`. 
-DWIRaCXhO11dWbPY is our temporary testing database password.
+2. To run the backend, create a .env file `touch .env` and copy and paste this in `MONGODB_URI = "mongodb+srv://whats-in-the-fridge-user:DWIRaCXhO11dWbPY@cluster0.dmiyl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"`.
+   DWIRaCXhO11dWbPY is our temporary testing database password.
 
 ## Figma/Prototype Information
 
