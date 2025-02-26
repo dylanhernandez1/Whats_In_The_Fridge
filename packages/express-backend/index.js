@@ -1,6 +1,11 @@
 import express from "express";
 import cors from "cors";
 import userServices from "./user-services.js";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config(); //Load dotenv
+mongoose.set("debug", true);
 
 //Initialize app and users list
 const app = express();
@@ -9,6 +14,18 @@ const port = 8000;
 //For Cross-Origin Resource Sharing and json
 app.use(cors());
 app.use(express.json());
+
+//Connect to database
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => console.log("MongoDB connected successfully"))
+  .catch((error) => {
+    console.error("MongoDB connection error:", error);
+    process.exit(1); //Exit the app if the database connection fails
+  });
 
 app.post("/users", (req, res) => {
   //Handle post request (adding a user)
@@ -114,7 +131,7 @@ app.get("/food", (req, res) => {
   //Get food list for user
   const food = req.query.search;
   let result;
-  if (food != undefined){
+  if (food != undefined) {
     result = userServices.findFoodByName(job);
   }
 });

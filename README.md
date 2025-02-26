@@ -36,12 +36,12 @@ Installing Prettier:
 5. Modify code and files
 6. After finishing run `npm run format` AND `npm run lint`
 7. Add the files `git add .` or `git add --all`
-9. Commit your branch `git commit -m "Message"`
-10. Push your branch `git push`
-11. Route back to main `git checkout main`
-12. Retrieve latest from main again (in case you don't have the lastest version) `git pull origin main`
-13. If there is modifications, fix and then merge `git merge TESTBRANCH`
-14. Push all changes to repo `git push origin main`
+8. Commit your branch `git commit -m "Message"`
+9. Push your branch `git push`
+10. Route back to main `git checkout main`
+11. Retrieve latest from main again (in case you don't have the lastest version) `git pull origin main`
+12. If there is modifications, fix and then merge `git merge TESTBRANCH`
+13. Push all changes to repo `git push origin main`
 
 ## SPRINT 1 HELPER
 

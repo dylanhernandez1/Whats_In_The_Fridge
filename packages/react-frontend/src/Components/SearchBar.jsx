@@ -25,11 +25,11 @@ function SearchBar(props) {
     }
   };
 
-  function postText(){
+  function postText() {
     const promise = fetch("http://localhost:8000/food", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         search: text
@@ -42,13 +42,12 @@ function SearchBar(props) {
     if (e.key === "Enter") {
       e.preventDefault();
       console.log("Search text: ", text);
-      
+
       postText().then((res) => {
-        if (res.status === 201){
+        if (res.status === 201) {
           console.log("hi");
         }
-      })
-
+      });
     }
   };
 

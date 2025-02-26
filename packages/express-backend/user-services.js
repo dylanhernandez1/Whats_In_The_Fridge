@@ -1,16 +1,7 @@
-import mongoose from "mongoose";
 import userModel from "./user.js";
 import foodModel from "./food-item.js";
-import dotenv from "dotenv";
-dotenv.config();
-
-mongoose.set("debug", true);
 
 //DWIRaCXhO11dWbPY
-
-mongoose
-  .connect(process.env.MONGODB_URI, {})
-  .catch((error) => console.log(error));
 
 function getUsers() {
   return userModel.find();
@@ -52,8 +43,6 @@ function addFood(name) {
   return promise;
 }
 
-
-
 export default {
   addUser,
   getUsers,
@@ -63,5 +52,5 @@ export default {
   findUserByNameAndJob,
   deleteUserById,
   addFood,
-  findFoodByName,
+  findFoodByName
 };

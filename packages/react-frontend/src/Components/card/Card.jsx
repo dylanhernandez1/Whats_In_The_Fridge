@@ -10,13 +10,15 @@ import "./Card.css";
 function Card(props) {
   return (
     <>
-        <div className="card-container">
+      <div className="card-container">
         <img className="card-img"></img>
-            <div className="card-description">
-                <div className="card-title"><b>{props.name}</b></div>
-                <ExpirationTag daysRemaining={props.expirationDate}/>
-            </div>
+        <div className="card-description">
+          <div className="card-title">
+            <b>{props.name}</b>
+          </div>
+          <ExpirationTag daysRemaining={props.expirationDate} />
         </div>
+      </div>
     </>
   );
 }
