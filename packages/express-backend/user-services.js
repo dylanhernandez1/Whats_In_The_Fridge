@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import userModel from "./user.js";
+import foodModel from "./food-item.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -41,6 +42,16 @@ function deleteUserById(id) {
   return userModel.findByIdAndDelete(id);
 }
 
+function findFood(name) {
+  return foodModel.find({ name: name });
+}
+
+function addFood(name) {
+  const foodToAdd = new foodModel(name);
+  const promise = foodToAdd.save();
+  return promise;
+}
+
 export default {
   addUser,
   getUsers,
@@ -48,5 +59,7 @@ export default {
   findUserByName,
   findUserByJob,
   findUserByNameAndJob,
-  deleteUserById
+  deleteUserById,
+  findFood,
+  addFood
 };

@@ -23,16 +23,6 @@ function MyApp() {
       });
   }
 
-  useEffect(() => {
-    //React hook for updating list based on backend
-    fetchUsers()
-      .then((res) => res.json())
-      .then((json) => setCharacters(json["users_list"]))
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
   function removeOneCharacter(index) {
     //Make promise to backend to remove character if found
     let id = characters[index]._id;
@@ -69,6 +59,13 @@ function MyApp() {
       body: JSON.stringify(person)
     });
 
+    return promise;
+  }
+
+  function fetchFood(text) {
+    const promise = fetch(
+      `http://localhost:8000/food/stored-food/${text}`
+    );
     return promise;
   }
 
