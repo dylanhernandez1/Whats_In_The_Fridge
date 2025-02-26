@@ -62,6 +62,6 @@ export default {
   findUserByJob,
   findUserByNameAndJob,
   deleteUserById,
-  findFood,
   addFood,
+  findFoodByName,
 };

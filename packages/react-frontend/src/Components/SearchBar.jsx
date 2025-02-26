@@ -25,11 +25,30 @@ function SearchBar(props) {
     }
   };
 
+  function postText(){
+    const promise = fetch("http://localhost:8000/food", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        search: text
+      })
+    });
+    return promise;
+  }
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       console.log("Search text: ", text);
-      props.handleSubmit(text);
+      
+      postText().then((res) => {
+        if (res.status === 201){
+          console.log("hi");
+        }
+      })
+
     }
   };
 

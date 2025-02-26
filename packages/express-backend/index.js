@@ -99,11 +99,22 @@ app.get("/users", (req, res) => {
     );
 });
 
-app.get("/users/:food", (req, res) => {
+app.post("/food", (req, res) => {
+  const foodToAdd = req.query.search;
+
+  const result = userServices.addFood(foodToAdd);
+  result
+    .then((result) => res.status(201).send(result))
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
+});
+
+app.get("/food", (req, res) => {
   //Get food list for user
-  const food = req.query.food;
+  const food = req.query.search;
   let result;
-  if (food !== undefined){
+  if (food != undefined){
     result = userServices.findFoodByName(job);
   }
 });
