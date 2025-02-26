@@ -32,7 +32,7 @@ function SearchBar(props) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        search: text
+        name: text
       })
     });
     return promise;
@@ -45,7 +45,7 @@ function SearchBar(props) {
 
       postText().then((res) => {
         if (res.status === 201) {
-          console.log("hi");
+
         }
       });
     }

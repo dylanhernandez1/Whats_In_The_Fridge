@@ -43,6 +43,10 @@ function addFood(name) {
   return promise;
 }
 
+function getFood(){
+  return foodModel.find();
+}
+
 export default {
   addUser,
   getUsers,
@@ -52,5 +56,6 @@ export default {
   findUserByNameAndJob,
   deleteUserById,
   addFood,
-  findFoodByName
+  findFoodByName,
+  getFood,
 };

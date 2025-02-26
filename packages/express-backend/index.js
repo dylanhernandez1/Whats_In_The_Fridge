@@ -18,8 +18,6 @@ app.use(express.json());
 //Connect to database
 mongoose
   .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
   })
   .then(() => console.log("MongoDB connected successfully"))
   .catch((error) => {
@@ -116,8 +114,10 @@ app.get("/users", (req, res) => {
     );
 });
 
-app.post("/food", (req, res) => {
-  const foodToAdd = req.query.search;
+app.post("/food",  (req, res) => {
+  try {
+    console.log("Received request body:", req.body.name);
+    const foodToAdd = req.body;
 
   const result = userServices.addFood(foodToAdd);
   result
@@ -125,15 +125,23 @@ app.post("/food", (req, res) => {
     .catch((error) =>
       res.status(500).send(`Internal Server Error: ${error}`)
     );
+  } catch (error){
+    console.error("Error adding food:", error);
+    res.status(500).send(`Internal Server Error: ${error.message}`);
+  }
+  
 });
 
 app.get("/food", (req, res) => {
   //Get food list for user
-  const food = req.query.search;
+  const food = req.query.name;
   let result;
-  if (food != undefined) {
-    result = userServices.findFoodByName(job);
+  if (food != undefined){
+    result = userServices.findFoodByName(food);
+  } else {
+    result = userServices.getFood();
   }
+  res.status(201).send(result);
 });
 
 app.listen(port, () => {

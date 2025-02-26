@@ -7,11 +7,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
       trim: true
     },
-    amount: {
-      type: Number,
-      required: true,
-      trim: true
-    }
+
   },
   { collection: "food_list", versionkey: false }
 );
