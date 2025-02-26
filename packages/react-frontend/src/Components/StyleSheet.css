@@ -131,11 +131,23 @@ body {
   margin-left: 80px;
   padding-top: 10px;
   padding-bottom: 10px;
+  overflow-x: auto;
 }
 
 .expiring-list-header {
   display: flex;
   justify-content: space-between;
+}
+
+.expiring-list {
+  display: flex;
+  white-space: nowrap;
+  gap: 10px;
+  overflow: auto;
+  scrollbar-width: thin;
+  padding-top: 10px;
+  white-space: nowrap;
+  height: 120px;
 }
 
 /* Mobile view */
@@ -161,6 +173,7 @@ body {
     justify-content: center;
     align-items: center;
     padding: 0;
+    margin: 0;
     flex-direction: row; /* Ensure icons remain in a row */
   }
 

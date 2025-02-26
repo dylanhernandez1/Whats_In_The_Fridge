@@ -1,0 +1,34 @@
+.expiration-tag {
+    display: flex;
+    width: 70px;
+    height: 25px;
+    border-radius: 5px;
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.expiration-tag-small {
+    display: flex;
+    width: 70px;
+    height: 25px;
+    border-radius: 5px;
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.expiration-green {
+    background-color: rgb(129, 244, 14);
+}
+
+.expiration-yellow {
+    background-color: rgb(255, 221, 30);
+}
+
+.expiration-red {
+    background-color: rgb(255, 0, 0);
+}
