@@ -99,6 +99,15 @@ app.get("/users", (req, res) => {
     );
 });
 
+app.get("/users/:", (req, res) => {
+  //Get food list for user
+  const food = req.query.food;
+  let result;
+  if (food !== undefined){
+    result = userServices.findFoodByName(job);
+  }
+});
+
 app.listen(port, () => {
   //Listening to port
   console.log(

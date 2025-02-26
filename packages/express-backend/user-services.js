@@ -42,7 +42,7 @@ function deleteUserById(id) {
   return userModel.findByIdAndDelete(id);
 }
 
-function findFood(name) {
+function findFoodByName(name) {
   return foodModel.find({ name: name });
 }
 
@@ -51,6 +51,8 @@ function addFood(name) {
   const promise = foodToAdd.save();
   return promise;
 }
+
+
 
 export default {
   addUser,
@@ -61,5 +63,5 @@ export default {
   findUserByNameAndJob,
   deleteUserById,
   findFood,
-  addFood
+  addFood,
 };
