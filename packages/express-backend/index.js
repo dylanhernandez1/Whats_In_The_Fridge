@@ -99,7 +99,7 @@ app.get("/users", (req, res) => {
     );
 });
 
-app.get("/users/:", (req, res) => {
+app.get("/users/:food", (req, res) => {
   //Get food list for user
   const food = req.query.food;
   let result;
