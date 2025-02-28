@@ -8,26 +8,31 @@ const categories = [
   "Protein",
   "Dairy",
   "Fats & Oils",
-  "Sugars & Sweets",
+  "Sugars & Sweets"
 ];
 
 export default function IngredientFilter({ ingredients }) {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] =
+    useState("All");
 
   const filteredIngredients =
     selectedCategory === "All"
       ? ingredients
-      : ingredients.filter((item) => item.group === selectedCategory);
+      : ingredients.filter(
+          (item) => item.group === selectedCategory
+        );
 
   return (
-    <div className="p-4">  
+    <div className="p-4">
       <div className="flex overflow-x-auto space-x-4 p-2 bg-gray-100 rounded-lg">
         {categories.map((category) => (
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
             className={`px-4 py-2 rounded-full ${
-              selectedCategory === category ? "bg-blue-500 text-white" : "bg-gray-300"
+              selectedCategory === category
+                ? "bg-blue-500 text-white"
+                : "bg-gray-300"
             }`}
           >
             {category}
@@ -44,7 +49,9 @@ export default function IngredientFilter({ ingredients }) {
             </div>
           ))
         ) : (
-          <p className="text-gray-500">No ingredients found for this category.</p>
+          <p className="text-gray-500">
+            No ingredients found for this category.
+          </p>
         )}
       </div>
     </div>

@@ -8,7 +8,6 @@
     "dev": "npm -w packages/react-frontend run dev",
     "format": "npx prettier . --write",
     "lint": "npx eslint ."
-    
   },
   "author": "",
   "license": "ISC",

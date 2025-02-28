@@ -1,5 +1,4 @@
 import userModel from "./user.js";
-import foodModel from "./food-item.js";
 
 //DWIRaCXhO11dWbPY
 
@@ -33,20 +32,6 @@ function deleteUserById(id) {
   return userModel.findByIdAndDelete(id);
 }
 
-function findFoodByName(name) {
-  return foodModel.find({ name: name });
-}
-
-function addFood(name) {
-  const foodToAdd = new foodModel(name);
-  const promise = foodToAdd.save();
-  return promise;
-}
-
-function getFood() {
-  return foodModel.find();
-}
-
 export default {
   addUser,
   getUsers,
@@ -54,8 +39,5 @@ export default {
   findUserByName,
   findUserByJob,
   findUserByNameAndJob,
-  deleteUserById,
-  addFood,
-  findFoodByName,
-  getFood
+  deleteUserById
 };
