@@ -11,7 +11,7 @@ import "../Components/StyleSheet.css";
 
 function Home({ characters, removeOneCharacter, updateList }) {
   const [foodList, setFoodList] = useState([
-    /*{
+    {
       id: 1234,
       name: "Apple",
       expirationDate: 1,
@@ -46,7 +46,7 @@ function Home({ characters, removeOneCharacter, updateList }) {
       name: "Water",
       expirationDate: 200,
       location: "Pantry"
-    }*/
+    }
   ]);
 
   //Full table
