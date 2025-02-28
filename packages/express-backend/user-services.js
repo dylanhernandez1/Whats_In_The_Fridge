@@ -43,7 +43,7 @@ function addFood(name) {
   return promise;
 }
 
-function getFood(){
+function getFood() {
   return foodModel.find();
 }
 
@@ -57,5 +57,5 @@ export default {
   deleteUserById,
   addFood,
   findFoodByName,
-  getFood,
+  getFood
 };

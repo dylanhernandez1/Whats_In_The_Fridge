@@ -45,7 +45,6 @@ function SearchBar(props) {
 
       postText().then((res) => {
         if (res.status === 201) {
-
         }
       });
     }

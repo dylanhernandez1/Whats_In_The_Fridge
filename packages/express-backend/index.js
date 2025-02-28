@@ -17,8 +17,7 @@ app.use(express.json());
 
 //Connect to database
 mongoose
-  .connect(process.env.MONGODB_URI, {
-  })
+  .connect(process.env.MONGODB_URI, {})
   .then(() => console.log("MongoDB connected successfully"))
   .catch((error) => {
     console.error("MongoDB connection error:", error);
@@ -114,10 +113,9 @@ app.get("/users", (req, res) => {
     );
 });
 
-app.post("/food",  (req, res) => {
-  try {
-    console.log("Received request body:", req.body.name);
-    const foodToAdd = req.body;
+app.post("/food", (req, res) => {
+  console.log("Received request body:", req.body.name);
+  const foodToAdd = req.body;
 
   const result = userServices.addFood(foodToAdd);
   result
@@ -125,23 +123,20 @@ app.post("/food",  (req, res) => {
     .catch((error) =>
       res.status(500).send(`Internal Server Error: ${error}`)
     );
-  } catch (error){
-    console.error("Error adding food:", error);
-    res.status(500).send(`Internal Server Error: ${error.message}`);
-  }
-  
 });
 
 app.get("/food", (req, res) => {
-  //Get food list for user
-  const food = req.query.name;
-  let result;
-  if (food != undefined){
-    result = userServices.findFoodByName(food);
-  } else {
-    result = userServices.getFood();
+  try {
+    //Get food list for user
+    const food = req.query.name;
+    const result = userServices.getFood();
+
+    res.status(201).send(result);
+  } catch (error) {
+    res
+      .status(500)
+      .send(`Internal Server Error: ${error.message}`);
   }
-  res.status(201).send(result);
 });
 
 app.listen(port, () => {

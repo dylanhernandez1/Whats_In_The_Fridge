@@ -6,8 +6,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true
-    },
-
+    }
   },
   { collection: "food_list", versionkey: false }
 );
