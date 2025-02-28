@@ -120,7 +120,7 @@ body {
   align-items: center;
   justify-content: space-between;
   width: calc(100% - 80px);
-  margin-left: 60px;
+  margin-left: 0px;
   padding-bottom: 10px;
 }
 
@@ -153,6 +153,7 @@ body {
   white-space: nowrap;
   gap: 10px;
   overflow: auto;
+  overflow-y: hidden;
   scrollbar-width: thin;
   padding-top: 10px;
   white-space: nowrap;
@@ -220,6 +221,7 @@ body {
     border-top: 1px solid #ccc;
     justify-content: space-around; /* Even spacing between icons */
     padding: 0;
+    z-index: 999;
   }
 
   .toolbar button {
@@ -267,10 +269,23 @@ body {
     margin: 0;
     padding-top: 10px;
     padding-bottom: 10px;
+    
   }
 
   .expiring-list-header {
     display: flex;
     justify-content: space-between;
+  }
+
+  .expiring-list {
+    display: flex;
+    white-space: nowrap;
+    gap: 10px;
+    overflow: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    padding-top: 10px;
+    white-space: nowrap;
+    height: 120px;
   }
 }
