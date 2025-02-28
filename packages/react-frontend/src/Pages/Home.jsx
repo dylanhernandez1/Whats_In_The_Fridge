@@ -8,7 +8,7 @@ import Menu from "../Components/Menu.jsx";
 import Notifications from "../Components/Notifications.jsx";
 import "../Components/StyleSheet.css";
 
-function Home({ characters, removeOneCharacter, updateList }) {
+/*function Home({ characters, removeOneCharacter, updateList }) {
   const [foodList, setFoodList] = useState([
     {
       id: 1234,
@@ -46,7 +46,7 @@ function Home({ characters, removeOneCharacter, updateList }) {
       expirationDate: 200,
       location: "Pantry"
     }
-  ]);
+  ]);*/
 
   //Full table
   return (
