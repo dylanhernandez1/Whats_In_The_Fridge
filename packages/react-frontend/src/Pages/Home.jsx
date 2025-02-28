@@ -8,8 +8,8 @@ import Menu from "../Components/Menu.jsx";
 import Notifications from "../Components/Notifications.jsx";
 import "../Components/StyleSheet.css";
 
-/*function Home({ characters, removeOneCharacter, updateList }) {
-  const [foodList, setFoodList] = useState([
+function Home({ characters, removeOneCharacter, updateList }) {
+  /*const [foodList, setFoodList] = useState([
     {
       id: 1234,
       name: "Apple",
