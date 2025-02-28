@@ -1,51 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Card from "./card/Card.jsx";
+import Notifications from "./Notifications.jsx";
 import "./StyleSheet.css";
 
 /* ExpiringList has two main containers: 
         expiring-list-header: Contains the container title and "see more" link
         expiring-list:        Contains the foods, formatted in Card components, that are expiring the earliest in a scrollable frame
 */
-function ExpiringList() {
-  const [list, setList] = useState([
-    {
-      id: 1234,
-      name: "Apple",
-      expirationDate: 1,
-      location: "Fridge"
-    },
-    {
-      id: 2345,
-      name: "Cheese",
-      expirationDate: 3,
-      location: "Fridge"
-    },
-    {
-      id: 3456,
-      name: "Banana",
-      expirationDate: 6,
-      location: "Fridge"
-    },
-    {
-      id: 4567,
-      name: "Eggs",
-      expirationDate: 7,
-      location: "Fridge"
-    },
-    {
-      id: 5678,
-      name: "Crackers",
-      expirationDate: 9,
-      location: "Pantry"
-    },
-    {
-      id: 6789,
-      name: "Water",
-      expirationDate: 200,
-      location: "Pantry"
-    }
-  ]);
-
+function ExpiringList({ foodList }) {
   /* Have this run each time ExpiringList is mounted */
   useEffect(() => {}, []);
 
@@ -61,7 +23,7 @@ function ExpiringList() {
         <div className="expiring-list-see-more">See more</div>
       </div>
       <div className="expiring-list">
-        {list?.map((item) => {
+        {foodList?.map((item) => {
           return (
             <Card
               key={item.id}

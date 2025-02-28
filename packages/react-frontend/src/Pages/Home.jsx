@@ -1,14 +1,56 @@
 // src/Table.jsx
-import React from "react";
+//import React from "react";
+import React, { useState } from "react";
 import Toolbar from "../Components/Toolbar.jsx";
 import SearchBar from "../Components/SearchBar.jsx";
 import ExpiringList from "../Components/ExpiringList.jsx";
 import Menu from "../Components/Menu.jsx";
+import Notifications from "../Components/Notifications.jsx";
 import "../Components/StyleSheet.css";
 import { FaBars } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
 
 function Home({ characters, removeOneCharacter, updateList }) {
   function menu() {}
+
+  const [foodList, setFoodList] = useState([
+    {
+      id: 1234,
+      name: "Apple",
+      expirationDate: 1,
+      location: "Fridge"
+    },
+    {
+      id: 2345,
+      name: "Cheese",
+      expirationDate: 3,
+      location: "Fridge"
+    },
+    {
+      id: 3456,
+      name: "Banana",
+      expirationDate: 6,
+      location: "Fridge"
+    },
+    {
+      id: 4567,
+      name: "Eggs",
+      expirationDate: 7,
+      location: "Fridge"
+    },
+    {
+      id: 5678,
+      name: "Crackers",
+      expirationDate: 9,
+      location: "Pantry"
+    },
+    {
+      id: 6789,
+      name: "Water",
+      expirationDate: 200,
+      location: "Pantry"
+    }
+  ]);
 
   //Full table
   return (
@@ -16,11 +58,12 @@ function Home({ characters, removeOneCharacter, updateList }) {
       <Toolbar />
       <header className="header-container">
         <Menu />
+        <Notifications foodList={foodList} />
         <b>What's In My Fridge?</b>
       </header>
 
       <SearchBar />
-      <ExpiringList />
+      <ExpiringList foodList={foodList} />
     </div>
   );
 }
