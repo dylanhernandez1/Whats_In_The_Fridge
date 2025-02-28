@@ -3,7 +3,9 @@ import "./StyleSheet.css";
 import { FaBars } from "react-icons/fa";
 
 function Menu(props) {
-  function FilterDropDown() {}
+  function FilterDropDown() {
+    //Input sink
+  }
 
   return (
     <div className="">

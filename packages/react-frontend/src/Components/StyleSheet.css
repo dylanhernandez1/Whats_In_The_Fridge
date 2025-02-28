@@ -59,13 +59,6 @@ body {
   transition: color 0.3s ease-in-out;
 }
 
-/*Search bar Container */
-.search-bar-container-icon {
-  margin-left: 10px;
-  font-size: 24px; /* Adjust icon size */
-  color: #2e302b;
-  transition: color 0.3s ease-in-out;
-}
 
 .search-bar-container {
   width: 45px;
@@ -119,22 +112,14 @@ body {
   font-size: 24px; /* Adjust icon size */
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: left;
   width: calc(100% - 80px);
-  margin-left: 80px;
-  padding-top: 10px;
+  margin-left: 60px;
   padding-bottom: 10px;
 }
 
-.menu button {
-  position: fixed;
-  width: 70px;
-  background: none;
-  display: flex;
-  align-items: center;
-  justify-content: top; /* Centers on top and bottom bounds */
-
-  transition: all 0.3s ease-in-out;
+.header-container button {
+  padding-top: 22px;
 }
 
 /* Expiring List CSS */
@@ -210,6 +195,7 @@ body {
   }
 
   .header-container {
+    display: flex;
     justify-content: left;
     width: 100%;
     margin-left: 0%;
