@@ -6,11 +6,12 @@ import SearchBar from "../Components/SearchBar.jsx";
 import ExpiringList from "../Components/ExpiringList.jsx";
 import Menu from "../Components/Menu.jsx";
 import Notifications from "../Components/Notifications.jsx";
+import IngredientSorting from "../Components/IngredientSorting.jsx";
 import "../Components/StyleSheet.css";
 
 function Home({ characters, removeOneCharacter, updateList }) {
   const [foodList, setFoodList] = useState([
-    {
+    /*{
       id: 1234,
       name: "Apple",
       expirationDate: 1,
@@ -45,7 +46,7 @@ function Home({ characters, removeOneCharacter, updateList }) {
       name: "Water",
       expirationDate: 200,
       location: "Pantry"
-    }
+    }*/
   ]);
 
   //Full table
@@ -62,6 +63,10 @@ function Home({ characters, removeOneCharacter, updateList }) {
 
       <SearchBar />
       <ExpiringList foodList={foodList} />
+
+      <h4>Ingredients</h4>
+
+      <IngredientSorting ingredients={foodList} />
     </div>
   );
 }
