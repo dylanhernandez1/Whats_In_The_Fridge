@@ -32,7 +32,6 @@ function Toolbar() {
   function navToFood() {
     navigate("/food");
   }
-
   //Full table
   return (
     <div className="toolbar">

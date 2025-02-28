@@ -118,11 +118,23 @@ body {
 .header-container {
   font-size: 24px; /* Adjust icon size */
   display: flex;
-  justify-content: left;
+  align-items: center;
+  justify-content: space-between;
   width: calc(100% - 80px);
   margin-left: 80px;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+.menu button {
+  position: fixed;
+  width: 70px;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: top; /* Centers on top and bottom bounds */
+
+  transition: all 0.3s ease-in-out;
 }
 
 /* Expiring List CSS */

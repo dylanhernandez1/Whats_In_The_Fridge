@@ -3,16 +3,22 @@ import React from "react";
 import Toolbar from "../Components/Toolbar.jsx";
 import SearchBar from "../Components/SearchBar.jsx";
 import ExpiringList from "../Components/ExpiringList.jsx";
+import Menu from "../Components/Menu.jsx";
 import "../Components/StyleSheet.css";
+import { FaBars } from "react-icons/fa";
 
 function Home({ characters, removeOneCharacter, updateList }) {
+  function menu() {}
+
   //Full table
   return (
     <div className="container">
       <Toolbar />
       <header className="header-container">
+        <Menu />
         <b>What's In My Fridge?</b>
       </header>
+
       <SearchBar />
       <ExpiringList />
     </div>
