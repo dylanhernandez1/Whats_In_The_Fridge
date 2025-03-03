@@ -128,31 +128,27 @@ app.post("/food", (req, res) => {
 });
 
 app.get("/food", (req, res) => {
-    //Get food list for user
-    const food = req.query.name;
-    let result;
+  //Get food list for user
+  const food = req.query.name;
+  let result;
 
-    if (food === undefined){
-      result = foodServices.getFood();
-    }
+  if (food !== undefined) {
+    result = foodServices.findFoodByName(food);
+  } else {
+    result = foodServices.getFood();
+  }
 
-    result
-      .then((result) => {
-   
-        if (!result || result === undefined) {
-
-          return res.status(404).send("Resource not found.");
-        }
-        if (result !== undefined) {
-          res.send(result);
-        }
-      })
-      .catch((error) =>
-        res.status(500).send(`Internal Server Error: ${error}`)
+  result
+    .then((result) => {
+      if (!result || result === undefined) {
+        return res.status(404).send("Resource not found.");
+      }
+      res.send(result);
+    })
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
     );
-
-} 
-);
+});
 
 app.listen(port, () => {
   //Listening to port
