@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema(
+const FoodSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -11,6 +11,6 @@ const UserSchema = new mongoose.Schema(
   { collection: "food_list", versionkey: false }
 );
 
-const Food = mongoose.model("Food", UserSchema);
+const Food = mongoose.model("Food", FoodSchema);
 
 export default Food;

@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import userServices from "./user-services.js";
+import foodServices from "./food-services.js";
+
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
@@ -117,7 +119,7 @@ app.post("/food", (req, res) => {
   console.log("Received request body:", req.body.name);
   const foodToAdd = req.body;
 
-  const result = userServices.addFood(foodToAdd);
+  const result = foodServices.addFood(foodToAdd);
   result
     .then((result) => res.status(201).send(result))
     .catch((error) =>
@@ -126,18 +128,31 @@ app.post("/food", (req, res) => {
 });
 
 app.get("/food", (req, res) => {
-  try {
     //Get food list for user
     const food = req.query.name;
-    const result = userServices.getFood();
+    let result;
 
-    res.status(201).send(result);
-  } catch (error) {
-    res
-      .status(500)
-      .send(`Internal Server Error: ${error.message}`);
-  }
-});
+    if (food === undefined){
+      result = foodServices.getFood();
+    }
+
+    result
+      .then((result) => {
+   
+        if (!result || result === undefined) {
+
+          return res.status(404).send("Resource not found.");
+        }
+        if (result !== undefined) {
+          res.send(result);
+        }
+      })
+      .catch((error) =>
+        res.status(500).send(`Internal Server Error: ${error}`)
+    );
+
+} 
+);
 
 app.listen(port, () => {
   //Listening to port
