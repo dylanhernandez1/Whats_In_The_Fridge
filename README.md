@@ -57,8 +57,8 @@ Installing Prettier:
 
 ## SPRINT 3 HELPER
 
-1. For adding food 
-`function addFood() {
+1. For adding food
+   `function addFood() {
     const promise = fetch("http://localhost:8000/food", {
       method: "POST",
       headers: {
