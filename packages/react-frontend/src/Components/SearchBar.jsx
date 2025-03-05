@@ -25,6 +25,7 @@ function SearchBar(props) {
     }
   };
 
+  //temporarily adds food to the database
   function postText() {
     const promise = fetch("http://localhost:8000/food", {
       method: "POST",
@@ -38,13 +39,33 @@ function SearchBar(props) {
     return promise;
   }
 
+  function getFoodFromText() {
+    const promise = fetch("http://localhost:8000/food", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    return promise;
+  }
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       console.log("Search text: ", text);
 
+      getFoodFromText().then((res) => {
+        if (res.status === 201) {
+          console.log(res);
+        }
+      });
+    } else if (e.key === "Shift") {
+      e.preventDefault();
+      console.log("Search text: ", text);
+
       postText().then((res) => {
         if (res.status === 201) {
+          console.log(res);
         }
       });
     }

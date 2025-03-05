@@ -143,6 +143,7 @@ app.get("/food", (req, res) => {
       if (!result || result === undefined) {
         return res.status(404).send("Resource not found.");
       }
+      console.log(result);
       res.send(result);
     })
     .catch((error) =>
