@@ -55,6 +55,23 @@ Installing Prettier:
 
 1. If your container is overlapping with the toolbar, the toolbar is 80px wide so have margin-left: 80px;
 
+## SPRINT 3 HELPER
+
+1. For adding food 
+`function addFood() {
+    const promise = fetch("http://localhost:8000/food", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: text
+        amount, type, expiration, etc...
+      })
+    });
+    return promise;
+  }`
+
 ## React icons
 
 **Link:** https://react-icons.github.io/react-icons/
