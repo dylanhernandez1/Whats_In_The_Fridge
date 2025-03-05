@@ -151,6 +151,31 @@ app.get("/food", (req, res) => {
     );
 });
 
+app.get("/food/:name", (req, res) => {
+  //Get food list for user
+  const name = req.params["name"];
+
+  let result = userServices.findFoodByName(name);
+
+  if (food !== undefined) {
+    result = foodServices.findFoodByName(food);
+  } else {
+    result = foodServices.getFood();
+  }
+
+  result
+    .then((result) => {
+      if (!result || result === undefined) {
+        return res.status(404).send("Resource not found.");
+      }
+      console.log(result);
+      res.send(result);
+    })
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
+});
+
 app.listen(port, () => {
   //Listening to port
   console.log(
