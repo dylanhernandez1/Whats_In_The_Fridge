@@ -40,11 +40,15 @@ function SearchBar(props) {
   }
 
   function getFoodFromText() {
-    const promise = fetch("http://localhost:8000/food", {
+    /* remove trailing/leading whitespace from the text
+       needed in the event the user spams spaces, which 
+       would be considered as a search for a specific food item */
+    const queryText = text.trim()
+    const promise = fetch(`http://localhost:8000/food${queryText != ""? "/"+queryText : ""}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
-      }
+      },
     });
     return promise;
   }

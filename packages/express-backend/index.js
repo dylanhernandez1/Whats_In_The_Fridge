@@ -127,28 +127,50 @@ app.post("/food", (req, res) => {
     );
 });
 
-app.get("/food", (req, res) => {
-  //Get food list for user
-  const food = req.query.name;
-  let result;
-
-  if (food !== undefined) {
-    result = foodServices.findFoodByName(food);
-  } else {
-    result = foodServices.getFood();
+// Validate the response from our database
+function validateRes(res) {
+  if(!res || res == undefined) {
+    return false;
   }
+  console.log(res); // debugging purposes
+  return true;
+}
 
-  result
-    .then((result) => {
-      if (!result || result === undefined) {
-        return res.status(404).send("Resource not found.");
+// Return all food items in our database
+app.get("/food", (req, res) => {
+  foodServices.getFood()
+  .then((mongoRes) => {
+    if(validateRes(mongoRes)) {
+      res.send(mongoRes);
+    } else {
+      res.status(404).send("Resource not found");
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+    res.status(500).send(`Internal Server Error: ${error}`);
+  })
+});
+
+// Search for a specific food item in our database
+app.get("/food/:name", (req, res) => {
+  const foodName = req.params.name;
+  if (foodName != undefined) {
+    foodServices.findFoodByName(foodName)
+    .then((mongoRes) => {
+      if(validateRes(mongoRes)) {
+        res.send(mongoRes);
+      } else {
+        res.status(404).send("Resource not found");
       }
-      console.log(result);
-      res.send(result);
     })
-    .catch((error) =>
-      res.status(500).send(`Internal Server Error: ${error}`)
-    );
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send(`Internal Server Error: ${error}`);
+    })
+  } else {
+    res.status(404).send("Resource was not provided properly");
+  }
 });
 
 app.listen(port, () => {
