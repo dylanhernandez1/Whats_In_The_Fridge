@@ -10,18 +10,18 @@ const FoodSchema = new mongoose.Schema(
     },
     amount: {
       type: Number,
-      required: true,
+      required: false,
       trim: true,
       min: 0
     },
     expirationDate: {
       type: Date,
-      required: true,
+      required: false,
       trim: true
     },
     location: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
       enum: ["Fridge", "Freezer", "Pantry"]
     }

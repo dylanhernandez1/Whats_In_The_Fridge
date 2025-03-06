@@ -129,7 +129,7 @@ app.post("/food", (req, res) => {
 
 // Validate the response from our database
 function validateRes(res) {
-  if(!res || res == undefined) {
+  if (!res || res == undefined) {
     return false;
   }
   console.log(res); // debugging purposes
@@ -138,27 +138,10 @@ function validateRes(res) {
 
 // Return all food items in our database
 app.get("/food", (req, res) => {
-  foodServices.getFood()
-  .then((mongoRes) => {
-    if(validateRes(mongoRes)) {
-      res.send(mongoRes);
-    } else {
-      res.status(404).send("Resource not found");
-    }
-  })
-  .catch((error) => {
-    console.log(error);
-    res.status(500).send(`Internal Server Error: ${error}`);
-  })
-});
-
-// Search for a specific food item in our database
-app.get("/food/:name", (req, res) => {
-  const foodName = req.params.name;
-  if (foodName != undefined) {
-    foodServices.findFoodByName(foodName)
+  foodServices
+    .getFood()
     .then((mongoRes) => {
-      if(validateRes(mongoRes)) {
+      if (validateRes(mongoRes)) {
         res.send(mongoRes);
       } else {
         res.status(404).send("Resource not found");
@@ -167,35 +150,29 @@ app.get("/food/:name", (req, res) => {
     .catch((error) => {
       console.log(error);
       res.status(500).send(`Internal Server Error: ${error}`);
-    })
+    });
+});
+
+// Search for a specific food item in our database
+app.get("/food/:name", (req, res) => {
+  const foodName = req.params.name;
+  if (foodName != undefined) {
+    foodServices
+      .findFoodByName(foodName)
+      .then((mongoRes) => {
+        if (validateRes(mongoRes)) {
+          res.send(mongoRes);
+        } else {
+          res.status(404).send("Resource not found");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).send(`Internal Server Error: ${error}`);
+      });
   } else {
     res.status(404).send("Resource was not provided properly");
   }
-});
-
-app.get("/food/:name", (req, res) => {
-  //Get food list for user
-  const name = req.params["name"];
-
-  let result = userServices.findFoodByName(name);
-
-  if (food !== undefined) {
-    result = foodServices.findFoodByName(food);
-  } else {
-    result = foodServices.getFood();
-  }
-
-  result
-    .then((result) => {
-      if (!result || result === undefined) {
-        return res.status(404).send("Resource not found.");
-      }
-      console.log(result);
-      res.send(result);
-    })
-    .catch((error) =>
-      res.status(500).send(`Internal Server Error: ${error}`)
-    );
 });
 
 app.listen(port, () => {
