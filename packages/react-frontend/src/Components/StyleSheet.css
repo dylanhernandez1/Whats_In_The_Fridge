@@ -142,6 +142,7 @@ body {
   padding-top: 10px;
   padding-bottom: 10px;
   overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .expiring-list-header {
@@ -348,6 +349,7 @@ body {
     margin: 0;
     padding-top: 10px;
     padding-bottom: 10px;
+    overflow-y: hidden;
   }
 
   .expiring-list-header {
