@@ -49,11 +49,25 @@ function SearchBar(props) {
       {
         method: "GET",
         headers: {
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       }
-    );
-    return promise;
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Error: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((res) => {
+        console.log("Foods: ", res);
+        return res;
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
+        return [];
+      });
+      return promise;
   }
 
   const handleKeyDown = (e) => {
@@ -78,7 +92,9 @@ function SearchBar(props) {
     }
   };
 
-  function FilterDropDown() {}
+  function FilterDropDown() {
+    
+  }
 
   return (
     <form className="search-bar-container">
