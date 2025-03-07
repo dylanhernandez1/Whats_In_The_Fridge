@@ -49,8 +49,8 @@ function SearchBar(props) {
       {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
-        },
+          "Content-Type": "application/json"
+        }
       }
     )
       .then((res) => {
@@ -67,7 +67,7 @@ function SearchBar(props) {
         console.error("Error: ", error);
         return [];
       });
-      return promise;
+    return promise;
   }
 
   const handleKeyDown = (e) => {
@@ -92,9 +92,7 @@ function SearchBar(props) {
     }
   };
 
-  function FilterDropDown() {
-    
-  }
+  function FilterDropDown() {}
 
   return (
     <form className="search-bar-container">

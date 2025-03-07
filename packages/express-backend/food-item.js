@@ -12,7 +12,15 @@ const FoodSchema = new mongoose.Schema(
       type: String,
       required: false,
       trim: true,
-      enum: ["Fruit", "Vegetables", "Dairy", "Protein", "Grains", "Oils", "Sweets"]
+      enum: [
+        "Fruit",
+        "Vegetables",
+        "Dairy",
+        "Protein",
+        "Grains",
+        "Oils",
+        "Sweets"
+      ]
     },
     amount: {
       type: Number,
