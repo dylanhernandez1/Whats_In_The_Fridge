@@ -54,9 +54,6 @@ function SearchBar(props) {
       }
     )
       .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Error: ${res.status}`);
-        }
         return res.json();
       })
       .then((res) => {
