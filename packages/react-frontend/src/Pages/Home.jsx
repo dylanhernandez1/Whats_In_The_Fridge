@@ -15,37 +15,43 @@ function Home({ characters, removeOneCharacter, updateList }) {
       id: 1234,
       name: "Apple",
       expirationDate: 1,
-      location: "Fridge"
+      location: "Fridge",
+      type: "Fruits"
     },
     {
       id: 2345,
       name: "Cheese",
       expirationDate: 3,
-      location: "Fridge"
+      location: "Fridge",
+      type: "Dairy"
     },
     {
       id: 3456,
       name: "Banana",
       expirationDate: 6,
-      location: "Fridge"
+      location: "Fridge",
+      type: "Fruits"
     },
     {
       id: 4567,
       name: "Eggs",
       expirationDate: 7,
-      location: "Fridge"
+      location: "Fridge",
+      type: "Protein"
     },
     {
       id: 5678,
       name: "Crackers",
       expirationDate: 9,
-      location: "Pantry"
+      location: "Pantry",
+      type: "Grains"
     },
     {
       id: 6789,
       name: "Water",
       expirationDate: 200,
-      location: "Pantry"
+      location: "Pantry",
+      type: "Other"
     }
   ]);
 
@@ -64,9 +70,12 @@ function Home({ characters, removeOneCharacter, updateList }) {
       <SearchBar />
       <ExpiringList foodList={foodList} />
 
+      <div className="left-section">
       <h4>Ingredients</h4>
+      </div>
 
       <IngredientSorting ingredients={foodList} />
+
     </div>
   );
 }

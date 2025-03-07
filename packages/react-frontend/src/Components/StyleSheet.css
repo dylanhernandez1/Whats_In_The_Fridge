@@ -161,6 +161,77 @@ body {
   height: 120px;
 }
 
+/* Ingredient Filter Container */
+.ingredient-filter-container {
+  width: calc(100% - 80px);
+  margin-left: 80px;
+  padding: 16px;
+}
+
+/* Category Buttons */
+.ingredient-categories {
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 8px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  scrollbar-width: none;
+}
+
+.ingredient-categories button {
+  padding: 8px 16px;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  background-color: #e0e0e0;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.ingredient-categories button.active {
+  background-color: #3b82f6; /* Blue */
+  color: white;
+}
+
+.ingredient-categories button:hover {
+  background-color: #d4d4d4;
+}
+
+/* Ingredients List */
+.ingredients-list {
+  margin-top: 16px;
+}
+
+.ingredient-item {
+  padding: 12px;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 16px;
+  color: #2e302b;
+}
+
+/* Empty state */
+.no-ingredients {
+  color: #7c7c7c;
+  padding: 16px;
+  font-style: italic;
+}
+
+.header-container h4 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.2rem; /* or whatever matches your design */
+  font-weight: bold;
+}
+
+.left-section h4 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.2rem; /* Adjust as needed */
+  font-weight: bold;
+}
+
+
 /* Notifications */
 .notifications-container {
   position: relative;
