@@ -19,6 +19,7 @@ body {
   padding-top: 1rem;
   padding-bottom: 1rem;
   transition: all 0.3s ease-in-out;
+  z-index: 999;
 }
 
 /* Button styles */
@@ -166,10 +167,19 @@ body {
 .ingredient-filter-container {
   width: calc(100% - 80px);
   margin-left: 80px;
-  padding: 16px;
+  padding-top: 10px; /* Adjust padding to match expiring list */
+  padding-bottom: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
-/* Category Buttons */
+/* Ingredient Filter Header */
+.ingredient-filter-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px; /* Match spacing */
+}
+
 .ingredient-categories {
   display: flex;
   overflow-x: auto;
@@ -231,7 +241,6 @@ body {
   font-size: 1.2rem; /* Adjust as needed */
   font-weight: bold;
 }
-
 
 /* Notifications */
 .notifications-container {
