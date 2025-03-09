@@ -117,12 +117,12 @@ body {
 
 .header-container {
   font-size: 24px; /* Adjust icon size */
+  width: calc(100% - 80px);
+  padding-top: 10px;
+  padding-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: calc(100% - 80px);
-  margin-left: 0px;
-  padding-bottom: 10px;
 }
 
 .left-section {
@@ -231,14 +231,14 @@ body {
 .header-container h4 {
   margin: 0;
   padding: 0;
-  font-size: 1.2rem; /* or whatever matches your design */
+  font-size: 1.2rem;
   font-weight: bold;
 }
 
 .left-section h4 {
   margin: 0;
   padding: 0;
-  font-size: 1.2rem; /* Adjust as needed */
+  font-size: 1.2rem;
   font-weight: bold;
 }
 

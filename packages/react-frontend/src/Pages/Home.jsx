@@ -70,10 +70,6 @@ function Home({ characters, removeOneCharacter, updateList }) {
       <SearchBar />
       <ExpiringList foodList={foodList} />
 
-      <div className="left-section">
-      <h4>Ingredients</h4>
-      </div>
-
       <IngredientSorting ingredients={foodList} />
 
     </div>

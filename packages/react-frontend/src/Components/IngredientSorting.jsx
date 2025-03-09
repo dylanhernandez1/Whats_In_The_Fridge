@@ -22,15 +22,12 @@ export default function IngredientList({ ingredients }) {
       : ingredients.filter((item) => item.type === selectedCategory);
 
   return (
-    <div className="ingredient-list-container">
-      <div 
-        className="ingredient-list-header" 
-        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}
-      >
-        <div className="ingredient-list-title">
+    <div className="expiring-list-container">
+      <div className="expiring-list-header">
+        <div className="expiring-list-title">
           <b>Ingredients</b>
         </div>
-        <div className="ingredient-list-see-more">See more</div>
+        <div className="expiring-list-see-more">See more</div>
       </div>
 
       <div className="ingredient-categories">
@@ -50,10 +47,10 @@ export default function IngredientList({ ingredients }) {
         className="ingredient-list scrollable-frame"
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-          gap: '4px',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+          gap: '',
           marginTop: '10px',
-          minHeight: '75vh',
+          minHeight: '70vh',
           marginBottom: '60px' 
         }}
       >
