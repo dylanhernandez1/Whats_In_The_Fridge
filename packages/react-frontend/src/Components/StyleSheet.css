@@ -7,33 +7,6 @@
   margin-left: 60px;
 }
 
-/* Expiring List CSS */
-.expiring-list-container {
-  width: calc(100% - 80px);
-  margin-left: 80px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-.expiring-list-header {
-  display: flex;
-  justify-content: space-between;
-}
-
-.expiring-list {
-  display: flex;
-  white-space: nowrap;
-  gap: 10px;
-  overflow: auto;
-  overflow-y: hidden;
-  scrollbar-width: thin;
-  padding-top: 10px;
-  white-space: nowrap;
-  height: 120px;
-}
-
 /* Ingredient Filter Container */
 .ingredient-filter-container {
   width: calc(100% - 80px);
