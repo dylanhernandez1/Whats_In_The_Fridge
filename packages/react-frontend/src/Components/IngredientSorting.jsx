@@ -14,12 +14,15 @@ const categories = [
 ];
 
 export default function IngredientList({ ingredients }) {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] =
+    useState("All");
 
   const filteredIngredients =
     selectedCategory === "All"
       ? ingredients
-      : ingredients.filter((item) => item.type === selectedCategory);
+      : ingredients.filter(
+          (item) => item.type === selectedCategory
+        );
 
   return (
     <div className="expiring-list-container">
@@ -35,23 +38,30 @@ export default function IngredientList({ ingredients }) {
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={selectedCategory === category ? "active" : ""}
-            style={{ padding: '6px 12px', borderRadius: '8px', margin: '2px 5px' }}
+            className={
+              selectedCategory === category ? "active" : ""
+            }
+            style={{
+              padding: "6px 12px",
+              borderRadius: "8px",
+              margin: "2px 5px"
+            }}
           >
             {category}
           </button>
         ))}
       </div>
 
-      <div 
+      <div
         className="ingredient-list scrollable-frame"
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-          gap: '',
-          marginTop: '10px',
-          minHeight: '70vh',
-          marginBottom: '60px' 
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fill, minmax(150px, 1fr))",
+          gap: "",
+          marginTop: "10px",
+          minHeight: "70vh",
+          marginBottom: "60px"
         }}
       >
         {filteredIngredients.length > 0 ? (
@@ -65,7 +75,9 @@ export default function IngredientList({ ingredients }) {
             />
           ))
         ) : (
-          <p className="no-ingredients">No ingredients found for this category.</p>
+          <p className="no-ingredients">
+            No ingredients found for this category.
+          </p>
         )}
       </div>
     </div>

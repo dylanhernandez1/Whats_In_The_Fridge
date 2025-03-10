@@ -71,7 +71,6 @@ function Home({ characters, removeOneCharacter, updateList }) {
       <ExpiringList foodList={foodList} />
 
       <IngredientSorting ingredients={foodList} />
-
     </div>
   );
 }
