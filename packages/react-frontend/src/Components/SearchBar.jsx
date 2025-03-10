@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Searchbar_Styling.css";
+import "./Header_Styling.css";
 import { FaSearch } from "react-icons/fa";
 import { IoIosOptions } from "react-icons/io";
 
