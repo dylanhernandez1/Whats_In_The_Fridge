@@ -8,7 +8,7 @@ import {
   FaUtensils,
   FaBook
 } from "react-icons/fa";
-import "./StyleSheet.css";
+import "./Toolbar_styling.css";
 
 function Toolbar() {
   const navigate = useNavigate();

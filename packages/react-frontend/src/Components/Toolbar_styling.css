@@ -1,0 +1,96 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  
+  .toolbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 80px;
+    background-color: white;
+    border-right: 1px solid #ccc;
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center;
+    justify-content: center; /* Centers on top and bottom bounds */
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    transition: all 0.3s ease-in-out;
+    z-index: 999;
+  }
+  
+  /* Button styles */
+  .toolbar button {
+    display: flex;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 1rem;
+    width: 100%; /* Makes buttons full width in sidebar */
+    text-align: center;
+    flex-direction: column; /* Stack icon and text */
+    align-items: center;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  /* Icon styles */
+  .icon {
+    font-size: 24px; /* Adjust icon size */
+    color: #2e302b;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  /* Hover effect */
+  .toolbar button:hover {
+    background-color: #f0f0f0; /* Light gray background */
+  }
+  
+  .toolbar button:hover .icon {
+    color: #555; /* Darker icon on hover */
+  }
+  
+  /* Button text */
+  .button-text {
+    font-size: 12px;
+    margin-top: 5px;
+    color: #2e302b;
+    transition: color 0.3s ease-in-out;
+  }
+
+  @media (max-width: 600px) {
+    .toolbar {
+      flex-direction: row; /* Arrange buttons in a row */
+      width: 100%;
+      height: 60px;
+      left: 0;
+      bottom: 0;
+      top: auto;
+      border-right: none;
+      border-top: 1px solid #ccc;
+      justify-content: space-around; /* Even spacing between icons */
+      padding: 0;
+      z-index: 999;
+    }
+  
+    .toolbar button {
+      flex-grow: 1; /* Make buttons share space evenly */
+      width: auto; /* Prevent full width */
+      height: 100%; /* Make buttons take full navbar height */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      margin: 0;
+      flex-direction: row; /* Ensure icons remain in a row */
+    }
+  
+    .icon {
+      font-size: 20px;
+    }
+  
+    /* Hide text in mobile mode */
+    .button-text {
+      display: none;
+    }
+}
