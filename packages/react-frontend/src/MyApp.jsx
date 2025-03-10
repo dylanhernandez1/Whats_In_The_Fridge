@@ -18,8 +18,9 @@ function MyApp() {
       {routes.map(({ path, element }) => (
         <Route
           path={path}
-          element={element()
-          // At some point "allProps" needs to be filtered out to only the selected props wanted
+          element={
+            element()
+            // At some point "allProps" needs to be filtered out to only the selected props wanted
           }
         />
       ))}

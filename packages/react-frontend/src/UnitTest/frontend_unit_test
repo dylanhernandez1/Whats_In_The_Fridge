@@ -1,6 +1,8 @@
+import { renderMatches } from "react-router-dom";
 
 const mainFunctions = require("../main.jsx");
+import SearchBar from "../Components/SearchBar.jsx";
 
-test("testing ", () => {
-
-  });
+test("render search bar with default text ", () => {
+ 
+});
