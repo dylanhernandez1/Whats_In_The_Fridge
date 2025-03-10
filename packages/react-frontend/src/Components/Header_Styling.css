@@ -1,3 +1,10 @@
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 60px;
+}
+
 .search-bar-container-icon {
     margin-left: 10px;
     font-size: 24px; /* Adjust icon size */

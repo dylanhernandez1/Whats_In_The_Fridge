@@ -36,4 +36,30 @@ body {
     display: flex;
     white-space: nowrap;
   }
+
+  /* Expiring List CSS */
+  .expiring-list-container {
+    width: 100%;
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    overflow-y: hidden;
+  }
+
+  .expiring-list-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .expiring-list {
+    display: flex;
+    white-space: nowrap;
+    gap: 10px;
+    overflow: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    padding-top: 10px;
+    white-space: nowrap;
+    height: 120px;
+  }
 }

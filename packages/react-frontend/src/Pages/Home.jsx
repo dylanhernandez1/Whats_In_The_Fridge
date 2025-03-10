@@ -7,7 +7,7 @@ import ExpiringList from "../Components/ExpiringList.jsx";
 import Menu from "../Components/Menu.jsx";
 import Notifications from "../Components/Notifications.jsx";
 import IngredientSorting from "../Components/IngredientSorting.jsx";
-import "../Components/StyleSheet.css";
+import "../Components/Header_Styling.css";
 
 function Home({ characters, removeOneCharacter, updateList }) {
   const [foodList, setFoodList] = useState([
