@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Card from "./card/Card.jsx";
 import "./StyleSheet.css";
+import "./ExpiringList.css"
 
 const categories = [
   "All",
