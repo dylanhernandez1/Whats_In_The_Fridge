@@ -1,0 +1,134 @@
+/* Default Sidebar Style (Desktop) */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  
+  .ingredient-list-container {
+    width: calc(100% - 80px);
+    margin-left: 80px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    overflow: hidden; /* Prevents unwanted scrolling */
+  }
+  
+  .ingredient-list-header {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* Ingredient Filter Container */
+  .ingredient-filter-container {
+    width: calc(100% - 80px);
+    margin-left: 80px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    overflow: hidden; /* Prevents unwanted scrolling */
+  }
+  
+  /* Ingredient Filter Header */
+  .ingredient-filter-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+  }
+  
+  /* Ingredient Categories */
+  .ingredient-categories {
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    padding: 8px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    scrollbar-width: none;
+  }
+  
+  .ingredient-categories button {
+    padding: 8px 16px;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    background-color: #e0e0e0;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+  }
+  
+  .ingredient-categories button.active {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  .ingredient-categories button:hover {
+    background-color: #d4d4d4;
+  }
+  
+  /* Ingredient List (Now Supports Grid & Vertical Scroll) */
+  .ingredient-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+    min-height: 40vh;
+    margin-bottom: 60px;
+    overflow-y: auto; /* Enables vertical scrolling */
+    overflow-x: hidden;
+    max-height: 50vh;
+    scrollbar-width: thin;
+  }
+  
+  /* Scrollable Frame */
+  .scrollable-frame {
+    max-height: 50vh;
+    overflow-y: auto;
+    padding-right: 5px;
+    scrollbar-width: thin;
+  }
+  
+  /* Ingredient Items */
+  .ingredient-item {
+    padding: 12px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+    font-size: 16px;
+    color: #2e302b;
+  }
+  
+  /* Empty State */
+  .no-ingredients {
+    color: #7c7c7c;
+    padding: 16px;
+    font-style: italic;
+    text-align: center;
+  }
+  
+  /* Mobile View */
+  @media (max-width: 600px) {
+    .left-section {
+      margin-left: 0;
+      display: flex;
+      white-space: nowrap;
+    }
+  
+    .ingredient-list-container {
+      width: 100%;
+      margin: 0;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  
+    .ingredient-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 10px;
+      overflow-y: auto; /* Enables vertical scrolling */
+      overflow-x: hidden;
+      max-height: 60vh;
+    }
+  
+    .scrollable-frame {
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+  }  

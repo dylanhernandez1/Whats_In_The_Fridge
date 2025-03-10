@@ -28,3 +28,12 @@ body {
   white-space: nowrap;
   height: 120px;
 }
+
+@media (max-width: 600px) {
+  .left-section {
+    margin-left: 0px;
+    justify-content: left;
+    display: flex;
+    white-space: nowrap;
+  }
+}

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Card from "./card/Card.jsx";
-import "./StyleSheet.css";
-import "./ExpiringList.css"
+import "./IngredientSorting_styling.css";
 
 const categories = [
   "All",
@@ -15,23 +14,20 @@ const categories = [
 ];
 
 export default function IngredientList({ ingredients }) {
-  const [selectedCategory, setSelectedCategory] =
-    useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   const filteredIngredients =
     selectedCategory === "All"
       ? ingredients
-      : ingredients.filter(
-          (item) => item.type === selectedCategory
-        );
+      : ingredients.filter((item) => item.type === selectedCategory);
 
   return (
-    <div className="expiring-list-container">
-      <div className="expiring-list-header">
-        <div className="expiring-list-title">
+    <div className="ingredient-list-container">
+      <div className="ingredient-list-header">
+        <div className="ingredient-list-title">
           <b>Ingredients</b>
         </div>
-        <div className="expiring-list-see-more">See more</div>
+        <div className="ingredient-list-see-more">See more</div>
       </div>
 
       <div className="ingredient-categories">
@@ -39,32 +35,14 @@ export default function IngredientList({ ingredients }) {
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={
-              selectedCategory === category ? "active" : ""
-            }
-            style={{
-              padding: "6px 12px",
-              borderRadius: "8px",
-              margin: "2px 5px"
-            }}
+            className={selectedCategory === category ? "active" : ""}
           >
             {category}
           </button>
         ))}
       </div>
 
-      <div
-        className="ingredient-list scrollable-frame"
-        style={{
-          display: "grid",
-          gridTemplateColumns:
-            "repeat(auto-fill, minmax(150px, 1fr))",
-          gap: "",
-          marginTop: "10px",
-          minHeight: "70vh",
-          marginBottom: "60px"
-        }}
-      >
+      <div className="ingredient-list scrollable-frame">
         {filteredIngredients.length > 0 ? (
           filteredIngredients.map((item) => (
             <Card
@@ -76,9 +54,7 @@ export default function IngredientList({ ingredients }) {
             />
           ))
         ) : (
-          <p className="no-ingredients">
-            No ingredients found for this category.
-          </p>
+          <p className="no-ingredients">No ingredients found for this category.</p>
         )}
       </div>
     </div>
