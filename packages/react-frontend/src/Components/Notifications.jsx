@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaBell } from "react-icons/fa";
-import "./StyleSheet.css";
+import "./Notification_Styling.css";
 
 function Notifications({ foodList }) {
   const [show, setShow] = useState(false);

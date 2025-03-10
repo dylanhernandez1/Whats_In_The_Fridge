@@ -1,0 +1,47 @@
+/* Notifications */
+.notifications-container {
+  position: relative;
+  display: inline-block;
+  margin-left: 80px;
+}
+
+.notifications-button {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.notifications-button:hover {
+  background-color: #f0f0f0;
+}
+
+.notifications-button:hover .icon {
+  color: #555;
+}
+
+.notifications-dropdown {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 220px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.notification-item {
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #2e302b;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
