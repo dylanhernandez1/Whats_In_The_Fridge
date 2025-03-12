@@ -15,6 +15,7 @@ const FoodSchema = new mongoose.Schema(
       enum: [
         "Fruits",
         "Vegetables",
+        "Drinks",
         "Dairy",
         "Protein",
         "Grains",
