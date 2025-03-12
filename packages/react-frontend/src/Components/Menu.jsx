@@ -4,6 +4,8 @@ import { FaBars } from "react-icons/fa";
 
 function Menu(props) {
   const CurrentContainer = "All";
+  const [show, setShow] = useState(false);
+
   function FilterDropDown() {
     //Input sink
   }
@@ -46,12 +48,29 @@ function Menu(props) {
   return (
     <div className="">
       <button
-        onClick={getFoodByContainer}
+        onClick={() => setShow(!show)}
+
         style={{ backgroundColor: "transparent", border: 0 }}
       >
         <FaBars className="icon" />
         <span className="button-text"></span>
       </button>
+      {show && (
+        <div className="menu-dropdown">
+            <button>
+              <span className="search-bar-container button">Fridge</span>
+
+            </button>
+            <button>
+              <span className="search-bar-container button">Freezer</span>
+
+            </button>
+            <button>
+              <span className="search-bar-container button">Pantry</span>
+
+            </button>
+        </div>
+      )}
     </div>
   );
 }
