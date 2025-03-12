@@ -7,7 +7,7 @@ import ExpiringList from "../Components/ExpiringList.jsx";
 import Menu from "../Components/Menu.jsx";
 import Notifications from "../Components/Notifications.jsx";
 import IngredientSorting from "../Components/IngredientSorting.jsx";
-import "../Components/Header_Styling.css";
+import "../Components/Header_styling.css";
 
 function Home({ characters, removeOneCharacter, updateList }) {
   const [foodList, setFoodList] = useState([
@@ -57,21 +57,20 @@ function Home({ characters, removeOneCharacter, updateList }) {
 
   //Full table
   return (
-    <div className="container">
-      <Toolbar />
-      <header className="header-container">
-        <div className="left-section">
-          <Menu />
-          <b>What's In My Fridge?</b>
-        </div>
-        <Notifications foodList={foodList} />
-      </header>
+    <div className="app-container">
+  <Toolbar />
+  <div className="content-container-spaced">
+    <header className="header-container">
+      <Menu />
+      <b>What's In My Fridge?</b>
+      <Notifications foodList={foodList} />
+    </header>
 
-      <SearchBar />
-      <ExpiringList foodList={foodList} />
-
-      <IngredientSorting ingredients={foodList} />
-    </div>
+    <SearchBar />
+    <ExpiringList foodList={foodList} />
+    <IngredientSorting ingredients={foodList} />
+  </div>
+</div>
   );
 }
 

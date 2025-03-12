@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Card from "./card/Card.jsx";
 import Notifications from "./Notifications.jsx";
-import "./ExpiringList.css";
+import "./ExpiringList_styling.css";
 
 /* ExpiringList has two main containers: 
         expiring-list-header: Contains the container title and "see more" link
