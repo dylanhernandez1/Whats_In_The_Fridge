@@ -4,10 +4,8 @@ body {
   }
   
   .ingredient-list-container {
-    width: calc(100% - 80px);
-    margin-left: 80px;
+    width: 100%;
     padding-top: 10px;
-    padding-bottom: 10px;
     overflow: hidden; /* Prevents unwanted scrolling */
   }
   
@@ -18,7 +16,7 @@ body {
   
   /* Ingredient Filter Container */
   .ingredient-filter-container {
-    width: calc(100% - 80px);
+    width: 100%;
     margin-left: 80px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -69,7 +67,7 @@ body {
     gap: 10px;
     margin-top: 10px;
     min-height: 40vh;
-    margin-bottom: 60px;
+    margin-bottom: 10px;
     overflow-y: auto; /* Enables vertical scrolling */
     overflow-x: hidden;
     max-height: 50vh;
@@ -115,7 +113,7 @@ body {
       width: 100%;
       margin: 0;
       padding-top: 10px;
-      padding-bottom: 10px;
+      padding-bottom: 60px;
     }
   
     .ingredient-list {

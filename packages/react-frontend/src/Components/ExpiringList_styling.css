@@ -4,8 +4,7 @@ body {
 
 /* Expiring List CSS */
 .expiring-list-container {
-  width: calc(100% - 80px);
-  margin-left: 80px;
+  width: 100%;
   padding-top: 10px;
   padding-bottom: 10px;
   overflow-x: auto;
@@ -30,6 +29,10 @@ body {
 }
 
 @media (max-width: 600px) {
+  body {
+    overflow-x: hidden;
+  }
+
   .left-section {
     margin-left: 0px;
     justify-content: left;
