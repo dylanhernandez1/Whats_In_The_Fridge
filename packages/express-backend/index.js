@@ -121,6 +121,21 @@ app.get("/food/:name", (req, res) => {
   }
 });
 
+app.get("/expiring", (req, res) => {
+  foodServices.findFoodByExpiration()
+  .then((mongoRes) => {
+    if (validateRes(mongoRes)) {
+      res.send(mongoRes);
+    } else {
+      res.status(404).send("Resource not found");
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+    res.status(500).send(`Internal Server Error: ${error}`);
+  });
+})
+
 app.listen(port, () => {
   //Listening to port
   console.log(
