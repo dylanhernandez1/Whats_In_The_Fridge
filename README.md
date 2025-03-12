@@ -3,8 +3,9 @@
 ## Instructions:
 
 1. Run `npm install` and `npm install react-router-dom` and `npm install react-icons` and `npm install dotenv` from the root for application to run
-2. Run `npm install --save-dev jest` and `npm install @testing-library/react @testing-library/user-event react-router-dom jest` and `npm install jest-environment-jsdom --save-dev` and `npm install util --save-dev` and `npm install --save-dev babel-jest @babel/core @babel/preset-env @babel/preset-react` and `npm install --save-dev @testing-library/react @testing-library/jest-dom` and `npm install --save-dev identity-obj-proxy` from root for tests to run
-3. To run the backend, create a .env file `touch .env` and copy and paste this in `MONGODB_URI = "mongodb+srv://whats-in-the-fridge-user:DWIRaCXhO11dWbPY@cluster0.dmiyl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"`.
+2. Run `npm install --save-dev jest` and `npm install @testing-library/react @testing-library/user-event react-router-dom jest` and `npm install jest-environment-jsdom --save-dev` and `npm install util --save-dev` and `npm install --save-dev babel-jest @babel/core @babel/preset-env @babel/preset-react` and `npm install --save-dev @testing-library/react @testing-library/jest-dom` and `npm install --save-dev identity-obj-proxy` and `npm install mongodb-memory-server` from root for tests to run
+3. Coverage npm test -- --coverage
+4. To run the backend, create a .env file `touch .env` and copy and paste this in `MONGODB_URI = "mongodb+srv://whats-in-the-fridge-user:DWIRaCXhO11dWbPY@cluster0.dmiyl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"`.
    DWIRaCXhO11dWbPY is our temporary testing database password.
 
 ## Figma/Prototype Information

@@ -34,6 +34,7 @@ jest.mock("react-router-dom", () => ({
 
 describe("HomePage Component", () => {
   test("renders homepage title and login button", () => {
+    // remove login test
     // 1. Render the HomePage component (Place inside a MemoryRouter)
     /* Why memory router?
      * Answer: Because we want to test the HomePage component in isolation And since we're using useNavigate, which can only only works inside a React Router provider, we need to wrap HomePage in a router during testing

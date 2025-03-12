@@ -1,6 +1,6 @@
 // src/Table.jsx
 //import React from "react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Toolbar from "../Components/Toolbar.jsx";
 import SearchBar from "../Components/SearchBar.jsx";
 import ExpiringList from "../Components/ExpiringList.jsx";
@@ -8,6 +8,7 @@ import Menu from "../Components/Menu.jsx";
 import Notifications from "../Components/Notifications.jsx";
 import IngredientSorting from "../Components/IngredientSorting.jsx";
 import "../Components/Header_styling.css";
+import { FaAddressBook } from "react-icons/fa";
 
 function Home({ characters, removeOneCharacter, updateList }) {
   const [foodList, setFoodList] = useState([
@@ -54,6 +55,54 @@ function Home({ characters, removeOneCharacter, updateList }) {
       type: "Other"
     }
   ]);
+
+  function getExpiringList() {
+    const promise = fetch(
+      `http://localhost:8000/expiring`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    )
+    return promise;
+  }
+
+  function add() {
+    const promise = fetch(
+      `http://localhost:8000/food`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: "Ice",
+          type: "Drinks",
+          amount: 10,
+          expirationDate: new Date(2025, 6, 12),
+          location: "Freezer"
+        })
+      }
+    )
+    return promise;
+  }
+
+  useEffect(() => {
+    getExpiringList()
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        console.log("Foods: ", res);
+        setFoodList(res)
+        return res;
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
+      });
+  }, []);
 
   //Full table
   return (
