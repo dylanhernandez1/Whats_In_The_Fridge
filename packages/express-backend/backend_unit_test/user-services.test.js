@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const UserSchema = require("../user");
-const userServices = require("./user-services");
-const { MongoMemoryServer } = require("mongodb-memory-server");
+import mongoose from "mongoose";
+import UserSchema from "../user";
+import userServices from "../user-services";
+import { MongoMemoryServer } from "mongodb-memory-server";
 
 let mongoServer;
 let conn;
