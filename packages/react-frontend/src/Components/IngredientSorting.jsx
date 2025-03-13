@@ -4,9 +4,9 @@ import "./IngredientSorting_styling.css";
 
 const categories = [
   "All",
-  "Fruits",
-  "Vegetables",
-  "Grains",
+  "Fruit",
+  "Vegetable",
+  "Grain",
   "Protein",
   "Dairy",
   "Fats & Oils",
@@ -21,7 +21,7 @@ export default function IngredientList({ ingredients }) {
     selectedCategory === "All"
       ? ingredients
       : ingredients.filter(
-          (item) => item.type === selectedCategory
+          (item) => item.FoodType === selectedCategory
         );
 
   return (
@@ -52,9 +52,9 @@ export default function IngredientList({ ingredients }) {
           filteredIngredients.map((item) => (
             <Card
               key={item.id}
-              name={item.name}
-              expirationDate={item.expirationDate}
-              location={item.location}
+              name={item.FoodName}
+              expirationDate={item.ExpirationDate}
+              location={item.Location}
               onClick={() => {}}
             />
           ))

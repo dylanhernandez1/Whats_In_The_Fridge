@@ -8,13 +8,13 @@ const FoodSchema = new mongoose.Schema(
       required: true,
       trim: true
     },
-    type: {
+    FoodType: {
       type: String,
       required: false,
       trim: true,
       enum: [
-        "Fruits",
-        "Vegetables",
+        "Fruit",
+        "Vegetable",
         "Drinks",
         "Dairy",
         "Protein",

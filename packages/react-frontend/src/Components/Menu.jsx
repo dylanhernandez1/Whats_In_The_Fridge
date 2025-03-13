@@ -3,15 +3,11 @@ import "./Header_Styling.css";
 import { FaBars } from "react-icons/fa";
 
 function Menu(props) {
-  const CurrentContainer = "All";
+  let CurrentContainer;
   const [show, setShow] = useState(false);
 
   function FilterDropDown() {
     //Input sink
-  }
-  function getCurrentContainer() {
-    //hard coded fridge for now
-    return "All";
   }
 
   function getFoodByContainer() {
@@ -25,12 +21,11 @@ function Menu(props) {
         return res.json();
       })
       .then((res) => {
-        console.log("Foods: ", res);
-
         for (let i = 0; i < res.length; i++) {
-          if (getCurrentContainer() == "All") {
+          if (CurrentContainer === "All") {
             console.log(res[i]);
-          } else if (res[i].name == getCurrentContainer()) {
+          } else if (res[i].Location == CurrentContainer) {
+            console.log(res[i]);
             //display item if current container
           }
         }
@@ -45,6 +40,12 @@ function Menu(props) {
     return promise;
   }
 
+  function setCurrentContainer(location) {
+    CurrentContainer = location;
+    getFoodByContainer();
+    console.log(CurrentContainer);
+  }
+
   return (
     <div className="">
       <button
@@ -56,20 +57,26 @@ function Menu(props) {
       </button>
       {show && (
         <div className="menu-dropdown">
-          <button>
-            <span className="search-bar-container button">
-              Fridge
-            </span>
+          <button
+            className="menu-item"
+            style={{ border: 0 }}
+            onClick={() => setCurrentContainer("Fridge")}
+          >
+            Fridge
           </button>
-          <button>
-            <span className="search-bar-container button">
-              Freezer
-            </span>
+          <button
+            className="menu-item"
+            style={{ border: 0 }}
+            onClick={() => setCurrentContainer("Freezer")}
+          >
+            Freezer
           </button>
-          <button>
-            <span className="search-bar-container button">
-              Pantry
-            </span>
+          <button
+            className="menu-item"
+            style={{ border: 0 }}
+            onClick={() => setCurrentContainer("Pantry")}
+          >
+            Pantry
           </button>
         </div>
       )}

@@ -25,11 +25,14 @@ function Food() {
 
   //state to store input values
   const [foodName, setFoodName] = useState("");
+  const [foodType, setFoodType] = useState("Fruit");
   const [location, setLocation] = useState("Fridge");
   const [quantity, setQuantity] = useState(1);
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
+
+  const [addButtonText, setButtonText] = useState("Add");
 
   //function to go back
   const handleBack = () => {
@@ -37,6 +40,8 @@ function Food() {
   };
 
   function addFoodToDatabase() {
+    setButtonText("Adding...");
+
     const promise = fetch("http://localhost:8000/food", {
       method: "POST",
       headers: {
@@ -44,12 +49,27 @@ function Food() {
       },
       body: JSON.stringify({
         FoodName: foodName,
+        FoodType: foodType,
         Location: location,
         Amount: quantity,
         ExpirationDate: Date("${year}-${month}-${day}")
       })
-    });
-    return promise;
+    })
+      .then((res) => {
+        if (res.status == 201) {
+          setButtonText(`${foodName} added`);
+          setTimeout(() => {
+            setButtonText("Add");
+          }, 1000);
+        }
+      })
+      .catch((error) => {
+        setButtonText(`Unable to add ${foodName}`);
+        setTimeout(() => {
+          setButtonText("Add");
+        }, 1000);
+        console.error("Error: ", error);
+      });
   }
 
   return (
@@ -71,6 +91,16 @@ function Food() {
         value={foodName}
         onChange={(e) => setFoodName(e.target.value)}
       />
+
+      <label>Type:</label>
+      <select
+        value={foodType}
+        onChange={(e) => setFoodType(e.target.value)}
+      >
+        <option value="Fruit">Fruit</option>
+        <option value="Vegetable">Vegetable</option>
+        <option value="Protein">Protein</option>
+      </select>
 
       {/* Location Dropdown */}
       <label>Location:</label>
@@ -124,7 +154,7 @@ function Food() {
         className="add-button"
         onClick={() => addFoodToDatabase()}
       >
-        Add
+        {addButtonText}
       </button>
     </div>
   );

@@ -4,12 +4,12 @@ function findFoodByExpiration() {
   /* Only return items that have the expirationDate tag */
   /* In the future, may do .limit(<quantity>) to limit the amount of items returned */
   return foodModel
-    .find({ expirationDate: { $exists: true } })
-    .sort({ expirationDate: 1 });
+    .find({ ExpirationDate: { $exists: true } })
+    .sort({ ExpirationDate: 1 });
 }
 
 function findFoodByName(name) {
-  return foodModel.find({ name: name });
+  return foodModel.find({ FoodName: name });
 }
 
 function addFood(name) {
