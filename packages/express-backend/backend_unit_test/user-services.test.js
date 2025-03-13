@@ -163,3 +163,12 @@ test("Deleting user by ID -- invalid ID", async () => {
   const deletedUser = await userServices.deleteUserById("invalidId");
   expect(deletedUser).toBeFalsy();
 });
+
+test("Deleting user by ID -- not found", async () => {
+  const dummyUser = { name: "Aragorn", job: "King", email: "aragorn@example.com" };
+  const result = await userServices.addUser(dummyUser);
+  let deletedUser = await userServices.deleteUserById(result._id);
+  deletedUser = await userServices.deleteUserById(result._id);
+
+  expect(deletedUser).toBeNull();
+})
