@@ -14,10 +14,13 @@ function getDbConnection() {
   // istanbul ignore next
   if (!dbConnection) {
     // istanbul ignore next
-    dbConnection = mongoose.createConnection(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    dbConnection = mongoose.createConnection(
+      process.env.MONGODB_URI,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      }
+    );
   }
   return dbConnection;
 }
@@ -45,10 +48,9 @@ async function findUserById(id) {
   }
   try {
     return await userModel.findById(id);
-  } 
-  //IGNORE FOR STATEMENT COVERAGE, THIS SHOULD NOT BE REACHED
-  // istanbul ignore next
-  catch (error) {
+  } catch (error) {
+    //IGNORE FOR STATEMENT COVERAGE, THIS SHOULD NOT BE REACHED
+    // istanbul ignore next
     // istanbul ignore next
     console.log(error);
     // istanbul ignore next
@@ -65,10 +67,9 @@ async function addUser(user) {
     const userToAdd = new userModel(user);
     const savedUser = await userToAdd.save();
     return savedUser;
-  } 
-  //IGNORE FOR STATEMENT COVERAGE, THIS SHOULD NOT BE REACHED
-  // istanbul ignore next
-  catch (error) {
+  } catch (error) {
+    //IGNORE FOR STATEMENT COVERAGE, THIS SHOULD NOT BE REACHED
+    // istanbul ignore next
     // istanbul ignore next
     console.log(error);
     // istanbul ignore next
@@ -97,12 +98,11 @@ async function deleteUserById(id) {
     return false;
   }
   try {
-    let deletedUser = await userModel.findByIdAndDelete(id);
+    const deletedUser = await userModel.findByIdAndDelete(id);
     return deletedUser;
-  } 
-  //IGNORE FOR STATEMENT COVERAGE, THIS SHOULD NOT BE REACHED
-  // istanbul ignore next
-  catch (error) {
+  } catch (error) {
+    //IGNORE FOR STATEMENT COVERAGE, THIS SHOULD NOT BE REACHED
+    // istanbul ignore next
     // istanbul ignore next
     console.log(error);
     // istanbul ignore next
@@ -118,5 +118,5 @@ export default {
   findUserByJob,
   findUserByNameAndJob,
   deleteUserById,
-  setConnection,
+  setConnection
 };

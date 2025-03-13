@@ -13,14 +13,13 @@ beforeAll(async () => {
 
   conn = await mongoose.createConnection(uri, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
   });
 
-  userModel = conn.model("User", UserSchema)
+  userModel = conn.model("User", UserSchema);
 
   userServices.setConnection(conn);
 });
-
 
 afterAll(async () => {
   await conn.dropDatabase();
@@ -29,44 +28,44 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  let dummyUser1 = {
+  const dummyUser1 = {
     name: "Chuck Norris",
     job: "Highlander",
-    email: "cnor123@gmailexample.com",
+    email: "cnor123@gmailexample.com"
   };
-  let result1 = new userModel(dummyUser1);
+  const result1 = new userModel(dummyUser1);
   await result1.save();
 
-  let dummyUser2 = {
+  const dummyUser2 = {
     name: "Bruce Lee",
     job: "Martial Artist",
-    email: "brucelee@example.com",
+    email: "brucelee@example.com"
   };
-  let result2 = new userModel(dummyUser2);
+  const result2 = new userModel(dummyUser2);
   await result2.save();
 
-  let dummyUser3 = {
+  const dummyUser3 = {
     name: "Jackie Chan",
     job: "Actor",
-    email: "jackiechan@example.com",
+    email: "jackiechan@example.com"
   };
-  let result3 = new userModel(dummyUser3);
+  const result3 = new userModel(dummyUser3);
   await result3.save();
 
-  let dummyUser4 = {
+  const dummyUser4 = {
     name: "Jean-Claude Van Damme",
     job: "Actor",
-    email: "jcvd@example.com",
+    email: "jcvd@example.com"
   };
-  let result4 = new userModel(dummyUser4);
+  const result4 = new userModel(dummyUser4);
   await result4.save();
 
-  let dummyUser5 = {
+  const dummyUser5 = {
     name: "Sylvester Stallone",
     job: "Actor",
-    email: "sly@example.com",
+    email: "sly@example.com"
   };
-  let result5 = new userModel(dummyUser5);
+  const result5 = new userModel(dummyUser5);
   await result5.save();
 });
 
@@ -81,7 +80,11 @@ test("Fetching all users", async () => {
 });
 
 test("Adding user -- successful path", async () => {
-  const dummyUser = { name: "Dumbledore", job: "Headmaster", email: "dumbledore@example.com" };
+  const dummyUser = {
+    name: "Dumbledore",
+    job: "Headmaster",
+    email: "dumbledore@example.com"
+  };
   const result = await userServices.addUser(dummyUser);
   expect(result).toBeTruthy();
   expect(result.email).toBe(dummyUser.email);
@@ -90,7 +93,11 @@ test("Adding user -- successful path", async () => {
 });
 
 test("Fetching users by name", async () => {
-  const dummyUser = { name: "Dumbledore", job: "Headmaster", email: "dumbledore@example.com" };
+  const dummyUser = {
+    name: "Dumbledore",
+    job: "Headmaster",
+    email: "dumbledore@example.com"
+  };
   await userServices.addUser(dummyUser);
 
   const users = await userServices.getUsers("Dumbledore");
@@ -100,20 +107,34 @@ test("Fetching users by name", async () => {
 });
 
 test("Fetching users by job", async () => {
-  const dummyUser = { name: "Dumbledore", job: "Headmaster", email: "dumbledore@example.com" };
+  const dummyUser = {
+    name: "Dumbledore",
+    job: "Headmaster",
+    email: "dumbledore@example.com"
+  };
   await userServices.addUser(dummyUser);
 
-  const users = await userServices.getUsers(undefined, "Headmaster");
+  const users = await userServices.getUsers(
+    undefined,
+    "Headmaster"
+  );
   expect(users).toBeDefined();
   expect(users.length).toBeGreaterThan(0);
   expect(users[0].job).toBe(dummyUser.job);
 });
 
 test("Fetching users by name and job", async () => {
-  const dummyUser = { name: "Dumbledore", job: "Headmaster", email: "dumbledore@example.com" };
+  const dummyUser = {
+    name: "Dumbledore",
+    job: "Headmaster",
+    email: "dumbledore@example.com"
+  };
   await userServices.addUser(dummyUser);
 
-  const users = await userServices.getUsers("Dumbledore", "Headmaster");
+  const users = await userServices.getUsers(
+    "Dumbledore",
+    "Headmaster"
+  );
   expect(users).toBeDefined();
   expect(users.length).toBeGreaterThan(0);
   expect(users[0].name).toBe(dummyUser.name);
@@ -121,7 +142,11 @@ test("Fetching users by name and job", async () => {
 });
 
 test("Adding user -- successful path", async () => {
-  const dummyUser = { name: "Gandalf", job: "Wizard", email: "gandalf@example.com" };
+  const dummyUser = {
+    name: "Gandalf",
+    job: "Wizard",
+    email: "gandalf@example.com"
+  };
   const result = await userServices.addUser(dummyUser);
   expect(result).toBeTruthy();
   expect(result.email).toBe(dummyUser.email);
@@ -137,7 +162,11 @@ test("Adding user -- email is required", async () => {
 });
 
 test("Finding user by ID -- valid ID", async () => {
-  const dummyUser = { name: "Frodo", job: "Ringbearer", email: "frodo@example.com" };
+  const dummyUser = {
+    name: "Frodo",
+    job: "Ringbearer",
+    email: "frodo@example.com"
+  };
   const result = await userServices.addUser(dummyUser);
 
   const foundUser = await userServices.findUserById(result._id);
@@ -146,29 +175,45 @@ test("Finding user by ID -- valid ID", async () => {
 });
 
 test("Finding user by ID -- invalid ID", async () => {
-  const foundUser = await userServices.findUserById("invalidId");
+  const foundUser =
+    await userServices.findUserById("invalidId");
   expect(foundUser).toBeNull();
 });
 
 test("Deleting user by ID -- successful path", async () => {
-  const dummyUser = { name: "Aragorn", job: "King", email: "aragorn@example.com" };
+  const dummyUser = {
+    name: "Aragorn",
+    job: "King",
+    email: "aragorn@example.com"
+  };
   const result = await userServices.addUser(dummyUser);
 
-  const deletedUser = await userServices.deleteUserById(result._id);
+  const deletedUser = await userServices.deleteUserById(
+    result._id
+  );
   expect(deletedUser).toBeDefined();
-  expect(deletedUser._id.toString()).toBe(result._id.toString());
+  expect(deletedUser._id.toString()).toBe(
+    result._id.toString()
+  );
 });
 
 test("Deleting user by ID -- invalid ID", async () => {
-  const deletedUser = await userServices.deleteUserById("invalidId");
+  const deletedUser =
+    await userServices.deleteUserById("invalidId");
   expect(deletedUser).toBeFalsy();
 });
 
 test("Deleting user by ID -- not found", async () => {
-  const dummyUser = { name: "Aragorn", job: "King", email: "aragorn@example.com" };
+  const dummyUser = {
+    name: "Aragorn",
+    job: "King",
+    email: "aragorn@example.com"
+  };
   const result = await userServices.addUser(dummyUser);
-  let deletedUser = await userServices.deleteUserById(result._id);
+  let deletedUser = await userServices.deleteUserById(
+    result._id
+  );
   deletedUser = await userServices.deleteUserById(result._id);
 
   expect(deletedUser).toBeNull();
-})
+});

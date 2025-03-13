@@ -13,7 +13,7 @@ beforeAll(async () => {
 
   const mongooseOpts = {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
   };
 
   conn = await mongoose.createConnection(uri, mongooseOpts);
@@ -33,15 +33,30 @@ afterAll(async () => {
 
 beforeEach(async () => {
   // Seed the database with dummy food items that use multiple fields.
-  let dummyFood = { name: "Apple", type: "Fruits", amount: 10, location: "Fridge" };
+  let dummyFood = {
+    name: "Apple",
+    type: "Fruits",
+    amount: 10,
+    location: "Fridge"
+  };
   let result = new foodModel(dummyFood);
   await result.save();
 
-  dummyFood = { name: "Carrot", type: "Vegetables", amount: 5, location: "Pantry" };
+  dummyFood = {
+    name: "Carrot",
+    type: "Vegetables",
+    amount: 5,
+    location: "Pantry"
+  };
   result = new foodModel(dummyFood);
   await result.save();
 
-  dummyFood = { name: "Milk", type: "Dairy", amount: 2, location: "Fridge" };
+  dummyFood = {
+    name: "Milk",
+    type: "Dairy",
+    amount: 2,
+    location: "Fridge"
+  };
   result = new foodModel(dummyFood);
   await result.save();
 });
@@ -61,11 +76,16 @@ test("Fetching food by name", async () => {
   const foods = await foodServices.findFoodByName(foodName);
   expect(foods).toBeDefined();
   expect(foods.length).toBeGreaterThan(0);
-  foods.forEach(food => expect(food.name).toBe(foodName));
+  foods.forEach((food) => expect(food.name).toBe(foodName));
 });
 
 test("Adding food item -- successful path", async () => {
-  const newFood = { name: "Banana", type: "Fruits", amount: 12, location: "Pantry" };
+  const newFood = {
+    name: "Banana",
+    type: "Fruits",
+    amount: 12,
+    location: "Pantry"
+  };
   const addedFood = await foodServices.addFood(newFood);
   expect(addedFood).toBeTruthy();
   expect(addedFood.name).toBe(newFood.name);
@@ -78,7 +98,11 @@ test("Adding food item -- successful path", async () => {
 
 test("Adding food item -- failure path (missing name)", async () => {
   // The Food schema requires a name.
-  const newFood = { type: "Sweets", amount: 5, location: "Pantry" };
+  const newFood = {
+    type: "Sweets",
+    amount: 5,
+    location: "Pantry"
+  };
   let error;
   try {
     await foodServices.addFood(newFood);
@@ -90,7 +114,12 @@ test("Adding food item -- failure path (missing name)", async () => {
 
 test("Adding food item -- failure path (invalid type)", async () => {
   // 'FastFood' is not an allowed type per the enum.
-  const newFood = { name: "Chips", type: "FastFood", amount: 3, location: "Pantry" };
+  const newFood = {
+    name: "Chips",
+    type: "FastFood",
+    amount: 3,
+    location: "Pantry"
+  };
   let error;
   try {
     await foodServices.addFood(newFood);

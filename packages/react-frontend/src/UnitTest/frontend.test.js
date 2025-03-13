@@ -1,15 +1,18 @@
 import React from "react";
-import { userEvent, fireEvent, render, screen } from "@testing-library/react";
+import {
+  userEvent,
+  fireEvent,
+  render,
+  screen
+} from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Searchbar from "../Components/SearchBar.jsx";
 
-
 const mockedUsedNavigate = jest.fn(); // Create a mock function for useNavigate
-
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
-  useNavigate: () => mockedUsedNavigate,
+  useNavigate: () => mockedUsedNavigate
 }));
 
 describe("SearchBar Component", () => {

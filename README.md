@@ -16,6 +16,10 @@
 
 Note: Need to include auto formatting based on dimensinons on screen.
 
+## Product Tech Spec
+
+**Link:** https://docs.google.com/document/d/1Ak_zM_7FnW5PO-jdHTA8a4cIh58q4heEO3FUmQtbRik/edit?usp=sharing
+
 ## UML
 
 **UML Class Diagram:** https://drive.google.com/file/d/1S4yT_NFGVBmOmzIkn5r9AaRlGA2nTrHd/view?usp=sharing
