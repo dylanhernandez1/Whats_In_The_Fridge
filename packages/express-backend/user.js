@@ -5,23 +5,31 @@ const UserSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
     job: {
       type: String,
       required: true,
       trim: true,
       validate(value) {
-        if (value.length < 2)
-          throw new Error(
-            "Invalid job, must be at least 2 characters."
-          );
-      }
-    }
+        if (value.length < 2) throw new Error("Invalid job.");
+      },
+    },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+      lowercase: true,
+      validate: {
+        validator: function (value) {
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        },
+        message: "Invalid email format.",
+      },
+    },
   },
-  { collection: "users_list", versionkey: false }
+  { collection: "users_list", versionKey: false }
 );
 
-const User = mongoose.model("User", UserSchema);
-
-export default User;
+export default UserSchema;
