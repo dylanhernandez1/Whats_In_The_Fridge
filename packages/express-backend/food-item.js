@@ -41,9 +41,7 @@ const FoodSchema = new mongoose.Schema(
       enum: ["Fridge", "Freezer", "Pantry"]
     }
   },
-  { collection: "food_list", versionkey: false }
+  { collection: "food_list", versionKey: false }
 );
 
-const Food = mongoose.model("Food", FoodSchema);
-
-export default Food;
+export default FoodSchema;

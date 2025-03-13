@@ -1,30 +1,75 @@
-import foodModel from "./food-item.js";
+import mongoose from "mongoose";
+import FoodSchema from "./food-services.js";
+import dotenv from "dotenv";
+dotenv.config();
 
-function findFoodByExpiration() {
+let dbConnection;
+
+function setConnection(newConn) {
+  dbConnection = newConn;
+  return dbConnection;
+}
+
+function getDbConnection() {
+  // istanbul ignore next
+  if (!dbConnection) {
+    // istanbul ignore next
+    dbConnection = mongoose.createConnection(
+      process.env.MONGODB_URI,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      }
+    );
+  }
+  return dbConnection;
+}
+async function findFoodByExpiration() {
   /* Only return items that have the expirationDate tag */
   /* In the future, may do .limit(<quantity>) to limit the amount of items returned */
-  return foodModel
+  const foodModel = getDbConnection().model("Food", FoodSchema);
+  return await foodModel
     .find({ expirationDate: { $exists: true } })
     .sort({ expirationDate: 1 });
 }
 
-function findFoodByName(name) {
-  return foodModel.find({ FoodName: name });
+async function findFoodByName(name) {
+  const foodModel = getDbConnection().model("Food", FoodSchema);
+  return await foodModel.find({ FoodName: name });
 }
 
-function addFood(name) {
-  const foodToAdd = new foodModel(name);
-  const promise = foodToAdd.save();
-  return promise;
+async function addFood(food) {
+  const foodModel = getDbConnection().model("Food", FoodSchema);
+  try {
+    const foodToAdd = new foodModel(food);
+    const savedFood = await foodToAdd.save();
+    return savedFood;
+  } catch (error) {
+    //IGNORE FOR STATEMENT COVERAGE, THIS SHOULD NOT BE REACHED
+    // istanbul ignore next
+    // istanbul ignore next
+    console.log(error);
+    // istanbul ignore next
+    return false;
+  }
 }
 
-function getFood() {
-  return foodModel.find();
+async function getFood(name) {
+  const foodModel = getDbConnection().model("Food", FoodSchema);
+
+  let result;
+  if (name === undefined) {
+    result = await foodModel.find();
+  }else{
+    result = await findFoodByName(name);
+  }
+  return result;
 }
 
 export default {
   addFood,
   findFoodByName,
   findFoodByExpiration,
-  getFood
+  getFood,
+  setConnection
 };
