@@ -1,5 +1,10 @@
 import React from "react";
-import { userEvent, fireEvent, render, screen } from "@testing-library/react";
+import {
+  userEvent,
+  fireEvent,
+  render,
+  screen
+} from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Home from "../Pages/Home.jsx";
 
@@ -29,7 +34,7 @@ const mockedUsedNavigate = jest.fn(); // Create a mock function for useNavigate
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
-  useNavigate: () => mockedUsedNavigate,
+  useNavigate: () => mockedUsedNavigate
 }));
 
 describe("HomePage Component", () => {
@@ -71,7 +76,9 @@ describe("HomePage Component", () => {
 
     // Act:
     // Step 2: Find the login button in the DOM
-    const buttonElement = screen.getByRole("button", { name: /login/i });
+    const buttonElement = screen.getByRole("button", {
+      name: /login/i
+    });
     // Step 3: Simulate a user clicking the login button
     await userEvent.click(buttonElement);
 

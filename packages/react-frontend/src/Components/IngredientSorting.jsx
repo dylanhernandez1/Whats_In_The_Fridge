@@ -14,12 +14,15 @@ const categories = [
 ];
 
 export default function IngredientList({ ingredients }) {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] =
+    useState("All");
 
   const filteredIngredients =
     selectedCategory === "All"
       ? ingredients
-      : ingredients.filter((item) => item.type === selectedCategory);
+      : ingredients.filter(
+          (item) => item.type === selectedCategory
+        );
 
   return (
     <div className="ingredient-list-container">
@@ -35,7 +38,9 @@ export default function IngredientList({ ingredients }) {
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={selectedCategory === category ? "active" : ""}
+            className={
+              selectedCategory === category ? "active" : ""
+            }
           >
             {category}
           </button>
@@ -54,7 +59,9 @@ export default function IngredientList({ ingredients }) {
             />
           ))
         ) : (
-          <p className="no-ingredients">No ingredients found for this category.</p>
+          <p className="no-ingredients">
+            No ingredients found for this category.
+          </p>
         )}
       </div>
     </div>

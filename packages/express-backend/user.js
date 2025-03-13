@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      trim: true,
+      trim: true
     },
     job: {
       type: String,
@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema(
       trim: true,
       validate(value) {
         if (value.length < 2) throw new Error("Invalid job.");
-      },
+      }
     },
     email: {
       type: String,
@@ -25,9 +25,9 @@ const UserSchema = new mongoose.Schema(
         validator: function (value) {
           return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
         },
-        message: "Invalid email format.",
-      },
-    },
+        message: "Invalid email format."
+      }
+    }
   },
   { collection: "users_list", versionKey: false }
 );

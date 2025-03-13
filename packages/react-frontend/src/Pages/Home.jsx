@@ -57,35 +57,29 @@ function Home({ characters, removeOneCharacter, updateList }) {
   ]);
 
   function getExpiringList() {
-    const promise = fetch(
-      `http://localhost:8000/expiring`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
+    const promise = fetch(`http://localhost:8000/expiring`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
       }
-    )
+    });
     return promise;
   }
 
   function add() {
-    const promise = fetch(
-      `http://localhost:8000/food`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name: "Ice",
-          type: "Drinks",
-          amount: 10,
-          expirationDate: new Date(2025, 6, 12),
-          location: "Freezer"
-        })
-      }
-    )
+    const promise = fetch(`http://localhost:8000/food`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: "Ice",
+        type: "Drinks",
+        amount: 10,
+        expirationDate: new Date(2025, 6, 12),
+        location: "Freezer"
+      })
+    });
     return promise;
   }
 
@@ -96,7 +90,7 @@ function Home({ characters, removeOneCharacter, updateList }) {
       })
       .then((res) => {
         console.log("Foods: ", res);
-        setFoodList(res)
+        setFoodList(res);
         return res;
       })
       .catch((error) => {
@@ -107,19 +101,19 @@ function Home({ characters, removeOneCharacter, updateList }) {
   //Full table
   return (
     <div className="app-container">
-  <Toolbar />
-  <div className="content-container-spaced">
-    <header className="header-container">
-      <Menu />
-      <b>What's In My Fridge?</b>
-      <Notifications foodList={foodList} />
-    </header>
+      <Toolbar />
+      <div className="content-container-spaced">
+        <header className="header-container">
+          <Menu />
+          <b>What's In My Fridge?</b>
+          <Notifications foodList={foodList} />
+        </header>
 
-    <SearchBar />
-    <ExpiringList foodList={foodList} />
-    <IngredientSorting ingredients={foodList} />
-  </div>
-</div>
+        <SearchBar />
+        <ExpiringList foodList={foodList} />
+        <IngredientSorting ingredients={foodList} />
+      </div>
+    </div>
   );
 }
 

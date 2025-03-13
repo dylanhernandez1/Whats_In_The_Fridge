@@ -49,7 +49,6 @@ function Menu(props) {
     <div className="">
       <button
         onClick={() => setShow(!show)}
-
         style={{ backgroundColor: "transparent", border: 0 }}
       >
         <FaBars className="icon" />
@@ -57,18 +56,21 @@ function Menu(props) {
       </button>
       {show && (
         <div className="menu-dropdown">
-            <button>
-              <span className="search-bar-container button">Fridge</span>
-
-            </button>
-            <button>
-              <span className="search-bar-container button">Freezer</span>
-
-            </button>
-            <button>
-              <span className="search-bar-container button">Pantry</span>
-
-            </button>
+          <button>
+            <span className="search-bar-container button">
+              Fridge
+            </span>
+          </button>
+          <button>
+            <span className="search-bar-container button">
+              Freezer
+            </span>
+          </button>
+          <button>
+            <span className="search-bar-container button">
+              Pantry
+            </span>
+          </button>
         </div>
       )}
     </div>
