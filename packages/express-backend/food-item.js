@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const FoodSchema = new mongoose.Schema(
   {
     //ID IS SET IN MONGO ALREADY
-    name: {
+    FoodName: {
       type: String,
       required: true,
       trim: true
@@ -23,18 +23,18 @@ const FoodSchema = new mongoose.Schema(
         "Sweets"
       ]
     },
-    amount: {
+    Amount: {
       type: Number,
       required: false,
       trim: true,
       min: 0
     },
-    expirationDate: {
+    ExpirationDate: {
       type: Date,
       required: false,
       trim: true
     },
-    location: {
+    Location: {
       type: String,
       required: false,
       trim: true,

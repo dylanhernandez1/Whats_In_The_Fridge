@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import UserSchema from "./user";
+import UserSchema from "./user.js";
 import dotenv from "dotenv";
 dotenv.config();
 

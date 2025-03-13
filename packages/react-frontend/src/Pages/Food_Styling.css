@@ -1,11 +1,11 @@
-.container {
+.food-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: left;
   gap: 10px;
-  margin-left: 100px;
+  margin-left: 80px;
   padding: 20px;
-  max-width: 400px;
+  max-width: 100%;
 }
 
 .title {
@@ -17,13 +17,24 @@
 .back-button {
   position: absolute;
   top: 10px;
-  left: 100px;
   padding: 5px 10px;
   cursor: pointer;
   background: none;
   border: none;
   font-size: 30px;
   font-weight: bold;
+  color: black;
+}
+
+.add-button {
+  background-color: transparent;
+  border-color: lightgrey;
+  color: black;
+}
+
+.add-button:hover {
+  background-color: transparent;
+  border-color: lightgrey;
   color: black;
 }
 
@@ -35,3 +46,17 @@
   display: flex;
   gap: 5px;
 }
+
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .food-container {
+    margin-left: 0px;
+  }
+
+  .back-button {
+    margin-left: 0px;
+    text-align: left;
+  }
+}
+

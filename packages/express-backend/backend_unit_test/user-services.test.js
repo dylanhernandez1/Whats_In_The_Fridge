@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import UserSchema from "../user";
-import userServices from "../user-services";
+import UserSchema from "../user.js";
+import userServices from "../user-services.js";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
 // Declare mongoServer and conn globally so they can be used in the tests

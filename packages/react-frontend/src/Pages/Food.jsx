@@ -36,8 +36,24 @@ function Food() {
     navigate(-1);
   };
 
+  function addFoodToDatabase() {
+      const promise = fetch("http://localhost:8000/food", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          FoodName: foodName,
+          Location: location,
+          Amount: quantity,
+          ExpirationDate: Date("${year}-${month}-${day}"),
+        })
+      });
+      return promise;
+  }
+
   return (
-    <div className="container">
+    <div className="food-container">
       <Toolbar />
 
       {/* Back Button */}
@@ -103,6 +119,12 @@ function Food() {
           min="2024"
         />
       </div>
+
+      <button className="add-button"
+      onClick={() => addFoodToDatabase()}
+
+      >Add</button>
+      
     </div>
   );
 }
