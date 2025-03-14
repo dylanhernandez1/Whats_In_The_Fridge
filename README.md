@@ -85,3 +85,20 @@ Installing Prettier:
 ## React icons
 
 **Link:** https://react-icons.github.io/react-icons/
+
+## Test Coverage
+
+File              | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+------------------|---------|----------|---------|---------|-------------------
+All files         |   98.33 |    95.45 |     100 |     100 |                   
+ food-item.js     |     100 |      100 |     100 |     100 |                   
+ food-services.js |     100 |      100 |     100 |     100 |                   
+ user-services.js |     100 |      100 |     100 |     100 |                   
+ user.js          |      75 |       50 |     100 |     100 | 15                
+------------------|---------|----------|---------|---------|-------------------
+
+Test Suites: 2 passed, 2 total
+Tests:       20 passed, 20 total
+Snapshots:   0 total
+Time:        4.46 s, estimated 5 s
+Ran all test suites.
