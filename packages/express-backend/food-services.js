@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import FoodSchema from "./food-services.js";
+import FoodSchema from "./food-item.js";
 import dotenv from "dotenv";
 dotenv.config();
 

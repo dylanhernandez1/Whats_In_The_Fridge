@@ -76,7 +76,7 @@ test("Fetching food by name", async () => {
   const foods = await foodServices.findFoodByName(foodName);
   expect(foods).toBeDefined();
   expect(foods.length).toBeGreaterThan(0);
-  foods.forEach((food) => expect(food.name).toBe(foodName));
+  foods.forEach((food) => expect(food.FoodName).toBe(foodName));
 });
 
 /*
