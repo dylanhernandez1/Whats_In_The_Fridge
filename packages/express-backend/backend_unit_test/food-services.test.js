@@ -117,7 +117,9 @@ test("findFoodByExpiration returns only food items with an ExpirationDate (sorte
   expect(foods).toBeDefined();
   expect(foods.length).toBeGreaterThanOrEqual(2);
   // Verify they are sorted in ascending order.
-  const dates = foods.map((food) => new Date(food.ExpirationDate));
+  const dates = foods.map(
+    (food) => new Date(food.ExpirationDate)
+  );
   expect(dates[0] <= dates[1]).toBe(true);
 });
 
@@ -142,7 +144,9 @@ test("addFood successfully adds a food item", async () => {
 test("addFood failure path: returns false when save fails", async () => {
   // Override the save method on the Food model to force an error.
   const originalSave = foodModel.prototype.save;
-  foodModel.prototype.save = jest.fn().mockRejectedValue(new Error("save failed"));
+  foodModel.prototype.save = jest
+    .fn()
+    .mockRejectedValue(new Error("save failed"));
 
   const newFood = {
     FoodName: "Test Food",
