@@ -8,9 +8,6 @@ import "./ExpiringList_styling.css";
         expiring-list:        Contains the foods, formatted in Card components, that are expiring the earliest in a scrollable frame
 */
 function ExpiringList({ foodList }) {
-  /* Have this run each time ExpiringList is mounted */
-  useEffect(() => {}, []);
-
   /* navigate to a specific location when clicking on a Card component */
   function onClick(location) {}
 
@@ -27,9 +24,9 @@ function ExpiringList({ foodList }) {
           return (
             <Card
               key={item.id}
-              name={item.name}
-              expirationDate={item.expirationDate}
-              location={item.location}
+              name={item.FoodName}
+              expirationDate={item.ExpirationDate}
+              location={item.Location}
               onClick={onClick}
             />
           );
