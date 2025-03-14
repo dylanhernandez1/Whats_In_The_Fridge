@@ -11,50 +11,7 @@ import "../Components/Header_styling.css";
 import { FaAddressBook } from "react-icons/fa";
 
 function Home({ characters, removeOneCharacter, updateList }) {
-  const [foodList, setFoodList] = useState([
-    {
-      id: 1234,
-      name: "Apple",
-      expirationDate: 1,
-      location: "Fridge",
-      type: "Fruits"
-    },
-    {
-      id: 2345,
-      name: "Cheese",
-      expirationDate: 3,
-      location: "Fridge",
-      type: "Dairy"
-    },
-    {
-      id: 3456,
-      name: "Banana",
-      expirationDate: 6,
-      location: "Fridge",
-      type: "Fruits"
-    },
-    {
-      id: 4567,
-      name: "Eggs",
-      expirationDate: 7,
-      location: "Fridge",
-      type: "Protein"
-    },
-    {
-      id: 5678,
-      name: "Crackers",
-      expirationDate: 9,
-      location: "Pantry",
-      type: "Grains"
-    },
-    {
-      id: 6789,
-      name: "Water",
-      expirationDate: 200,
-      location: "Pantry",
-      type: "Other"
-    }
-  ]);
+  const [foodList, setFoodList] = useState([{}]);
 
   function getExpiringList() {
     const promise = fetch(`http://localhost:8000/expiring`, {
@@ -89,8 +46,16 @@ function Home({ characters, removeOneCharacter, updateList }) {
         return res.json();
       })
       .then((res) => {
-        console.log("Foods: ", res);
+        const millisPerDay = 24 * 60 * 60 * 1000;
+        const currentDate = new Date();
+        res.map((food) => {
+          if (food.ExpirationDate != undefined) {
+            const toDateObj = new Date(food.ExpirationDate);
+            food.ExpirationDate = Math.round((currentDate - toDateObj)/millisPerDay);
+          }
+        })
         setFoodList(res);
+        console.log("Foods: ", res);
         return res;
       })
       .catch((error) => {

@@ -26,8 +26,8 @@ const ExpirationTag = (props) => {
       className={`${props.daysRemaining > 100 ? "expiration-tag-small" : "expiration-tag"} ${tag}`}
     >
       <b>
-        {props.daysRemaining
-          ? `${props.daysRemaining} ${props.daysRemaining > 1 ? "days" : "day"}`
+        {props.daysRemaining != undefined
+          ? `${props.daysRemaining} ${props.daysRemaining != 1 ? "days" : "day"}`
           : "No date added"}
       </b>
     </div>
