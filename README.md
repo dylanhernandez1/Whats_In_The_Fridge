@@ -24,6 +24,10 @@ Note: Need to include auto formatting based on dimensinons on screen.
 
 **UML Class Diagram:** https://drive.google.com/file/d/1S4yT_NFGVBmOmzIkn5r9AaRlGA2nTrHd/view?usp=sharing
 
+## Product Presentation
+
+**Link:** https://docs.google.com/presentation/d/1mYY5xVuRVQNVl82VJjr9D-LUXhEZOkWFhZJvqiZmHfY/edit?usp=sharing
+
 ## Format Rules:
 
 **Link:** https://airbnb.io/javascript/react/
