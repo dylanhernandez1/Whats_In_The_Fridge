@@ -60,7 +60,7 @@ async function getFood(name) {
   let result;
   if (name === undefined) {
     result = await foodModel.find();
-  }else{
+  } else {
     result = await findFoodByName(name);
   }
   return result;

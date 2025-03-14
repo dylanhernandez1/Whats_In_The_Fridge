@@ -50,11 +50,18 @@ function Home({ characters, removeOneCharacter, updateList }) {
         const currentDate = new Date();
         res.map((food) => {
           if (food.ExpirationDate != undefined) {
-            console.log("Food name: " + food.FoodName + " | expires: " + food.ExpirationDate)
+            console.log(
+              "Food name: " +
+                food.FoodName +
+                " | expires: " +
+                food.ExpirationDate
+            );
             const toDateObj = new Date(food.ExpirationDate);
-            food.ExpirationDate = Math.round((toDateObj - currentDate)/millisPerDay);
+            food.ExpirationDate = Math.round(
+              (toDateObj - currentDate) / millisPerDay
+            );
           }
-        })
+        });
         setFoodList(res);
         console.log("Foods: ", res);
         return res;
