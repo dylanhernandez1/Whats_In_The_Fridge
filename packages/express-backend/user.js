@@ -10,10 +10,7 @@ const UserSchema = new mongoose.Schema(
     job: {
       type: String,
       required: true,
-      trim: true,
-      validate(value) {
-        if (value.length < 2) throw new Error("Invalid job.");
-      }
+      trim: true
     },
     email: {
       type: String,
