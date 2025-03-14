@@ -8,6 +8,14 @@
 4. To run the backend, create a .env file `touch .env` and copy and paste this in `MONGODB_URI = "mongodb+srv://whats-in-the-fridge-user:DWIRaCXhO11dWbPY@cluster0.dmiyl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"`.
    DWIRaCXhO11dWbPY is our temporary testing database password.
 
+## Current Demo
+
+**Link:** https://drive.google.com/file/d/1-DF9gWVICOnoTd2iIAfFA8pn8QXNmS5H/view?usp=sharing
+
+## Final Presentation
+
+**Link:** https://docs.google.com/presentation/d/1mYY5xVuRVQNVl82VJjr9D-LUXhEZOkWFhZJvqiZmHfY/edit?usp=sharing
+
 ## Figma/Prototype Information
 
 **Figma Link:** https://www.figma.com/design/2t0g61ZrfOgUqMNpqOzQGS/whats-in-my-fridge?node-id=3-4&t=2IYp4LDfXmCGodHy-1
@@ -23,10 +31,6 @@ Note: Need to include auto formatting based on dimensinons on screen.
 ## UML
 
 **UML Class Diagram:** https://drive.google.com/file/d/1S4yT_NFGVBmOmzIkn5r9AaRlGA2nTrHd/view?usp=sharing
-
-## Product Presentation
-
-**Link:** https://docs.google.com/presentation/d/1mYY5xVuRVQNVl82VJjr9D-LUXhEZOkWFhZJvqiZmHfY/edit?usp=sharing
 
 ## Format Rules:
 
