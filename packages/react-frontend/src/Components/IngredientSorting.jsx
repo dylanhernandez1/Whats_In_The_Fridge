@@ -53,7 +53,7 @@ export default function IngredientList({ ingredients }) {
             <Card
               key={item.id}
               name={item.FoodName}
-              expirationDate={item.expirationDate}
+              expirationDate={item.ExpirationDate}
               location={item.Location}
               onClick={() => {}}
             />

@@ -29,8 +29,8 @@ async function findFoodByExpiration() {
   /* In the future, may do .limit(<quantity>) to limit the amount of items returned */
   const foodModel = getDbConnection().model("Food", FoodSchema);
   return await foodModel
-    .find({ expirationDate: { $exists: true } })
-    .sort({ expirationDate: 1 });
+    .find({ ExpirationDate: { $exists: true } })
+    .sort({ ExpirationDate: 1 });
 }
 
 async function findFoodByName(name) {
