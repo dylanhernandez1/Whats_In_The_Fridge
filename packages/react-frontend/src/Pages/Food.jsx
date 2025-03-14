@@ -41,6 +41,8 @@ function Food() {
 
   function addFoodToDatabase() {
     setButtonText("Adding...");
+    const toDate = new Date(`${year}-${month}-${day}`);
+    console.log(toDate);
 
     const promise = fetch("http://localhost:8000/food", {
       method: "POST",
@@ -52,7 +54,7 @@ function Food() {
         FoodType: foodType,
         Location: location,
         Amount: quantity,
-        ExpirationDate: Date("${year}-${month}-${day}")
+        ExpirationDate: toDate
       })
     })
       .then((res) => {
