@@ -6,11 +6,12 @@ const categories = [
   "All",
   "Fruit",
   "Vegetable",
-  "Grain",
+  "Grains",
   "Protein",
   "Dairy",
   "Fats & Oils",
-  "Sugars & Sweets"
+  "Sugars & Sweets",
+  "Drinks"
 ];
 
 export default function IngredientList({ ingredients }) {

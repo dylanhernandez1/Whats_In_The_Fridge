@@ -102,6 +102,11 @@ function Food() {
         <option value="Fruit">Fruit</option>
         <option value="Vegetable">Vegetable</option>
         <option value="Protein">Protein</option>
+        <option value="Dairy">Dairy</option>
+        <option value="Grains">Grains</option>
+        <option value="Oils">Fats & Oils</option>
+        <option value="Sweets">Sugars & Sweets</option>
+        <option value="Drinks">Drinks</option>
       </select>
 
       {/* Location Dropdown */}
