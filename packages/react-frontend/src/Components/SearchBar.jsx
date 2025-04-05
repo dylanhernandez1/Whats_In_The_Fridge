@@ -3,12 +3,16 @@ import "./Header_Styling.css";
 import { FaSearch } from "react-icons/fa";
 import { IoIosOptions } from "react-icons/io";
 
-function SearchBar(props) {
+function SearchBar({ foodList, onTextSubmit }) {
   const [text, setText] = useState("Search");
   const [isFocused, setIsFocused] = useState(false);
 
   const handleChange = (event) => {
     setText(event.target.value);
+
+    if (onTextSubmit) {
+      onTextSubmit(event.target.value);
+    }
   };
 
   const handleFocus = (e) => {
@@ -40,9 +44,6 @@ function SearchBar(props) {
   }
 
   function getFoodFromText() {
-    /* remove trailing/leading whitespace from the text
-       needed in the event the user spams spaces, which 
-       would be considered as a search for a specific food item */
     const queryText = text.trim();
     const promise = fetch(
       `http://localhost:8000/food${queryText != "" ? "/" + queryText : ""}`,

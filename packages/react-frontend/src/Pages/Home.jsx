@@ -8,10 +8,11 @@ import Menu from "../Components/Menu.jsx";
 import Notifications from "../Components/Notifications.jsx";
 import IngredientSorting from "../Components/IngredientSorting.jsx";
 import "../Components/Header_styling.css";
-import { FaAddressBook } from "react-icons/fa";
 
-function Home({ characters, removeOneCharacter, updateList }) {
+function Home({}) {
   const [foodList, setFoodList] = useState([{}]);
+  const [tempFoodList, setTempFoodList] = useState([{}]);
+  const [searchText, setSearchText] = useState("");
 
   function getExpiringList() {
     const promise = fetch(`http://localhost:8000/expiring`, {
@@ -23,22 +24,27 @@ function Home({ characters, removeOneCharacter, updateList }) {
     return promise;
   }
 
-  function add() {
-    const promise = fetch(`http://localhost:8000/food`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name: "Ice",
-        type: "Drinks",
-        amount: 10,
-        expirationDate: new Date(2025, 6, 12),
-        location: "Freezer"
-      })
+  useEffect(() => {
+    const filteredFoods =
+      searchText.trim() == ""
+        ? foodList
+        : foodList.filter((food) =>
+            food.FoodName.toLowerCase().includes(
+              searchText.toLowerCase()
+            )
+          );
+
+    const updatedList = filteredFoods.map((food) => {
+      console.log(food, food.ExpirationDate);
+
+      return food;
     });
-    return promise;
-  }
+    setTempFoodList(updatedList);
+  }, [searchText]);
+
+  const handleSearchText = (text) => {
+    setSearchText(text);
+  };
 
   useEffect(() => {
     getExpiringList()
@@ -63,6 +69,7 @@ function Home({ characters, removeOneCharacter, updateList }) {
           }
         });
         setFoodList(res);
+        setTempFoodList(res);
         console.log("Foods: ", res);
         return res;
       })
@@ -82,9 +89,9 @@ function Home({ characters, removeOneCharacter, updateList }) {
           <Notifications foodList={foodList} />
         </header>
 
-        <SearchBar />
+        <SearchBar onTextSubmit={handleSearchText} />
         <ExpiringList foodList={foodList} />
-        <IngredientSorting ingredients={foodList} />
+        <IngredientSorting ingredients={tempFoodList} />
       </div>
     </div>
   );
