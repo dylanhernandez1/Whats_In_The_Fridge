@@ -27,6 +27,7 @@ body {
   border: none;
   cursor: pointer;
   padding: 1rem;
+  margin: 0;
   width: 100%; /* Makes buttons full width in sidebar */
   text-align: center;
   flex-direction: column; /* Stack icon and text */
@@ -44,6 +45,7 @@ body {
 /* Hover effect */
 .toolbar button:hover {
   background-color: #f0f0f0; /* Light gray background */
+  border: 0;
 }
 
 .toolbar button:hover .icon {
