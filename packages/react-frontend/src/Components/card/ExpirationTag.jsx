@@ -2,13 +2,21 @@ import React from "react";
 import "./ExpirationTag.css";
 
 const ExpirationTag = (props) => {
-  function buildString() {
-    const label = props.daysRemaining > 1 ? "days" : "day";
-    return `${props.daysRemaining} ${label}`;
+  /* determine the tag content */
+  function determineTagContent(daysRemaining) {
+    if (daysRemaining != undefined && daysRemaining > 0) {
+      const value = daysRemaining >= 365 ? Math.round(daysRemaining/365) : daysRemaining;
+      const units = daysRemaining >= 365 ? value > 1 ? "years" : "year" : daysRemaining > 1 ? "days" : "day";
+      return `${value} ${units}`;
+    } else if (daysRemaining <= 0) {
+      return "Expired";
+    } else {
+      return "No date added";
+    }
   }
 
   /* determine the tag color (specified in ExpirationTag.css) based on the expiration date */
-  function determineTag(daysRemaining) {
+  function determineTagColor(daysRemaining) {
     let tagClass = "expiration-green";
     if (daysRemaining != undefined) {
       if (daysRemaining <= 3) {
@@ -19,16 +27,16 @@ const ExpirationTag = (props) => {
     }
     return tagClass;
   }
-  const tag = determineTag(props.daysRemaining);
+
+  const tagColor = determineTagColor(props.daysRemaining);
+  const tagContent = determineTagContent(props.daysRemaining);
 
   return (
     <div
-      className={`${props.daysRemaining > 100 ? "expiration-tag-small" : "expiration-tag"} ${tag}`}
+      className={`${props.daysRemaining > 100 ? "expiration-tag-small" : "expiration-tag"} ${tagColor}`}
     >
       <b>
-        {props.daysRemaining != undefined
-          ? `${props.daysRemaining} ${props.daysRemaining != 1 ? "days" : "day"}`
-          : "No date added"}
+        {tagContent}
       </b>
     </div>
   );
