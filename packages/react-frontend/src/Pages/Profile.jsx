@@ -2,6 +2,8 @@
 import React from "react";
 import Toolbar from "../Components/Toolbar.jsx";
 import { useNavigate } from "react-router-dom";
+import "../Components/Profile_page.css";
+import ProfileToolbar from "../Components/profile_bar.jsx";
 
 function Profile() {
   const navigate = useNavigate();
@@ -15,20 +17,14 @@ function Profile() {
 
   //Full table
   return (
-    <div className="container">
-      <Toolbar />
-
-      <label htmlFor="name">
-        We are in the profile section
-      </label>
-      <div>
-        <button onClick={navToSettings}>
-          Account Settings
-        </button>
-      </div>
-      <div>
-        <button onClick={manageHouses}>Manage Houses</button>
-      </div>
+    <div className="app-container">
+      <Toolbar/>
+      <div className="content-container-spaced">
+        <header className="header-container">
+          <b>User</b>
+        </header>
+        <ProfileToolbar />
+    </div>
     </div>
   );
 }
