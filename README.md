@@ -56,7 +56,7 @@ Installing Prettier:
 11. Retrieve latest from main again (in case you don't have the lastest version) `git pull origin main`
 12. If there is modifications, fix and then merge `git merge TESTBRANCH`
 13. Push all changes to repo `git push origin main`
-    
+
 ## React icons
 
 **Link:** https://react-icons.github.io/react-icons/

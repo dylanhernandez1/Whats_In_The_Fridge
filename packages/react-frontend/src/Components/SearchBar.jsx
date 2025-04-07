@@ -106,7 +106,8 @@ function SearchBar({ foodList, onTextSubmit }) {
         style={{
           border: "none",
           boxShadow: "none",
-          outline: "none"
+          outline: "none",
+          color: "grey"
         }}
       />
       <button onClick={FilterDropDown} style={{ border: 0 }}>

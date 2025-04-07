@@ -2,6 +2,7 @@
 .content-container-spaced {
   margin-left: 90px;
   margin-right: 10px;
+  background-color: #fcfafa;
 }
 
 /* Left section within the header */
@@ -25,7 +26,7 @@
   display: flex;
   align-items: center;
   justify-content: left;
-  background-color: rgb(247, 247, 247);
+  background-color: #f8f3f3;
   border-radius: 5px;
   overflow: hidden;
 }

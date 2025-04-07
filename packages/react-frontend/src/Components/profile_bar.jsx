@@ -2,12 +2,12 @@ import "./profile_bar.css";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
-    FaHome,
-    FaUser,
-    FaShoppingCart,
-    FaUtensils,
-    FaBook
-  } from "react-icons/fa";
+  FaHome,
+  FaUser,
+  FaShoppingCart,
+  FaUtensils,
+  FaBook
+} from "react-icons/fa";
 
 // change
 function ProfileToolbar() {

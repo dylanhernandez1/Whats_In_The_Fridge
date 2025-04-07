@@ -1,6 +1,7 @@
 /* Default Sidebar Style (Desktop) */
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-stretch: semi-condensed;
 }
 
 .ingredient-list-container {
@@ -36,29 +37,28 @@ body {
   overflow-x: auto;
   gap: 8px;
   padding: 8px;
-  background-color: #f7f7f7;
   border-radius: 10px;
   scrollbar-width: none;
 }
 
 .ingredient-categories button {
   padding: 8px 16px;
-  border-radius: 9999px;
   border: none;
   margin: 0;
   cursor: pointer;
-  background-color: #e0e0e0;
+  background-color: #7a7878;
   transition: background-color 0.3s ease;
   white-space: nowrap;
+  font-stretch: semi-condensed;
 }
 
 .ingredient-categories button.active {
-  background-color: #3b82f6;
+  background-color: #64b8d7;
   color: white;
 }
 
 .ingredient-categories button:hover {
-  background-color: #d4d4d4;
+  background-color: #64b8e9;
   border: 0;
 }
 

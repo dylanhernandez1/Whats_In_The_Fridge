@@ -18,13 +18,13 @@ function Profile() {
   //Full table
   return (
     <div className="app-container">
-      <Toolbar/>
+      <Toolbar />
       <div className="content-container-spaced">
         <header className="header-container">
           <b>User</b>
         </header>
         <ProfileToolbar />
-    </div>
+      </div>
     </div>
   );
 }

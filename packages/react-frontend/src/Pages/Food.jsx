@@ -87,42 +87,54 @@ function Food() {
       <h2 className="title">Add Food</h2>
 
       {/* Food Name Input */}
-      <label>Food Name:</label>
+      <label>FOOD NAME:</label>
       <input
         type="text"
         value={foodName}
         onChange={(e) => setFoodName(e.target.value)}
       />
 
-      <label>Type:</label>
+      <label>TYPE:</label>
       <select
+        style={{
+          fontStretch: "ultra-condensed",
+          color: "grey"
+        }}
         value={foodType}
         onChange={(e) => setFoodType(e.target.value)}
       >
-        <option value="Fruit">Fruit</option>
-        <option value="Vegetable">Vegetable</option>
-        <option value="Protein">Protein</option>
-        <option value="Dairy">Dairy</option>
-        <option value="Grains">Grains</option>
-        <option value="Oils">Fats & Oils</option>
-        <option value="Sweets">Sugars & Sweets</option>
-        <option value="Drinks">Drinks</option>
+        <option value="Fruit">FRUIT</option>
+        <option value="Vegetable">VEGETABLE</option>
+        <option value="Protein">PROTEIN</option>
+        <option value="Dairy">DAIRY</option>
+        <option value="Grains">GRAINS</option>
+        <option value="Oils">FATS & OILS</option>
+        <option value="Sweets">SUGARS & SWEETS</option>
+        <option value="Drinks">DRINKS</option>
       </select>
 
       {/* Location Dropdown */}
-      <label>Location:</label>
+      <label>LOCATION:</label>
       <select
         value={location}
+        style={{
+          fontStretch: "ultra-condensed",
+          color: "grey"
+        }}
         onChange={(e) => setLocation(e.target.value)}
       >
-        <option value="Fridge">Fridge</option>
-        <option value="Pantry">Pantry</option>
-        <option value="Freezer">Freezer</option>
+        <option value="Fridge">FRIDGE</option>
+        <option value="Pantry">FREEZER</option>
+        <option value="Freezer">PANTRY</option>
       </select>
 
       {/* Quantity Input */}
-      <label>Quantity:</label>
+      <label>QUANTITY:</label>
       <input
+        style={{
+          fontStretch: "ultra-condensed",
+          color: "grey"
+        }}
         type="number"
         value={quantity}
         onChange={(e) => setQuantity(e.target.value)}
@@ -130,36 +142,52 @@ function Food() {
       />
 
       {/* Expiration Date */}
-      <label>Expiration Date:</label>
+      <label>EXPIRATION DATE:</label>
       <div className="expiration-container">
         <input
           type="number"
-          placeholder="Day"
+          placeholder="DAY"
           value={day}
           onChange={(e) => setDay(e.target.value)}
           min="1"
           max="31"
+          style={{
+            fontStretch: "ultra-condensed",
+            color: "grey"
+          }}
         />
         <input
           type="number"
-          placeholder="Month"
+          placeholder="MONTH"
           value={month}
           onChange={(e) => setMonth(e.target.value)}
           min="1"
           max="12"
+          style={{
+            fontStretch: "ultra-condensed",
+            color: "grey"
+          }}
         />
         <input
           type="number"
-          placeholder="Year"
+          placeholder="YEAR"
           value={year}
           onChange={(e) => setYear(e.target.value)}
           min="2024"
+          style={{
+            fontStretch: "ultra-condensed",
+            color: "grey"
+          }}
         />
       </div>
 
       <button
         className="add-button"
         onClick={() => addFoodToDatabase()}
+        style={{
+          fontStretch: "ultra-condensed",
+          color: "black"
+        }}
       >
         {addButtonText}
       </button>

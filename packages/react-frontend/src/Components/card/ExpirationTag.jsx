@@ -5,8 +5,18 @@ const ExpirationTag = (props) => {
   /* determine the tag content */
   function determineTagContent(daysRemaining) {
     if (daysRemaining != undefined && daysRemaining > 0) {
-      const value = daysRemaining >= 365 ? Math.round(daysRemaining/365) : daysRemaining;
-      const units = daysRemaining >= 365 ? value > 1 ? "years" : "year" : daysRemaining > 1 ? "days" : "day";
+      const value =
+        daysRemaining >= 365
+          ? Math.round(daysRemaining / 365)
+          : daysRemaining;
+      const units =
+        daysRemaining >= 365
+          ? value > 1
+            ? "years"
+            : "year"
+          : daysRemaining > 1
+            ? "days"
+            : "day";
       return `${value} ${units}`;
     } else if (daysRemaining <= 0) {
       return "Expired";
@@ -35,9 +45,7 @@ const ExpirationTag = (props) => {
     <div
       className={`${props.daysRemaining > 100 ? "expiration-tag-small" : "expiration-tag"} ${tagColor}`}
     >
-      <b>
-        {tagContent}
-      </b>
+      <b>{tagContent}</b>
     </div>
   );
 };
