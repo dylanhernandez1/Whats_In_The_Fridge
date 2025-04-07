@@ -2,13 +2,9 @@ import React, { useState } from "react";
 import "./Header_Styling.css";
 import { FaBars } from "react-icons/fa";
 
-function Menu(props) {
+function Menu({ onMenuSwitch }) {
   let CurrentContainer;
   const [show, setShow] = useState(false);
-
-  function FilterDropDown() {
-    //Input sink
-  }
 
   function getFoodByContainer() {
     const promise = fetch("http://localhost:8000/food", {
@@ -18,6 +14,10 @@ function Menu(props) {
       }
     })
       .then((res) => {
+        if (onMenuSwitch) {
+          onMenuSwitch(CurrentContainer);
+        }
+
         return res.json();
       })
       .then((res) => {

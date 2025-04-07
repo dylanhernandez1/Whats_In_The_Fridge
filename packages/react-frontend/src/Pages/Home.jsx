@@ -13,6 +13,7 @@ function Home({}) {
   const [foodList, setFoodList] = useState([{}]);
   const [tempFoodList, setTempFoodList] = useState([{}]);
   const [searchText, setSearchText] = useState("");
+  const [menuText, setMenuText] = useState("");
 
   function getExpiringList() {
     const promise = fetch(`http://localhost:8000/expiring`, {
@@ -24,6 +25,8 @@ function Home({}) {
     return promise;
   }
 
+  //FOR SEARCHBAR
+
   useEffect(() => {
     const filteredFoods =
       searchText.trim() == ""
@@ -33,10 +36,7 @@ function Home({}) {
               searchText.toLowerCase()
             )
           );
-
     const updatedList = filteredFoods.map((food) => {
-      console.log(food, food.ExpirationDate);
-
       return food;
     });
     setTempFoodList(updatedList);
@@ -44,6 +44,22 @@ function Home({}) {
 
   const handleSearchText = (text) => {
     setSearchText(text);
+  };
+
+  //FOR MENU
+
+  useEffect(() => {
+    const filteredFoods = foodList.filter(
+      (food) => food.Location === menuText
+    );
+    const updatedList = filteredFoods.map((food) => {
+      return food;
+    });
+    setTempFoodList(updatedList);
+  }, [menuText]);
+
+  const handleMenuSwitch = (text) => {
+    setMenuText(text);
   };
 
   useEffect(() => {
@@ -84,7 +100,7 @@ function Home({}) {
       <Toolbar />
       <div className="content-container-spaced">
         <header className="header-container">
-          <Menu />
+          <Menu onMenuSwitch={handleMenuSwitch} />
           <b>What's In My Fridge?</b>
           <Notifications foodList={foodList} />
         </header>
