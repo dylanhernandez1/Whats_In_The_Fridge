@@ -56,36 +56,7 @@ Installing Prettier:
 11. Retrieve latest from main again (in case you don't have the lastest version) `git pull origin main`
 12. If there is modifications, fix and then merge `git merge TESTBRANCH`
 13. Push all changes to repo `git push origin main`
-
-## SPRINT 1 HELPER
-
-1. Toolbar.jsx is where you create the buttons.
-2. Create your page via Terminal `touch FORMNAME.jsx` and then modify it, you can use Profile.jsx as reference
-3. Routes.jsx is where you modify what paths redirect to what, import your file at the top of Routes.jsx. For example, `import Home from "./Home"` `import Profile from "./Profile"`
-4. In Routes.jsx, if your path requires props, you must manually add the prop in MyApp.jsx in the `const allProps` section
-5. Use path `"/"` as a template if you are passing props
-
-## SPRINT 2 HELPER
-
-1. If your container is overlapping with the toolbar, the toolbar is 80px wide so have margin-left: 80px;
-
-## SPRINT 3 HELPER
-
-1. For adding food
-   `function addFood() {
-  const promise = fetch("http://localhost:8000/food", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      name: text
-      amount, type, expiration, etc...
-    })
-  });
-  return promise;
-}`
-
+    
 ## React icons
 
 **Link:** https://react-icons.github.io/react-icons/
