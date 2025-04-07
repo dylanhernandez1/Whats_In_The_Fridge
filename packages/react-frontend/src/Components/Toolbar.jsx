@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import "./Toolbar_styling.css";
 
+// main toolbar
 function Toolbar() {
   const navigate = useNavigate();
 

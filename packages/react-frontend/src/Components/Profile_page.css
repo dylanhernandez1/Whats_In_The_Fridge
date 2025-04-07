@@ -1,0 +1,42 @@
+/* Add extra margin to the left of the content container */
+.content-container-spaced {
+    margin-left: 90px;
+    margin-right: 10px;
+  }
+  
+  /* Left section within the header */
+  .left-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 60px;
+  }
+
+  /* Header container adjustments */
+.header-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    justify-content: space-between;
+  }
+
+  /* Mobile adjustments */
+@media (max-width: 600px) {
+    .content-container-spaced {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+
+    .header-container {
+        display: flex;
+        justify-content: left;
+        width: 100%;
+        margin-left: 10px;
+      }
+
+}
+  
