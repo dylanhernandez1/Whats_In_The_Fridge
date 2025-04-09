@@ -1,6 +1,6 @@
 /* Default Sidebar Style (Desktop) */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: '.SF Compact Rounded';
   font-stretch: semi-condensed;
 }
 
@@ -37,7 +37,6 @@ body {
   overflow-x: auto;
   gap: 8px;
   padding: 8px;
-  border-radius: 10px;
   scrollbar-width: none;
 }
 
@@ -47,9 +46,10 @@ body {
   margin: 0;
   cursor: pointer;
   background-color: #7a7878;
+  border-radius: 0px;
   transition: background-color 0.3s ease;
   white-space: nowrap;
-  font-stretch: semi-condensed;
+
 }
 
 .ingredient-categories button.active {
