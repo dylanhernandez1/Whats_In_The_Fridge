@@ -84,7 +84,7 @@ body {
     flex-direction: row;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow-x: auto; /* Enable horizontal scroll */
-    width: 75%; /* Fill full screen width */
+    width: fit-content; /* Fill full screen width */
     padding: 8px 12px;
     box-sizing: border-box;
     border-left: 2px solid #ccc;

@@ -32,23 +32,13 @@ function ProfileToolbar() {
   return (
     <div className="profileToolbar">
       <button onClick={navToAccountDetails}>
-        <span className="profile-button-text">Home</span>
+        <span className="profile-button-text">User</span>
       </button>
       <button onClick={navToHouseholds}>
-        <span className="profile-button-text">Food</span>
+        <span className="profile-button-text">Houses</span>
       </button>
       <button onClick={navToSettings}>
-        <span className="profile-button-text">Groceries</span>
-      </button>
-      <button>
-        <span className="profile-button-text">
-          Whatever, not sure yet
-        </span>
-      </button>
-      <button>
-        <span className="profile-button-text">
-          Other Settings
-        </span>
+        <span className="profile-button-text">Other Settings</span>
       </button>
     </div>
   );
