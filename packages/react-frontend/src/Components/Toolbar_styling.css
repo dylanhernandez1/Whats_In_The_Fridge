@@ -49,7 +49,11 @@ body {
 }
 
 .toolbar button:hover .icon {
-  color: #555; /* Darker icon on hover */
+  color: #64b8e9; /* Darker icon on hover */
+}
+
+.toolbar button:hover .button-text {
+  color: #64b8e9;
 }
 
 /* Button text */

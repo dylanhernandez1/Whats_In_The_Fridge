@@ -32,16 +32,23 @@ function ProfileToolbar() {
   return (
     <div className="profileToolbar">
       <button onClick={navToAccountDetails}>
-        <FaHome className="icon" />
-        <span className="button-text">Home</span>
+        <span className="profile-button-text">Home</span>
       </button>
       <button onClick={navToHouseholds}>
-        <FaUtensils className="icon" />
-        <span className="button-text">Food</span>
+        <span className="profile-button-text">Food</span>
       </button>
       <button onClick={navToSettings}>
-        <FaShoppingCart className="icon" />
-        <span className="button-text">Groceries</span>
+        <span className="profile-button-text">Groceries</span>
+      </button>
+      <button>
+        <span className="profile-button-text">
+          Whatever, not sure yet
+        </span>
+      </button>
+      <button>
+        <span className="profile-button-text">
+          Other Settings
+        </span>
       </button>
     </div>
   );
