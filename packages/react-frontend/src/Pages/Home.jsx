@@ -97,7 +97,7 @@ function Home({}) {
   //Full table
   return (
     <div className="app-container">
-      <Toolbar />
+      <Toolbar selected="Home" />
       <div className="content-container-spaced">
         <header className="header-container">
           <Menu onMenuSwitch={handleMenuSwitch} />

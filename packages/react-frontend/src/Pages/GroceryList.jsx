@@ -4,7 +4,7 @@ import Toolbar from "../Components/Toolbar";
 function GroceryList() {
   return (
     <div className="container">
-      <Toolbar />
+      <Toolbar selected="Groceries" />
 
       <label htmlFor="name">My Groceries</label>
     </div>

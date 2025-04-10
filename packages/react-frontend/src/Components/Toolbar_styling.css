@@ -64,6 +64,21 @@ body {
   transition: color 0.3s ease-in-out;
 }
 
+/* Selected button style */
+.toolbar button.selected {
+  background-color: #64b8e9;
+  border: 0;
+}
+
+.toolbar button.selected .icon {
+  color: white;
+}
+
+.toolbar button.selected .button-text {
+  color: white;
+}
+
+
 @media (max-width: 600px) {
   .toolbar {
     flex-direction: row; /* Arrange buttons in a row */
