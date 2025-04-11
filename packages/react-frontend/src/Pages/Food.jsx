@@ -28,7 +28,6 @@ function Food() {
   const currentMonth = String(today.getMonth);
   const currentYear = String(today.getFullYear);
 
-
   //state to store input values
   const [foodName, setFoodName] = useState("");
   const [foodType, setFoodType] = useState("Fruit");
@@ -47,11 +46,13 @@ function Food() {
 
   function addFoodToDatabase() {
     setButtonText("Adding...");
-    const toDate = new Date(`${year}-${month}-${day}`);
+    let toDate = new Date(`${year}-${month}-${day}`);
     console.log(toDate);
 
     if (toDate === null) {
-      toDate = new Date(`${year}-${month}-${day}`);
+      toDate = new Date(
+        `${currentYear}-${currentMonth}-${currentDay}`
+      );
     }
 
     const promise = fetch("http://localhost:8000/food", {

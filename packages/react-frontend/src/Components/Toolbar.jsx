@@ -11,7 +11,7 @@ import {
 import "./Toolbar_styling.css";
 
 // main toolbar
-function Toolbar( {selected} ) {
+function Toolbar({ selected }) {
   const navigate = useNavigate();
 
   function navToProfile() {

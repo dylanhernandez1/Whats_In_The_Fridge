@@ -1,6 +1,6 @@
 /* Default Sidebar Style (Desktop) */
 body {
-  font-family: '.SF Compact Rounded';
+  font-family: ".SF Compact Rounded";
   font-stretch: semi-condensed;
 }
 
@@ -49,7 +49,6 @@ body {
   border-radius: 0px;
   transition: background-color 0.3s ease;
   white-space: nowrap;
-
 }
 
 .ingredient-categories button.active {

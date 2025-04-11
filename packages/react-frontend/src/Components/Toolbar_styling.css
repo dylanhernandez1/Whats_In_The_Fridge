@@ -78,7 +78,6 @@ body {
   color: white;
 }
 
-
 @media (max-width: 600px) {
   .toolbar {
     flex-direction: row; /* Arrange buttons in a row */
