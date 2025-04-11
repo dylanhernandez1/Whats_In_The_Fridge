@@ -11,7 +11,7 @@ import {
 import "./Toolbar_styling.css";
 
 // main toolbar
-function Toolbar() {
+function Toolbar( {selected} ) {
   const navigate = useNavigate();
 
   function navToProfile() {
@@ -36,23 +36,38 @@ function Toolbar() {
   //Full table
   return (
     <div className="toolbar">
-      <button onClick={navToHome}>
+      <button
+        onClick={() => navigate("/")}
+        className={selected === "Home" ? "selected" : ""}
+      >
         <FaHome className="icon" />
         <span className="button-text">Home</span>
       </button>
-      <button onClick={navToFood}>
+      <button
+        onClick={() => navigate("/food")}
+        className={selected === "Food" ? "selected" : ""}
+      >
         <FaUtensils className="icon" />
         <span className="button-text">Food</span>
       </button>
-      <button onClick={navToGroceryList}>
+      <button
+        onClick={() => navigate("/grocery-list")}
+        className={selected === "Groceries" ? "selected" : ""}
+      >
         <FaShoppingCart className="icon" />
         <span className="button-text">Groceries</span>
       </button>
-      <button onClick={navToRecipeSuggester}>
+      <button
+        onClick={() => navigate("/recipe-suggester")}
+        className={selected === "Recipes" ? "selected" : ""}
+      >
         <FaBook className="icon" />
         <span className="button-text">Recipes</span>
       </button>
-      <button onClick={navToProfile}>
+      <button
+        onClick={() => navigate("/profile")}
+        className={selected === "Profile" ? "selected" : ""}
+      >
         <FaUser className="icon" />
         <span className="button-text">Profile</span>
       </button>

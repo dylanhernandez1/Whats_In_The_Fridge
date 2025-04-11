@@ -12,109 +12,98 @@ body {
   width: fit-content;
   background-color: #f9f9f9;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-  overflow-x: auto; /* Enable horizontal scroll */
+  overflow-x: auto;
   margin: 0 auto;
   position: relative;
-  height: 80px; /* Set a consistent height for the toolbar */
+  height: 80px;
+  font-family: Arial, sans-serif;
 }
 
-.profileToolbar button {
-  display: block;
-  margin: 6px 0;
-  text-decoration: none;
-  color: #333;
-  font-size: 16px;
-  transition: color 0.2s ease;
-}
-
-.profileToolbar button:hover {
-  color: #0077cc;
-  cursor: pointer;
-  border: 0;
-}
-
-/* Button styles */
-.profileToolbar button {
+/* Shared button styling */
+.toolbar-button {
   display: flex;
   background: none;
   border: none;
   cursor: pointer;
   padding: 1rem;
-  width: 100%; /* Makes buttons full width in sidebar */
+  width: 100%;
   text-align: center;
-  flex-direction: column; /* Stack icon and text */
+  flex-direction: column;
   align-items: center;
   transition: background-color 0.3s ease-in-out;
-  white-space: nowrap; /* Prevent text from wrapping */
+  white-space: nowrap;
+  font-size: 16px;
+  color: #333;
 }
 
-/* Icon styles */
-.icon {
-  font-size: 24px; /* Adjust icon size */
-  color: #2e302b;
-  transition: color 0.3s ease-in-out;
+.toolbar-button:hover {
+  background-color: #f0f0f0;
+  border: 0;
 }
 
-/* Hover effect */
-.profileToolbar button:hover {
-  background-color: #f0f0f0; /* Light gray background */
-}
-
-.profileToolbar button:hover .icon {
-  color: #555; /* Darker icon on hover */
-}
-
-.profileToolbar button:hover .profile-button-text {
-  color: #64b8e9;
-}
-
-/* Button text */
-.profile-button-text {
+.toolbar-button .profile-button-text {
   font-size: 12px;
   margin-top: 5px;
   color: #2e302b;
   transition: color 0.3s ease-in-out;
-  display: inline;
 }
 
+.toolbar-button:hover .profile-button-text {
+  color: #64b8e9;
+}
+
+/* Selected state */
+.toolbar-button.selected {
+  background-color: #64b8e9;
+  color: white;
+  font-weight: bold;
+  border: 0;
+}
+
+.toolbar-button.selected .profile-button-text {
+  color: white;
+}
+
+/* Optional icon style if used */
+.icon {
+  font-size: 24px;
+  color: #2e302b;
+  transition: color 0.3s ease-in-out;
+}
+
+.toolbar-button:hover .icon {
+  color: #555;
+}
+
+/* Mobile styles */
 @media (max-width: 600px) {
   .profileToolbar {
-    display: flex;
     flex-direction: row;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    overflow-x: auto; /* Enable horizontal scroll */
-    width: fit-content; /* Fill full screen width */
+    overflow-x: auto;
+    width: fit-content;
     padding: 8px 12px;
     box-sizing: border-box;
     border-left: 2px solid #ccc;
     border-right: 2px solid #ccc;
-    justify-content: flex-start; /* Align buttons to start */
-    scrollbar-width: thin; /* Optional: nicer scrollbar */
-
+    justify-content: flex-start;
+    scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
   }
 
-  .profileToolbar button {
-    flex: 0 0 auto; /* Prevent shrinking */
-    width: auto; /* Let buttons size to content */
+  .toolbar-button {
+    flex: 0 0 auto;
+    width: auto;
     padding: 0.75rem 1rem;
     margin: 0 4px;
     font-size: 14px;
     border-radius: 6px;
   }
 
-  .profileToolbar button:hover {
-    background-color: #f0f0f0;
-  }
-
-  /* Hide scrollbar */
   .profileToolbar::-webkit-scrollbar {
-    display: none; /* Hide scrollbar in webkit browsers */
+    display: none;
   }
 
   .profileToolbar {
-    -ms-overflow-style: none; /* Hide scrollbar in IE */
-    scrollbar-width: none; /* Hide scrollbar in Firefox */
+    -ms-overflow-style: none;
   }
 }

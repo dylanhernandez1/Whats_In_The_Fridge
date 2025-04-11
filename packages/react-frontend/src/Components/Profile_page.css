@@ -24,6 +24,10 @@
   justify-content: space-between;
 }
 
+.profile-content {
+  /* to do */
+}
+
 /* Mobile adjustments */
 @media (max-width: 600px) {
   .content-container-spaced {

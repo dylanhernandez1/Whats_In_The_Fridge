@@ -86,7 +86,7 @@ function Food() {
 
   return (
     <div className="food-container">
-      <Toolbar />
+      <Toolbar selected="Food" />
 
       {/* Back Button */}
       <button onClick={handleBack} className="back-button">

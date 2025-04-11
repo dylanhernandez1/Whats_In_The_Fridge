@@ -4,7 +4,7 @@ import Toolbar from "../Components/Toolbar.jsx";
 function RecipeSuggester() {
   return (
     <div className="container">
-      <Toolbar />
+      <Toolbar selected="Recipes" />
 
       <label htmlFor="name">Recipe Suggester</label>
     </div>

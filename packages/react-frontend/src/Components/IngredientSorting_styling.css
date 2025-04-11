@@ -55,6 +55,7 @@ body {
 .ingredient-categories button.active {
   background-color: #64b8d7;
   color: white;
+  border: 0;
 }
 
 .ingredient-categories button:hover {
