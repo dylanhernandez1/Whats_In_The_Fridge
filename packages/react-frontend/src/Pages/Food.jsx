@@ -22,6 +22,12 @@ import "./Food_Styling.css";
 
 function Food() {
   const navigate = useNavigate();
+  const today = new Date();
+
+  const currentDay = String(today.getDay);
+  const currentMonth = String(today.getMonth);
+  const currentYear = String(today.getFullYear);
+
 
   //state to store input values
   const [foodName, setFoodName] = useState("");
@@ -43,6 +49,10 @@ function Food() {
     setButtonText("Adding...");
     const toDate = new Date(`${year}-${month}-${day}`);
     console.log(toDate);
+
+    if (toDate === null) {
+      toDate = new Date(`${year}-${month}-${day}`);
+    }
 
     const promise = fetch("http://localhost:8000/food", {
       method: "POST",
@@ -146,7 +156,7 @@ function Food() {
       <div className="expiration-container">
         <input
           type="number"
-          placeholder="DAY"
+          placeholder={"Day: " + today.getDate()}
           value={day}
           onChange={(e) => setDay(e.target.value)}
           min="1"
@@ -158,7 +168,7 @@ function Food() {
         />
         <input
           type="number"
-          placeholder="MONTH"
+          placeholder={"Month: " + today.getMonth()}
           value={month}
           onChange={(e) => setMonth(e.target.value)}
           min="1"
@@ -170,7 +180,7 @@ function Food() {
         />
         <input
           type="number"
-          placeholder="YEAR"
+          placeholder={"Year: " + today.getFullYear()}
           value={year}
           onChange={(e) => setYear(e.target.value)}
           min="2024"
