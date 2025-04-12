@@ -1,17 +1,18 @@
 .expiration-tag {
   display: flex;
-  width: 70px;
+  width: 80px;
   height: 25px;
   border-radius: 5px;
   color: white;
   align-items: center;
   justify-content: center;
+  font-size: 13px;
   font-weight: 600;
 }
 
 .expiration-tag-small {
   display: flex;
-  width: 70px;
+  width: 80px;
   height: 25px;
   border-radius: 5px;
   color: white;
