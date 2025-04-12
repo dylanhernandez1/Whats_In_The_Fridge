@@ -74,6 +74,11 @@ function Food() {
           setTimeout(() => {
             setButtonText("Add");
           }, 1000);
+        } else {
+          setButtonText("Invalid date");
+          setTimeout(() => {
+            setButtonText("Add");
+          }, 2000);
         }
       })
       .catch((error) => {
@@ -119,8 +124,8 @@ function Food() {
         <option value="Protein">PROTEIN</option>
         <option value="Dairy">DAIRY</option>
         <option value="Grains">GRAINS</option>
-        <option value="Oils">FATS & OILS</option>
-        <option value="Sweets">SUGARS & SWEETS</option>
+        <option value="Fats & Oils">FATS & OILS</option>
+        <option value="Sugars & Sweets">SUGARS & SWEETS</option>
         <option value="Drinks">DRINKS</option>
       </select>
 

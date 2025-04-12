@@ -67,7 +67,13 @@ app.post("/food", (req, res) => {
 
   const result = foodServices.addFood(foodToAdd);
   result
-    .then((result) => res.status(201).send(result))
+    .then((result) => {
+      if(result) {
+        res.status(201).send(result);
+      } else {
+        res.status(400).send("Invalid date");
+      }
+    })
     .catch((error) =>
       res.status(500).send(`Internal Server Error: ${error}`)
     );

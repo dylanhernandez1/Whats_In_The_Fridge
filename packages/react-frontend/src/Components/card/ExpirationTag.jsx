@@ -7,21 +7,23 @@ const ExpirationTag = (props) => {
     if (daysRemaining != undefined && daysRemaining > 0) {
       const value =
         daysRemaining >= 365
-          ? Math.round(daysRemaining / 365)
+          ? Math.round(daysRemaining / 365) > 99 
+            ? "99+"
+              : Math.round(daysRemaining / 365)
           : daysRemaining;
       const units =
         daysRemaining >= 365
-          ? value > 1
+          ? value > 1 || value === "99+"
             ? "years"
             : "year"
           : daysRemaining > 1
             ? "days"
             : "day";
       return `${value} ${units}`;
-    } else if (daysRemaining <= 0) {
+    } else if (daysRemaining != undefined && daysRemaining <= 0) {
       return "Expired";
     } else {
-      return "No date added";
+      return "No date";
     }
   }
 
