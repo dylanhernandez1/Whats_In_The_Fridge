@@ -3,38 +3,53 @@ import mongoose from "mongoose";
 import FoodSchema from "../food-item.js";
 
 let mockFind;
-
-// Create a mock model object
-const mockModel = {
-  find: jest.fn()
-};
-
-// Create a mock connection that returns the mock model
-const mockConnection = {
-  model: jest.fn(() => mockModel)
-};
+let mockSave;
+let mockModel;
+let mockConnection;
 
 beforeEach(() => {
   jest.clearAllMocks();
 
+  // Set up mock functions
+  mockFind = jest.fn();
+  mockSave = jest.fn();
+
+  // Create a mock model object for static methods like .find
+  mockModel = function () {
+    return { save: mockSave };
+  };
+  mockModel.find = mockFind;
+
+  // Create a mock connection that returns the mock model
+  mockConnection = {
+    model: jest.fn(() => mockModel)
+  };
+
   // Inject the mock connection into the service
   foodServices.setConnection(mockConnection);
-
-  // Reset mockFind
-  mockFind = mockModel.find;
 });
 
 test("fetching all food", async () => {
-  // Arrange mock return value
   mockFind.mockResolvedValue([{ FoodName: "Orange" }]);
 
-  // Act
   const foodItems = await foodServices.getFood();
 
-  // Assert
   expect(foodItems).toBeDefined();
   expect(foodItems.length).toBe(1);
   expect(foodItems[0].FoodName).toBe("Orange");
-
   expect(mockFind).toHaveBeenCalledTimes(1);
+});
+
+test("adding food with ExpirationDate", async () => {
+  const newFood = {
+    FoodName: "Banana",
+    ExpirationDate: "2025-05-01"
+  };
+
+  mockSave.mockResolvedValue(newFood);
+
+  const result = await foodServices.addFood(newFood);
+
+  expect(result).toEqual(newFood);
+  expect(mockSave).toHaveBeenCalledTimes(1);
 });
