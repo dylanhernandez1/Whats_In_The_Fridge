@@ -21,14 +21,37 @@ function Profile() {
   function renderContent() {
     switch (selectedSection) {
       case "User":
-        return <div>This is the User section.</div>;
+        return (
+          <div className="profile-content">
+            <p><strong>Name:</strong> John Doe</p>
+            <p><strong>Email:</strong> john.doe@example.com</p>
+            <p><strong>Address:</strong> 1234 Main St, Springfield, USA</p>
+            <p><strong>Phone:</strong> (555) 123-4567</p>
+            <p><strong>Birthday:</strong> January 1, 1990</p>
+          </div>
+        );
       case "Houses":
-        return <div>This is the Houses section.</div>;
+        return (
+          <div className="profile-content">
+            <p><strong>House 1:</strong> 12 Cherry Lane, San Diego, CA</p>
+            <p><strong>House 2:</strong> 98 Ocean View Rd, Monterey, CA</p>
+            <p><strong>House 3:</strong> 300 Pine St, Portland, OR</p>
+          </div>
+        );
       case "Other Settings":
-        return <div>This is the Other Settings section.</div>;
+        return (
+          <div className="profile-content">
+            <p><strong>Notifications:</strong> Enabled</p>
+            <p><strong>Language:</strong> English (US)</p>
+            <p><strong>Theme:</strong> Light</p>
+            <p><strong>Account Status:</strong> Active</p>
+          </div>
+        );
       default:
         return (
-          <div>Select an option from the profile toolbar.</div>
+          <div className="profile-content">
+            <p>Select an option from the profile toolbar.</p>
+          </div>
         );
     }
   }
@@ -45,7 +68,7 @@ function Profile() {
           onSelectSection={setSelectedSection}
           selectedSection={selectedSection}
         />
-        <div classname="profile-content">{renderContent()}</div>
+        <div className="profile-content">{renderContent()}</div>
       </div>
     </div>
   );
