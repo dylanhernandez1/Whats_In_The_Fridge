@@ -23,6 +23,19 @@ function Profile() {
       case "User":
         return (
           <div className="profile-content">
+            <div className="user-header">
+            <img
+              src="https://media.istockphoto.com/id/1447126543/photo/father-bonding-kiss-and-boy-child-hug-happy-in-nature-with-quality-time-together-outdoor.jpg?s=612x612&w=0&k=20&c=iujHdzYFrmfLgVLKcAzu4y1-awTR2xRo5m-rD9w35wU=" // ADD IMG HERE**
+              alt="Profile"
+              className="profile-picture"
+            />
+            <div className="user-info">
+              <h2>John Doe</h2>
+              <p>Member for 6 months</p>
+            </div>
+          </div>
+          {/* User details table/list below the header */}
+          <div className="user-details"></div>
             <p><strong>Name:</strong> John Doe</p>
             <p><strong>Email:</strong> john.doe@example.com</p>
             <p><strong>Address:</strong> 1234 Main St, Springfield, USA</p>
