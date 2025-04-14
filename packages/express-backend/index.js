@@ -68,7 +68,7 @@ app.post("/food", (req, res) => {
   const result = foodServices.addFood(foodToAdd);
   result
     .then((result) => {
-      if(result) {
+      if (result) {
         res.status(201).send(result);
       } else {
         res.status(400).send("Invalid date");

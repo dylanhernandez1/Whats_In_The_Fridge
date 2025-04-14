@@ -6,12 +6,12 @@ let mockFind;
 
 // Create a mock model object
 const mockModel = {
-  find: jest.fn(),
+  find: jest.fn()
 };
 
 // Create a mock connection that returns the mock model
 const mockConnection = {
-  model: jest.fn(() => mockModel),
+  model: jest.fn(() => mockModel)
 };
 
 beforeEach(() => {

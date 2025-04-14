@@ -41,12 +41,12 @@ async function findFoodByName(name) {
 async function addFood(food) {
   const foodModel = getDbConnection().model("Food", FoodSchema);
   try {
-    if(food.ExpirationDate != undefined) {
+    if (food.ExpirationDate != undefined) {
       const foodToAdd = new foodModel(food);
       const savedFood = await foodToAdd.save();
       return savedFood;
     } else {
-        return false
+      return false;
     }
   } catch (error) {
     //IGNORE FOR STATEMENT COVERAGE, THIS SHOULD NOT BE REACHED
@@ -54,7 +54,7 @@ async function addFood(food) {
     // istanbul ignore next
     console.log(error);
     // istanbul ignore next
-    return false
+    return false;
   }
 }
 
