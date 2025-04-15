@@ -57,16 +57,18 @@ test("adding user", async () => {
 });
 
 test("finding user by name", async () => {
-  mockFind.mockResolvedValue([{
-    name: "John Doe",
-    job: "Unemployed",
-    email: "desperatelyneedjob@example.com"
-  },
-  {
-    name: "jajaja",
-    job: "Unemployed",
-    email: "desperatelyneedjob@example.com"
-  }]);
+  mockFind.mockResolvedValue([
+    {
+      name: "John Doe",
+      job: "Unemployed",
+      email: "desperatelyneedjob@example.com"
+    },
+    {
+      name: "jajaja",
+      job: "Unemployed",
+      email: "desperatelyneedjob@example.com"
+    }
+  ]);
 
   const user = {
     name: "John Doe",
@@ -78,20 +80,21 @@ test("finding user by name", async () => {
 
   expect(result[0]).toEqual(user);
   expect(mockFind).toHaveBeenCalledTimes(1);
-})
-
+});
 
 test("finding user by job", async () => {
-  mockFind.mockResolvedValue([{
-    name: "John Doe",
-    job: "Unemployed",
-    email: "desperatelyneedjob@example.com"
-  },
-  {
-    name: "jajaja",
-    job: "Software Engineer",
-    email: "ihaveajob@example.com"
-  }]);
+  mockFind.mockResolvedValue([
+    {
+      name: "John Doe",
+      job: "Unemployed",
+      email: "desperatelyneedjob@example.com"
+    },
+    {
+      name: "jajaja",
+      job: "Software Engineer",
+      email: "ihaveajob@example.com"
+    }
+  ]);
 
   const user = {
     name: "John Doe",
@@ -103,4 +106,18 @@ test("finding user by job", async () => {
 
   expect(result[0]).toEqual(user);
   expect(mockFind).toHaveBeenCalledTimes(1);
-})
+});
+
+test("invalid name", async () => {
+  const newUser = {
+    job: "Software Engineer",
+    email: "jdoe@example.com"
+  };
+
+  mockSave.mockResolvedValue(newUser);
+
+  const result = await userServices.addUser(newUser);
+
+  expect(result).toBe(false);
+  expect(mockSave).toHaveBeenCalledTimes(0);
+});

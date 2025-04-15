@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1744761510990" clover="3.2.0">
+  <project timestamp="1744761510990" name="All files">
+    <metrics statements="62" coveredstatements="62" conditionals="28" coveredconditionals="28" methods="18" coveredmethods="18" elements="108" coveredelements="108" complexity="0" loc="62" ncloc="62" packages="1" files="4" classes="4"/>
+    <file name="food-item.js" path="/Users/tofu/whats_in_the_fridge/packages/express-backend/food-item.js">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <line num="3" count="2" type="stmt"/>
+    </file>
+    <file name="food-services.js" path="/Users/tofu/whats_in_the_fridge/packages/express-backend/food-services.js">
+      <metrics statements="22" coveredstatements="22" conditionals="8" coveredconditionals="8" methods="8" coveredmethods="8"/>
+      <line num="4" count="2" type="stmt"/>
+      <line num="9" count="13" type="stmt"/>
+      <line num="10" count="13" type="stmt"/>
+      <line num="25" count="18" type="stmt"/>
+      <line num="30" count="1" type="stmt"/>
+      <line num="31" count="1" type="stmt"/>
+      <line num="37" count="4" type="stmt"/>
+      <line num="38" count="4" type="stmt"/>
+      <line num="42" count="4" type="stmt"/>
+      <line num="44" count="10" type="stmt"/>
+      <line num="48" count="8" type="stmt"/>
+      <line num="49" count="8" type="stmt"/>
+      <line num="50" count="8" type="cond" truecount="2" falsecount="0"/>
+      <line num="56" count="3" type="stmt"/>
+      <line num="57" count="3" type="stmt"/>
+      <line num="58" count="3" type="stmt"/>
+      <line num="60" count="5" type="stmt"/>
+      <line num="73" count="5" type="stmt"/>
+      <line num="76" count="5" type="cond" truecount="2" falsecount="0"/>
+      <line num="77" count="3" type="stmt"/>
+      <line num="79" count="2" type="stmt"/>
+      <line num="81" count="5" type="stmt"/>
+    </file>
+    <file name="user-services.js" path="/Users/tofu/whats_in_the_fridge/packages/express-backend/user-services.js">
+      <metrics statements="37" coveredstatements="37" conditionals="20" coveredconditionals="20" methods="9" coveredmethods="9"/>
+      <line num="4" count="2" type="stmt"/>
+      <line num="9" count="6" type="stmt"/>
+      <line num="10" count="6" type="stmt"/>
+      <line num="25" count="27" type="stmt"/>
+      <line num="29" count="5" type="stmt"/>
+      <line num="32" count="5" type="cond" truecount="4" falsecount="0"/>
+      <line num="33" count="2" type="stmt"/>
+      <line num="34" count="3" type="cond" truecount="4" falsecount="0"/>
+      <line num="35" count="1" type="stmt"/>
+      <line num="36" count="2" type="cond" truecount="4" falsecount="0"/>
+      <line num="37" count="1" type="stmt"/>
+      <line num="39" count="1" type="stmt"/>
+      <line num="41" count="5" type="stmt"/>
+      <line num="45" count="2" type="stmt"/>
+      <line num="46" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="47" count="1" type="stmt"/>
+      <line num="49" count="1" type="stmt"/>
+      <line num="50" count="1" type="stmt"/>
+      <line num="62" count="11" type="stmt"/>
+      <line num="63" count="11" type="cond" truecount="4" falsecount="0"/>
+      <line num="64" count="2" type="stmt"/>
+      <line num="66" count="9" type="stmt"/>
+      <line num="67" count="9" type="stmt"/>
+      <line num="68" count="9" type="stmt"/>
+      <line num="69" count="9" type="stmt"/>
+      <line num="81" count="2" type="stmt"/>
+      <line num="82" count="2" type="stmt"/>
+      <line num="86" count="2" type="stmt"/>
+      <line num="87" count="2" type="stmt"/>
+      <line num="91" count="1" type="stmt"/>
+      <line num="92" count="1" type="stmt"/>
+      <line num="96" count="4" type="stmt"/>
+      <line num="97" count="4" type="cond" truecount="2" falsecount="0"/>
+      <line num="98" count="1" type="stmt"/>
+      <line num="100" count="3" type="stmt"/>
+      <line num="101" count="3" type="stmt"/>
+      <line num="102" count="3" type="stmt"/>
+    </file>
+    <file name="user.js" path="/Users/tofu/whats_in_the_fridge/packages/express-backend/user.js">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <line num="3" count="2" type="stmt"/>
+      <line num="23" count="68" type="stmt"/>
+    </file>
+  </project>
+</coverage>

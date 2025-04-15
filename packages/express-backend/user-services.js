@@ -60,8 +60,8 @@ async function findUserById(id) {
 
 async function addUser(user) {
   const userModel = getDbConnection().model("User", UserSchema);
-  if (!user.email) {
-    throw new Error("Email is required.");
+  if (!user.email || !user.name) {
+    return false;
   }
   try {
     const userToAdd = new userModel(user);
