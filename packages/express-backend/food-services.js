@@ -38,10 +38,21 @@ async function findFoodByName(name) {
   return await foodModel.find({ FoodName: name });
 }
 
+function CheckFoodLocationValid(str) {
+  const list = ["Fridge", "Freezer", "Pantry"];
+
+  return list.some((item) => str === item);
+}
+
 async function addFood(food) {
   const foodModel = getDbConnection().model("Food", FoodSchema);
   try {
-    if (food.ExpirationDate != undefined) {
+    if (
+      food.ExpirationDate != undefined &&
+      food.FoodName != undefined &&
+      food.Amount > 0 &&
+      CheckFoodLocationValid(food.Location)
+    ) {
       const foodToAdd = new foodModel(food);
       const savedFood = await foodToAdd.save();
       return savedFood;

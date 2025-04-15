@@ -30,7 +30,7 @@ beforeEach(() => {
 });
 
 test("fetching all users", async () => {
-  mockFind.mockResolvedValue([{ name : "John Doe" }]);
+  mockFind.mockResolvedValue([{ name: "John Doe" }]);
 
   const users = await userServices.getUsers();
 
