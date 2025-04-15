@@ -1,6 +1,7 @@
 import userServices from "../user-services.js";
 import mongoose from "mongoose";
 import UserSchema from "../user.js";
+import { useRevalidator } from "react-router";
 
 let mockFind;
 let mockSave;
@@ -54,3 +55,52 @@ test("adding user", async () => {
   expect(result).toEqual(newUser);
   expect(mockSave).toHaveBeenCalledTimes(1);
 });
+
+test("finding user by name", async () => {
+  mockFind.mockResolvedValue([{
+    name: "John Doe",
+    job: "Unemployed",
+    email: "desperatelyneedjob@example.com"
+  },
+  {
+    name: "jajaja",
+    job: "Unemployed",
+    email: "desperatelyneedjob@example.com"
+  }]);
+
+  const user = {
+    name: "John Doe",
+    job: "Unemployed",
+    email: "desperatelyneedjob@example.com"
+  };
+
+  const result = await userServices.findUserByName("John Doe");
+
+  expect(result[0]).toEqual(user);
+  expect(mockFind).toHaveBeenCalledTimes(1);
+})
+
+
+test("finding user by job", async () => {
+  mockFind.mockResolvedValue([{
+    name: "John Doe",
+    job: "Unemployed",
+    email: "desperatelyneedjob@example.com"
+  },
+  {
+    name: "jajaja",
+    job: "Software Engineer",
+    email: "ihaveajob@example.com"
+  }]);
+
+  const user = {
+    name: "John Doe",
+    job: "Unemployed",
+    email: "desperatelyneedjob@example.com"
+  };
+
+  const result = await userServices.findUserByJob("Unemployed");
+
+  expect(result[0]).toEqual(user);
+  expect(mockFind).toHaveBeenCalledTimes(1);
+})
