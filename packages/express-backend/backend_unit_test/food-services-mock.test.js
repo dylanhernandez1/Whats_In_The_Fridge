@@ -146,3 +146,20 @@ test("find invalid food", async () => {
   expect(result).toStrictEqual([{ newFood }]);
   expect(mockFind).toHaveBeenCalledTimes(1);
 });
+
+test("find food by expiration date", async () => {
+  const mockData = [
+    { FoodName: "Milk", ExpirationDate: "2025-04-15" },
+    { FoodName: "Cheese", ExpirationDate: "2025-04-20" },
+  ];
+
+  const mockSort = jest.fn().mockResolvedValue(mockData);
+  mockFind.mockReturnValue({ sort: mockSort });
+
+  const result = await foodServices.findFoodByExpiration();
+
+  expect(mockFind).toHaveBeenCalledWith({ ExpirationDate: { $exists: true } });
+  expect(mockSort).toHaveBeenCalledWith({ ExpirationDate: 1 });
+  expect(result).toEqual(mockData);
+  expect(result[0].FoodName).toBe("Milk");
+});

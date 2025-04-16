@@ -106,41 +106,6 @@ test("Fetching users by name", async () => {
   expect(users[0].name).toBe(dummyUser.name);
 });
 
-test("Fetching users by job", async () => {
-  const dummyUser = {
-    name: "Dumbledore",
-    job: "Headmaster",
-    email: "dumbledore@example.com"
-  };
-  await userServices.addUser(dummyUser);
-
-  const users = await userServices.getUsers(
-    undefined,
-    "Headmaster"
-  );
-  expect(users).toBeDefined();
-  expect(users.length).toBeGreaterThan(0);
-  expect(users[0].job).toBe(dummyUser.job);
-});
-
-test("Fetching users by name and job", async () => {
-  const dummyUser = {
-    name: "Dumbledore",
-    job: "Headmaster",
-    email: "dumbledore@example.com"
-  };
-  await userServices.addUser(dummyUser);
-
-  const users = await userServices.getUsers(
-    "Dumbledore",
-    "Headmaster"
-  );
-  expect(users).toBeDefined();
-  expect(users.length).toBeGreaterThan(0);
-  expect(users[0].name).toBe(dummyUser.name);
-  expect(users[0].job).toBe(dummyUser.job);
-});
-
 test("Adding user -- successful path", async () => {
   const dummyUser = {
     name: "Gandalf",

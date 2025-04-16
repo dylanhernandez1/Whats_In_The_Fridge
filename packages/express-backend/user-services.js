@@ -33,10 +33,6 @@ async function getUsers(name, job) {
     result = await userModel.find();
   } else if (name && job === undefined) {
     result = await findUserByName(name);
-  } else if (job && name === undefined) {
-    result = await findUserByJob(job);
-  } else {
-    result = await findUserByNameAndJob(name, job);
   }
   return result;
 }
@@ -82,16 +78,6 @@ async function findUserByName(name) {
   return await userModel.find({ name: name });
 }
 
-async function findUserByJob(job) {
-  const userModel = getDbConnection().model("User", UserSchema);
-  return await userModel.find({ job: job });
-}
-
-async function findUserByNameAndJob(name, job) {
-  const userModel = getDbConnection().model("User", UserSchema);
-  return await userModel.find({ name: name, job: job });
-}
-
 async function deleteUserById(id) {
   const userModel = getDbConnection().model("User", UserSchema);
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -115,8 +101,6 @@ export default {
   getUsers,
   findUserById,
   findUserByName,
-  findUserByJob,
-  findUserByNameAndJob,
   deleteUserById,
   setConnection
 };
