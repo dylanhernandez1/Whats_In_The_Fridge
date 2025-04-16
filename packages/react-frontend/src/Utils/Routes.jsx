@@ -5,6 +5,7 @@ import GroceryList from "../Pages/GroceryList.jsx";
 import RecipeSuggester from "../Pages/RecipeSuggester.jsx";
 import Food from "../Pages/Food.jsx";
 import Login from "../Pages/Login.jsx";
+import CreateAccount from "../Pages/CreateAccount.jsx";
 
 export const routes = [
   {
@@ -28,5 +29,9 @@ export const routes = [
   {
     path: "/login",
     element: (props) => <Login />
+  }, // No props for now
+  {
+    path: "/create-account",
+    element: (props) => <CreateAccount />
   } // No props for now
 ];

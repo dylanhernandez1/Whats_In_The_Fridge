@@ -1,16 +1,13 @@
 import React from "react";
 import "./Food_Styling.css";
-import { useNavigate } from "react-router-dom";
 
-function LoginPage() {
-  const navigate = useNavigate();
-
+function CreateAccountPage() {
   return (
     <div className="container">
       <label htmlFor="name">Welcome</label>
 
       <label htmlFor="name">What's In The Fridge?</label>
-      <label htmlFor="name">Login?</label>
+      <label htmlFor="name">Register</label>
 
       <div>
         <input
@@ -18,7 +15,7 @@ function LoginPage() {
             fontStretch: "ultra-condensed",
             color: "grey"
           }}
-          placeholder="Username"
+          placeholder="Email"
           type="string"
           onChange={(e) => setQuantity(e.target.value)}
         />
@@ -36,45 +33,18 @@ function LoginPage() {
       </div>
 
       <div>
-        <button
+        <button //HERE IS WHERE WE WILL SAVE THE DATA TO THE DATABASE
           className="add-button"
           style={{
             fontStretch: "ultra-condensed",
             color: "black"
           }}
         >
-          Sign In
-        </button>
-      </div>
-
-      <div>
-        <button
-          className="add-button"
-          style={{
-            fontStretch: "ultra-condensed",
-            color: "lightblue"
-          }}
-        >
-          Forgot Password
-        </button>
-      </div>
-
-      <div>
-        <label>New to What's In The Fridge?</label>
-
-        <button
-          className="add-button"
-          style={{
-            fontStretch: "ultra-condensed",
-            color: "lightblue"
-          }}
-          onClick={() => navigate("/create-account")}
-        >
-          Join now
+          Create Account
         </button>
       </div>
     </div>
   );
 }
 
-export default LoginPage;
+export default CreateAccountPage;

@@ -139,49 +139,52 @@ test("invalid email", async () => {
 });
 
 test("findUserById handles exception", async () => {
-    const mockId = "507f191e810c19729de860ea";
-  
-    // Make mock throw error
-    mockFindById.mockImplementation(() => {
-      throw new Error("DB error");
-    });
-  
-    const result = await userServices.findUserById(mockId);
-  
-    expect(result).toBeUndefined();
-    expect(mockFindById).toHaveBeenCalledTimes(1);
+  const mockId = "507f191e810c19729de860ea";
+
+  // Make mock throw error
+  mockFindById.mockImplementation(() => {
+    throw new Error("DB error");
+  });
+
+  const result = await userServices.findUserById(mockId);
+
+  expect(result).toBeUndefined();
+  expect(mockFindById).toHaveBeenCalledTimes(1);
 });
 
 test("deleteUserById handles exception", async () => {
-    const validId = "507f191e810c19729de860ea";
+  const validId = "507f191e810c19729de860ea";
 
-    // Add mock for findByIdAndDelete
-    const mockFindByIdAndDelete = jest.fn(() => {
-        throw new Error("Delete error");
-    });
+  // Add mock for findByIdAndDelete
+  const mockFindByIdAndDelete = jest.fn(() => {
+    throw new Error("Delete error");
+  });
 
-    mockModel.findByIdAndDelete = mockFindByIdAndDelete;
+  mockModel.findByIdAndDelete = mockFindByIdAndDelete;
 
-    const result = await userServices.deleteUserById(validId);
+  const result = await userServices.deleteUserById(validId);
 
-    expect(result).toBe(false);
-    expect(mockFindByIdAndDelete).toHaveBeenCalledTimes(1);
+  expect(result).toBe(false);
+  expect(mockFindByIdAndDelete).toHaveBeenCalledTimes(1);
 });
 
 test("Find user by name using overhead method", async () => {
-    const mockResult = [
-      {
-        name: "John Doe",
-        job: "Unemployed",
-        email: "desperatelyneedjob@example.com"
-      }
-    ];
-  
-    // Set up what the .find call inside findUserByName will return
-    mockFind.mockResolvedValue(mockResult);
-  
-    const result = await userServices.getUsers("John Doe", undefined);
-  
-    expect(mockFind).toHaveBeenCalledWith({ name: "John Doe" }); // internal check
-    expect(result).toEqual(mockResult);
+  const mockResult = [
+    {
+      name: "John Doe",
+      job: "Unemployed",
+      email: "desperatelyneedjob@example.com"
+    }
+  ];
+
+  // Set up what the .find call inside findUserByName will return
+  mockFind.mockResolvedValue(mockResult);
+
+  const result = await userServices.getUsers(
+    "John Doe",
+    undefined
+  );
+
+  expect(mockFind).toHaveBeenCalledWith({ name: "John Doe" }); // internal check
+  expect(result).toEqual(mockResult);
 });
