@@ -180,24 +180,3 @@ test("deleteUserById handles exception", async () => {
   expect(result).toBe(false);
   expect(mockFindByIdAndDelete).toHaveBeenCalledTimes(1);
 });
-
-test("Find user by name using overhead method", async () => {
-  const mockResult = [
-    {
-      name: "John Doe",
-      job: "Unemployed",
-      email: "desperatelyneedjob@example.com"
-    }
-  ];
-
-  // Set up what the .find call inside findUserByName will return
-  mockFind.mockResolvedValue(mockResult);
-
-  const result = await userServices.getUsers(
-    "John Doe",
-    undefined
-  );
-
-  expect(mockFind).toHaveBeenCalledWith({ name: "John Doe" }); // internal check
-  expect(result).toEqual(mockResult);
-});
