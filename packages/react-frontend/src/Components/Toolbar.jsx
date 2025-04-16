@@ -14,25 +14,6 @@ import "./Toolbar_styling.css";
 function Toolbar({ selected }) {
   const navigate = useNavigate();
 
-  function navToProfile() {
-    navigate("/profile");
-  }
-
-  function navToGroceryList() {
-    navigate("/grocery-list");
-  }
-
-  function navToHome() {
-    navigate("/");
-  }
-
-  function navToRecipeSuggester() {
-    navigate("/recipe-suggester");
-  }
-
-  function navToFood() {
-    navigate("/food");
-  }
   //Full table
   return (
     <div className="toolbar">
