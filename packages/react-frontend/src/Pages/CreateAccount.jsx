@@ -2,6 +2,24 @@ import React from "react";
 import "./Food_Styling.css";
 
 function CreateAccountPage() {
+  function addUserToDatabase() {
+    const promise = fetch("http://localhost:8000/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({})
+    })
+      .then((res) => {
+        if (res.status == 201) {
+        } else {
+        }
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
+      });
+  }
+
   return (
     <div className="container">
       <label htmlFor="name">Welcome</label>
@@ -39,6 +57,7 @@ function CreateAccountPage() {
             fontStretch: "ultra-condensed",
             color: "black"
           }}
+          onClick={addUserToDatabase}
         >
           Create Account
         </button>
