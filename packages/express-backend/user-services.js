@@ -25,73 +25,99 @@ function getDbConnection() {
   return dbConnection;
 }
 
-async function getUsers(name, job) {
-  const userModel = getDbConnection().model("User", UserSchema);
-  let result;
-
-  if (name === undefined && job === undefined) {
-    result = await userModel.find();
-  } else if (name && job === undefined) {
-    result = await findUserByName(name);
-  }
-  return result;
-}
-
-async function findUserById(id) {
-  const userModel = getDbConnection().model("User", UserSchema);
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return null;
-  }
-  try {
-    return await userModel.findById(id);
-  } catch (error) {
-    //IGNORE FOR STATEMENT COVERAGE, THIS SHOULD NOT BE REACHED
-    // istanbul ignore next
-    // istanbul ignore next
-    console.log(error);
-    // istanbul ignore next
-    return undefined;
-  }
-}
-
+/**
+ * Add a new user.
+ * Requires at least email, password, and name fields.
+ */
 async function addUser(user) {
   const userModel = getDbConnection().model("User", UserSchema);
-  if (!user.email || !user.name) {
-    return false;
-  }
+  if (!user.email || !user.name || !user.password) return false;
+
   try {
     const userToAdd = new userModel(user);
     const savedUser = await userToAdd.save();
     return savedUser;
   } catch (error) {
-    //IGNORE FOR STATEMENT COVERAGE, THIS SHOULD NOT BE REACHED
-    // istanbul ignore next
-    // istanbul ignore next
-    console.log(error);
-    // istanbul ignore next
+    console.log("Add user error:", error);
     return false;
   }
 }
 
+/**
+ * Get all users or filter by _id or email.
+ */
+async function getUsers(filter = {}) {
+  // Example input: filter = { email: "example@gmail.com"}
+  const userModel = getDbConnection().model("User", UserSchema);
+
+  if (filter.id) {
+    return await findUserById(filter.id);
+  } else if (filter.email) {
+    return await findUserByEmail(filter.email);
+  } else {
+    return await userModel.find();
+  }
+}
+
+/**
+ * Find user by MongoDB _id.
+ */
+async function findUserById(id) {
+  const userModel = getDbConnection().model("User", UserSchema);
+  if (!mongoose.Types.ObjectId.isValid(id)) return null;
+
+  try {
+    return await userModel.findById(id);
+  } catch (error) {
+    console.log("Find by ID error:", error);
+    return undefined;
+  }
+}
+
+/**
+ * Find user by email.
+ */
+async function findUserByEmail(email) {
+  const userModel = getDbConnection().model("User", UserSchema);
+  return await userModel.findOne({ email });
+}
+
+/**
+ * Find user(s) by name (exact match).
+ */
 async function findUserByName(name) {
   const userModel = getDbConnection().model("User", UserSchema);
-  return await userModel.find({ name: name });
+  return await userModel.find({ name });
 }
 
+/**
+ * Delete a user by their MongoDB _id.
+ */
 async function deleteUserById(id) {
   const userModel = getDbConnection().model("User", UserSchema);
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return false;
-  }
+  if (!mongoose.Types.ObjectId.isValid(id)) return false;
+
   try {
     const deletedUser = await userModel.findByIdAndDelete(id);
     return deletedUser;
   } catch (error) {
-    //IGNORE FOR STATEMENT COVERAGE, THIS SHOULD NOT BE REACHED
-    // istanbul ignore next
-    // istanbul ignore next
-    console.log(error);
-    // istanbul ignore next
+    console.log("Delete user error:", error);
+    return false;
+  }
+}
+
+/**
+ * Delte a user by their email.
+ */
+async function deleteUserByEmail(email) {
+  const userModel = getDbConnection().model("User", UserSchema);
+  try {
+    const deletedUser = await userModel.findOneAndDelete({
+      email
+    });
+    return deletedUser;
+  } catch (error) {
+    console.log("Delete user by email error:", error);
     return false;
   }
 }
@@ -100,7 +126,9 @@ export default {
   addUser,
   getUsers,
   findUserById,
+  findUserByEmail,
   findUserByName,
   deleteUserById,
+  deleteUserByEmail,
   setConnection
 };
