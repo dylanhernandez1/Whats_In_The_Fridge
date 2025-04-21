@@ -11,12 +11,7 @@ beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
 
-  const mongooseOpts = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  };
-
-  conn = await mongoose.createConnection(uri, mongooseOpts);
+  conn = await mongoose.createConnection(uri);
 
   // Register the Food model on this test connection.
   foodModel = conn.model("Food", FoodSchema);

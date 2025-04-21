@@ -10,10 +10,7 @@ beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
 
-  conn = await mongoose.createConnection(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
+  conn = await mongoose.createConnection(uri);
 
   userModel = conn.model("User", UserSchema);
 

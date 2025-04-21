@@ -15,11 +15,7 @@ function getDbConnection() {
   if (!dbConnection) {
     // istanbul ignore next
     dbConnection = mongoose.createConnection(
-      process.env.MONGODB_URI,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-      }
+      process.env.MONGODB_URI
     );
   }
   return dbConnection;
