@@ -110,7 +110,8 @@ test("Finding user by ID -- valid ID", async () => {
 });
 
 test("Finding user by ID -- invalid ID", async () => {
-  const foundUser = await userServices.findUserById("invalidId");
+  const foundUser =
+    await userServices.findUserById("invalidId");
   expect(foundUser).toBeNull();
 });
 
@@ -122,13 +123,18 @@ test("Deleting user by ID -- successful path", async () => {
   };
   const result = await userServices.addUser(dummyUser);
 
-  const deletedUser = await userServices.deleteUserById(result._id);
+  const deletedUser = await userServices.deleteUserById(
+    result._id
+  );
   expect(deletedUser).toBeDefined();
-  expect(deletedUser._id.toString()).toBe(result._id.toString());
+  expect(deletedUser._id.toString()).toBe(
+    result._id.toString()
+  );
 });
 
 test("Deleting user by ID -- invalid ID", async () => {
-  const deletedUser = await userServices.deleteUserById("invalidId");
+  const deletedUser =
+    await userServices.deleteUserById("invalidId");
   expect(deletedUser).toBeFalsy();
 });
 
@@ -140,13 +146,17 @@ test("Deleting user by email -- successful path", async () => {
   };
   const result = await userServices.addUser(dummyUser);
 
-  const deletedUser = await userServices.deleteUserByEmail(result.email);
+  const deletedUser = await userServices.deleteUserByEmail(
+    result.email
+  );
   expect(deletedUser).toBeDefined();
   expect(deletedUser.email).toBe(result.email);
 });
 
 test("Deleting user by email -- not found", async () => {
-  const deletedUser = await userServices.deleteUserByEmail("nonexistent@example.com");
+  const deletedUser = await userServices.deleteUserByEmail(
+    "nonexistent@example.com"
+  );
   expect(deletedUser).toBeNull();
 });
 
@@ -158,7 +168,9 @@ test("Finding user by email -- found", async () => {
   };
   const result = await userServices.addUser(dummyUser);
 
-  const foundUser = await userServices.findUserByEmail(result.email);
+  const foundUser = await userServices.findUserByEmail(
+    result.email
+  );
 
   expect(foundUser).toBeDefined();
   expect(foundUser._id.toString()).toBe(result._id.toString());

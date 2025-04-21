@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import HouseSchema from "./house.js"; 
+import HouseSchema from "./house.js";
 import dotenv from "dotenv";
-import FoodSchema from "./food-item.js";  
+import FoodSchema from "./food-item.js";
 dotenv.config();
 
 let dbConnection;
@@ -15,13 +15,18 @@ function getDbConnection() {
   // istanbul ignore next
   if (!dbConnection) {
     // istanbul ignore next
-    dbConnection = mongoose.createConnection(process.env.MONGODB_URI);
+    dbConnection = mongoose.createConnection(
+      process.env.MONGODB_URI
+    );
   }
   return dbConnection;
 }
 
 async function createHouse(houseData) {
-  const houseModel = getDbConnection().model("House", HouseSchema);
+  const houseModel = getDbConnection().model(
+    "House",
+    HouseSchema
+  );
   try {
     const newHouse = new houseModel(houseData);
     const savedHouse = await newHouse.save();
@@ -33,7 +38,10 @@ async function createHouse(houseData) {
 }
 
 async function addFoodToHouse(houseId, location, food) {
-  const houseModel = getDbConnection().model("House", HouseSchema);
+  const houseModel = getDbConnection().model(
+    "House",
+    HouseSchema
+  );
   const foodModel = getDbConnection().model("Food", FoodSchema);
 
   try {
@@ -43,7 +51,12 @@ async function addFoodToHouse(houseId, location, food) {
     }
 
     // Validate location (fridge, freezer, pantry, groceryList)
-    const validLocations = ["fridge", "freezer", "pantry", "groceryList"];
+    const validLocations = [
+      "fridge",
+      "freezer",
+      "pantry",
+      "groceryList"
+    ];
     if (!validLocations.includes(location)) {
       return { success: false, message: "Invalid location" };
     }
@@ -74,7 +87,10 @@ async function addFoodToHouse(houseId, location, food) {
 }
 
 async function getHouseById(houseId) {
-  const houseModel = getDbConnection().model("House", HouseSchema);
+  const houseModel = getDbConnection().model(
+    "House",
+    HouseSchema
+  );
   try {
     const house = await houseModel.findById(houseId);
     return house;
@@ -85,14 +101,22 @@ async function getHouseById(houseId) {
 }
 
 async function getFoodFromHouse(houseId, location) {
-  const houseModel = getDbConnection().model("House", HouseSchema);
+  const houseModel = getDbConnection().model(
+    "House",
+    HouseSchema
+  );
   try {
     const house = await houseModel.findById(houseId);
     if (!house) {
       return { success: false, message: "House not found" };
     }
 
-    const validLocations = ["fridge", "freezer", "pantry", "groceryList"];
+    const validLocations = [
+      "fridge",
+      "freezer",
+      "pantry",
+      "groceryList"
+    ];
     if (!validLocations.includes(location)) {
       return { success: false, message: "Invalid location" };
     }
@@ -114,5 +138,5 @@ export default {
   createHouse,
   addFoodToHouse,
   getHouseById,
-  getFoodFromHouse,
+  getFoodFromHouse
 };

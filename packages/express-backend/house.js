@@ -22,10 +22,10 @@ const HouseSchema = new mongoose.Schema(
       required: true,
       trim: true
     },
-    fridge: [FoodSchema],  // Embedding FoodItem schema directly in fridge
+    fridge: [FoodSchema], // Embedding FoodItem schema directly in fridge
     freezer: [FoodSchema], // Embedding FoodItem schema directly in freezer
-    pantry: [FoodSchema],  // Embedding FoodItem schema directly in pantry
-    groceryList: [FoodSchema],  // Embedding FoodItem schema directly in groceryList
+    pantry: [FoodSchema], // Embedding FoodItem schema directly in pantry
+    groceryList: [FoodSchema], // Embedding FoodItem schema directly in groceryList
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

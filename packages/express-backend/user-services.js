@@ -25,9 +25,11 @@ function getDbConnection() {
  * Add a new user.
  * Requires at least email, password, and name fields.
  */
+
 async function addUser(user) {
   const userModel = getDbConnection().model("User", UserSchema);
-  if (!user.email || !user.name || !user.password) return false;
+  console.log("Add user");
+  if (!user.Email || !user.Name || !user.Password) return false;
 
   try {
     const userToAdd = new userModel(user);
