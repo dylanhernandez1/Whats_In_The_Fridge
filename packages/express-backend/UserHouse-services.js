@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import UserHouseSchema from "./user-house.js"; // Import your UserHouse schema
+import UserHouseSchema from "./UserHouse.js";
 import dotenv from "dotenv";
 dotenv.config();
 
