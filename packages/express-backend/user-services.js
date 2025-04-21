@@ -29,7 +29,7 @@ function getDbConnection() {
 async function addUser(user) {
   const userModel = getDbConnection().model("User", UserSchema);
   console.log("Add user");
-  if (!user.Email || !user.Name || !user.Password) return false;
+  if (!user.email || !user.name || !user.password) return false;
 
   try {
     const userToAdd = new userModel(user);
