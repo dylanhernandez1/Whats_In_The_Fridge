@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema(
   {
-    name: {
+    Name: {
       type: String,
       required: true,
       trim: true
     },
-    email: {
+    Email: {
       type: String,
       required: true,
       trim: true,
@@ -19,9 +19,9 @@ const UserSchema = new mongoose.Schema(
         message: "Invalid email format."
       }
     },
-    password: { type: String, required: true },
-    profileImage: { type: String, default: "" },
-    preferences: {
+    Password: { type: String, required: true },
+    ProfileImage: { type: String, default: "" },
+    Preferences: {
       type: Map,
       of: mongoose.Schema.Types.Mixed,
       default: () => ({
@@ -30,15 +30,15 @@ const UserSchema = new mongoose.Schema(
         notifications: { email: false, sms: false }
       })
     },
-    emailVerified: { type: Boolean, default: false },
-    role: {
+    EmailVerified: { type: Boolean, default: false },
+    Role: {
       type: String,
       enum: ["user", "admin", "moderator"],
       default: "user"
     },
-    lastLogin: { type: Date },
-    resetPasswordToken: { type: String },
-    resetPasswordExpires: { type: Date }
+    LastLogin: { type: Date },
+    ResetPasswordToken: { type: String },
+    ResetPasswordExpires: { type: Date }
   },
   {
     collection: "users_list",

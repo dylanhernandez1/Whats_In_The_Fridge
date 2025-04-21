@@ -26,18 +26,6 @@ mongoose
     process.exit(1); //Exit the app if the database connection fails
   });
 
-app.post("/users", (req, res) => {
-  //Handle post request (adding a user)
-  const userToAdd = req.body;
-
-  const result = userServices.addUser(userToAdd);
-  result
-    .then((result) => res.status(201).send(result))
-    .catch((error) =>
-      res.status(500).send(`Internal Server Error: ${error}`)
-    );
-});
-
 app.get("/", (req, res) => {
   //Default 'home' page
   res.send("Hello World!");
@@ -61,8 +49,26 @@ app.get("/users/:id", (req, res) => {
     );
 });
 
+app.post("/users", (req, res) => {
+  console.log("Received request body:", req.body);
+  const user = req.body;
+
+  const result = userServices.addUser(user);
+  result
+    .then((result) => {
+      if (result) {
+        res.status(201).send(result);
+      } else {
+        res.status(400).send("Invalid");
+      }
+    })
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
+});
+
 app.post("/food", (req, res) => {
-  console.log("Received request body:", req.body.name);
+  console.log("Received request body:", req.body);
   const foodToAdd = req.body;
 
   const result = foodServices.addFood(foodToAdd);
