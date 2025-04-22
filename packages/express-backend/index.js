@@ -33,28 +33,39 @@ mongoose
 //Add a user
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  userServices.addUser(userToAdd)
+  console.log(userToAdd);
+  userServices
+    .addUser(userToAdd)
     .then((result) => res.status(201).send(result))
-    .catch((error) => res.status(500).send(`Internal Server Error: ${error}`));
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
 });
 
 //Get a user by id
 app.get("/users/:id", (req, res) => {
   const id = req.params.id;
-  userServices.findUserById(id)
+  userServices
+    .findUserById(id)
     .then((result) => {
-      if (!result) return res.status(404).send("Resource not found.");
+      if (!result)
+        return res.status(404).send("Resource not found.");
       res.send(result);
     })
-    .catch((error) => res.status(500).send(`Internal Server Error: ${error}`));
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
 });
 
 /* -------------------- HOUSES -------------------- */
 //Add a house
 app.post("/houses", (req, res) => {
-  houseServices.createHouse(req.body)
+  houseServices
+    .createHouse(req.body)
     .then((result) => res.status(201).send(result))
-    .catch((error) => res.status(500).send(`Internal Server Error: ${error}`));
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
 });
 
 //Get a certain house by id
@@ -114,63 +125,82 @@ app.get("/houses/:houseId/food/:location", (req, res) => {
     });
 });
 
-
 /* -------------------- USER-HOUSE -------------------- */
 //Add user to house
 app.post("/houses/:houseId/users/:userId", (req, res) => {
   const { houseId, userId } = req.params;
   const role = req.body.role || "member"; //If given role, otherwise member
-  userHouseServices.addUserToHouse(userId, houseId, role)
+  userHouseServices
+    .addUserToHouse(userId, houseId, role)
     .then((result) => {
-      if (!result.success) return res.status(400).send(result.message);
+      if (!result.success)
+        return res.status(400).send(result.message);
       res.status(201).send(result.savedUserHouse);
     })
-    .catch((error) => res.status(500).send(`Internal Server Error: ${error}`));
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
 });
 
 //Remove user from house
 app.delete("/houses/:houseId/users/:userId", (req, res) => {
   const { houseId, userId } = req.params;
-  userHouseServices.removeUserFromHouse(userId, houseId)
+  userHouseServices
+    .removeUserFromHouse(userId, houseId)
     .then((result) => {
-      if (!result.success) return res.status(404).send(result.message);
+      if (!result.success)
+        return res.status(404).send(result.message);
       res.send(result.removedUserHouse);
     })
-    .catch((error) => res.status(500).send(`Internal Server Error: ${error}`));
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
 });
 
 //Update a user's role in house
 app.put("/houses/:houseId/users/:userId/role", (req, res) => {
   const { houseId, userId } = req.params;
   const { role } = req.body;
-  userHouseServices.changeUserRoleInHouse(userId, houseId, role)
+  userHouseServices
+    .changeUserRoleInHouse(userId, houseId, role)
     .then((result) => {
-      if (!result.success) return res.status(400).send(result.message);
+      if (!result.success)
+        return res.status(400).send(result.message);
       res.send(result.updatedUserHouse);
     })
-    .catch((error) => res.status(500).send(`Internal Server Error: ${error}`));
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
 });
 
 //Get users in house
 app.get("/houses/:houseId/users", (req, res) => {
   const { houseId } = req.params;
-  userHouseServices.getUsersInHouse(houseId)
+  userHouseServices
+    .getUsersInHouse(houseId)
     .then((result) => {
-      if (!result.success) return res.status(404).send(result.message);
+      if (!result.success)
+        return res.status(404).send(result.message);
       res.send(result.usersInHouse);
     })
-    .catch((error) => res.status(500).send(`Internal Server Error: ${error}`));
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
 });
 
 //Get houses a user is a part of
 app.get("/users/:userId/houses", (req, res) => {
   const { userId } = req.params;
-  userHouseServices.getHousesByUser(userId)
+  userHouseServices
+    .getHousesByUser(userId)
     .then((result) => {
-      if (!result.success) return res.status(404).send(result.message);
+      if (!result.success)
+        return res.status(404).send(result.message);
       res.send(result.housesByUser);
     })
-    .catch((error) => res.status(500).send(`Internal Server Error: ${error}`));
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
 });
 
 /* -------------------- FOOD -------------------- */
@@ -181,43 +211,55 @@ function validateRes(res) {
 //Add food
 app.post("/food", (req, res) => {
   const foodToAdd = req.body;
-  foodServices.addFood(foodToAdd)
+  foodServices
+    .addFood(foodToAdd)
     .then((result) => {
       if (result) res.status(201).send(result);
       else res.status(400).send("Invalid date");
     })
-    .catch((error) => res.status(500).send(`Internal Server Error: ${error}`));
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
 });
 
 //Get all food
 app.get("/food", (req, res) => {
-  foodServices.getFood()
+  foodServices
+    .getFood()
     .then((mongoRes) => {
       if (validateRes(mongoRes)) res.send(mongoRes);
       else res.status(404).send("Resource not found");
     })
-    .catch((error) => res.status(500).send(`Internal Server Error: ${error}`));
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
 });
 
 //Get food by name
 app.get("/food/:name", (req, res) => {
   const foodName = req.params.name;
-  foodServices.findFoodByName(foodName)
+  foodServices
+    .findFoodByName(foodName)
     .then((mongoRes) => {
       if (validateRes(mongoRes)) res.send(mongoRes);
       else res.status(404).send("Resource not found");
     })
-    .catch((error) => res.status(500).send(`Internal Server Error: ${error}`));
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
 });
 
 //Get expiring food
 app.get("/expiring", (req, res) => {
-  foodServices.findFoodByExpiration()
+  foodServices
+    .findFoodByExpiration()
     .then((mongoRes) => {
       if (validateRes(mongoRes)) res.send(mongoRes);
       else res.status(404).send("Resource not found");
     })
-    .catch((error) => res.status(500).send(`Internal Server Error: ${error}`));
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
 });
 
 /* -------------------- ROOT -------------------- */

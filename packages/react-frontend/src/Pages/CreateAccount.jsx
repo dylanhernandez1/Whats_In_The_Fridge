@@ -6,16 +6,38 @@ function CreateAccountPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [addButtonText, setButtonText] =
+    useState("Create Account");
+
+  function FrontendValidation() {
+    const EmailValidation = (email) =>
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    if (name.length < 3) return false;
+    if (!EmailValidation(email)) return false;
+    if (password.length < 0) return false;
+    return true;
+  }
+
   function addUserToDatabase() {
+    if (FrontendValidation() == false) {
+      setButtonText("Invalid Information");
+      setTimeout(() => {
+        setButtonText("Create Account");
+      }, 3000);
+      return false;
+    }
+
+    console.log(email);
     const promise = fetch("http://localhost:8000/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        Name: name,
-        Email: email,
-        Password: password
+        name: name,
+        email: email,
+        password: password
       })
     })
       .then((res) => {
@@ -78,7 +100,7 @@ function CreateAccountPage() {
           }}
           onClick={addUserToDatabase}
         >
-          Create Account
+          {addButtonText}
         </button>
       </div>
     </div>
