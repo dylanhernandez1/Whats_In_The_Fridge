@@ -72,7 +72,8 @@ function CreateAccountPage() {
       .then((res) => {
         if (res.status == 201) {
           console.log("Successful add");
-        } else {
+        } else if (res.status == 400) {
+          console.log("400 error!");
         }
       })
       .catch((error) => {

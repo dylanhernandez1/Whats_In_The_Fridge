@@ -37,7 +37,12 @@ app.post("/users", (req, res) => {
   console.log(userToAdd);
   userServices
     .addUser(userToAdd)
-    .then((result) => res.status(201).send(result))
+    .then((result) => {
+      if (!result) {
+        return res.status(400).send("false create account");
+      }
+      res.status(201).send(result);
+    })
     .catch((error) =>
       res.status(500).send(`Internal Server Error: ${error}`)
     );
