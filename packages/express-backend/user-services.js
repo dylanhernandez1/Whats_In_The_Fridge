@@ -32,7 +32,7 @@ async function addUser(user) {
 
   if (!user.email || !user.name || !user.password) return false;
 
-  if ((await userModel.findOne({ email })) != null) {
+  if ((await getUsers({ "email" : user.email })) != null) {
     console.log("Present");
     return false;
   }
