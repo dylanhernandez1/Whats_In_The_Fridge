@@ -33,6 +33,7 @@ mongoose
 //Add a user
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
+  userServices;
   console.log(userToAdd);
   userServices
     .addUser(userToAdd)

@@ -28,7 +28,16 @@ function getDbConnection() {
 
 async function addUser(user) {
   const userModel = getDbConnection().model("User", UserSchema);
+  const email = user.email;
+
   if (!user.email || !user.name || !user.password) return false;
+
+  if ((await userModel.findOne({ email })) != null) {
+    console.log("Present");
+    return false;
+  }
+  console.log("None");
+
   try {
     const userToAdd = new userModel(user);
     const savedUser = await userToAdd.save();

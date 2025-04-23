@@ -16,7 +16,36 @@ function CreateAccountPage() {
     if (name.length < 3) return false;
     if (!EmailValidation(email)) return false;
     if (password.length < 0) return false;
+
+    //check if already exists in the system
+
     return true;
+  }
+
+  function FetchExisting(email) {
+    console.log("hey");
+    const queryText = email.trim();
+    const promise = fetch(
+      `http://localhost:8000/users${queryText != "" ? "/" + queryText : ""}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        console.log("Users: ", res);
+        return res;
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
+        return [];
+      });
+    return promise;
   }
 
   function addUserToDatabase() {
@@ -86,7 +115,7 @@ function CreateAccountPage() {
             color: "grey"
           }}
           placeholder="Password"
-          type="string"
+          type="password"
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
