@@ -7,6 +7,7 @@ import ExpiringList from "../Components/ExpiringList.jsx";
 import Menu from "../Components/Menu.jsx";
 import Notifications from "../Components/Notifications.jsx";
 import IngredientSorting from "../Components/IngredientSorting.jsx";
+import Popup from "../Components/Popup.jsx";
 import "../Components/Header_styling.css";
 
 function Home({}) {
@@ -14,6 +15,7 @@ function Home({}) {
   const [tempFoodList, setTempFoodList] = useState([{}]);
   const [searchText, setSearchText] = useState("");
   const [menuText, setMenuText] = useState("");
+  const [foodInfo, setFoodInfo] = useState(undefined);
 
   function getExpiringList() {
     const promise = fetch(`http://localhost:8000/expiring`, {
@@ -94,7 +96,13 @@ function Home({}) {
       });
   }, []);
 
+  function onCardClick(foodInfo) {
+    console.log(foodInfo);
+    setFoodInfo(foodInfo);
+  }
+
   //Full table
+  // <IngredientSorting ingredients={tempFoodList} />
   return (
     <div className="app-container">
       <Toolbar selected="Home" />
@@ -104,10 +112,10 @@ function Home({}) {
           <b>What's In My Fridge?</b>
           <Notifications foodList={foodList} />
         </header>
-
         <SearchBar onTextSubmit={handleSearchText} />
-        <ExpiringList foodList={foodList} />
-        <IngredientSorting ingredients={tempFoodList} />
+        <Popup foodInfo={foodInfo}/>
+        <ExpiringList foodList={foodList} onClick={onCardClick}/>
+        
       </div>
     </div>
   );

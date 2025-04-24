@@ -7,16 +7,20 @@ import "./Card.css";
         name:           the name of the food item
         expirationDate: the expiration date of the food item
 */
-function Card(props) {
+function Card({itemInfo, onClick}) {
+  function onCardClick() {
+    onClick(itemInfo);
+  }
+
   return (
     <>
-      <div className="card-container">
+      <div className="card-container" onClick={onCardClick}>
         <img className="card-img"></img>
         <div className="card-description">
           <div className="card-title">
-            <b>{props.name}</b>
+            <b>{itemInfo.FoodName}</b>
           </div>
-          <ExpirationTag daysRemaining={props.expirationDate} />
+          <ExpirationTag daysRemaining={itemInfo.ExpirationDate} />
         </div>
       </div>
     </>
