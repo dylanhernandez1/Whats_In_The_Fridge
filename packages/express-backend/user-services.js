@@ -28,15 +28,17 @@ function getDbConnection() {
 
 async function addUser(user) {
   const userModel = getDbConnection().model("User", UserSchema);
-  const email = user.email;
 
   if (!user.email || !user.name || !user.password) return false;
 
   if ((await getUsers({ email: user.email })) != null) {
-    console.log("Present");
-    return false;
+    return {
+      status: false,
+      message: "Email already registered."
+    };
+  } else if ((await getUsers({ name: user.name })) != null) {
+    return { status: false, message: "Name not available" };
   }
-  console.log("None");
 
   try {
     const userToAdd = new userModel(user);
@@ -59,6 +61,8 @@ async function getUsers(filter = {}) {
     return await findUserById(filter.id);
   } else if (filter.email) {
     return await findUserByEmail(filter.email);
+  } else if (filter.name) {
+    return await findUserByName(filter.name);
   } else {
     return await userModel.find();
   }
@@ -92,7 +96,7 @@ async function findUserByEmail(email) {
  */
 async function findUserByName(name) {
   const userModel = getDbConnection().model("User", UserSchema);
-  return await userModel.find({ name });
+  return await userModel.findOne({ name });
 }
 
 /**

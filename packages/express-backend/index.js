@@ -38,10 +38,27 @@ app.post("/users", (req, res) => {
   userServices
     .addUser(userToAdd)
     .then((result) => {
-      if (!result) {
-        return res.status(400).send("false create account");
+      if (result.message != null) {
+        return res.status(400).send(result.message);
       }
       res.status(201).send(result);
+    })
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
+});
+
+app.get("/users", (req, res) => {
+  const email = req.query.email;
+  const password = req.query.password;
+  console.log("Hello");
+  userServices
+    .findUserByEmail(email)
+    .then((result) => {
+      if (!result) {
+        return res.status(400).send("Email not found");
+      }
+      console.log(result);
     })
     .catch((error) =>
       res.status(500).send(`Internal Server Error: ${error}`)

@@ -5,6 +5,7 @@ function CreateAccountPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const [addButtonText, setButtonText] =
     useState("Create Account");
@@ -15,7 +16,7 @@ function CreateAccountPage() {
 
     if (name.length < 3) return false;
     if (!EmailValidation(email)) return false;
-    if (password.length < 0) return false;
+    if (password.length < 3) return false;
 
     //check if already exists in the system
 
@@ -69,11 +70,15 @@ function CreateAccountPage() {
         password: password
       })
     })
-      .then((res) => {
+      .then(async (res) => {
         if (res.status == 201) {
+          //REROUTE TO HOME PAGE
+          setError("");
           console.log("Successful add");
         } else if (res.status == 400) {
-          console.log("400 error!");
+          const message = await res.text();
+          setError(message);
+          console.log("400 error: " + message);
         }
       })
       .catch((error) => {
@@ -86,6 +91,10 @@ function CreateAccountPage() {
       <label htmlFor="name">Welcome</label>
       <label htmlFor="name">What's In The Fridge?</label>
       <label htmlFor="name">Register</label>
+
+      <div>
+        <label htmlFor="name">{error ? error : ""}</label>
+      </div>
 
       <div>
         <input
