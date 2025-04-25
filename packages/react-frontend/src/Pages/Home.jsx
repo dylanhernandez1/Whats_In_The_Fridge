@@ -114,15 +114,17 @@ function Home({}) {
         _id: id
       })
     })
-    .then((res) => {
-      if(res.status == 201) {
-        setFoodList(foodList.filter(food => food._id !== id));
-        setFoodInfo(undefined);
-      }
-    })
-    .catch((error) => {
-      console.error("Error ", error);
-    })
+      .then((res) => {
+        if (res.status == 201) {
+          setFoodList(
+            foodList.filter((food) => food._id !== id)
+          );
+          setFoodInfo(undefined);
+        }
+      })
+      .catch((error) => {
+        console.error("Error ", error);
+      });
   }
 
   //Full table
@@ -137,10 +139,19 @@ function Home({}) {
           <Notifications foodList={foodList} />
         </header>
         <SearchBar onTextSubmit={handleSearchText} />
-        <Popup foodInfo={foodInfo} onDelete={onDelete} onClose={onClose}/>
-        <ExpiringList foodList={foodList} onClick={onCardClick}/>
-        <IngredientSorting ingredients={tempFoodList} onClick={onCardClick}/>
-        
+        <Popup
+          foodInfo={foodInfo}
+          onDelete={onDelete}
+          onClose={onClose}
+        />
+        <ExpiringList
+          foodList={foodList}
+          onClick={onCardClick}
+        />
+        <IngredientSorting
+          ingredients={tempFoodList}
+          onClick={onCardClick}
+        />
       </div>
     </div>
   );

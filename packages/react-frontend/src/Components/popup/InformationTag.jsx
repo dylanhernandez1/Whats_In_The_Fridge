@@ -13,17 +13,17 @@ import Pantry from "../../Assets/Pantry.png";
 import "./InformationTag.css";
 
 const Icons = {
-  'Fruit': FruitWhite,
-  'Vegetable': VegetableWhite,
-  'Dairy': DairyWhite,
-  'Protein': ProteinWhite,
-  'Grains': GrainsWhite,
+  Fruit: FruitWhite,
+  Vegetable: VegetableWhite,
+  Dairy: DairyWhite,
+  Protein: ProteinWhite,
+  Grains: GrainsWhite,
   "Fats & Oils": FatsAndOilsWhite,
   "Sugars & Sweets": SugarsAndSweetsWhite,
-  'Drinks': DrinksWhite,
-  'Fridge': Fridge,
-  'Freezer': Freezer,
-  'Pantry': Pantry,
+  Drinks: DrinksWhite,
+  Fridge: Fridge,
+  Freezer: Freezer,
+  Pantry: Pantry
 };
 
 /* iconInfo can be passed in two different ways:

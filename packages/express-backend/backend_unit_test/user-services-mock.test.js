@@ -79,12 +79,11 @@ test("finding user by id", async () => {
 });
 
 test("finding user by name", async () => {
-  mockFindOne.mockResolvedValue(
-    {
-      name: "John Doe",
-      email: "desperatelyneedjob@example.com",
-      password: "password123"
-    });
+  mockFindOne.mockResolvedValue({
+    name: "John Doe",
+    email: "desperatelyneedjob@example.com",
+    password: "password123"
+  });
 
   const user = {
     name: "John Doe",

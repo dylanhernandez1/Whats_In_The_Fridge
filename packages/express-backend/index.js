@@ -294,13 +294,17 @@ app.delete("/food", (req, res) => {
       if (validateRes(mongoRes)) {
         res.status(201).send("Successfully deleted!");
       } else {
-        res.status(400).send("There was an error deleting the food item");
+        res
+          .status(400)
+          .send("There was an error deleting the food item");
       }
     })
-    .catch((error) => 
-      res.status(400).send("There was an error deleting the food item")
+    .catch((error) =>
+      res
+        .status(400)
+        .send("There was an error deleting the food item")
     );
-})
+});
 
 /* -------------------- ROOT -------------------- */
 app.get("/", (req, res) => {

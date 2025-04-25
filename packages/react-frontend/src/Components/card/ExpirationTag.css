@@ -1,8 +1,8 @@
 :root {
-    --light-green: #94D15D;
-    --dark-green: #99C420;
-    --light-red: #FF5635;
-    --dark-red: rgb(229, 0, 0);
+  --light-green: #94d15d;
+  --dark-green: #99c420;
+  --light-red: #ff5635;
+  --dark-red: rgb(229, 0, 0);
 }
 
 .expiration-tag {
@@ -31,7 +31,10 @@
 }
 
 .expiration-green {
-  background-image: linear-gradient(var(--light-green), var(--dark-green));
+  background-image: linear-gradient(
+    var(--light-green),
+    var(--dark-green)
+  );
 }
 
 .expiration-yellow {
@@ -39,5 +42,8 @@
 }
 
 .expiration-red {
-  background-image: linear-gradient(var(--light-red), var(--dark-red));
+  background-image: linear-gradient(
+    var(--light-red),
+    var(--dark-red)
+  );
 }

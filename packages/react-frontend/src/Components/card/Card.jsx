@@ -7,7 +7,7 @@ import "./Card.css";
         name:           the name of the food item
         expirationDate: the expiration date of the food item
 */
-function Card({itemInfo, onClick}) {
+function Card({ itemInfo, onClick }) {
   function onCardClick() {
     onClick(itemInfo);
   }
@@ -20,7 +20,9 @@ function Card({itemInfo, onClick}) {
           <div className="card-title">
             <b>{itemInfo.FoodName}</b>
           </div>
-          <ExpirationTag daysRemaining={itemInfo.ExpirationDate} />
+          <ExpirationTag
+            daysRemaining={itemInfo.ExpirationDate}
+          />
         </div>
       </div>
     </>

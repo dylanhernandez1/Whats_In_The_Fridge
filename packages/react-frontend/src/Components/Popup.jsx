@@ -16,14 +16,14 @@ import SideDecor from "../Assets/PopupSideDecoration.png";
 import "./Popup.css";
 
 const Icons = {
-  'Fruit': Fruit,
-  'Vegetable': Vegetable,
-  'Dairy': Dairy,
-  'Protein': Protein,
-  'Grains': Grains,
+  Fruit: Fruit,
+  Vegetable: Vegetable,
+  Dairy: Dairy,
+  Protein: Protein,
+  Grains: Grains,
   "Fats & Oils": FatsAndOils,
   "Sugars & Sweets": SugarsAndSweets,
-  'Drinks': Drinks
+  Drinks: Drinks
 };
 
 function Popup({ foodInfo, onDelete, onClose }) {
@@ -57,9 +57,7 @@ function Popup({ foodInfo, onDelete, onClose }) {
     onClose();
   }
 
-  function onUpdateQtyClicked() {
-    
-  }
+  function onUpdateQtyClicked() {}
 
   function onDeleteClicked() {
     onDelete(info._id);
@@ -68,15 +66,36 @@ function Popup({ foodInfo, onDelete, onClose }) {
   return (
     <div className={status}>
       <div className={`popup-frame-${size}`}>
-        <img className="popup-frame-icon" src={Icons[info ? info.FoodType : "Fruit"]}></img>
+        <img
+          className="popup-frame-icon"
+          src={Icons[info ? info.FoodType : "Fruit"]}
+        ></img>
         <div className="popup-frame-clip">
-            <img className="popup-frame-decor" src={SideDecor}></img>
-            <ExitButton onClick={onCloseClicked} />
-            <PopupHeader foodName={info ? info.FoodName : ""} expirationDate={info ? info.ExpirationDate : 0}/>
-            <InformationTag tagIcon={info ? info.Location : "Fridge"} tagInfo={info ? info.Location : ""}/>
-            <InformationTag tagIcon={info ? info.FoodType : "Fruit"} tagInfo={info ? info.FoodType : ""}/>
-            <InformationTag tagIcon={info ? info.Amount : 0} tagInfo="Quantity"/>
-            <PopupFooter onUpdateQty={onUpdateQtyClicked} onDelete={onDeleteClicked}/>
+          <img
+            className="popup-frame-decor"
+            src={SideDecor}
+          ></img>
+          <ExitButton onClick={onCloseClicked} />
+          <PopupHeader
+            foodName={info ? info.FoodName : ""}
+            expirationDate={info ? info.ExpirationDate : 0}
+          />
+          <InformationTag
+            tagIcon={info ? info.Location : "Fridge"}
+            tagInfo={info ? info.Location : ""}
+          />
+          <InformationTag
+            tagIcon={info ? info.FoodType : "Fruit"}
+            tagInfo={info ? info.FoodType : ""}
+          />
+          <InformationTag
+            tagIcon={info ? info.Amount : 0}
+            tagInfo="Quantity"
+          />
+          <PopupFooter
+            onUpdateQty={onUpdateQtyClicked}
+            onDelete={onDeleteClicked}
+          />
         </div>
       </div>
     </div>

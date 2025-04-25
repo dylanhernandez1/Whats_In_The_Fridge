@@ -85,8 +85,7 @@ async function deleteFoodById(id) {
       _id: id
     });
     return result;
-  }
-  catch (error) {
+  } catch (error) {
     console.log("Error deleting food:", error);
     return false;
   }

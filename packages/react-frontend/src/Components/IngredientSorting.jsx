@@ -15,7 +15,6 @@ const categories = [
 ];
 
 export default function IngredientList(props) {
-
   function onCardClick(foodInfo) {
     props.onClick(foodInfo);
   }
