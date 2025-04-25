@@ -139,6 +139,7 @@ function Home({}) {
         <SearchBar onTextSubmit={handleSearchText} />
         <Popup foodInfo={foodInfo} onDelete={onDelete} onClose={onClose}/>
         <ExpiringList foodList={foodList} onClick={onCardClick}/>
+        <IngredientSorting ingredients={tempFoodList} onClick={onCardClick}/>
         
       </div>
     </div>

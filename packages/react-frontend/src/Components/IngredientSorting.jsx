@@ -14,14 +14,19 @@ const categories = [
   "Drinks"
 ];
 
-export default function IngredientList({ ingredients }) {
+export default function IngredientList(props) {
+
+  function onCardClick(foodInfo) {
+    props.onClick(foodInfo);
+  }
+
   const [selectedCategory, setSelectedCategory] =
     useState("All");
 
   const filteredIngredients =
     selectedCategory === "All"
-      ? ingredients
-      : ingredients.filter(
+      ? props.ingredients
+      : props.ingredients.filter(
           (item) => item.FoodType === selectedCategory
         );
 
@@ -53,10 +58,8 @@ export default function IngredientList({ ingredients }) {
           filteredIngredients.map((item) => (
             <Card
               key={item.id}
-              name={item.FoodName}
-              expirationDate={item.ExpirationDate}
-              location={item.Location}
-              onClick={() => {}}
+              itemInfo={item}
+              onClick={onCardClick}
             />
           ))
         ) : (
