@@ -1,0 +1,30 @@
+:root {
+    --light-green: #94D15D;
+    --dark-green: #99C420;
+    --light-red: #FF5635;
+    --dark-red: rgb(229, 0, 0);
+}
+
+.popup-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 128px;
+    height: 45px;
+    text-align: center;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 60px;
+    cursor: pointer;
+}
+
+.green {
+    background-image: linear-gradient(var(--light-green), var(--dark-green));
+}
+
+.red {
+    background-image: linear-gradient(var(--light-red), var(--dark-red));
+}
+

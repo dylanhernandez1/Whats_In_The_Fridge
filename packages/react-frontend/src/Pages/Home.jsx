@@ -97,8 +97,11 @@ function Home({}) {
   }, []);
 
   function onCardClick(foodInfo) {
-    console.log(foodInfo);
     setFoodInfo(foodInfo);
+  }
+
+  function onDelete() {
+    
   }
 
   //Full table
