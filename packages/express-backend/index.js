@@ -48,12 +48,38 @@ app.post("/users", (req, res) => {
     );
 });
 
+//Get user(s)
 app.get("/users", (req, res) => {
   userServices
     .getUsers(req.query)
     .then((result) => {
       if (!result)
         return res.status(404).send("Resource not found.");
+      res.send(result);
+    })
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
+    );
+});
+
+/* -------------------- LOGIN -------------------- */
+//Validate login info
+app.post("/login", (req, res) => {
+  userServices
+    .getUsers({ email: req.body.email })
+    .then((result) => {
+      if (!result)
+        return res.status(404).send("Resource not found.");
+
+      //TEMPORARY PASSWORD CHECKER
+
+      if (req.body.password === result.password) {
+        // CORRECT PASSWORD
+      } else {
+        // WRONG PASSWORD
+      }
+
+      console.log(result);
       res.send(result);
     })
     .catch((error) =>

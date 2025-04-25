@@ -7,8 +7,21 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  function SendInformation() { 
+    const promise = fetch(`http://localhost:8000/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    })
+  }
+
   function getUserFromDatabase() {
-    const promise = fetch("http://localhost:8000/users?=", {
+    const promise = fetch(`http://localhost:8000/users/?email=${encodeURIComponent(email)}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
@@ -16,11 +29,9 @@ function LoginPage() {
     })
       .then(async (res) => {
         if (res.status == 200) {
-          const data = await res.json();
-          //REROUTE TO HOME PAGE
-          setError("");
-          console.log("Successful add");
-        } else if (res.status == 400) {
+          console.log("Found");
+          SendInformation();
+        } else if (res.status == 404) {
           console.log("400 error");
         }
       })
