@@ -8,6 +8,7 @@
 4. To run the backend, create a .env file `touch .env` and copy and paste this in `MONGODB_URI = "mongodb+srv://whats-in-the-fridge-user:DWIRaCXhO11dWbPY@cluster0.dmiyl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"`.
    DWIRaCXhO11dWbPY is our temporary testing database password.
 5. In this same .env file, you need to generate TOKEN_SECRET, use this call `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` and paste `TOKEN_SECRET = output` into the .env file.
+If not running run `npm install node-gyp -g` `npm install bcrypt -g` `npm install bcrypt --save`
 
 ## Current Demo
 
