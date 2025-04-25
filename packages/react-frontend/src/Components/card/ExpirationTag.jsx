@@ -34,10 +34,8 @@ const ExpirationTag = (props) => {
   function determineTagColor(daysRemaining) {
     let tagClass = "expiration-green";
     if (daysRemaining != undefined) {
-      if (daysRemaining <= 3) {
+      if (daysRemaining <= 7) {
         tagClass = "expiration-red";
-      } else if (daysRemaining <= 7) {
-        tagClass = "expiration-yellow";
       }
     }
     return tagClass;

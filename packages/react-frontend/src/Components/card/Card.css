@@ -8,7 +8,9 @@
   width: 100px;
   height: 100px;
   border-radius: 5px;
-  background-color: #d9d9d9;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .card-description {
@@ -16,6 +18,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 5px;
   width: 100px;
   height: fit-content;
+}
+
+.card-container:hover {
+  animation: up 0.3s forwards;
+}
+
+@keyframes up {
+  100% {
+    padding-bottom: 5px;
+  }
 }

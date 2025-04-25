@@ -37,10 +37,6 @@
   );
 }
 
-.expiration-yellow {
-  background-color: rgb(216, 188, 0);
-}
-
 .expiration-red {
   background-image: linear-gradient(
     var(--light-red),

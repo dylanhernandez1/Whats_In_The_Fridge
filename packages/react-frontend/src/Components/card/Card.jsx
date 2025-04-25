@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ExpirationTag from "./ExpirationTag.jsx";
 import "./Card.css";
 
@@ -12,13 +12,21 @@ function Card({ itemInfo, onClick }) {
     onClick(itemInfo);
   }
 
+  function determineNameFormat() {
+    if(itemInfo.FoodName) {
+      return itemInfo.FoodName.length > 12 ? itemInfo.FoodName.slice(0,10) + "..." : itemInfo.FoodName;
+    }
+  }
+
+  const format = determineNameFormat();
+
   return (
     <>
       <div className="card-container" onClick={onCardClick}>
         <img className="card-img"></img>
         <div className="card-description">
           <div className="card-title">
-            <b>{itemInfo.FoodName}</b>
+            <b>{format}</b>
           </div>
           <ExpirationTag
             daysRemaining={itemInfo.ExpirationDate}
