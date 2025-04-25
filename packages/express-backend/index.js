@@ -34,7 +34,7 @@ mongoose
 /* -------------------- USERS -------------------- */
 function generateAccessToken(name) {
   return jwt.sign({ name: name }, process.env.TOKEN_SECRET, {
-    expiresIn: "600s",
+    expiresIn: "600s"
   });
 }
 
@@ -50,28 +50,29 @@ app.post("/users", async (req, res) => {
       return res.status(409).send("Username already taken");
     }
 
-    const existingEmail = await userServices.getUsers({ email });
+    const existingEmail = await userServices.getUsers({
+      email
+    });
     if (existingEmail) {
       return res.status(409).send("Email already taken");
     }
-      //HASH PASSWORD
-      const saltRounds = 10;
-      const hashedPwd = await bcrypt.hash(password, saltRounds);
+    //HASH PASSWORD
+    const saltRounds = 10;
+    const hashedPwd = await bcrypt.hash(password, saltRounds);
 
-      const userToAdd = { name, email, password: hashedPwd };
-      const result = await userServices.addUser(userToAdd);
+    const userToAdd = { name, email, password: hashedPwd };
+    const result = await userServices.addUser(userToAdd);
 
-      if (result.message) {
-        return res.status(400).send(result.message);
-      }
-      const token = generateAccessToken(name);
-      console.log("JWT: ", token);
-      res.status(201).send({ token });
-  }
-    catch (error) {
-      console.error("Error adding user:", error);
-      res.status(500).send("Internal Server Error");
+    if (result.message) {
+      return res.status(400).send(result.message);
     }
+    const token = generateAccessToken(name);
+    console.log("JWT: ", token);
+    res.status(201).send({ token });
+  } catch (error) {
+    console.error("Error adding user:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 //Get users or specific users with query

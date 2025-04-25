@@ -58,7 +58,6 @@ function CreateAccountPage() {
       return false;
     }
 
-    console.log(email);    
     const promise = fetch("http://localhost:8000/users", {
       method: "POST",
       headers: {
