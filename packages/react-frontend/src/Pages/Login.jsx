@@ -8,7 +8,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
 
   function getUserFromDatabase() {
-    const promise = fetch("http://localhost:8000/users", {
+    const promise = fetch("http://localhost:8000/users?=", {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
