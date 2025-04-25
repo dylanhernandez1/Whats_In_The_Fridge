@@ -50,26 +50,9 @@ app.post("/users", (req, res) => {
 
 app.get("/users", (req, res) => {
   const email = req.query.email;
-  const password = req.query.password;
-  console.log("Hello");
+  const id = req.query.id;
   userServices
-    .findUserByEmail(email)
-    .then((result) => {
-      if (!result) {
-        return res.status(400).send("Email not found");
-      }
-      console.log(result);
-    })
-    .catch((error) =>
-      res.status(500).send(`Internal Server Error: ${error}`)
-    );
-});
-
-//Get a user by id
-app.get("/users/:id", (req, res) => {
-  const id = req.params.id;
-  userServices
-    .findUserById(id)
+    .getUsers(req.query)
     .then((result) => {
       if (!result)
         return res.status(404).send("Resource not found.");
