@@ -7,6 +7,7 @@ let mockSave;
 let mockFindById;
 let mockModel;
 let mockConnection;
+let mockFindOne;
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -15,6 +16,7 @@ beforeEach(() => {
   mockFind = jest.fn();
   mockSave = jest.fn();
   mockFindById = jest.fn();
+  mockFindOne = jest.fn();
 
   // Create a mock model object for static methods like .find
   mockModel = function () {
@@ -22,6 +24,7 @@ beforeEach(() => {
   };
   mockModel.find = mockFind;
   mockModel.findById = mockFindById;
+  mockModel.findOne = mockFindOne;
 
   // Create a mock connection that returns the mock model
   mockConnection = {
@@ -76,18 +79,12 @@ test("finding user by id", async () => {
 });
 
 test("finding user by name", async () => {
-  mockFind.mockResolvedValue([
+  mockFindOne.mockResolvedValue(
     {
       name: "John Doe",
       email: "desperatelyneedjob@example.com",
       password: "password123"
-    },
-    {
-      name: "jajaja",
-      email: "desperatelyneedjob@example.com",
-      password: "password123"
-    }
-  ]);
+    });
 
   const user = {
     name: "John Doe",
@@ -97,8 +94,8 @@ test("finding user by name", async () => {
 
   const result = await userServices.findUserByName("John Doe");
 
-  expect(result[0]).toEqual(user);
-  expect(mockFind).toHaveBeenCalledTimes(1);
+  expect(result).toEqual(user);
+  expect(mockFindOne).toHaveBeenCalledTimes(1);
 });
 
 test("finding user by invalid id --> null", async () => {
