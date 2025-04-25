@@ -7,7 +7,7 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function SendInformation() { 
+  function SendInformation() {
     const promise = fetch(`http://localhost:8000/login`, {
       method: "POST",
       headers: {
@@ -17,16 +17,19 @@ function LoginPage() {
         email: email,
         password: password
       })
-    })
+    });
   }
 
   function getUserFromDatabase() {
-    const promise = fetch(`http://localhost:8000/users/?email=${encodeURIComponent(email)}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
+    const promise = fetch(
+      `http://localhost:8000/users/?email=${encodeURIComponent(email)}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
       }
-    })
+    )
       .then(async (res) => {
         if (res.status == 200) {
           console.log("Found");

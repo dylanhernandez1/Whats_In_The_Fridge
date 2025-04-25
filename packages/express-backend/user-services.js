@@ -139,5 +139,5 @@ export default {
   findUserByName,
   deleteUserById,
   deleteUserByEmail,
-  setConnection,
+  setConnection
 };
