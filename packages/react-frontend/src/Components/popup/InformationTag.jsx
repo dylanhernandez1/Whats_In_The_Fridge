@@ -1,6 +1,6 @@
 import React from "react";
 import FruitWhite from "../../Assets/FruitWhite.png";
-import VegetableWhite from "../../Assets/FruitWhite.png";
+import VegetableWhite from "../../Assets/VegetableWhite.png";
 import DairyWhite from "../../Assets/DairyWhite.png";
 import ProteinWhite from "../../Assets/ProteinWhite.png";
 import FatsAndOilsWhite from "../../Assets/Fats & OilsWhite.png";

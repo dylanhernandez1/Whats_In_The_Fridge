@@ -5,7 +5,7 @@ import InformationTag from "./popup/InformationTag.jsx";
 import PopupFooter from "./popup/PopupFooter.jsx";
 
 import Fruit from "../Assets/Fruit.png";
-import Vegetable from "../Assets/Fruit.png";
+import Vegetable from "../Assets/Vegetable.png";
 import Dairy from "../Assets/Dairy.png";
 import Protein from "../Assets/Protein.png";
 import FatsAndOils from "../Assets/Fats & Oils.png";
