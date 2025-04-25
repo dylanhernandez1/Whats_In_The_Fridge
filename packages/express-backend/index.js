@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -30,35 +32,56 @@ mongoose
   });
 
 /* -------------------- USERS -------------------- */
+function generateAccessToken(name) {
+  return jwt.sign({ name: name }, process.env.TOKEN_SECRET, {
+    expiresIn: "600s",
+  });
+}
+
 //Add a user
-app.post("/users", (req, res) => {
-  const userToAdd = req.body;
-  userServices;
-  console.log(userToAdd);
-  userServices
-    .addUser(userToAdd)
-    .then((result) => {
-      if (result.message != null) {
+app.post("/users", async (req, res) => {
+  const { name, email, password } = req.body;
+  if (!name || !password || !email) {
+    res.status(400).send("Bad request: Invalid input data.");
+  }
+  try {
+    const existingName = await userServices.getUsers({ name });
+    if (existingName) {
+      return res.status(409).send("Username already taken");
+    }
+
+    const existingEmail = await userServices.getUsers({ email });
+    if (existingEmail) {
+      return res.status(409).send("Email already taken");
+    }
+      //HASH PASSWORD
+      const saltRounds = 10;
+      const hashedPwd = await bcrypt.hash(password, saltRounds);
+
+      const userToAdd = { name, email, password: hashedPwd };
+      const result = await userServices.addUser(userToAdd);
+
+      if (result.message) {
         return res.status(400).send(result.message);
       }
-      res.status(201).send(result);
-    })
-    .catch((error) =>
-      res.status(500).send(`Internal Server Error: ${error}`)
-    );
+      const token = generateAccessToken(name);
+      console.log("JWT: ", token);
+      res.status(201).send({ token });
+  }
+    catch (error) {
+      console.error("Error adding user:", error);
+      res.status(500).send("Internal Server Error");
+    }
 });
 
+//Get users or specific users with query
 app.get("/users", (req, res) => {
-  const email = req.query.email;
-  const password = req.query.password;
-  console.log("Hello");
   userServices
-    .findUserByEmail(email)
+    .getUsers(req.query)
     .then((result) => {
-      if (!result) {
-        return res.status(400).send("Email not found");
-      }
-      console.log(result);
+      if (!result)
+        return res.status(404).send("Resource not found.");
+      res.send(result);
     })
     .catch((error) =>
       res.status(500).send(`Internal Server Error: ${error}`)

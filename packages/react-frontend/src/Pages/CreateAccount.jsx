@@ -58,7 +58,7 @@ function CreateAccountPage() {
       return false;
     }
 
-    console.log(email);
+    console.log(email);    
     const promise = fetch("http://localhost:8000/users", {
       method: "POST",
       headers: {
@@ -79,6 +79,10 @@ function CreateAccountPage() {
           const message = await res.text();
           setError(message);
           console.log("400 error: " + message);
+        } else if (res.status == 409) {
+          const message = await res.text();
+          setError(message);
+          console.log("409 error: " + message);
         }
       })
       .catch((error) => {
