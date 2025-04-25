@@ -7,6 +7,9 @@ import FatsAndOilsWhite from "../../Assets/Fats & OilsWhite.png";
 import GrainsWhite from "../../Assets/GrainsWhite.png";
 import SugarsAndSweetsWhite from "../../Assets/Sugars & SweetsWhite.png";
 import DrinksWhite from "../../Assets/DrinksWhite.png";
+import Fridge from "../../Assets/Fridge.png";
+import Freezer from "../../Assets/Freezer.png";
+import Pantry from "../../Assets/Pantry.png";
 import "./InformationTag.css";
 
 const Icons = {
@@ -17,7 +20,10 @@ const Icons = {
   'Grains': GrainsWhite,
   "Fats & Oils": FatsAndOilsWhite,
   "Sugars & Sweets": SugarsAndSweetsWhite,
-  'Drinks': DrinksWhite
+  'Drinks': DrinksWhite,
+  'Fridge': Fridge,
+  'Freezer': Freezer,
+  'Pantry': Pantry,
 };
 
 /* iconInfo can be passed in two different ways:

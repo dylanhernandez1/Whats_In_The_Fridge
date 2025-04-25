@@ -26,7 +26,7 @@ const Icons = {
   'Drinks': Drinks
 };
 
-function Popup({ foodInfo, onDelete }) {
+function Popup({ foodInfo, onDelete, onClose }) {
   console.log(foodInfo);
   const [status, setStatus] = useState("popup-hidden");
   const [info, setInfo] = useState(undefined);
@@ -39,24 +39,22 @@ function Popup({ foodInfo, onDelete }) {
        activate the popup and set the status accordingly
     */
   if (foodInfo === undefined && status !== "popup-hidden") {
-    console.log("setting hidden");
-    onClose();
+    setStatus("popup-hidden");
+    setInfo(undefined);
+    setSize("start");
   } else if (
     status === "popup-hidden" &&
     foodInfo !== undefined
   ) {
-    console.log("setting active");
     setInfo(foodInfo);
     setStatus("popup-active");
   }
 
   /* The function to be called to close the popup.
-       Handles resetting the values to their original state */
-  function onClose() {
-    setStatus("popup-hidden");
-    setInfo(undefined);
-    setSize("start");
-    console.log("closed");
+       Handles resetting the values to their original state 
+       when foodInfo is set to undefined in Home.jsx */
+  function onCloseClicked() {
+    onClose();
   }
 
   function onUpdateQtyClicked() {
@@ -64,7 +62,6 @@ function Popup({ foodInfo, onDelete }) {
   }
 
   function onDeleteClicked() {
-    onClose();
     onDelete(info._id);
   }
 
@@ -74,9 +71,9 @@ function Popup({ foodInfo, onDelete }) {
         <img className="popup-frame-icon" src={Icons[info ? info.FoodType : "Fruit"]}></img>
         <div className="popup-frame-clip">
             <img className="popup-frame-decor" src={SideDecor}></img>
-            <ExitButton onClick={onClose} />
+            <ExitButton onClick={onCloseClicked} />
             <PopupHeader foodName={info ? info.FoodName : ""} expirationDate={info ? info.ExpirationDate : 0}/>
-            <InformationTag tagIcon={info ? info.Amount : 0} tagInfo={info ? info.Location : ""}/>
+            <InformationTag tagIcon={info ? info.Location : "Fridge"} tagInfo={info ? info.Location : ""}/>
             <InformationTag tagIcon={info ? info.FoodType : "Fruit"} tagInfo={info ? info.FoodType : ""}/>
             <InformationTag tagIcon={info ? info.Amount : 0} tagInfo="Quantity"/>
             <PopupFooter onUpdateQty={onUpdateQtyClicked} onDelete={onDeleteClicked}/>

@@ -100,6 +100,10 @@ function Home({}) {
     setFoodInfo(foodInfo);
   }
 
+  function onClose() {
+    setFoodInfo(undefined);
+  }
+
   function onDelete(id) {
     fetch(`http://localhost:8000/food`, {
       method: "DELETE",
@@ -133,7 +137,7 @@ function Home({}) {
           <Notifications foodList={foodList} />
         </header>
         <SearchBar onTextSubmit={handleSearchText} />
-        <Popup foodInfo={foodInfo} onDelete={onDelete}/>
+        <Popup foodInfo={foodInfo} onDelete={onDelete} onClose={onClose}/>
         <ExpiringList foodList={foodList} onClick={onCardClick}/>
         
       </div>
