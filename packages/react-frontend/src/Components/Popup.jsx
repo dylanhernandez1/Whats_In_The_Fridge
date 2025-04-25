@@ -26,7 +26,8 @@ const Icons = {
   'Drinks': Drinks
 };
 
-function Popup({ foodInfo }) {
+function Popup({ foodInfo, onDelete }) {
+  console.log(foodInfo);
   const [status, setStatus] = useState("popup-hidden");
   const [info, setInfo] = useState(undefined);
   const [size, setSize] = useState("start");
@@ -39,7 +40,7 @@ function Popup({ foodInfo }) {
     */
   if (foodInfo === undefined && status !== "popup-hidden") {
     console.log("setting hidden");
-    setStatus("popup-hidden");
+    onClose();
   } else if (
     status === "popup-hidden" &&
     foodInfo !== undefined
@@ -52,15 +53,19 @@ function Popup({ foodInfo }) {
   /* The function to be called to close the popup.
        Handles resetting the values to their original state */
   function onClose() {
+    setStatus("popup-hidden");
+    setInfo(undefined);
+    setSize("start");
     console.log("closed");
   }
 
-  function onUpdateQty() {
-
+  function onUpdateQtyClicked() {
+    
   }
 
-  function onDelete() {
-
+  function onDeleteClicked() {
+    onClose();
+    onDelete(info._id);
   }
 
   return (
@@ -74,7 +79,7 @@ function Popup({ foodInfo }) {
             <InformationTag tagIcon={info ? info.Amount : 0} tagInfo={info ? info.Location : ""}/>
             <InformationTag tagIcon={info ? info.FoodType : "Fruit"} tagInfo={info ? info.FoodType : ""}/>
             <InformationTag tagIcon={info ? info.Amount : 0} tagInfo="Quantity"/>
-            <PopupFooter onUpdateQty={onUpdateQty} onDelete={onDelete}/>
+            <PopupFooter onUpdateQty={onUpdateQtyClicked} onDelete={onDeleteClicked}/>
         </div>
       </div>
     </div>

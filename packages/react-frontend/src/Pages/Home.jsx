@@ -100,8 +100,25 @@ function Home({}) {
     setFoodInfo(foodInfo);
   }
 
-  function onDelete() {
-    
+  function onDelete(id) {
+    fetch(`http://localhost:8000/food`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        _id: id
+      })
+    })
+    .then((res) => {
+      if(res.status == 201) {
+        setFoodList(foodList.filter(food => food._id !== id));
+        setFoodInfo(undefined);
+      }
+    })
+    .catch((error) => {
+      console.error("Error ", error);
+    })
   }
 
   //Full table
@@ -116,7 +133,7 @@ function Home({}) {
           <Notifications foodList={foodList} />
         </header>
         <SearchBar onTextSubmit={handleSearchText} />
-        <Popup foodInfo={foodInfo}/>
+        <Popup foodInfo={foodInfo} onDelete={onDelete}/>
         <ExpiringList foodList={foodList} onClick={onCardClick}/>
         
       </div>

@@ -25,7 +25,6 @@ const Icons = {
     2) if it's an int, the icon will sipmply be the int
 */
 function InformationTag({ tagIcon, tagInfo }) {
-  console.log(typeof tagIcon);
   if (typeof tagIcon === "string") {
     return (
       <div className="information-tag-container">
