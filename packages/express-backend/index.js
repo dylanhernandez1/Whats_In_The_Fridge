@@ -49,8 +49,6 @@ app.post("/users", (req, res) => {
 });
 
 app.get("/users", (req, res) => {
-  const email = req.query.email;
-  const id = req.query.id;
   userServices
     .getUsers(req.query)
     .then((result) => {
