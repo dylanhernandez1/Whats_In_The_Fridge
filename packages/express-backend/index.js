@@ -285,6 +285,23 @@ app.get("/expiring", (req, res) => {
     );
 });
 
+app.delete("/food", (req, res) => {
+  const foodId = req.body._id;
+  console.log(`The foodId is: ${foodId}`);
+  foodServices
+    .deleteFoodById(foodId)
+    .then((mongoRes) => {
+      if (validateRes(mongoRes)) {
+        res.status(201).send("Successfully deleted!");
+      } else {
+        res.status(400).send("There was an error deleting the food item");
+      }
+    })
+    .catch((error) => 
+      res.status(400).send("There was an error deleting the food item")
+    );
+})
+
 /* -------------------- ROOT -------------------- */
 app.get("/", (req, res) => {
   res.send("Hello World!");

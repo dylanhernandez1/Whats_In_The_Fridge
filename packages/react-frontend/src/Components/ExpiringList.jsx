@@ -7,9 +7,11 @@ import "./ExpiringList_styling.css";
         expiring-list-header: Contains the container title and "see more" link
         expiring-list:        Contains the foods, formatted in Card components, that are expiring the earliest in a scrollable frame
 */
-function ExpiringList({ foodList }) {
-  /* navigate to a specific location when clicking on a Card component */
-  function onClick(location) {}
+function ExpiringList(props) {
+  /* */
+  function onCardClick(foodInfo) {
+    props.onClick(foodInfo);
+  }
 
   return (
     <div className="expiring-list-container">
@@ -20,14 +22,12 @@ function ExpiringList({ foodList }) {
         <div className="expiring-list-see-more">See more</div>
       </div>
       <div className="expiring-list">
-        {foodList?.map((item) => {
+        {props.foodList?.map((item) => {
           return (
             <Card
               key={item.id}
-              name={item.FoodName}
-              expirationDate={item.ExpirationDate}
-              location={item.Location}
-              onClick={onClick}
+              itemInfo={item}
+              onClick={onCardClick}
             />
           );
         })}

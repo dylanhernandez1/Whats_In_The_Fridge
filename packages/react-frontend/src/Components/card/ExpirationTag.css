@@ -1,3 +1,10 @@
+:root {
+    --light-green: #94D15D;
+    --dark-green: #99C420;
+    --light-red: #FF5635;
+    --dark-red: rgb(229, 0, 0);
+}
+
 .expiration-tag {
   display: flex;
   width: 80px;
@@ -8,6 +15,7 @@
   justify-content: center;
   font-size: 13px;
   font-weight: 600;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
 }
 
 .expiration-tag-small {
@@ -23,7 +31,7 @@
 }
 
 .expiration-green {
-  background-color: rgb(108, 216, 0);
+  background-image: linear-gradient(var(--light-green), var(--dark-green));
 }
 
 .expiration-yellow {
@@ -31,5 +39,5 @@
 }
 
 .expiration-red {
-  background-color: rgb(229, 0, 0);
+  background-image: linear-gradient(var(--light-red), var(--dark-red));
 }

@@ -1,0 +1,109 @@
+/* variables */
+    :root {
+        --width: 280px;
+        --original-height: 375px;
+        --expanded-height: 420px;
+
+        --transition-time: 0.3s;
+    }
+
+/* The following two css rules determine whether or not the popup can be SEEN */
+    .popup-hidden {
+        position: absolute;
+        display: none;
+    }
+
+
+    .popup-active {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+        height: 0;
+    }
+
+/* The following three css rules determine the sizing of the popup 
+   .popup-frame-start is needed so the .popup-frame-original animation
+   doesn't play right when the user activates the popup.
+   The other two rules handle the animation aspects */
+    .popup-frame-start {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        width: var(--width);
+        height: var(--original-height);
+        margin-top: 25px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+    }
+
+    .popup-frame-original {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        width: var(--width);
+        height: var(--expanded-height);
+        margin-top: 25px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        animation: to-original-height var(--transition-time) forwards;
+    }
+
+    .popup-frame-expanded {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        width: var(--width);
+        height: var(--original-height);
+        margin-top: 25px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        animation: to-expanded-height var(--transition-time) forwards;
+    }
+
+    /* The following rules determine the sizing for the decoration icons/placement */
+    .popup-frame-icon {
+        position: absolute;
+        width: 175px;
+        height: 175px;
+        transform: translate(-35px, -30px);
+        z-index: 1;
+    }
+
+    .popup-frame-decor {
+        position: absolute;
+        right: 0;
+        width: 150px;
+        height: 320px;
+        transform: translate(20px, -25px);
+        z-index: 0;
+    } 
+
+    .popup-frame-clip {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        overflow: hidden;
+    }
+
+    /* Animations for rescaling the popup in the event the user clicks the
+       "Update Qty button */
+    @keyframes to-original-height {
+        100% {
+            height: var(--original-height);
+        }
+    }
+
+    @keyframes to-expanded-height {
+        100% {
+            height: var(--expanded-height);
+        }
+    }

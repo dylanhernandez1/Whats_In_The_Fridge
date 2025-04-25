@@ -77,10 +77,26 @@ async function getFood(name) {
   return result;
 }
 
+async function deleteFoodById(id) {
+  const foodModel = getDbConnection().model("Food", FoodSchema);
+
+  try {
+    const result = await foodModel.findOneAndDelete({
+      _id: id
+    });
+    return result;
+  }
+  catch (error) {
+    console.log("Error deleting food:", error);
+    return false;
+  }
+}
+
 export default {
   addFood,
   findFoodByName,
   findFoodByExpiration,
   getFood,
+  deleteFoodById,
   setConnection
 };
