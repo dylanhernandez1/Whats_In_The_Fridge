@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -30,25 +32,50 @@ mongoose
   });
 
 /* -------------------- USERS -------------------- */
+function generateAccessToken(name) {
+  return jwt.sign({ name: name }, process.env.TOKEN_SECRET, {
+    expiresIn: "600s"
+  });
+}
+
 //Add a user
-app.post("/users", (req, res) => {
-  const userToAdd = req.body;
-  userServices;
-  console.log(userToAdd);
-  userServices
-    .addUser(userToAdd)
-    .then((result) => {
-      if (result.message != null) {
-        return res.status(400).send(result.message);
-      }
-      res.status(201).send(result);
-    })
-    .catch((error) =>
-      res.status(500).send(`Internal Server Error: ${error}`)
-    );
+app.post("/users", async (req, res) => {
+  const { name, email, password } = req.body;
+  if (!name || !password || !email) {
+    res.status(400).send("Bad request: Invalid input data.");
+  }
+  try {
+    const existingName = await userServices.getUsers({ name });
+    if (existingName) {
+      return res.status(409).send("Username already taken");
+    }
+
+    const existingEmail = await userServices.getUsers({
+      email
+    });
+    if (existingEmail) {
+      return res.status(409).send("Email already taken");
+    }
+    //HASH PASSWORD
+    const saltRounds = 10;
+    const hashedPwd = await bcrypt.hash(password, saltRounds);
+
+    const userToAdd = { name, email, password: hashedPwd };
+    const result = await userServices.addUser(userToAdd);
+
+    if (result.message) {
+      return res.status(400).send(result.message);
+    }
+    const token = generateAccessToken(name);
+    console.log("JWT: ", token);
+    res.status(201).send({ token });
+  } catch (error) {
+    console.error("Error adding user:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
-//Get user(s)
+//Get users or specific users with query
 app.get("/users", (req, res) => {
   userServices
     .getUsers(req.query)
@@ -62,30 +89,31 @@ app.get("/users", (req, res) => {
     );
 });
 
+
 /* -------------------- LOGIN -------------------- */
 //Validate login info
 app.post("/login", (req, res) => {
   userServices
-    .getUsers({ email: req.body.email })
-    .then((result) => {
-      if (!result)
-        return res.status(404).send("Resource not found.");
+  .getUsers({email : req.body.email})
+  .then((result) => {
+    if (!result) return res.status(404).send("Resource not found.");
 
-      //TEMPORARY PASSWORD CHECKER
+    //TEMPORARY PASSWORD
 
-      if (req.body.password === result.password) {
-        // CORRECT PASSWORD
-      } else {
-        // WRONG PASSWORD
-      }
+    if (req.body.password === result.password){
+      // CORRECT PASSWORD
+    } else {
+      // WRONG PASSWORD
+    }
 
-      console.log(result);
-      res.send(result);
-    })
-    .catch((error) =>
-      res.status(500).send(`Internal Server Error: ${error}`)
-    );
-});
+    console.log(result);
+    res.send(result);
+  })
+  .catch((error) =>
+    res.status(500).send(`Internal Server Error: ${error}`)
+  );
+})
+
 
 /* -------------------- HOUSES -------------------- */
 //Add a house
