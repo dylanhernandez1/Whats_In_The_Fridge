@@ -66,7 +66,7 @@ function LoginPage() {
 
         <button
           className="primary-button"
-          onClick={getUserFromDatabase}
+          onClick={sendInformation}
         >
           Sign In
         </button>
