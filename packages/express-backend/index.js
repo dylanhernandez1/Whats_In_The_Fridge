@@ -66,7 +66,7 @@ app.post("/users", async (req, res) => {
     if (result.message) {
       return res.status(400).send(result.message);
     }
-    const token = generateAccessToken(name);
+    const token = generateAccessToken(email);
     console.log("JWT: ", token);
     res.status(201).send({ token });
   } catch (error) {
@@ -91,27 +91,40 @@ app.get("/users", (req, res) => {
 
 /* -------------------- LOGIN -------------------- */
 //Validate login info
-app.post("/login", (req, res) => {
-  userServices
-    .getUsers({ email: req.body.email })
-    .then((result) => {
-      if (!result)
-        return res.status(404).send("Resource not found.");
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
 
-      //TEMPORARY PASSWORD CHECKER
+  try {
+    const retrievedUser = await userServices.getUsers({
+      email
+    });
 
-      if (req.body.password === result.password) {
-        // CORRECT PASSWORD
-      } else {
-        // WRONG PASSWORD
-      }
+    if (
+      !retrievedUser ||
+      !retrievedUser.email ||
+      !retrievedUser.password
+    ) {
+      // User not found/invalid format
+      return res.status(401).send("Invalid credentials.");
+    }
 
-      console.log(result);
-      res.send(result);
-    })
-    .catch((error) =>
-      res.status(500).send(`Internal Server Error: ${error}`)
+    const isValid = await bcrypt.compare(
+      password,
+      retrievedUser.password
     );
+
+    if (!isValid) {
+      // Incorrect password
+      return res.status(401).send("Invalid credentials.");
+    }
+
+    // Successfully authenticated, generate and send token
+    const token = generateAccessToken(email);
+    return res.status(200).send({ token });
+  } catch (error) {
+    console.error("Login Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 /* -------------------- HOUSES -------------------- */

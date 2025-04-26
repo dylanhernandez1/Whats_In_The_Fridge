@@ -1,7 +1,7 @@
 :root {
-    --light-green: #94d15d;
-    --dark-green: #99c420;
-  }
+  --light-green: #94d15d;
+  --dark-green: #99c420;
+}
 
 .ingredient-button {
   padding: 8px 16px;
@@ -15,17 +15,17 @@
 }
 
 .ingredient-button:hover {
-    transform: translateY(-5px);  
+  transform: translateY(-5px);
 }
 
 .color {
-    color: white;
-    background-image: linear-gradient(
+  color: white;
+  background-image: linear-gradient(
     var(--light-green),
     var(--dark-green)
   );
 }
 
 .white {
-    color: rgb(209, 209, 209);
+  color: rgb(209, 209, 209);
 }

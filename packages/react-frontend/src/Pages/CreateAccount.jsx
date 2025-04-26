@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "./Food_Styling.css";
+import { useNavigate } from "react-router-dom";
 
 function CreateAccountPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const [addButtonText, setButtonText] =
     useState("Create Account");
@@ -46,6 +49,7 @@ function CreateAccountPage() {
           //REROUTE TO HOME PAGE
           setError("");
           console.log("Successful add");
+          navigate("/");
         } else if (res.status == 400) {
           const message = await res.text();
           setError(message);

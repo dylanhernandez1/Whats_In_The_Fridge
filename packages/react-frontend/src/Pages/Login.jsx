@@ -7,40 +7,34 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function SendInformation() {
-    const promise = fetch(`http://localhost:8000/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password
-      })
-    });
-  }
-
-  function getUserFromDatabase() {
-    const promise = fetch(
-      `http://localhost:8000/users/?email=${encodeURIComponent(email)}`,
-      {
-        method: "GET",
+  async function sendInformation() {
+    try {
+      const res = await fetch(`http://localhost:8000/login`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json"
-        }
-      }
-    )
-      .then(async (res) => {
-        if (res.status == 200) {
-          console.log("Found");
-          SendInformation();
-        } else if (res.status == 404) {
-          console.log("400 error");
-        }
-      })
-      .catch((error) => {
-        console.error("Error: ", error);
+        },
+        body: JSON.stringify({ email, password })
       });
+
+      if (res.status === 200) {
+        const data = await res.json(); // assuming you send { token: '...' } back
+        console.log("Login successful!", data.token);
+
+        // Optionally, save token to localStorage/sessionStorage
+        localStorage.setItem("token", data.token);
+
+        // Navigate to home or dashboard
+        navigate("/");
+      } else if (res.status === 401) {
+        alert("Invalid email or password!");
+      } else {
+        alert("Unexpected error occurred.");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      alert("Server error. Please try again later.");
+    }
   }
 
   return (
@@ -56,7 +50,7 @@ function LoginPage() {
             fontStretch: "ultra-condensed",
             color: "grey"
           }}
-          placeholder="Email "
+          placeholder="Email"
           type="string"
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -80,7 +74,7 @@ function LoginPage() {
             fontStretch: "ultra-condensed",
             color: "black"
           }}
-          onClick={() => getUserFromDatabase()}
+          onClick={sendInformation}
         >
           Sign In
         </button>

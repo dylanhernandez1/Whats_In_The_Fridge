@@ -13,8 +13,10 @@ function Card({ itemInfo, onClick }) {
   }
 
   function determineNameFormat() {
-    if(itemInfo.FoodName) {
-      return itemInfo.FoodName.length > 12 ? itemInfo.FoodName.slice(0,10) + "..." : itemInfo.FoodName;
+    if (itemInfo.FoodName) {
+      return itemInfo.FoodName.length > 12
+        ? itemInfo.FoodName.slice(0, 10) + "..."
+        : itemInfo.FoodName;
     }
   }
 
