@@ -18,13 +18,12 @@ function LoginPage() {
       });
 
       if (res.status === 200) {
-        const data = await res.json(); // assuming you send { token: '...' } back
+        const data = await res.json();
         console.log("Login successful!", data.token);
 
-        // Optionally, save token to localStorage/sessionStorage
+        //Save token to localStorage
         localStorage.setItem("token", data.token);
-
-        // Navigate to home or dashboard
+        // Navigate to home
         navigate("/");
       } else if (res.status === 401) {
         alert("Invalid email or password!");
@@ -62,7 +61,7 @@ function LoginPage() {
             color: "grey"
           }}
           placeholder="Password"
-          type="string"
+          type="password"
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>

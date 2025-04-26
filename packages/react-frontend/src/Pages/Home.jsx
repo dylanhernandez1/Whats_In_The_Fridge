@@ -9,6 +9,7 @@ import Notifications from "../Components/Notifications.jsx";
 import IngredientSorting from "../Components/IngredientSorting.jsx";
 import Popup from "../Components/Popup.jsx";
 import "../Components/Header_styling.css";
+import { useNavigate } from "react-router-dom";
 
 function Home({}) {
   const [foodList, setFoodList] = useState([{}]);
@@ -16,6 +17,8 @@ function Home({}) {
   const [searchText, setSearchText] = useState("");
   const [menuText, setMenuText] = useState("");
   const [foodInfo, setFoodInfo] = useState(undefined);
+
+  const navigate = useNavigate();
 
   function getExpiringList() {
     const promise = fetch(`http://localhost:8000/expiring`, {
@@ -30,6 +33,17 @@ function Home({}) {
   //FOR SEARCHBAR
 
   useEffect(() => {
+    // Check if the token is available in localStorage
+    const token = localStorage.getItem("token");
+
+    // If no token, redirect to login
+    if (!token) {
+      navigate("/login");
+    } else {
+      // TO DO: Token exists, verify it by making an API call to the backend, then get related food
+    }
+    //}, [navigate]);
+
     const filteredFoods =
       searchText.trim() == ""
         ? foodList

@@ -49,6 +49,11 @@ function CreateAccountPage() {
           //REROUTE TO HOME PAGE
           setError("");
           console.log("Successful add");
+
+          const data = await res.json();
+          //Save token to localStorage
+          localStorage.setItem("token", data.token);
+
           navigate("/");
         } else if (res.status == 400) {
           const message = await res.text();
