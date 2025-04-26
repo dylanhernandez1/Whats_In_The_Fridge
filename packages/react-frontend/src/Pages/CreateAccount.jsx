@@ -49,7 +49,7 @@ function CreateAccountPage() {
           //REROUTE TO HOME PAGE
           setError("");
           console.log("Successful add");
-          navigate("/");
+          navigate("/login");
 
           const data = await res.json();
           //Save token to localStorage
