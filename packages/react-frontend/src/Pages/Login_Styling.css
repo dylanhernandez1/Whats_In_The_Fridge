@@ -1,0 +1,113 @@
+/* Create Account back button*/
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  font-size: 30px;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  margin: 0;
+  background-color: #f6f6f6;
+}
+
+/* Whats in the Fridge Name (logo) */
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  align-self: flex-start;
+  margin-left: 60px;
+  z-index: 1;
+}
+
+.login-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.input-field {
+  padding: 14px;
+  border: 1px solid lightgrey;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.primary-button {
+  background-color: black;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.primary-button:hover {
+  background-color: #333;
+}
+
+.info-blurb {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 0px;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Forgot password */
+.link-button {
+  background: none;
+  border: none;
+  color: lightblue;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+  align-self: flex-start;
+}
+
+.new-user-section {
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 600px) {
+  .login-container {
+    padding: 10px;
+  }
+
+  .logo {
+    text-align: center;
+    align-self: center;
+    margin-left: 0;
+  }
+
+  .login-card {
+    width: 95%;
+    padding: 20px;
+  }
+}

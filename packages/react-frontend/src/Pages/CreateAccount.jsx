@@ -49,12 +49,12 @@ function CreateAccountPage() {
           //REROUTE TO HOME PAGE
           setError("");
           console.log("Successful add");
+          navigate("/");
 
           const data = await res.json();
           //Save token to localStorage
           localStorage.setItem("token", data.token);
 
-          navigate("/");
         } else if (res.status == 400) {
           const message = await res.text();
           setError(message);
@@ -71,60 +71,68 @@ function CreateAccountPage() {
   }
 
   return (
-    <div className="container">
-      <label htmlFor="name">Welcome</label>
-      <label htmlFor="name">What's In The Fridge?</label>
-      <label htmlFor="name">Register</label>
+    <div className="login-container">
+      <div className="logo">What's In The Fridge?</div>
+      <button
+        className="back-button"
+        onClick={() => navigate("/login")}
+      >
+        {"<"}
+      </button>
 
-      <div>
-        <label htmlFor="name">{error ? error : ""}</label>
-      </div>
+      <div className="login-card">
+        <h2>Welcome!</h2>
 
-      <div>
-        <input
-          style={{
-            fontStretch: "ultra-condensed",
-            color: "grey"
-          }}
-          placeholder="Username"
-          type="string"
-          onChange={(e) => setName(e.target.value)}
-        />
-      </div>
-      <div>
-        <input
-          style={{
-            fontStretch: "ultra-condensed",
-            color: "grey"
-          }}
-          placeholder="Email"
-          type="string"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
-      <div>
-        <input
-          style={{
-            fontStretch: "ultra-condensed",
-            color: "grey"
-          }}
-          placeholder="Password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
+        <p className="info-blurb">
+          Join us today to manage your fridge, pantry, and
+          freezer! With an account, you'll be able to track your
+          food, get recipe suggestions, and create grocery
+          lists. It's easy and free!
+        </p>
 
-      <div>
-        <button //HERE IS WHERE WE WILL SAVE THE DATA TO THE DATABASE
-          className="add-button"
-          style={{
-            fontStretch: "ultra-condensed",
-            color: "black"
-          }}
-          onClick={addUserToDatabase}
-        >
-          {addButtonText}
-        </button>
+        <div>
+          <label htmlFor="name">Username</label>
+          <input
+            className="input-field"
+            placeholder="Enter your username"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            className="input-field"
+            placeholder="Enter your email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            className="input-field"
+            placeholder="Enter your password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <button
+            className="primary-button"
+            onClick={addUserToDatabase}
+          >
+            {addButtonText}
+          </button>
+        </div>
+
+        {error && <div className="error-message">{error}</div>}
       </div>
     </div>
   );

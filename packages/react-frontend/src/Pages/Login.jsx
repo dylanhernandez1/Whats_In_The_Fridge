@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "./Food_Styling.css";
+// import "./Food_Styling.css";
+import "./Login_Styling.css";
 import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
@@ -37,73 +38,52 @@ function LoginPage() {
   }
 
   return (
-    <div className="container">
-      <label htmlFor="name">Welcome</label>
+    <div className="login-container">
+      <div className="logo">What's In The Fridge?</div>
 
-      <label htmlFor="name">What's In The Fridge?</label>
-      <label htmlFor="name">Login?</label>
+      <div className="login-card">
+        <h2>Welcome Back!</h2>
 
-      <div>
+        <p className="info-blurb">
+          Thanks for using What’s in the Fridge! Ready to track
+          your food, find new recipes, and stay organized? Log
+          in to pick up where you left off, or create an account
+          to get started!
+        </p>
+
         <input
-          style={{
-            fontStretch: "ultra-condensed",
-            color: "grey"
-          }}
+          className="input-field"
           placeholder="Email"
-          type="string"
+          type="email"
           onChange={(e) => setEmail(e.target.value)}
         />
-      </div>
-      <div>
         <input
-          style={{
-            fontStretch: "ultra-condensed",
-            color: "grey"
-          }}
+          className="input-field"
           placeholder="Password"
           type="password"
           onChange={(e) => setPassword(e.target.value)}
         />
-      </div>
 
-      <div>
         <button
-          className="add-button"
-          style={{
-            fontStretch: "ultra-condensed",
-            color: "black"
-          }}
-          onClick={sendInformation}
+          className="primary-button"
+          onClick={getUserFromDatabase}
         >
           Sign In
         </button>
-      </div>
 
-      <div>
-        <button
-          className="add-button"
-          style={{
-            fontStretch: "ultra-condensed",
-            color: "lightblue"
-          }}
-        >
-          Forgot Password
+        <button className="link-button">
+          Forgot Password?
         </button>
-      </div>
 
-      <div>
-        <label>New to What's In The Fridge?</label>
-
-        <button
-          className="add-button"
-          style={{
-            fontStretch: "ultra-condensed",
-            color: "lightblue"
-          }}
-          onClick={() => navigate("/create-account")}
-        >
-          Join now
-        </button>
+        <div className="new-user-section">
+          <p>New to What's In The Fridge?</p>
+          <button
+            className="primary-button"
+            onClick={() => navigate("/create-account")}
+          >
+            Join Now
+          </button>
+        </div>
       </div>
     </div>
   );
