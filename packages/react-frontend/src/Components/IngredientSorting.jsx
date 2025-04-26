@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Card from "./card/Card.jsx";
+import IngredientButton from "./IngredientButton.jsx";
 import "./IngredientSorting_styling.css";
 
 const categories = [
@@ -40,15 +41,12 @@ export default function IngredientList(props) {
 
       <div className="ingredient-categories">
         {categories.map((category) => (
-          <button
+          <IngredientButton
             key={category}
+            style={selectedCategory === category ? "color" : "white"}
+            text={category}
             onClick={() => setSelectedCategory(category)}
-            className={
-              selectedCategory === category ? "active" : ""
-            }
-          >
-            {category}
-          </button>
+          />
         ))}
       </div>
 
