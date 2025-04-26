@@ -43,7 +43,9 @@ export default function IngredientList(props) {
         {categories.map((category) => (
           <IngredientButton
             key={category}
-            style={selectedCategory === category ? "color" : "white"}
+            style={
+              selectedCategory === category ? "color" : "white"
+            }
             text={category}
             onClick={() => setSelectedCategory(category)}
           />
