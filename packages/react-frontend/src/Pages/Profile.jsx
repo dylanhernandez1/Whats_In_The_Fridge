@@ -4,6 +4,9 @@ import Toolbar from "../Components/Toolbar.jsx";
 import { useNavigate } from "react-router-dom";
 import "../Components/Profile_page.css";
 import ProfileToolbar from "../Components/profile_bar.jsx";
+import {
+  FaSignOutAlt,
+} from "react-icons/fa";
 
 function Profile() {
   const navigate = useNavigate();
@@ -52,6 +55,14 @@ function Profile() {
             <p>
               <strong>Birthday:</strong> January 1, 1990
             </p>
+            <button
+            className="log-out"
+        onClick={() => navigate("/login")}
+        //EVENTUALLY MAKE IT SO TOKEN IS BLACKLISTED SO CANT GO BACK
+      >
+        <FaSignOutAlt className="icon" />
+        <span className="button-text">Sign Out</span>
+      </button>
           </div>
         );
       case "Houses":
