@@ -1,18 +1,21 @@
 /* Default Sidebar Style (Desktop) */
+
 body {
   font-family: ".SF Compact Rounded";
   font-stretch: semi-condensed;
 }
 
+ /*  overflow: hidden; */
 .ingredient-list-container {
   width: 100%;
   padding-top: 10px;
-  overflow: hidden; /* Prevents unwanted scrolling */
+  overflow-y: hidden;
 }
 
 .ingredient-list-header {
   display: flex;
   justify-content: space-between;
+  z-index: 1;
 }
 
 /* Ingredient Filter Container */
@@ -21,7 +24,6 @@ body {
   margin-left: 80px;
   padding-top: 10px;
   padding-bottom: 10px;
-  overflow: hidden; /* Prevents unwanted scrolling */
 }
 
 /* Ingredient Filter Header */
@@ -29,15 +31,17 @@ body {
   display: flex;
   justify-content: space-between;
   padding-bottom: 10px;
+  z-index: 1;
 }
 
 /* Ingredient Categories */
 .ingredient-categories {
   display: flex;
-  overflow-x: auto;
+  overflow-x: scroll;
   gap: 8px;
   padding: 8px;
   scrollbar-width: none;
+  z-index: 2;
 }
 
 .ingredient-categories button {
@@ -65,7 +69,7 @@ body {
 /* Ingredient List (Now Supports Grid & Vertical Scroll) */
 .ingredient-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 10px;
   margin-top: 10px;
   min-height: 40vh;
@@ -74,6 +78,10 @@ body {
   overflow-x: hidden;
   max-height: 50vh;
   scrollbar-width: thin;
+}
+
+.ingredient-list > * {
+  justify-self: center;
 }
 
 /* Scrollable Frame */
