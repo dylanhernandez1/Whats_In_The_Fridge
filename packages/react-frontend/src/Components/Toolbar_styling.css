@@ -1,3 +1,9 @@
+:root {
+    --light-green: #94d15d;
+    --dark-green: #99c420;
+  }
+
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -43,17 +49,18 @@ body {
 }
 
 /* Hover effect */
+/* background-color: #f0f0f0; */
 .toolbar button:hover {
-  background-color: #f0f0f0; /* Light gray background */
+  background-color: #94d15d;
   border: 0;
 }
 
 .toolbar button:hover .icon {
-  color: #64b8e9; /* Darker icon on hover */
+  color: white; /* Darker icon on hover */
 }
 
 .toolbar button:hover .button-text {
-  color: #64b8e9;
+  color: White;
 }
 
 /* Button text */
@@ -66,7 +73,7 @@ body {
 
 /* Selected button style */
 .toolbar button.selected {
-  background-color: #64b8e9;
+  background-color: #94d15d;
   border: 0;
 }
 

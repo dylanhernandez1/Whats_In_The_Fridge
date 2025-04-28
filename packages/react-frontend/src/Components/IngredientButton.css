@@ -3,7 +3,20 @@
     --dark-green: #99c420;
   }
 
-.ingredient-button {
+  .ingredient-button-white {
+    padding: 8px 16px;
+    border: none;
+    margin: 0;
+    cursor: pointer;
+    border-radius: 60px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    color: rgb(209, 209, 209);   
+    transition: all 0.3s ease-out;
+    z-index: 1;
+  }  
+
+.ingredient-button-color {
   padding: 8px 16px;
   border: none;
   margin: 0;
@@ -11,21 +24,81 @@
   border-radius: 60px;
   white-space: nowrap;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: white;
+  background-image: linear-gradient(
+  var(--light-green),
+  var(--dark-green)
+);
   transition: all 0.3s ease-out;
+  z-index: 1;
 }
 
-.ingredient-button:hover {
+.ingredient-button-white-all {
+  padding: 8px 16px;
+  border: none;
+  margin: 0;
+  cursor: pointer;
+  border-radius: 60px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: rgb(209, 209, 209);   
+  transition: all 0.3s ease-out;
+  z-index: 1;
+}  
+
+.ingredient-button-color-all {
+padding: 8px 16px;
+border: none;
+margin: 0;
+cursor: pointer;
+border-radius: 60px;
+white-space: nowrap;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+color: white;
+background-image: linear-gradient(
+var(--light-green),
+var(--dark-green)
+);
+transition: all 0.3s ease-out;
+z-index: 1;
+}
+
+.ingredient-button-color-all:hover {
+  transform: translateY(-5px);  
+  z-index: 1;
+}
+
+.ingredient-button-white-all:hover {
     transform: translateY(-5px);  
+    z-index: 1;
 }
 
-.color {
+.ingredient-button-color:hover {
+  transform: translateY(-5px);  
+  z-index: 1;
+}
+
+.ingredient-button-white:hover {
+    transform: translateY(-5px);  
     color: white;
-    background-image: linear-gradient(
-    var(--light-green),
-    var(--dark-green)
-  );
+    z-index: 1;
 }
 
-.white {
-    color: rgb(209, 209, 209);
+.ingredient-button-white:hover .ingredient-button-icon {
+  opacity: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ingredient-button-icon {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  z-index: -1;
+  transition: all 0.3s ease-out;
+  pointer-events: none;
 }
