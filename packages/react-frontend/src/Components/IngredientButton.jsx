@@ -27,26 +27,28 @@ const IngredientButton = ({ style, text, onClick }) => {
     ? style
     : STYLE[0];
 
-  if(text === "All") {
+  if (text === "All") {
     return (
       <div
         className={`ingredient-button-${checkButtonStyle}-all`}
         onClick={onClick}
-        >
-          <b>{text}</b>
+      >
+        <b>{text}</b>
       </div>
-  );
+    );
   } else {
     return (
       <div
         className={`ingredient-button-${checkButtonStyle}`}
         onClick={onClick}
-        >
+      >
         <b>{text}</b>
-        <img className='ingredient-button-icon' src={ICONS[text] ? ICONS[text] : "Fruit"}>
-        </img>
+        <img
+          className="ingredient-button-icon"
+          src={ICONS[text] ? ICONS[text] : "Fruit"}
+        ></img>
       </div>
-  );
+    );
   }
 };
 

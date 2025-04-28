@@ -17,16 +17,23 @@ function CreateAccountPage() {
     const EmailValidation = (email) =>
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-    if (name.length < 3) return false;
-    if (!EmailValidation(email)) return false;
-    if (password.length < 3) return false;
+    if (name.length < 3)
+      return { bool: false, error: "Username Required" };
+    if (!EmailValidation(email))
+      return { bool: false, error: "Invalid Email" };
+    if (password.length <= 3)
+      return {
+        bool: false,
+        error: "Password Must Be More Than 3 Characters"
+      };
 
     return true;
   }
 
   function addUserToDatabase() {
-    if (Validation() == false) {
-      setButtonText("Invalid Information");
+    const result = Validation();
+    if (result.bool == false) {
+      setButtonText(result.error);
       setTimeout(() => {
         setButtonText("Create Account");
       }, 3000);
@@ -54,7 +61,6 @@ function CreateAccountPage() {
           const data = await res.json();
           //Save token to localStorage
           localStorage.setItem("token", data.token);
-
         } else if (res.status == 400) {
           const message = await res.text();
           setError(message);

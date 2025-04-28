@@ -1,8 +1,7 @@
 :root {
-    --light-green: #94d15d;
-    --dark-green: #99c420;
-  }
-
+  --light-green: #94d15d;
+  --dark-green: #99c420;
+}
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;

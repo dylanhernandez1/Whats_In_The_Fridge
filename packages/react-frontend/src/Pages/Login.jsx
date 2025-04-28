@@ -7,6 +7,7 @@ function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   async function sendInformation() {
     try {
@@ -27,13 +28,13 @@ function LoginPage() {
         // Navigate to home
         navigate("/");
       } else if (res.status === 401) {
-        alert("Invalid email or password!");
+        setError("Invalid email or password.");
       } else {
-        alert("Unexpected error occurred.");
+        setError("Error. Try again.");
       }
     } catch (error) {
       console.error("Error during login:", error);
-      alert("Server error. Please try again later.");
+      setError("Timed out. Try again.");
     }
   }
 
@@ -43,7 +44,6 @@ function LoginPage() {
 
       <div className="login-card">
         <h2>Welcome Back!</h2>
-
         <p className="info-blurb">
           Thanks for using What’s in the Fridge! Ready to track
           your food, find new recipes, and stay organized? Log
@@ -51,6 +51,7 @@ function LoginPage() {
           to get started!
         </p>
 
+        <p className="invalid">{error}</p>
         <input
           className="input-field"
           placeholder="Email"
