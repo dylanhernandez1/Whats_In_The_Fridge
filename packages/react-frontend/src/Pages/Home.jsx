@@ -20,30 +20,25 @@ function Home({}) {
 
   const navigate = useNavigate();
 
-  function getExpiringList() {
-    const promise = fetch(`http://localhost:8000/expiring`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-    return promise;
+  function getExpiringList(token) {
+    if (token) {
+      const promise = fetch(`http://localhost:8000/expiring`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      });
+      return promise;
+    } else {
+      console.log("empty cookie");
+      return false;
+    }
   }
 
   //FOR SEARCHBAR
 
   useEffect(() => {
-    // Check if the token is available in localStorage
-    const token = localStorage.getItem("token");
-
-    // If no token, redirect to login
-    if (!token) {
-      navigate("/login");
-    } else {
-      // TO DO: Token exists, verify it by making an API call to the backend, then get related food
-    }
-    //}, [navigate]);
-
     const filteredFoods =
       searchText.trim() == ""
         ? foodList
@@ -79,7 +74,14 @@ function Home({}) {
   };
 
   useEffect(() => {
-    getExpiringList()
+    const token = localStorage.getItem("token");
+
+    // If no token, redirect to login
+    if (!token) {
+      navigate("/login");
+    }
+
+    getExpiringList(token)
       .then((res) => {
         return res.json();
       })
@@ -108,7 +110,7 @@ function Home({}) {
       .catch((error) => {
         console.error("Error: ", error);
       });
-  }, []);
+  }, [navigate]);
 
   function onCardClick(foodInfo) {
     setFoodInfo(foodInfo);
