@@ -20,8 +20,50 @@ function Home({}) {
 
   const navigate = useNavigate();
 
-  function getExpiringList(token) {
+  async function getHouses(token) {
+    if (!token) return [];
+    try {
+      const res = fetch(`http://localhost:8000/userhouses`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (res.status === 401 || res.status === 404) {
+        navigate("/login");
+        return [];
+      } else {
+        const data = await res.json();
+        return data;
+      }
+    } catch (err) {
+      console.error("Error fetching houses:", err);
+    }
+  }
+
+  async function getExpiringList(token) {
     if (token) {
+      const houses = await getHouses(token);
+      console.log(houses);
+      if (!houses || houses.length === 0) {
+        alert("No Houses found for your user");
+        //NO HOUSE, PROMPT TO CREATE HOUSE
+      } else {
+        fetch(
+          `http://localhost:8000/houses/${houses[0]._id}/food`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        ).then((res) => {
+          return res.json();
+        });
+      }
+      //OLD CODE FOR FOOD
       const promise = fetch(`http://localhost:8000/expiring`, {
         method: "GET",
         headers: {
@@ -82,13 +124,15 @@ function Home({}) {
     }
 
     getExpiringList(token)
-      .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
+      .then(async (res) => {
+        if (res.status === 401) {
+          navigate("/login");
+          return;
+        }
+        const data = await res.json();
         const millisPerDay = 24 * 60 * 60 * 1000;
         const currentDate = new Date();
-        res.map((food) => {
+        data.forEach((food) => {
           if (food.ExpirationDate != undefined) {
             console.log(
               "Food name: " +
@@ -102,10 +146,10 @@ function Home({}) {
             );
           }
         });
-        setFoodList(res);
-        setTempFoodList(res);
-        console.log("Foods: ", res);
-        return res;
+        setFoodList(data);
+        setTempFoodList(data);
+        console.log("Foods: ", data);
+        return data;
       })
       .catch((error) => {
         console.error("Error: ", error);

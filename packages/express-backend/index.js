@@ -10,6 +10,7 @@ import userServices from "./user-services.js";
 import foodServices from "./food-services.js";
 import houseServices from "./house-services.js";
 import userHouseServices from "./UserHouse-services.js";
+import { GiConsoleController } from "react-icons/gi";
 
 dotenv.config(); //Load dotenv
 mongoose.set("debug", true);
@@ -32,8 +33,8 @@ mongoose
   });
 
 /* -------------------- USERS -------------------- */
-function generateAccessToken(name) {
-  return jwt.sign({ name: name }, process.env.TOKEN_SECRET, {
+function generateAccessToken(email) {
+  return jwt.sign({ email: email }, process.env.TOKEN_SECRET, {
     expiresIn: "600s"
   });
 }
@@ -57,11 +58,12 @@ function authenticateUser(req, res, next) {
         token,
         process.env.TOKEN_SECRET
       );
-      // in our case, we used the username to sign the token
+      // in our case, we used the email to sign the token
       console.log("Decoded token: ", decoded);
+      req.userEmail = decoded.email;
       next();
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return res.status(401).end();
     }
   }
@@ -292,10 +294,12 @@ app.get("/houses/:houseId/users", (req, res) => {
 });
 
 //Get houses a user is a part of
-app.get("/users/:userId/houses", (req, res) => {
-  const { userId } = req.params;
+app.get("/userhouses", authenticateUser, async (req, res) => {
+  const user = await userServices.findUserByEmail(
+    req.userEmail
+  ); //Got userEmail from authentication
   userHouseServices
-    .getHousesByUser(userId)
+    .getHousesByUser(user._id)
     .then((result) => {
       if (!result.success)
         return res.status(404).send(result.message);
