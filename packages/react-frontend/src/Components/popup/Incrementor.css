@@ -1,0 +1,67 @@
+:root {
+  --width: 100%;
+  --original-incrementor-height: 0;
+  --expanded-incrementor-height: 45px;
+  --transition-time: 0.3s;
+}
+
+.incrementor-frame-start {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: var(--width);
+  height: var(--original-incrementor-height);
+  overflow: hidden;
+  padding-inline: 8px;
+  z-index: 1;
+}
+
+.incrementor-frame-original {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: var(--width);
+  height: var(--expanded-incrementor-height);
+  padding-inline: 8px;
+  overflow: hidden;
+  animation: to-original-incrementor-height var(--transition-time) forwards;
+  z-index: 1;
+}
+
+.incrementor-frame-expanded {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: var(--width);
+  height: var(--original-incrementor-height);
+  overflow: hidden;
+  padding-inline: 8px;
+  animation: to-expanded-incrementor-height var(--transition-time) forwards;
+  z-index: 1;
+}
+
+.incrementor-button {
+  width: 42px;
+  height: 45px;
+  text-align: center;
+  color: black;
+  font-size: 25px;
+  font-weight: 600;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Animations for rescaling the popup in the event the user clicks the
+       "Update Qty button */
+       @keyframes to-original-incrementor-height {
+        100% {
+          height: var(--original-incrementor-height);
+        }
+      }
+      
+      @keyframes to-expanded-incrementor-height {
+        100% {
+          height: var(--expanded-incrementor-height);
+        }
+      }

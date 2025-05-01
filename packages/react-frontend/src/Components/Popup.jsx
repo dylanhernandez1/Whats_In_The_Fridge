@@ -3,28 +3,8 @@ import ExitButton from "./popup/ExitButton.jsx";
 import PopupHeader from "./popup/PopupHeader.jsx";
 import InformationTag from "./popup/InformationTag.jsx";
 import PopupFooter from "./popup/PopupFooter.jsx";
-
-import Fruit from "../Assets/Fruit.png";
-import Vegetable from "../Assets/Vegetable.png";
-import Dairy from "../Assets/Dairy.png";
-import Protein from "../Assets/Protein.png";
-import FatsAndOils from "../Assets/Fats & Oils.png";
-import Grains from "../Assets/Grains.png";
-import SugarsAndSweets from "../Assets/Sugars & Sweets.png";
-import Drinks from "../Assets/Drinks.png";
-import SideDecor from "../Assets/PopupSideDecoration.png";
+import Incrementor from "./popup/Incrementor.jsx";
 import "./Popup.css";
-
-const Icons = {
-  Fruit: Fruit,
-  Vegetable: Vegetable,
-  Dairy: Dairy,
-  Protein: Protein,
-  Grains: Grains,
-  "Fats & Oils": FatsAndOils,
-  "Sugars & Sweets": SugarsAndSweets,
-  Drinks: Drinks
-};
 
 function Popup({ foodInfo, onDelete, onClose }) {
   console.log(foodInfo);
@@ -57,7 +37,13 @@ function Popup({ foodInfo, onDelete, onClose }) {
     onClose();
   }
 
-  function onUpdateQtyClicked() {}
+  function onUpdateQtyClicked() {
+    if(size === "expanded") {
+      setSize("original");
+    } else {
+      setSize("expanded");
+    }
+  }
 
   function onDeleteClicked() {
     onDelete(info._id);
@@ -66,15 +52,7 @@ function Popup({ foodInfo, onDelete, onClose }) {
   return (
     <div className={status}>
       <div className={`popup-frame-${size}`}>
-        <img
-          className="popup-frame-icon"
-          src={Icons[info ? info.FoodType : "Fruit"]}
-        ></img>
         <div className="popup-frame-clip">
-          <img
-            className="popup-frame-decor"
-            src={SideDecor}
-          ></img>
           <ExitButton onClick={onCloseClicked} />
           <PopupHeader
             foodName={info ? info.FoodName : ""}
@@ -91,6 +69,10 @@ function Popup({ foodInfo, onDelete, onClose }) {
           <InformationTag
             tagIcon={info ? info.Amount : 0}
             tagInfo="Quantity"
+          />
+          <Incrementor 
+            size={size}
+            quantity={info ? info.Amount : 0}
           />
           <PopupFooter
             onUpdateQty={onUpdateQtyClicked}
