@@ -10,6 +10,7 @@ import userServices from "./user-services.js";
 import foodServices from "./food-services.js";
 import houseServices from "./house-services.js";
 import userHouseServices from "./UserHouse-services.js";
+import { GiConsoleController } from "react-icons/gi";
 
 dotenv.config(); //Load dotenv
 mongoose.set("debug", true);
@@ -32,10 +33,40 @@ mongoose
   });
 
 /* -------------------- USERS -------------------- */
-function generateAccessToken(name) {
-  return jwt.sign({ name: name }, process.env.TOKEN_SECRET, {
+function generateAccessToken(email) {
+  return jwt.sign({ email: email }, process.env.TOKEN_SECRET, {
     expiresIn: "600s"
   });
+}
+
+function authenticateUser(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  //Getting the 2nd part of the auth hearder (the token)
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    console.log("No token received");
+    return res.status(401).end();
+  } else {
+    // If a callback is supplied, verify() runs async
+    // If a callback isn't supplied, verify() runs synchronously
+    // verify() throws an error if the token is invalid
+    try {
+      // verify() returns the decoded obj which includes whatever objs
+      // we use to code/sign the token
+      const decoded = jwt.verify(
+        token,
+        process.env.TOKEN_SECRET
+      );
+      // in our case, we used the email to sign the token
+      console.log("Decoded token: ", decoded);
+      req.userEmail = decoded.email;
+      next();
+    } catch (error) {
+      //console.log(error);
+      return res.status(401).end();
+    }
+  }
 }
 
 //Add a user
@@ -157,24 +188,28 @@ app.get("/houses/:houseId", (req, res) => {
 });
 
 //Add food to certain location in house
-app.post("/houses/:houseId/food/:location", (req, res) => {
-  const houseId = req.params.houseId;
-  const location = req.params.location;
-  const foodItem = req.body;
+app.post(
+  "/houses/:houseId/food/:location",
+  authenticateUser,
+  async (req, res) => {
+    const houseId = req.params.houseId;
+    const location = req.params.location;
+    const foodItem = req.body;
 
-  houseServices
-    .addFoodToHouse(houseId, location, foodItem)
-    .then((result) => {
-      if (result.success) {
-        res.status(201).send(result.savedFood);
-      } else {
-        res.status(400).send(result.message);
-      }
-    })
-    .catch((error) => {
-      res.status(500).send(`Internal Server Error: ${error}`);
-    });
-});
+    houseServices
+      .addFoodToHouse(houseId, location, foodItem)
+      .then((result) => {
+        if (result.success) {
+          res.status(201).send(result.savedFood);
+        } else {
+          res.status(400).send(result.message);
+        }
+      })
+      .catch((error) => {
+        res.status(500).send(`Internal Server Error: ${error}`);
+      });
+  }
+);
 
 //Get all food items from a specific location in a house
 app.get("/houses/:houseId/food/:location", (req, res) => {
@@ -259,10 +294,12 @@ app.get("/houses/:houseId/users", (req, res) => {
 });
 
 //Get houses a user is a part of
-app.get("/users/:userId/houses", (req, res) => {
-  const { userId } = req.params;
+app.get("/userhouses", authenticateUser, async (req, res) => {
+  const user = await userServices.findUserByEmail(
+    req.userEmail
+  ); //Got userEmail from authentication
   userHouseServices
-    .getHousesByUser(userId)
+    .getHousesByUser(user._id)
     .then((result) => {
       if (!result.success)
         return res.status(404).send(result.message);
@@ -320,7 +357,7 @@ app.get("/food/:name", (req, res) => {
 });
 
 //Get expiring food
-app.get("/expiring", (req, res) => {
+app.get("/expiring", authenticateUser, async (req, res) => {
   foodServices
     .findFoodByExpiration()
     .then((mongoRes) => {
