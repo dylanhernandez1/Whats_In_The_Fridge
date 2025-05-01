@@ -23,13 +23,16 @@ function Home({}) {
   async function getHouses(token) {
     if (!token) return [];
     try {
-      const res = fetch(`http://localhost:8000/userhouses`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
+      const res = await fetch(
+        `http://localhost:8000/userhouses`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          }
         }
-      });
+      );
 
       if (res.status === 401 || res.status === 404) {
         navigate("/login");
@@ -46,21 +49,30 @@ function Home({}) {
   async function getExpiringList(token) {
     if (token) {
       const houses = await getHouses(token);
-      console.log(houses);
-      if (!houses || houses.length === 0) {
+      if (
+        !houses.housesByUser ||
+        (houses.housesByUser.length == 0 &&
+          !houses.defaultHouse)
+      ) {
         alert("No Houses found for your user");
         //NO HOUSE, PROMPT TO CREATE HOUSE
       } else {
-        const promise = fetch(
-          `http://localhost:8000/houses/${houses[0]._id}/food`,
+        // Use the defaultHouse if it exists; otherwise, use the first house
+        const houseToUse =
+          houses.defaultHouse != null
+            ? houses.defaultHouse
+            : houses.housesByUser[0];
+        const res = await fetch(
+          `http://localhost:8000/houses/${houseToUse._id}/food`,
           {
             method: "GET",
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
             }
           }
         );
-        return promise;
+        return res;
       }
       /*
       //OLD CODE FOR FOOD
@@ -127,6 +139,9 @@ function Home({}) {
 
     getExpiringList(token)
       .then(async (res) => {
+        if (!res) {
+          return [];
+        }
         if (res.status === 401) {
           navigate("/login");
           return;
