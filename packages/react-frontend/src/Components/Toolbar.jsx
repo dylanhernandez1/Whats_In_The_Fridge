@@ -6,7 +6,7 @@ import {
   FaUser,
   FaShoppingCart,
   FaUtensils,
-  FaBook,
+  FaBook
 } from "react-icons/fa";
 import "./Toolbar_styling.css";
 

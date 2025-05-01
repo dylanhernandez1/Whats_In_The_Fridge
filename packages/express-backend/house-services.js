@@ -128,6 +128,29 @@ async function getFoodFromHouse(houseId, location) {
   }
 }
 
+async function getAllFoodFromHouse(houseId) {
+  const houseModel = getDbConnection().model(
+    "House",
+    HouseSchema
+  );
+  try {
+    const house = await houseModel.findById(houseId);
+    if (!house) {
+      return { success: false, message: "House not found" };
+    }
+    // Use .concat to merge arrays
+    const allFood = house.fridge.concat(
+      house.freezer,
+      house.pantry
+    );
+
+    return { success: true, foodItems: allFood };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "Error fetching food" };
+  }
+}
+
 function CheckFoodLocationValid(str) {
   const list = ["Fridge", "Freezer", "Pantry"];
   return list.some((item) => str === item);
@@ -138,5 +161,6 @@ export default {
   createHouse,
   addFoodToHouse,
   getHouseById,
-  getFoodFromHouse
+  getFoodFromHouse,
+  getAllFoodFromHouse
 };

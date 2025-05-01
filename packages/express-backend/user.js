@@ -27,7 +27,8 @@ const UserSchema = new mongoose.Schema(
       default: () => ({
         darkMode: false,
         language: "en",
-        notifications: { email: false, sms: false }
+        notifications: { email: false, sms: false },
+        defaultHouse: null
       })
     },
     emailVerified: { type: Boolean, default: false },

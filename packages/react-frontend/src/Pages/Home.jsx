@@ -51,7 +51,7 @@ function Home({}) {
         alert("No Houses found for your user");
         //NO HOUSE, PROMPT TO CREATE HOUSE
       } else {
-        fetch(
+        const promise = fetch(
           `http://localhost:8000/houses/${houses[0]._id}/food`,
           {
             method: "GET",
@@ -59,10 +59,10 @@ function Home({}) {
               "Content-Type": "application/json"
             }
           }
-        ).then((res) => {
-          return res.json();
-        });
+        );
+        return promise;
       }
+      /*
       //OLD CODE FOR FOOD
       const promise = fetch(`http://localhost:8000/expiring`, {
         method: "GET",
@@ -75,6 +75,8 @@ function Home({}) {
     } else {
       console.log("empty cookie");
       return false;
+    }
+      */
     }
   }
 
@@ -146,6 +148,9 @@ function Home({}) {
             );
           }
         });
+        data.sort(
+          (a, b) => a.ExpirationDate - b.ExpirationDate
+        );
         setFoodList(data);
         setTempFoodList(data);
         console.log("Foods: ", data);

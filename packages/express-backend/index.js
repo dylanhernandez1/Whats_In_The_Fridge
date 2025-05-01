@@ -160,13 +160,38 @@ app.post("/login", async (req, res) => {
 
 /* -------------------- HOUSES -------------------- */
 //Add a house
-app.post("/houses", (req, res) => {
-  houseServices
-    .createHouse(req.body)
-    .then((result) => res.status(201).send(result))
-    .catch((error) =>
-      res.status(500).send(`Internal Server Error: ${error}`)
+app.post("/houses", authenticateUser, async (req, res) => {
+  try {
+    const user = await userServices.findUserByEmail(
+      req.userEmail
     );
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    const houseData = {
+      ...req.body,
+      createdBy: user._id
+    };
+
+    const house = await houseServices.createHouse(houseData);
+
+    const userHouse = new UserHouse({
+      user: user._id,
+      house: house._id,
+      role: "owner"
+    });
+
+    await userHouse.save();
+
+    res.status(201).send({
+      house,
+      userHouse
+    });
+  } catch (error) {
+    console.error("Error creating house:", error);
+    res.status(500).send(`Internal Server Error: ${error}`);
+  }
 });
 
 //Get a certain house by id
@@ -212,12 +237,14 @@ app.post(
 );
 
 //Get all food items from a specific location in a house
-app.get("/houses/:houseId/food/:location", (req, res) => {
-  const houseId = req.params.houseId;
-  const location = req.params.location;
+app.get("/houses/:houseId/food/:location?", (req, res) => {
+  const { houseId, location } = req.params;
 
-  houseServices
-    .getFoodFromHouse(houseId, location)
+  const service = location
+    ? houseServices.getFoodFromHouse(houseId, location)
+    : houseServices.getAllFoodFromHouse(houseId);
+
+  service
     .then((result) => {
       if (result.success) {
         res.send(result.foodItems);
