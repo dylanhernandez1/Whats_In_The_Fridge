@@ -24,21 +24,12 @@ import "react-datepicker/dist/react-datepicker.css";
 
 function Food() {
   const navigate = useNavigate();
-  const today = new Date();
-
-  const currentDay = String(today.getDay);
-  const currentMonth = String(today.getMonth);
-  const currentYear = String(today.getFullYear);
-
   //state to store input values
   const [foodName, setFoodName] = useState("");
   const [foodType, setFoodType] = useState("Fruit");
   const [location, setLocation] = useState("Fridge");
   const [quantity, setQuantity] = useState(1);
-  const [day, setDay] = useState("");
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
-  const [startDate, setStartDate] = useState(new Date());
+  const [date, setDate] = useState(new Date());
 
   const [addButtonText, setButtonText] = useState("Add");
 
@@ -49,13 +40,6 @@ function Food() {
 
   function addFoodToDatabase() {
     setButtonText("Adding...");
-    console.log(startDate);
-
-    if (startDate === null) {
-      startDate = new Date(
-        `${currentYear}-${currentMonth}-${currentDay}`
-      );
-    }
 
     const promise = fetch("http://localhost:8000/food", {
       method: "POST",
@@ -67,7 +51,7 @@ function Food() {
         FoodType: foodType,
         Location: location,
         Amount: quantity,
-        ExpirationDate: startDate
+        ExpirationDate: date
       })
     })
       .then((res) => {
@@ -162,8 +146,8 @@ function Food() {
       {/* Expiration Date */}
       <label>EXPIRATION DATE:</label>
       <DatePicker
-        selected={startDate}
-        onChange={(date) => setStartDate(date)}
+        selected={date}
+        onChange={(date) => setDate(date)}
       />
 
       <button
