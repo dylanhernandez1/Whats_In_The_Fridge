@@ -17,16 +17,16 @@ function MyApp() {
   useEffect(() => {
     if (currentRoute.protected && !token) {
       navigate("/login");
-    }else if (currentRoute.protected && token){
-    try {
-      const decoded = jwtDecode(token);
-      if (decoded.exp * 1000 < Date.now()) {
-        navigate("/login"); // Token is expired
+    } else if (currentRoute.protected && token) {
+      try {
+        const decoded = jwtDecode(token);
+        if (decoded.exp * 1000 < Date.now()) {
+          navigate("/login"); // Token is expired
+        }
+      } catch (e) {
+        navigate("/login"); // Token is malformed
       }
-    } catch (e) {
-      navigate("/login"); // Token is malformed
     }
-  }
   }, [navigate]);
 
   //Return application format (http) with Table and Form and parameters

@@ -85,43 +85,43 @@ function Food() {
           houses.defaultHouse != null
             ? houses.defaultHouse
             : houses.housesByUser[0];
-            fetch(`/houses/${houseToUse._id}/food/${location}`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-              },
-              body: JSON.stringify({
-                FoodName: foodName,
-                FoodType: foodType,
-                Location: location,
-                Amount: quantity,
-                ExpirationDate: date
-              })
-            })
-              .then((res) => {
-                if (res.status == 201) {
-                  setButtonText(`${foodName} added`);
-                  setTimeout(() => {
-                    setButtonText("Add");
-                  }, 1000);
-                } else {
-                  setButtonText("Invalid date");
-                  setTimeout(() => {
-                    setButtonText("Add");
-                  }, 2000);
-                }
-              })
-              .catch((error) => {
-                setButtonText(`Unable to add ${foodName}`);
-                setTimeout(() => {
-                  setButtonText("Add");
-                }, 1000);
-                console.error("Error: ", error);
-              });
+        fetch(`/houses/${houseToUse._id}/food/${location}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            FoodName: foodName,
+            FoodType: foodType,
+            Location: location,
+            Amount: quantity,
+            ExpirationDate: date
+          })
+        })
+          .then((res) => {
+            if (res.status == 201) {
+              setButtonText(`${foodName} added`);
+              setTimeout(() => {
+                setButtonText("Add");
+              }, 1000);
+            } else {
+              setButtonText("Invalid date");
+              setTimeout(() => {
+                setButtonText("Add");
+              }, 2000);
+            }
+          })
+          .catch((error) => {
+            setButtonText(`Unable to add ${foodName}`);
+            setTimeout(() => {
+              setButtonText("Add");
+            }, 1000);
+            console.error("Error: ", error);
+          });
       }
+    }
   }
-}
 
   return (
     <div className="food-container">
