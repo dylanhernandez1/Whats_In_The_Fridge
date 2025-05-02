@@ -15,6 +15,11 @@ function Profile() {
     localStorage.removeItem("token");
     navigate("/login");
   }
+
+  function manageHouses() {
+    navigate("./houses");
+  }
+  
   //Renders content based on the Profile Toolbar selection
   function renderContent() {
     switch (selectedSection) {
