@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "npm -w packages/express-backend run test",
     "mac": "npm -w packages/react-frontend run dev & npm -w packages/express-backend run dev",
     "win": "start npm -w packages/react-frontend run dev && npm -w packages/express-backend run dev",
     "dev": "npm -w packages/react-frontend run dev",
     "format": "npx prettier . --write",
-    "lint": "npx eslint ."
+    "lint": "npx eslint . && npx prettier --check ."
   },
   "author": "",
   "license": "ISC",
