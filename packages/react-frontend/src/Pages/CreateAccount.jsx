@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Food_Styling.css";
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +13,34 @@ function CreateAccountPage() {
   const [addButtonText, setButtonText] =
     useState("Create Account");
 
+  useEffect(() => {
+    document
+      .getElementById("password-field")
+      .addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          document.getElementById("create-account").click();
+          return;
+        }
+      });
+    document
+      .getElementById("email-field")
+      .addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          document.getElementById("password-field").focus();
+          return;
+        }
+      });
+
+    document
+      .getElementById("username-field")
+      .addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          document.getElementById("email-field").focus();
+          return;
+        }
+      });
+  });
+
   function Validation() {
     const EmailValidation = (email) =>
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -26,7 +54,6 @@ function CreateAccountPage() {
         bool: false,
         error: "Password Must Be More Than 3 Characters"
       };
-
     return true;
   }
 
@@ -99,6 +126,7 @@ function CreateAccountPage() {
         <div>
           <label htmlFor="name">Username</label>
           <input
+            id="username-field"
             className="input-field"
             placeholder="Enter your username"
             type="text"
@@ -110,6 +138,7 @@ function CreateAccountPage() {
         <div>
           <label htmlFor="email">Email</label>
           <input
+            id="email-field"
             className="input-field"
             placeholder="Enter your email"
             type="email"
@@ -121,6 +150,7 @@ function CreateAccountPage() {
         <div>
           <label htmlFor="password">Password</label>
           <input
+            id="password-field"
             className="input-field"
             placeholder="Enter your password"
             type="password"
@@ -131,6 +161,7 @@ function CreateAccountPage() {
 
         <div>
           <button
+            id="create-account"
             className="primary-button"
             onClick={addUserToDatabase}
           >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Login_Styling.css";
 import { useNavigate } from "react-router-dom";
 
@@ -7,6 +7,26 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    document
+      .getElementById("email-field")
+      .addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          document.getElementById("password-field").focus();
+          return;
+        }
+      });
+
+    document
+      .getElementById("password-field")
+      .addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          document.getElementById("sign-in").click();
+          return;
+        }
+      });
+  });
 
   async function sendInformation() {
     try {
@@ -21,7 +41,6 @@ function LoginPage() {
       if (res.status === 200) {
         const data = await res.json();
         console.log("Login successful!", data.token);
-
         //Save token to localStorage
 
         localStorage.setItem("token", data.token);
@@ -39,54 +58,58 @@ function LoginPage() {
   }
 
   return (
-    <div className="login-container">
-      <div className="logo">What's In The Fridge?</div>
+    <body>
+      <div className="login-container">
+        <div className="logo">What's In The Fridge?</div>
 
-      <div className="login-card">
-        <h2>Welcome Back!</h2>
-        <p className="info-blurb">
-          Thanks for using What’s in the Fridge! Ready to track
-          your food, find new recipes, and stay organized? Log
-          in to pick up where you left off, or create an account
-          to get started!
-        </p>
+        <div className="login-card">
+          <h2>Welcome Back!</h2>
+          <p className="info-blurb">
+            Thanks for using What’s in the Fridge! Ready to
+            track your food, find new recipes, and stay
+            organized? Log in to pick up where you left off, or
+            create an account to get started!
+          </p>
 
-        <p className="invalid">{error}</p>
-        <input
-          className="input-field"
-          placeholder="Email"
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          className="input-field"
-          placeholder="Password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button
-          className="primary-button"
-          onClick={sendInformation}
-        >
-          Sign In
-        </button>
-
-        <button className="link-button">
-          Forgot Password?
-        </button>
-
-        <div className="new-user-section">
-          <p>New to What's In The Fridge?</p>
+          <p className="invalid">{error}</p>
+          <input
+            id="email-field"
+            className="input-field"
+            placeholder="Email"
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            id="password-field"
+            className="input-field"
+            placeholder="Password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <button
+            id="sign-in"
             className="primary-button"
-            onClick={() => navigate("/create-account")}
+            onClick={sendInformation}
           >
-            Join Now
+            Sign In
           </button>
+
+          <button className="link-button">
+            Forgot Password?
+          </button>
+
+          <div className="new-user-section">
+            <p>New to What's In The Fridge?</p>
+            <button
+              className="primary-button"
+              onClick={() => navigate("/create-account")}
+            >
+              Join Now
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </body>
   );
 }
 
