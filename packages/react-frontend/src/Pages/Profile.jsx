@@ -1,8 +1,9 @@
 // src/Table.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Toolbar from "../Components/Toolbar.jsx";
 import { useNavigate } from "react-router-dom";
 import "../Components/Profile_page.css";
+import "../Components/Core.css";
 import ProfileToolbar from "../Components/profile_bar.jsx";
 import { FaSignOutAlt } from "react-icons/fa";
 
@@ -10,6 +11,9 @@ function Profile() {
   const navigate = useNavigate();
   const [selectedSection, setSelectedSection] =
     useState("User");
+  const [darkMode, setDarkMode] = useState(
+    () => localStorage.getItem("theme") === "dark"
+  );
 
   function LogOut() {
     localStorage.removeItem("token");
@@ -19,6 +23,17 @@ function Profile() {
   function manageHouses() {
     navigate("./houses");
   }
+
+  useEffect(() => {
+    console.log("hey");
+    if (darkMode) {
+      document.body.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.body.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode]);
 
   //Renders content based on the Profile Toolbar selection
   function renderContent() {
@@ -91,9 +106,12 @@ function Profile() {
             <p>
               <strong>Language:</strong> English (US)
             </p>
-            <p>
-              <strong>Theme:</strong> Light
-            </p>
+            <button
+              className="button"
+              onClick={() => setDarkMode((mode) => !mode)}
+            >
+              {darkMode ? "Dark" : "Light"}
+            </button>
             <p>
               <strong>Account Status:</strong> Active
             </p>
@@ -110,7 +128,7 @@ function Profile() {
 
   //Full table
   return (
-    <div className="app-container">
+    <div>
       <Toolbar selected="Profile" />
       <div className="content-container-spaced">
         <header className="header-container">

@@ -7,10 +7,8 @@ body {
   gap: 8px;
   justify-content: center;
   align-items: center;
-  border: 2px solid #ccc;
   border-radius: 8px;
   width: fit-content;
-  background-color: #f9f9f9;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   overflow-x: auto;
   margin: 0 auto;
@@ -30,49 +28,38 @@ body {
   text-align: center;
   flex-direction: column;
   align-items: center;
-  transition: background-color 0.3s ease-in-out;
   white-space: nowrap;
   font-size: 16px;
-  color: #333;
 }
 
 .toolbar-button:hover {
-  background-color: #f0f0f0;
   border: 0;
 }
 
 .toolbar-button .profile-button-text {
   font-size: 12px;
   margin-top: 5px;
-  color: #2e302b;
   transition: color 0.3s ease-in-out;
 }
 
 .toolbar-button:hover .profile-button-text {
-  color: #64b8e9;
 }
 
 /* Selected state */
 .toolbar-button.selected {
-  background-color: #64b8e9;
-  color: white;
   font-weight: bold;
   border: 0;
 }
 
 .toolbar-button.selected .profile-button-text {
-  color: white;
 }
 
 /* Optional icon style if used */
 .icon {
   font-size: 24px;
-  color: #2e302b;
-  transition: color 0.3s ease-in-out;
 }
 
 .toolbar-button:hover .icon {
-  color: #555;
 }
 
 /* Mobile styles */
