@@ -18,7 +18,9 @@ export default Food;
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Toolbar from "../Components/Toolbar.jsx";
+import DatePicker from "react-datepicker";
 import "./Food_Styling.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 function Food() {
   const navigate = useNavigate();
@@ -36,6 +38,7 @@ function Food() {
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
 
   const [addButtonText, setButtonText] = useState("Add");
 
@@ -46,11 +49,10 @@ function Food() {
 
   function addFoodToDatabase() {
     setButtonText("Adding...");
-    let toDate = new Date(`${year}-${month}-${day}`);
-    console.log(toDate);
+    console.log(startDate);
 
-    if (toDate === null) {
-      toDate = new Date(
+    if (startDate === null) {
+      startDate = new Date(
         `${currentYear}-${currentMonth}-${currentDay}`
       );
     }
@@ -65,7 +67,7 @@ function Food() {
         FoodType: foodType,
         Location: location,
         Amount: quantity,
-        ExpirationDate: toDate
+        ExpirationDate: startDate
       })
     })
       .then((res) => {
@@ -159,43 +161,10 @@ function Food() {
 
       {/* Expiration Date */}
       <label>EXPIRATION DATE:</label>
-      <div className="expiration-container">
-        <input
-          type="number"
-          placeholder={"Day: " + today.getDate()}
-          value={day}
-          onChange={(e) => setDay(e.target.value)}
-          min="1"
-          max="31"
-          style={{
-            fontStretch: "ultra-condensed",
-            color: "grey"
-          }}
-        />
-        <input
-          type="number"
-          placeholder={"Month: " + today.getMonth()}
-          value={month}
-          onChange={(e) => setMonth(e.target.value)}
-          min="1"
-          max="12"
-          style={{
-            fontStretch: "ultra-condensed",
-            color: "grey"
-          }}
-        />
-        <input
-          type="number"
-          placeholder={"Year: " + today.getFullYear()}
-          value={year}
-          onChange={(e) => setYear(e.target.value)}
-          min="2024"
-          style={{
-            fontStretch: "ultra-condensed",
-            color: "grey"
-          }}
-        />
-      </div>
+      <DatePicker
+        selected={startDate}
+        onChange={(date) => setStartDate(date)}
+      />
 
       <button
         className="add-button"
