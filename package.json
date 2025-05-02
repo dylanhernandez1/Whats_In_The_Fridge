@@ -51,6 +51,7 @@
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
     "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "mockingoose": "^2.16.2",
     "mongodb": "^6.13.1",
     "mongodb-memory-server": "^10.1.4",

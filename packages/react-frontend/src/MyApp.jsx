@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { routes } from "./Utils/Routes.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 function MyApp() {
   const navigate = useNavigate();
@@ -16,7 +17,16 @@ function MyApp() {
   useEffect(() => {
     if (currentRoute.protected && !token) {
       navigate("/login");
+    }else if (currentRoute.protected && token){
+    try {
+      const decoded = jwtDecode(token);
+      if (decoded.exp * 1000 < Date.now()) {
+        navigate("/login"); // Token is expired
+      }
+    } catch (e) {
+      navigate("/login"); // Token is malformed
     }
+  }
   }, [navigate]);
 
   //Return application format (http) with Table and Form and parameters
