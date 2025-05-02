@@ -2,14 +2,22 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { routes } from "./Utils/Routes.jsx";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function MyApp() {
-  function fetchFood(text) {
-    const promise = fetch(
-      `http://localhost:8000/food/stored-food/${text}`
-    );
-    return promise;
-  }
+  const navigate = useNavigate();
+  const location = useLocation();
+  const token = localStorage.getItem("token");
+
+  const currentRoute = routes.find(
+    (route) => route.path === location.pathname
+  );
+
+  useEffect(() => {
+    if (currentRoute.protected && !token) {
+      navigate("/login");
+    }
+  }, [navigate]);
 
   //Return application format (http) with Table and Form and parameters
 
@@ -17,6 +25,7 @@ function MyApp() {
     <Routes>
       {routes.map(({ path, element }) => (
         <Route
+          key={path}
           path={path}
           element={
             element()

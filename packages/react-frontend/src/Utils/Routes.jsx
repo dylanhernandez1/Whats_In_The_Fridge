@@ -11,27 +11,37 @@ export const routes = [
   {
     path: "/",
     element: (props) => <Home {...props} />,
-    props: ["characters", "removeCharacter", "updateList"]
+    props: ["characters", "removeCharacter", "updateList"],
+    protected: true
   },
-  { path: "/profile", element: (props) => <Profile /> }, // No props for now
+  {
+    path: "/profile",
+    element: (props) => <Profile {...props} />,
+    protected: true
+  }, // No props for now
   {
     path: "/grocery-list",
-    element: (props) => <GroceryList />
+    element: (props) => <GroceryList {...props} />,
+    protected: true
   }, // No props for now
   {
     path: "/recipe-suggester",
-    element: (props) => <RecipeSuggester />
+    element: (props) => <RecipeSuggester {...props} />,
+    protected: true
   }, // No props for now
   {
     path: "/food",
-    element: (props) => <Food />
+    element: (props) => <Food {...props} />,
+    protected: true
   }, // No props for now
   {
     path: "/login",
-    element: (props) => <Login />
+    element: (props) => <Login {...props} />,
+    protected: false
   }, // No props for now
   {
     path: "/create-account",
-    element: (props) => <CreateAccount />
+    element: (props) => <CreateAccount {...props} />,
+    protected: false
   } // No props for now
 ];

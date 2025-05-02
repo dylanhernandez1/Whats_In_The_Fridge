@@ -24,6 +24,7 @@ function LoginPage() {
         console.log("Login successful!", data.token);
 
         //Save token to localStorage
+
         localStorage.setItem("token", data.token);
         // Navigate to home
         navigate("/");

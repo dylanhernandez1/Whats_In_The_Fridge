@@ -11,13 +11,10 @@ function Profile() {
   const [selectedSection, setSelectedSection] =
     useState("User");
 
-  function navToSettings() {
-    navigate("./account-settings");
+  function LogOut() {
+    localStorage.removeItem("token");
+    navigate("/login");
   }
-  function manageHouses() {
-    navigate("./houses");
-  }
-
   //Renders content based on the Profile Toolbar selection
   function renderContent() {
     switch (selectedSection) {
@@ -55,7 +52,7 @@ function Profile() {
             </p>
             <button
               className="log-out"
-              onClick={() => navigate("/login")}
+              onClick={() => LogOut()}
               //EVENTUALLY MAKE IT SO TOKEN IS BLACKLISTED SO CANT GO BACK
             >
               <FaSignOutAlt className="icon" />
