@@ -38,43 +38,90 @@ function Food() {
     navigate(-1);
   };
 
-  function addFoodToDatabase() {
+  async function getHouses(token) {
+    if (!token) return [];
+    try {
+      const res = await fetch(
+        `http://localhost:8000/userhouses`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      if (res.status === 401 || res.status === 404) {
+        navigate("/login");
+        return [];
+      } else {
+        const data = await res.json();
+        return data;
+      }
+    } catch (err) {
+      console.error("Error fetching houses:", err);
+    }
+  }
+
+  async function addFoodToDatabase() {
     setButtonText("Adding...");
 
-    const promise = fetch("http://localhost:8000/food", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        FoodName: foodName,
-        FoodType: foodType,
-        Location: location,
-        Amount: quantity,
-        ExpirationDate: date
-      })
-    })
-      .then((res) => {
-        if (res.status == 201) {
-          setButtonText(`${foodName} added`);
-          setTimeout(() => {
-            setButtonText("Add");
-          }, 1000);
-        } else {
-          setButtonText("Invalid date");
-          setTimeout(() => {
-            setButtonText("Add");
-          }, 2000);
-        }
-      })
-      .catch((error) => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const houses = await getHouses(token);
+      if (
+        !houses.housesByUser ||
+        (houses.housesByUser.length == 0 &&
+          !houses.defaultHouse)
+      ) {
+        alert("No Houses found for your user");
         setButtonText(`Unable to add ${foodName}`);
-        setTimeout(() => {
-          setButtonText("Add");
-        }, 1000);
-        console.error("Error: ", error);
-      });
+        //NO HOUSE, PROMPT TO CREATE HOUSE
+      } else {
+        // Use the defaultHouse if it exists; otherwise, use the first house
+        const houseToUse =
+          houses.defaultHouse != null
+            ? houses.defaultHouse
+            : houses.housesByUser[0];
+            fetch(`/houses/${houseToUse._id}/food/${location}`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+              },
+              body: JSON.stringify({
+                FoodName: foodName,
+                FoodType: foodType,
+                Location: location,
+                Amount: quantity,
+                ExpirationDate: date
+              })
+            })
+              .then((res) => {
+                if (res.status == 201) {
+                  setButtonText(`${foodName} added`);
+                  setTimeout(() => {
+                    setButtonText("Add");
+                  }, 1000);
+                } else {
+                  setButtonText("Invalid date");
+                  setTimeout(() => {
+                    setButtonText("Add");
+                  }, 2000);
+                }
+              })
+              .catch((error) => {
+                setButtonText(`Unable to add ${foodName}`);
+                setTimeout(() => {
+                  setButtonText("Add");
+                }, 1000);
+                console.error("Error: ", error);
+              });
+      }
   }
+}
 
   return (
     <div className="food-container">

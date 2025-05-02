@@ -130,7 +130,8 @@ function Home({}) {
   };
 
   useEffect(() => {
-    getExpiringList()
+    const token = localStorage.getItem("token");
+    getExpiringList(token)
       .then(async (res) => {
         if (!res) {
           return [];
