@@ -8,7 +8,7 @@ import Menu from "../Components/Menu.jsx";
 import Notifications from "../Components/Notifications.jsx";
 import IngredientSorting from "../Components/IngredientSorting.jsx";
 import Popup from "../Components/Popup.jsx";
-import "../Components/Header_styling.css";
+import "../Components/Header_Styling.css";
 import { useNavigate } from "react-router-dom";
 
 function Home({}) {
