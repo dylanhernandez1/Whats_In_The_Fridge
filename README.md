@@ -10,6 +10,10 @@
 5. In this same .env file, you need to generate TOKEN_SECRET, use this call `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` and paste `TOKEN_SECRET = output` into the .env file.
    If not running run `npm install node-gyp -g` `npm install bcrypt -g` `npm install bcrypt --save`
 
+## How to Run On Web
+
+**Link:** https://white-stone-02cbbab1e.6.azurestaticapps.net
+
 ## Current Demo
 
 **Link:** https://drive.google.com/file/d/1-DF9gWVICOnoTd2iIAfFA8pn8QXNmS5H/view?usp=sharing
