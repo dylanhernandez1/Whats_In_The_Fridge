@@ -27,6 +27,7 @@ function Home({}) {
     try {
       const res = await fetch(`https://${URL}/userhouses`, {
         method: "GET",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
@@ -65,6 +66,7 @@ function Home({}) {
           `https://${URL}/houses/${houseToUse._id}/food`,
           {
             method: "GET",
+            credentials: "include",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`
@@ -180,6 +182,7 @@ function Home({}) {
   function onDelete(id) {
     fetch(`https://${URL}/food`, {
       method: "DELETE",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json"
       },

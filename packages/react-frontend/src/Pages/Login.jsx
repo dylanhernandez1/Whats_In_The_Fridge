@@ -34,6 +34,7 @@ function LoginPage() {
     try {
       const res = await fetch(`https://${URL}/login`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json"
         },

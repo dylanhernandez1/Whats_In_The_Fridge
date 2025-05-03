@@ -71,6 +71,7 @@ function CreateAccountPage() {
 
     const promise = fetch(`https://${URL}/users`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json"
       },

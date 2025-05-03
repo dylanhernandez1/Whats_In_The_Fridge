@@ -45,6 +45,7 @@ function Food() {
     try {
       const res = await fetch(`https://${URL}/userhouses`, {
         method: "GET",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
@@ -86,6 +87,7 @@ function Food() {
             : houses.housesByUser[0];
         fetch(`/houses/${houseToUse._id}/food/${location}`, {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
