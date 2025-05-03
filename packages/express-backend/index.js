@@ -22,7 +22,8 @@ const port = 8000;
 //For Cross-Origin Resource Sharing and json
 app.use(
   cors({
-    origin: "http://localhost:5173", // CHANGE TO FRONTEND URL WHEN RECEIVED
+    origin:
+      "https://white-stone-02cbbab1e.6.azurestaticapps.net", // CHANGE TO FRONTEND URL WHEN RECEIVED
     credentials: true
   })
 );
