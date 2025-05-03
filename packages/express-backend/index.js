@@ -20,8 +20,16 @@ const app = express();
 const port = 8000;
 
 //For Cross-Origin Resource Sharing and json
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // CHANGE TO FRONTEND URL WHEN RECEIVED
+    credentials: true
+  })
+);
+
 app.use(express.json());
+
+app.options("*", cors());
 
 //Connect to database
 mongoose

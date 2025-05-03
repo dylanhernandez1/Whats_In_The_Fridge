@@ -60,58 +60,56 @@ function LoginPage() {
   }
 
   return (
-    <body>
-      <div className="login-container">
-        <div className="logo">What's In The Fridge?</div>
+    <div className="login-container">
+      <div className="logo">What's In The Fridge?</div>
 
-        <div className="login-card">
-          <h2>Welcome Back!</h2>
-          <p className="info-blurb">
-            Thanks for using What’s in the Fridge! Ready to
-            track your food, find new recipes, and stay
-            organized? Log in to pick up where you left off, or
-            create an account to get started!
-          </p>
+      <div className="login-card">
+        <h2>Welcome Back!</h2>
+        <p className="info-blurb">
+          Thanks for using What’s in the Fridge! Ready to track
+          your food, find new recipes, and stay organized? Log
+          in to pick up where you left off, or create an account
+          to get started!
+        </p>
 
-          <p className="invalid">{error}</p>
-          <input
-            id="email-field"
-            className="input-field"
-            placeholder="Email"
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            id="password-field"
-            className="input-field"
-            placeholder="Password"
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+        <p className="invalid">{error}</p>
+        <input
+          id="email-field"
+          className="input-field"
+          placeholder="Email"
+          type="email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          id="password-field"
+          className="input-field"
+          placeholder="Password"
+          type="password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button
+          id="sign-in"
+          className="primary-button"
+          onClick={sendInformation}
+        >
+          Sign In
+        </button>
+
+        <button className="link-button">
+          Forgot Password?
+        </button>
+
+        <div className="new-user-section">
+          <p>New to What's In The Fridge?</p>
           <button
-            id="sign-in"
             className="primary-button"
-            onClick={sendInformation}
+            onClick={() => navigate("/create-account")}
           >
-            Sign In
+            Join Now
           </button>
-
-          <button className="link-button">
-            Forgot Password?
-          </button>
-
-          <div className="new-user-section">
-            <p>New to What's In The Fridge?</p>
-            <button
-              className="primary-button"
-              onClick={() => navigate("/create-account")}
-            >
-              Join Now
-            </button>
-          </div>
         </div>
       </div>
-    </body>
+    </div>
   );
 }
 
