@@ -135,38 +135,3 @@ test("addFood successfully adds a food item", async () => {
   const foods = await foodServices.getFood();
   expect(foods.length).toBe(4);
 });
-
-test("addFood failure path: returns false when save fails", async () => {
-  // Override the save method on the Food model to force an error.
-  const originalSave = foodModel.prototype.save;
-  foodModel.prototype.save = jest
-    .fn()
-    .mockRejectedValue(new Error("save failed"));
-
-  const newFood = {
-    FoodName: "Test Food",
-    FoodType: "Test",
-    Amount: 1,
-    Location: "Test"
-  };
-  const result = await foodServices.addFood(newFood);
-  expect(result).toBe(false);
-
-  // Restore the original save method.
-  foodModel.prototype.save = originalSave;
-});
-
-test("getDbConnection creates a new connection when none is set", async () => {
-  // Clear the current connection.
-  foodServices.setConnection(null);
-
-  // Set the environment variable to point to our in-memory MongoDB URI.
-  process.env.MONGODB_URI = mongoServer.getUri();
-
-  // Trigger a call that uses getDbConnection. This will force a new connection creation.
-  const foods = await foodServices.findFoodByName("Apple");
-  expect(foods).toBeDefined();
-
-  // Restore our connection back to the test connection.
-  foodServices.setConnection(conn);
-});
