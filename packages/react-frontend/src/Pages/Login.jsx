@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const URL =
   "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
 
-function LoginPage() {
+function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
