@@ -7,30 +7,32 @@ function Incrementor({ size, quantity }) {
   /* Determines if increment should go up/down */
   function onChange(changeType) {
     if (changeType === "+") {
-        console.log("+")
+      console.log("+");
     } else {
-        console.log("-")
+      console.log("-");
     }
   }
 
   return (
     <div className={`incrementor-frame-${size}`}>
-      <div 
+      <div
         className={"incrementor-button"}
-        onClick={() => onChange("-")}>
+        onClick={() => onChange("-")}
+      >
         <b>-</b>
       </div>
       <div className={"incrementor-button"}>
         <b>{increment}</b>
       </div>
-      <div 
+      <div
         className={"incrementor-button"}
         onClick={() => onChange("+")}
       >
         <b>+</b>
       </div>
-      <div className={`increment-save-${increment === quantity ? "hide" : "active"}`}>
-      </div>
+      <div
+        className={`increment-save-${increment === quantity ? "hide" : "active"}`}
+      ></div>
     </div>
   );
 }

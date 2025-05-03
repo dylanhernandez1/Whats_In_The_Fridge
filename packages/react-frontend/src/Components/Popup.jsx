@@ -38,7 +38,7 @@ function Popup({ foodInfo, onDelete, onClose }) {
   }
 
   function onUpdateQtyClicked() {
-    if(size === "expanded") {
+    if (size === "expanded") {
       setSize("original");
     } else {
       setSize("expanded");
@@ -70,7 +70,7 @@ function Popup({ foodInfo, onDelete, onClose }) {
             tagIcon={info ? info.Amount : 0}
             tagInfo="Quantity"
           />
-          <Incrementor 
+          <Incrementor
             size={size}
             quantity={info ? info.Amount : 0}
           />

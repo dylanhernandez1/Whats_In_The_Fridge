@@ -24,7 +24,8 @@
   height: var(--expanded-incrementor-height);
   padding-inline: 8px;
   overflow: hidden;
-  animation: to-original-incrementor-height var(--transition-time) forwards;
+  animation: to-original-incrementor-height
+    var(--transition-time) forwards;
   z-index: 1;
 }
 
@@ -36,7 +37,8 @@
   height: var(--original-incrementor-height);
   overflow: hidden;
   padding-inline: 8px;
-  animation: to-expanded-incrementor-height var(--transition-time) forwards;
+  animation: to-expanded-incrementor-height
+    var(--transition-time) forwards;
   z-index: 1;
 }
 
@@ -54,14 +56,14 @@
 
 /* Animations for rescaling the popup in the event the user clicks the
        "Update Qty button */
-       @keyframes to-original-incrementor-height {
-        100% {
-          height: var(--original-incrementor-height);
-        }
-      }
-      
-      @keyframes to-expanded-incrementor-height {
-        100% {
-          height: var(--expanded-incrementor-height);
-        }
-      }
+@keyframes to-original-incrementor-height {
+  100% {
+    height: var(--original-incrementor-height);
+  }
+}
+
+@keyframes to-expanded-incrementor-height {
+  100% {
+    height: var(--expanded-incrementor-height);
+  }
+}
