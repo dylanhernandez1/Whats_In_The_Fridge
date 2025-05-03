@@ -69,7 +69,7 @@ function CreateAccountPage() {
       return false;
     }
 
-    const promise = fetch(`http://${URL}/users`, {
+    const promise = fetch(`https://${URL}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

@@ -25,7 +25,7 @@ function Home({}) {
   async function getHouses(token) {
     if (!token) return [];
     try {
-      const res = await fetch(`http://${URL}/userhouses`, {
+      const res = await fetch(`https://${URL}/userhouses`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +62,7 @@ function Home({}) {
             ? houses.defaultHouse
             : houses.housesByUser[0];
         const res = await fetch(
-          `http://${URL}/houses/${houseToUse._id}/food`,
+          `https://${URL}/houses/${houseToUse._id}/food`,
           {
             method: "GET",
             headers: {
@@ -178,7 +178,7 @@ function Home({}) {
   }
 
   function onDelete(id) {
-    fetch(`http://${URL}/food`, {
+    fetch(`https://${URL}/food`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"

@@ -43,7 +43,7 @@ function Food() {
   async function getHouses(token) {
     if (!token) return [];
     try {
-      const res = await fetch(`http://${URL}/userhouses`, {
+      const res = await fetch(`https://${URL}/userhouses`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

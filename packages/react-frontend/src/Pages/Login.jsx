@@ -32,7 +32,7 @@ function LoginPage() {
 
   async function sendInformation() {
     try {
-      const res = await fetch(`http://${URL}/login`, {
+      const res = await fetch(`https://${URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
