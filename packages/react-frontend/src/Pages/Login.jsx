@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Login_Styling.css";
 import { useNavigate } from "react-router-dom";
+const URL =
+  "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -30,7 +32,7 @@ function LoginPage() {
 
   async function sendInformation() {
     try {
-      const res = await fetch(`http://localhost:8000/login`, {
+      const res = await fetch(`http://${URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

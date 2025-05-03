@@ -10,6 +10,8 @@ import IngredientSorting from "../Components/IngredientSorting.jsx";
 import Popup from "../Components/Popup.jsx";
 import "../Components/Header_Styling.css";
 import { useNavigate } from "react-router-dom";
+const URL =
+  "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
 
 function Home({}) {
   const [foodList, setFoodList] = useState([{}]);
@@ -23,16 +25,13 @@ function Home({}) {
   async function getHouses(token) {
     if (!token) return [];
     try {
-      const res = await fetch(
-        `http://localhost:8000/userhouses`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          }
+      const res = await fetch(`http://${URL}/userhouses`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
         }
-      );
+      });
 
       if (res.status === 401 || res.status === 404) {
         navigate("/login");
@@ -63,7 +62,7 @@ function Home({}) {
             ? houses.defaultHouse
             : houses.housesByUser[0];
         const res = await fetch(
-          `http://localhost:8000/houses/${houseToUse._id}/food`,
+          `http://${URL}/houses/${houseToUse._id}/food`,
           {
             method: "GET",
             headers: {
@@ -179,7 +178,7 @@ function Home({}) {
   }
 
   function onDelete(id) {
-    fetch(`http://localhost:8000/food`, {
+    fetch(`http://${URL}/food`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"

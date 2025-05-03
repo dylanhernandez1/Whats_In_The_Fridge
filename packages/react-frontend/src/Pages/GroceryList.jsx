@@ -1,5 +1,7 @@
 import React from "react";
 import Toolbar from "../Components/Toolbar";
+const URL =
+  "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
 
 function GroceryList() {
   return (

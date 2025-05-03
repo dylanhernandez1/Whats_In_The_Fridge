@@ -21,6 +21,8 @@ import Toolbar from "../Components/Toolbar.jsx";
 import DatePicker from "react-datepicker";
 import "./Food_Styling.css";
 import "react-datepicker/dist/react-datepicker.css";
+const URL =
+  "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
 
 function Food() {
   const navigate = useNavigate();
@@ -41,16 +43,13 @@ function Food() {
   async function getHouses(token) {
     if (!token) return [];
     try {
-      const res = await fetch(
-        `http://localhost:8000/userhouses`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          }
+      const res = await fetch(`http://${URL}/userhouses`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
         }
-      );
+      });
 
       if (res.status === 401 || res.status === 404) {
         navigate("/login");

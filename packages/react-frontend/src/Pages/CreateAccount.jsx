@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Food_Styling.css";
 import { useNavigate } from "react-router-dom";
+const URL =
+  "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
 
 function CreateAccountPage() {
   const [name, setName] = useState("");
@@ -67,7 +69,7 @@ function CreateAccountPage() {
       return false;
     }
 
-    const promise = fetch("http://localhost:8000/users", {
+    const promise = fetch(`http://${URL}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
