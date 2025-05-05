@@ -2,7 +2,7 @@
   "routes": [
     {
       "route": "/*",
-      "rewrite": "/index.html",
+      "rewrite": "index.html",
       "allowedRoles": ["anonymous"]
     }
   ]
