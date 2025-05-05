@@ -24,7 +24,7 @@ app.use(
   cors({
     origin: [
       "https://white-stone-02cbbab1e.6.azurestaticapps.net",
-      "https://localhost:5173"
+      "http://localhost:5173"
     ], // CHANGE TO FRONTEND URL WHEN RECEIVED
     credentials: true
   })
