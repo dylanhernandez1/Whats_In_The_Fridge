@@ -1,8 +1,37 @@
 import React, { useState, useEffect } from "react";
 import "./Food_Styling.css";
 import { useNavigate } from "react-router-dom";
-const URL =
-  "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
+import URL from "./Url";
+
+function VerifyEmailPage() {
+  useEffect(() => {
+    console.log("Something is happeneing here for some reason");
+    const promise = fetch(`${URL}/verify-email/:id`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(async (res) => {
+        if (res.status == 201) {
+          //REROUTE TO HOME PAGE
+          console.log("Successfuly sent");
+        } else if (res.status == 400) {
+          const message = await res.text();
+          setError(message);
+          console.log("400 error: " + message);
+        } else if (res.status == 409) {
+          const message = await res.text();
+          setError(message);
+          console.log("409 error: " + message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
+      });
+  });
+}
 
 function CreateAccountPage() {
   const [name, setName] = useState("");
@@ -69,7 +98,7 @@ function CreateAccountPage() {
       return false;
     }
 
-    const promise = fetch(`https://${URL}/users`, {
+    const promise = fetch(`${URL}/verify-email`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -77,20 +106,13 @@ function CreateAccountPage() {
       },
       body: JSON.stringify({
         name: name,
-        email: email,
-        password: password
+        email: email
       })
     })
       .then(async (res) => {
         if (res.status == 201) {
           //REROUTE TO HOME PAGE
-          setError("");
-          console.log("Successful add");
-          navigate("/login");
-
-          const data = await res.json();
-          //Save token to localStorage
-          localStorage.setItem("token", data.token);
+          console.log("Successfuly sent");
         } else if (res.status == 400) {
           const message = await res.text();
           setError(message);

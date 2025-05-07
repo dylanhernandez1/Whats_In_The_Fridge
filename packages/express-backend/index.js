@@ -11,6 +11,7 @@ import foodServices from "./food-services.js";
 import houseServices from "./house-services.js";
 import userHouseServices from "./UserHouse-services.js";
 import { GiConsoleController } from "react-icons/gi";
+import nodemailer from "nodemailer";
 
 dotenv.config(); //Load dotenv
 mongoose.set("debug", true);
@@ -167,6 +168,49 @@ app.post("/login", async (req, res) => {
     console.error("Login Error:", error);
     res.status(500).send("Internal Server Error");
   }
+});
+
+/* -------------------- EMAIL-VERIFICATION -------------------- */
+
+function generateVerificationToken(email) {
+  return jwt.sign({ email: email }, process.env.TOKEN_SECRET, {
+    expiresIn: "600s"
+  });
+}
+
+app.post("/verify-email", async (req, res) => {
+  const email = req.body;
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "whatsinthefridgee@gmail.com",
+      pass: "sakxwwftzytcliwy"
+    }
+  });
+
+  const token = generateVerificationToken(email);
+  console.log("JWT: ", token);
+
+  let mailOptions = {
+    from: "no-reply@whats-in-the-fridge.com <donotreply@whatsinthefridge@gmail.com>",
+    to: email.email,
+    subject: "Whats In The Fridge Email Verification",
+    text: `Hello, ${email.name}. Please verify your email by clicking this link : http://localhost:5173/verify-email/:${token}`
+  };
+
+  transporter.sendMail(mailOptions, function (err, data) {
+    if (err) {
+      console.log("Error", err);
+      return res.status(500).json(err);
+    } else {
+      console.log("Email sent");
+      return res.status(200);
+    }
+  });
+});
+
+app.get("/verify-email/:id", async (req, res) => {
+  console.log("help");
 });
 
 /* -------------------- HOUSES -------------------- */

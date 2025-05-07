@@ -6,6 +6,7 @@ import RecipeSuggester from "../Pages/RecipeSuggester.jsx";
 import Food from "../Pages/Food.jsx";
 import Login from "../Pages/Login.jsx";
 import CreateAccount from "../Pages/CreateAccount.jsx";
+import VerifyAccount from "../Pages/VerifyAccount.jsx";
 
 export const routes = [
   {
@@ -42,6 +43,11 @@ export const routes = [
   {
     path: "/create-account",
     element: (props) => <CreateAccount {...props} />,
+    protected: false
+  }, // No props for now
+  {
+    path: "/verify-email",
+    element: (props) => <VerifyAccount {...props} />,
     protected: false
   } // No props for now
 ];
