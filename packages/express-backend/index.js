@@ -191,7 +191,7 @@ app.post("/verify-email", async (req, res) => {
   const token = generateVerificationToken(email);
   console.log("JWT: ", token);
 
-  let mailOptions = {
+  const mailOptions = {
     from: "no-reply@whats-in-the-fridge.com <donotreply@whatsinthefridge@gmail.com>",
     to: email.email,
     subject: "Whats In The Fridge Email Verification",
