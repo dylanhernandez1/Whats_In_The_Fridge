@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Login_Styling.css";
 import { useNavigate } from "react-router-dom";
-const URL =
-  "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
+const URL = "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
+let debounce = false;
 
 function Login() {
   const navigate = useNavigate();
@@ -23,9 +23,13 @@ function Login() {
     document
       .getElementById("password-field")
       .addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
+        if (event.key === "Enter" && debounce == false) {
+          debounce = true;
           document.getElementById("sign-in").click();
-          return;
+
+          setTimeout(() => {
+            debounce = false;
+          }, 300);
         }
       });
   });
