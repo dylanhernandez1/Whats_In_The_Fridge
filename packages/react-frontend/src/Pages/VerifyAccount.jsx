@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./Food_Styling.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import URL from "./Url";
 
 function VerifyEmailPage() {
+  const { token } = useParams();
+
   useEffect(() => {
-    console.log("Something is happeneing here for some reason");
-    const promise = fetch(`${URL}/verify-email/:id`, {
+    console.log(token);
+    const promise = fetch(`${URL}/verify-email/${token}`, {
       method: "GET",
       credentials: "include",
       headers: {
@@ -14,7 +16,7 @@ function VerifyEmailPage() {
       }
     })
       .then(async (res) => {
-        if (res.status == 201) {
+        if (res.status == 200) {
           //REROUTE TO HOME PAGE
           console.log("Successfuly sent");
         } else if (res.status == 400) {

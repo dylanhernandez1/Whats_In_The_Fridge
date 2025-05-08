@@ -46,7 +46,7 @@ export const routes = [
     protected: false
   }, // No props for now
   {
-    path: "/verify-email",
+    path: "/verify-email/:token",
     element: (props) => <VerifyAccount {...props} />,
     protected: false
   } // No props for now

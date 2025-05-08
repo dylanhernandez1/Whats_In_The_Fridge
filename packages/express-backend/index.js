@@ -194,8 +194,10 @@ app.post("/verify-email", async (req, res) => {
   const mailOptions = {
     from: "no-reply@whats-in-the-fridge.com <donotreply@whatsinthefridge@gmail.com>",
     to: email.email,
-    subject: "Whats In The Fridge Email Verification",
-    text: `Hello, ${email.name}. Please verify your email by clicking this link : http://localhost:5173/verify-email/:${token}`
+    subject: "What's In The Fridge Email Verification",
+    text: `Hello, ${email.name}. 
+Please verify your email with this link : 
+http://localhost:5173/verify-email/${token}`
   };
 
   transporter.sendMail(mailOptions, function (err, data) {
@@ -210,7 +212,23 @@ app.post("/verify-email", async (req, res) => {
 });
 
 app.get("/verify-email/:id", async (req, res) => {
-  console.log("help");
+  console.log(req.params.id);
+  try {
+    const decoded = jwt.verify(
+      req.params.id,
+      process.env.TOKEN_SECRET
+    );
+
+    //WE VERIFY EMAIL HERE WITH A NON EXPIRED TOKEN
+    req.userEmail = decoded.email;
+    const user = userServices.findUserByEmail(
+      req.userEmail.email
+    );
+    user.emailVerified = true;
+  } catch (error) {
+    console.log(error);
+    return res.status(401).end();
+  }
 });
 
 /* -------------------- HOUSES -------------------- */
