@@ -60,8 +60,8 @@ function Home({}) {
         houseName: "test",
         state: "test",
         country: "test",
-        town: "test",
-      }),
+        town: "test"
+      })
     });
     return res;
   }
@@ -75,28 +75,28 @@ function Home({}) {
           !houses.defaultHouse)
       ) {
         createDefaultHouse(token)
-        .then(async (res) => {
-          if (res.status === 201) {
-            // Successfully created a default house, so now get the expiring list of the house
-            getExpiringList(token);
-          } else {
-            console.log("Error creating a default house");
-          }
-        })
-        .catch((error) => {
-          console.error("Error: ", error);
-        });
+          .then(async (res) => {
+            if (res.status === 201) {
+              // Successfully created a default house, now get the expiring list of the house
+              getExpiringList(token);
+            } else {
+              console.log("Error creating a default house");
+            }
+          })
+          .catch((error) => {
+            console.error("Error: ", error);
+          });
       } else {
         getExpiringList(token);
       }
     }
   }
- 
+
   async function getExpiringList(token) {
     const houseToUse =
       houses.defaultHouse != null
-      ? houses.defaultHouse
-      : houses.housesByUser[0];
+        ? houses.defaultHouse
+        : houses.housesByUser[0];
     await fetch(
       `https://${URL}/houses/${houseToUse._id}/food`,
       {
@@ -108,7 +108,7 @@ function Home({}) {
         }
       }
     )
-    .then(async (res) => {
+      .then(async (res) => {
         if (!res) {
           return [];
         }
@@ -145,7 +145,7 @@ function Home({}) {
         console.error("Error: ", error);
       });
   }
-      /*
+  /*
       //OLD CODE FOR FOOD
       const promise = fetch(`http://localhost:8000/expiring`, {
         method: "GET",
@@ -200,8 +200,7 @@ function Home({}) {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    checkForHouses(token)
-  
+    checkForHouses(token);
   }, [navigate]);
 
   function onCardClick(foodInfo) {
