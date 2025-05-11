@@ -46,7 +46,27 @@ function Home({}) {
     }
   }
 
-  async function getExpiringList(token) {
+  // Temporary function to create a default house if none is found
+  // Only for testing purposes, won't be used in the final product
+  async function createDefaultHouse(token) {
+    const res = await fetch(`https://${URL}/houses`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        houseName: "test",
+        state: "test",
+        country: "test",
+        town: "test",
+      }),
+    });
+    return res;
+  }
+
+  async function checkForHouses(token) {
     if (token) {
       const houses = await getHouses(token);
       if (
@@ -54,86 +74,41 @@ function Home({}) {
         (houses.housesByUser.length == 0 &&
           !houses.defaultHouse)
       ) {
-        alert("No Houses found for your user");
-        //NO HOUSE, PROMPT TO CREATE HOUSE
-      } else {
-        // Use the defaultHouse if it exists; otherwise, use the first house
-        const houseToUse =
-          houses.defaultHouse != null
-            ? houses.defaultHouse
-            : houses.housesByUser[0];
-        const res = await fetch(
-          `https://${URL}/houses/${houseToUse._id}/food`,
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`
-            }
+        createDefaultHouse(token)
+        .then(async (res) => {
+          if (res.status === 201) {
+            // Successfully created a default house, so now get the expiring list of the house
+            getExpiringList(token);
+          } else {
+            console.log("Error creating a default house");
           }
-        );
-        return res;
+        })
+        .catch((error) => {
+          console.error("Error: ", error);
+        });
+      } else {
+        getExpiringList(token);
       }
-      /*
-      //OLD CODE FOR FOOD
-      const promise = fetch(`http://localhost:8000/expiring`, {
+    }
+  }
+ 
+  async function getExpiringList(token) {
+    const houseToUse =
+      houses.defaultHouse != null
+      ? houses.defaultHouse
+      : houses.housesByUser[0];
+    await fetch(
+      `https://${URL}/houses/${houseToUse._id}/food`,
+      {
         method: "GET",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         }
-      });
-      return promise;
-    } else {
-      console.log("empty cookie");
-      return false;
-    }
-      */
-    }
-  }
-
-  //FOR SEARCHBAR
-
-  useEffect(() => {
-    const filteredFoods =
-      searchText.trim() == ""
-        ? foodList
-        : foodList.filter((food) =>
-            food.FoodName.toLowerCase().includes(
-              searchText.toLowerCase()
-            )
-          );
-    const updatedList = filteredFoods.map((food) => {
-      return food;
-    });
-    setTempFoodList(updatedList);
-  }, [searchText]);
-
-  const handleSearchText = (text) => {
-    setSearchText(text);
-  };
-
-  //FOR MENU
-
-  useEffect(() => {
-    const filteredFoods = foodList.filter(
-      (food) => food.Location === menuText
-    );
-    const updatedList = filteredFoods.map((food) => {
-      return food;
-    });
-    setTempFoodList(updatedList);
-  }, [menuText]);
-
-  const handleMenuSwitch = (text) => {
-    setMenuText(text);
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    getExpiringList(token)
-      .then(async (res) => {
+      }
+    )
+    .then(async (res) => {
         if (!res) {
           return [];
         }
@@ -169,6 +144,64 @@ function Home({}) {
       .catch((error) => {
         console.error("Error: ", error);
       });
+  }
+      /*
+      //OLD CODE FOR FOOD
+      const promise = fetch(`http://localhost:8000/expiring`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      });
+      return promise;
+    } else {
+      console.log("empty cookie");
+      return false;
+    }
+      */
+
+  //FOR SEARCHBAR
+
+  useEffect(() => {
+    const filteredFoods =
+      searchText.trim() == ""
+        ? foodList
+        : foodList.filter((food) =>
+            food.FoodName.toLowerCase().includes(
+              searchText.toLowerCase()
+            )
+          );
+    const updatedList = filteredFoods.map((food) => {
+      return food;
+    });
+    setTempFoodList(updatedList);
+  }, [searchText]);
+
+  const handleSearchText = (text) => {
+    setSearchText(text);
+  };
+
+  //FOR MENU
+  useEffect(() => {
+    const filteredFoods = foodList.filter(
+      (food) => food.Location === menuText
+    );
+    const updatedList = filteredFoods.map((food) => {
+      return food;
+    });
+    setTempFoodList(updatedList);
+  }, [menuText]);
+
+  const handleMenuSwitch = (text) => {
+    setMenuText(text);
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    checkForHouses(token)
+  
   }, [navigate]);
 
   function onCardClick(foodInfo) {
