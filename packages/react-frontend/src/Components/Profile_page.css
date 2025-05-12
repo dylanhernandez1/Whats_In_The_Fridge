@@ -82,3 +82,40 @@
     margin-left: 10px;
   }
 }
+
+/* Button group container */
+.profile-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* Add House button style */
+.add-house-button {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-house-button:hover {
+  background-color: #45a049;
+}
+
+/* Improve mobile layout */
+@media (max-width: 600px) {
+  .profile-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .add-house-button,
+  .log-out {
+    width: 100%;
+  }
+}
