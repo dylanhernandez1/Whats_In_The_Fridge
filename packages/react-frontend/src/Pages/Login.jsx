@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Login_Styling.css";
 import { useNavigate } from "react-router-dom";
-const URL = "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
+const URL =
+  "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
 let debounce = false;
 
 function Login() {
