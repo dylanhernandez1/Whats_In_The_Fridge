@@ -11,7 +11,6 @@ import foodServices from "./food-services.js";
 import houseServices from "./house-services.js";
 import userHouseServices from "./UserHouse-services.js";
 import { GiConsoleController } from "react-icons/gi";
-import nodemailer from "nodemailer";
 
 dotenv.config(); //Load dotenv
 mongoose.set("debug", true);
@@ -32,8 +31,6 @@ app.use(
 );
 
 app.use(express.json());
-
-app.options("*", cors());
 
 //Connect to database
 mongoose
