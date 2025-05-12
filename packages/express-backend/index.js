@@ -33,6 +33,8 @@ app.use(
 
 app.use(express.json());
 
+app.options("*", cors());
+
 //Connect to database
 mongoose
   .connect(process.env.MONGODB_URI, {})
