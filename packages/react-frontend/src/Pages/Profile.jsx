@@ -12,6 +12,14 @@ function Profile() {
   const navigate = useNavigate();
   const [selectedSection, setSelectedSection] =
     useState("User");
+  const [showHouseModal, setShowHouseModal] = useState(false);
+  const [newHouse, setNewHouse] = useState({
+    houseName: "",
+    state: "",
+    country: "",
+    town: "",
+  });
+    
 
   function LogOut() {
     localStorage.removeItem("token");
@@ -19,8 +27,45 @@ function Profile() {
   }
 
   function manageHouses() {
-    navigate("./houses");
+    setShowHouseModal(true);
   }
+
+  async function submitHouse() {
+    const token = localStorage.getItem("token");
+  
+    try {
+      const res = await fetch(`https://${URL}/houses`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ ...newHouse })
+      });
+  
+      console.log("Request body:", JSON.stringify({ ...newHouse }));
+  
+      if (res.ok) {
+        alert("House created!");
+        setShowHouseModal(false);
+        setNewHouse({ houseName: "", state: "", country: "", town: "" });
+      } else {
+        const rawText = await res.text();
+        let errorMessage;
+  
+        try {
+          const errorJson = JSON.parse(rawText);
+          errorMessage = errorJson.message || JSON.stringify(errorJson);
+        } catch {
+          errorMessage = `Server error ${res.status}: ${rawText}`;
+        }
+  
+        alert("Error: " + errorMessage);
+      }
+    } catch (error) {
+      alert("Network or unexpected error: " + error.message);
+    }
+  }  
 
   //Renders content based on the Profile Toolbar selection
   function renderContent() {
@@ -130,6 +175,41 @@ function Profile() {
           selectedSection={selectedSection}
         />
         <div className="profile-content">{renderContent()}</div>
+        {showHouseModal && (
+  <div className="modal-overlay">
+    <div className="modal">
+      <h2>Create a New House</h2>
+      <input
+        type="text"
+        placeholder="House Name"
+        value={newHouse.houseName}
+        onChange={(e) => setNewHouse({ ...newHouse, houseName: e.target.value })}
+      />
+      <input
+        type="text"
+        placeholder="Town"
+        value={newHouse.town}
+        onChange={(e) => setNewHouse({ ...newHouse, town: e.target.value })}
+      />
+      <input
+        type="text"
+        placeholder="State"
+        value={newHouse.state}
+        onChange={(e) => setNewHouse({ ...newHouse, state: e.target.value })}
+      />
+      <input
+        type="text"
+        placeholder="Country"
+        value={newHouse.country}
+        onChange={(e) => setNewHouse({ ...newHouse, country: e.target.value })}
+      />
+      <div className="modal-buttons">
+        <button onClick={submitHouse}>Create</button>
+        <button onClick={() => setShowHouseModal(false)}>Cancel</button>
+      </div>
+    </div>
+  </div>
+)}
       </div>
     </div>
   );
