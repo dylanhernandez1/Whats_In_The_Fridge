@@ -1,6 +1,6 @@
 // src/MyApp.jsx
 import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, matchPath } from "react-router-dom";
 import { routes } from "./Utils/Routes.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
@@ -10,11 +10,14 @@ function MyApp() {
   const location = useLocation();
   const token = localStorage.getItem("token");
 
-  const currentRoute = routes.find(
-    (route) => route.path === location.pathname
-  );
-
   useEffect(() => {
+    const currentRoute = routes.find((route) =>
+      matchPath(
+        { path: route.path, end: true },
+        location.pathname
+      )
+    );
+
     if (currentRoute.protected && !token) {
       navigate("/login");
     } else if (currentRoute.protected && token) {

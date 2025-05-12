@@ -170,6 +170,67 @@ app.post("/login", async (req, res) => {
   }
 });
 
+/* -------------------- EMAIL-VERIFICATION -------------------- */
+
+function generateVerificationToken(email) {
+  return jwt.sign({ email: email }, process.env.TOKEN_SECRET, {
+    expiresIn: "600s"
+  });
+}
+
+app.post("/verify-email", async (req, res) => {
+  const email = req.body;
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "whatsinthefridgee@gmail.com",
+      pass: "sakxwwftzytcliwy"
+    }
+  });
+
+  const token = generateVerificationToken(email);
+  console.log("JWT: ", token);
+
+  const mailOptions = {
+    from: "no-reply@whats-in-the-fridge.com <donotreply@whatsinthefridge@gmail.com>",
+    to: email.email,
+    subject: "What's In The Fridge Email Verification",
+    text: `Hello, ${email.name}. 
+Please verify your email with this link : 
+http://localhost:5173/verify-email/${token}`
+  };
+
+  transporter.sendMail(mailOptions, function (err, data) {
+    if (err) {
+      console.log("Error", err);
+      return res.status(500).json(err);
+    } else {
+      console.log("Email sent");
+      return res.status(200);
+    }
+  });
+});
+
+app.get("/verify-email/:id", async (req, res) => {
+  console.log(req.params.id);
+  try {
+    const decoded = jwt.verify(
+      req.params.id,
+      process.env.TOKEN_SECRET
+    );
+
+    //WE VERIFY EMAIL HERE WITH A NON EXPIRED TOKEN
+    req.userEmail = decoded.email;
+    const user = userServices.findUserByEmail(
+      req.userEmail.email
+    );
+    user.emailVerified = true;
+  } catch (error) {
+    console.log(error);
+    return res.status(401).end();
+  }
+});
+
 /* -------------------- HOUSES -------------------- */
 //Add a house
 app.post("/houses", authenticateUser, async (req, res) => {
