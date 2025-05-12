@@ -58,12 +58,18 @@ function Profile() {
               <strong>Birthday:</strong> January 1, 1990
             </p>
             <div className="profile-buttons">
-              <button className="add-house-button" onClick={manageHouses}>
+              <button
+                className="add-house-button"
+                onClick={manageHouses}
+              >
                 + Add House
-             </button>
-             <button className="log-out" onClick={() => LogOut()}>
-              <FaSignOutAlt className="icon" />
-              <span className="button-text">Sign Out</span>
+              </button>
+              <button
+                className="log-out"
+                onClick={() => LogOut()}
+              >
+                <FaSignOutAlt className="icon" />
+                <span className="button-text">Sign Out</span>
               </button>
             </div>
           </div>
