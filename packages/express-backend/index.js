@@ -432,11 +432,9 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
         populatedUser.preferences?.defaultHouse ?? null
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: `Internal Server Error: ${error.message}`
-      });
+    res.status(500).json({
+      error: `Internal Server Error: ${error.message}`
+    });
   }
 });
 
