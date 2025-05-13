@@ -29,7 +29,7 @@ function Food() {
   //state to store input values
   const [foodName, setFoodName] = useState("");
   const [foodType, setFoodType] = useState("Fruit");
-  const [location, setLocation] = useState("Fridge");
+  const [location, setLocation] = useState("fridge");
   const [quantity, setQuantity] = useState(1);
   const [date, setDate] = useState(new Date());
 
