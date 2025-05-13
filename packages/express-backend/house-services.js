@@ -50,17 +50,6 @@ async function addFoodToHouse(houseId, location, food) {
       return { success: false, message: "House not found" };
     }
 
-    // Validate location (fridge, freezer, pantry, groceryList)
-    const validLocations = [
-      "fridge",
-      "freezer",
-      "pantry",
-      "groceryList"
-    ];
-    if (!validLocations.includes(location)) {
-      return { success: false, message: "Invalid location" };
-    }
-
     // Check that food item has required properties
     if (
       food.FoodName &&
@@ -111,13 +100,7 @@ async function getFoodFromHouse(houseId, location) {
       return { success: false, message: "House not found" };
     }
 
-    const validLocations = [
-      "fridge",
-      "freezer",
-      "pantry",
-      "groceryList"
-    ];
-    if (!validLocations.includes(location)) {
+    if (!CheckFoodLocationValid(location)) {
       return { success: false, message: "Invalid location" };
     }
 

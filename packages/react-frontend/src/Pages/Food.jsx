@@ -52,15 +52,20 @@ function Food() {
         }
       });
 
-      if (res.status === 401 || res.status === 404) {
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        const message =
+          errorData?.error || `HTTP ${res.status}`;
+        console.error("Error from /userhouses:", message);
         navigate("/login");
         return [];
-      } else {
-        const data = await res.json();
-        return data;
       }
+
+      const data = await res.json();
+      return data;
     } catch (err) {
       console.error("Error fetching houses:", err);
+      return [];
     }
   }
 
@@ -84,7 +89,7 @@ function Food() {
         const houseToUse =
           houses.defaultHouse != null
             ? houses.defaultHouse
-            : houses.housesByUser[0];
+            : houses.housesByUser[0]?.house;
         fetch(`/houses/${houseToUse._id}/food/${location}`, {
           method: "POST",
           credentials: "include",
