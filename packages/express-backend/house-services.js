@@ -159,7 +159,7 @@ async function removeFoodFromHouse(houseId, foodId) {
       (location) => {
         const originalLength = house[location].length;
         house[location] = house[location].filter(
-          (item) => item.toString() !== foodId
+          (item) => item._id.toString() !== foodId.toString()
         );
         if (house[location].length !== originalLength)
           updated = true;
