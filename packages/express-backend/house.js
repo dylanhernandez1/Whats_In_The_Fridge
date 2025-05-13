@@ -39,6 +39,4 @@ const HouseSchema = new mongoose.Schema(
   }
 );
 
-const House = mongoose.model("House", HouseSchema);
-
-export default House;
+export default HouseSchema;
