@@ -130,8 +130,9 @@ function Home({}) {
   //FOR MENU
 
   useEffect(() => {
+    console.log("food: ", food, "menuText: ", menuText);
     const filteredFoods = foodList.filter(
-      (food) => food.Location === menuText
+      (food) => food.Location === menuText.toLowerCase()
     );
     const updatedList = filteredFoods.map((food) => {
       return food;
@@ -193,18 +194,17 @@ function Home({}) {
   }
 
   function onDelete(id) {
-    fetch(`https://${URL}/food`, {
+    const token = localStorage.getItem("token");
+    fetch(`https://${URL}/food/${id}`, {
       method: "DELETE",
       credentials: "include",
       headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        _id: id
-      })
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
     })
       .then((res) => {
-        if (res.status == 201) {
+        if (res.status == 200) {
           setFoodList(
             foodList.filter((food) => food._id !== id)
           );

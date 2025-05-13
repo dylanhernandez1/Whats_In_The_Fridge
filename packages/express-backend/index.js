@@ -497,14 +497,14 @@ app.get("/expiring", authenticateUser, async (req, res) => {
     );
 });
 
-app.delete("/food", (req, res) => {
-  const foodId = req.body._id;
+app.delete("/food/:id", authenticateUser, async (req, res) => {
+  const foodId = req.params.id;
   console.log(`The foodId is: ${foodId}`);
   foodServices
     .deleteFoodById(foodId)
     .then((mongoRes) => {
       if (validateRes(mongoRes)) {
-        res.status(201).send("Successfully deleted!");
+        res.status(200).send("Successfully deleted!");
       } else {
         res
           .status(400)

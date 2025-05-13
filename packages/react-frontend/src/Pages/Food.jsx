@@ -109,7 +109,6 @@ function Food() {
           }
         )
           .then((res) => {
-            console.log(res);
             if (res.status == 201) {
               setButtonText(`${foodName} added`);
               setTimeout(() => {
