@@ -54,6 +54,7 @@ function Home({}) {
   async function getExpiringList(token) {
     if (token) {
       const houses = await getHouses(token);
+      console.log(houses);
       if (
         !houses.housesByUser ||
         (houses.housesByUser.length == 0 &&
@@ -67,6 +68,11 @@ function Home({}) {
           houses.defaultHouse != null
             ? houses.defaultHouse
             : houses.housesByUser[0]?.house;
+        if (!houseToUse || !houseToUse._id) {
+          alert("No valid house found with an _id");
+          return;
+        }
+
         const res = await fetch(
           `https://${URL}/houses/${houseToUse._id}/food`,
           {

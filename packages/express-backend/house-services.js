@@ -155,7 +155,7 @@ async function removeFoodFromHouse(houseId, foodId) {
     let updated = false;
 
     // Go through each location and remove the food if present
-    ["fridge", "freezer", "pantry", "grocery_list"].forEach(
+    ["fridge", "freezer", "pantry", "groceryList"].forEach(
       (location) => {
         const originalLength = house[location].length;
         house[location] = house[location].filter(
