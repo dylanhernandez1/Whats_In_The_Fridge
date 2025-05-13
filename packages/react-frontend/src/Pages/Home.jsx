@@ -146,7 +146,7 @@ function Home({}) {
   }, [menuText]);
 
   const handleMenuSwitch = (text) => {
-    setMenuText(text.toLowercase());
+    setMenuText(text.toLowerCase());
   };
 
   useEffect(() => {
