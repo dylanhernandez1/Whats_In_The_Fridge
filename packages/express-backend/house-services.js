@@ -50,6 +50,7 @@ async function addFoodToHouse(houseId, location, food) {
       return { success: false, message: "House not found" };
     }
 
+    console.log(food);
     // Check that food item has required properties
     if (
       food.FoodName &&
@@ -65,6 +66,7 @@ async function addFoodToHouse(houseId, location, food) {
       house[location].push(savedFood);
       await house.save();
 
+      console.log("Returning ", savedFood);
       return { success: true, savedFood };
     } else {
       return { success: false, message: "Invalid food item" };
