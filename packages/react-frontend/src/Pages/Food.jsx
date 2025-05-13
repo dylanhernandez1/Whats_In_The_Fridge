@@ -90,23 +90,27 @@ function Food() {
           houses.defaultHouse != null
             ? houses.defaultHouse
             : houses.housesByUser[0]?.house;
-        fetch(`/houses/${houseToUse._id}/food/${location}`, {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            FoodName: foodName,
-            FoodType: foodType,
-            Location: location,
-            Amount: quantity,
-            ExpirationDate: date
-          })
-        })
+        fetch(
+          `https://${URL}/houses/${houseToUse._id}/food/${location}`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              FoodName: foodName,
+              FoodType: foodType,
+              Location: location,
+              Amount: quantity,
+              ExpirationDate: date
+            })
+          }
+        )
           .then((res) => {
             if (res.status == 201) {
+              console.log(res);
               setButtonText(`${foodName} added`);
               setTimeout(() => {
                 setButtonText("Add");
