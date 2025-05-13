@@ -45,7 +45,7 @@ test("adding food with ExpirationDate", async () => {
     FoodName: "Banana",
     ExpirationDate: "2025-05-01",
     Amount: 1,
-    Location: "Fridge"
+    Location: "fridge"
   };
 
   mockSave.mockResolvedValue(newFood);
@@ -60,7 +60,7 @@ test("adding food with amount", async () => {
     FoodName: "Banana",
     ExpirationDate: "2025-05-01",
     Amount: 1,
-    Location: "Pantry"
+    Location: "pantry"
   };
 
   mockSave.mockResolvedValue(newFood);
@@ -89,7 +89,7 @@ test("testing food isn't less than or equal to zero", async () => {
     FoodName: "Banana",
     ExpirationDate: "2025-05-01",
     Amount: 0,
-    Location: "Freezer"
+    Location: "freezer"
   };
 
   mockSave.mockResolvedValue(newFood);
@@ -104,7 +104,7 @@ test("testing food name not provided", async () => {
   const newFood = {
     ExpirationDate: "2025-05-01",
     Amount: 1,
-    Location: "Fridge"
+    Location: "fridge"
   };
 
   mockSave.mockResolvedValue(newFood);
