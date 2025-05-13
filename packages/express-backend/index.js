@@ -421,9 +421,9 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
     }
 
     // Populate the default house (if present) along with all houses
-    const populatedUser = await user
-      .populate("preferences.defaultHouse") // Populate default house with full house data
-      .execPopulate();
+    const populatedUser = await user.populate(
+      "preferences.defaultHouse"
+    );
 
     // Send both default house (if present) and all houses
     res.send({
