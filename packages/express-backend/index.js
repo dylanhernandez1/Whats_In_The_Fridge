@@ -409,7 +409,7 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
     ); // Got userEmail from authentication
 
     if (!user) {
-      return res.status(404).send("User not found.");
+      return res.status(404).json({ error: "User not found." });
     }
 
     // Get all houses the user is a part of
@@ -417,7 +417,7 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
       user._id
     );
     if (!result.success) {
-      return res.status(404).send(result.message);
+      return res.status(404).json({ error: result.message });
     }
 
     // Populate the default house (if present) along with all houses
@@ -426,7 +426,7 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
     );
 
     // Send both default house (if present) and all houses
-    res.send({
+    res.status(200).json({
       housesByUser: result.housesByUser,
       defaultHouse:
         populatedUser.preferences?.defaultHouse ?? null
@@ -434,7 +434,9 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .send(`Internal Server Error: ${error.message}`);
+      .json({
+        error: `Internal Server Error: ${error.message}`
+      });
   }
 });
 
