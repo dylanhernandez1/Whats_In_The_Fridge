@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import "./Header_Styling.css";
 import { FaBars } from "react-icons/fa";
+const URL =
+  "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
 
 function Menu({ onMenuSwitch }) {
   let CurrentContainer;
   const [show, setShow] = useState(false);
 
   function getFoodByContainer() {
-    const promise = fetch("http://localhost:8000/food", {
+    const promise = fetch(`https://${URL}/food`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"

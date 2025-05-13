@@ -130,7 +130,6 @@ function Home({}) {
   //FOR MENU
 
   useEffect(() => {
-    console.log("food: ", food, "menuText: ", menuText);
     const filteredFoods = foodList.filter(
       (food) => food.Location === menuText.toLowerCase()
     );
