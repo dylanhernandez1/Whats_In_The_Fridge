@@ -35,7 +35,7 @@ async function findFoodByName(name) {
 }
 
 function CheckFoodLocationValid(str) {
-  const list = ["Fridge", "Freezer", "Pantry"];
+  const list = ["fridge", "freezer", "pantry"];
 
   return list.some((item) => str === item);
 }

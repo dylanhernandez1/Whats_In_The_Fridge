@@ -182,9 +182,9 @@ function Food() {
         }}
         onChange={(e) => setLocation(e.target.value)}
       >
-        <option value="Fridge">FRIDGE</option>
-        <option value="Freezer">FREEZER</option>
-        <option value="Pantry">PANTRY</option>
+        <option value="fridge">FRIDGE</option>
+        <option value="freezer">FREEZER</option>
+        <option value="pantry">PANTRY</option>
       </select>
 
       {/* Quantity Input */}

@@ -38,7 +38,7 @@ const FoodSchema = new mongoose.Schema(
       type: String,
       required: false,
       trim: true,
-      enum: ["Fridge", "Freezer", "Pantry"]
+      enum: ["fridge", "freezer", "pantry", "grocery_list"]
     }
   },
   { collection: "food_list", versionKey: false }
