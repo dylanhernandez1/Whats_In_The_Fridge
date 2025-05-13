@@ -192,27 +192,76 @@ function Home({}) {
     setFoodInfo(undefined);
   }
 
-  function onDelete(id) {
+  async function onDelete(id) {
     const token = localStorage.getItem("token");
-    fetch(`https://${URL}/food/${id}`, {
-      method: "DELETE",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then((res) => {
-        if (res.status == 200) {
-          setFoodList(
-            foodList.filter((food) => food._id !== id)
-          );
-          setFoodInfo(undefined);
+
+    try {
+      // Delete the food item
+      const deleteRes = await fetch(
+        `https://${URL}/food/${id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          }
         }
-      })
-      .catch((error) => {
-        console.error("Error ", error);
-      });
+      );
+
+      if (deleteRes.status !== 200) {
+        const errorText = await deleteRes
+          .text()
+          .catch(() => "");
+        throw new Error(
+          `Delete failed: ${errorText || deleteRes.statusText}`
+        );
+      }
+
+      // Refresh the user's houses
+      const houses = await getHouses(token);
+      const houseToUse =
+        houses.defaultHouse != null
+          ? houses.defaultHouse
+          : houses.housesByUser[0]?.house;
+
+      if (!houseToUse) {
+        throw new Error("No house found for this user");
+      }
+
+      // Update house information
+      const updateRes = await fetch(
+        `https://${URL}/houses/updateFood/${houseToUse._id}`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ deletedFoodId: id })
+        }
+      );
+
+      if (!updateRes.ok) {
+        const errorText = await updateRes
+          .text()
+          .catch(() => "");
+        throw new Error(
+          `Failed to update house: ${errorText || updateRes.statusText}`
+        );
+      }
+
+      // Update UI state
+      setFoodList(foodList.filter((food) => food._id !== id));
+      setTempFoodList(
+        tempFoodList.filter((food) => food._id !== id)
+      );
+      setFoodInfo(undefined);
+    } catch (error) {
+      console.error("Error deleting food:", error);
+      // Optional: show a toast or UI error message
+    }
   }
 
   //Full table

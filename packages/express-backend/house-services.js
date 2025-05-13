@@ -141,11 +141,55 @@ function CheckFoodLocationValid(str) {
   return list.some((item) => str === item);
 }
 
+async function removeFoodFromHouse(houseId, foodId) {
+  const houseModel = getDbConnection().model(
+    "House",
+    HouseSchema
+  );
+  try {
+    const house = await houseModel.findById(houseId);
+    if (!house) {
+      return { success: false, message: "House not found" };
+    }
+
+    let updated = false;
+
+    // Go through each location and remove the food if present
+    ["fridge", "freezer", "pantry", "grocery_list"].forEach(
+      (location) => {
+        const originalLength = house[location].length;
+        house[location] = house[location].filter(
+          (item) => item.toString() !== foodId
+        );
+        if (house[location].length !== originalLength)
+          updated = true;
+      }
+    );
+
+    if (updated) {
+      await house.save();
+      return {
+        success: true,
+        message: "Food removed from house"
+      };
+    } else {
+      return {
+        success: false,
+        message: "Food not found in house"
+      };
+    }
+  } catch (error) {
+    console.error("Error removing food from house:", error);
+    return { success: false, message: "Error updating house" };
+  }
+}
+
 export default {
   setConnection,
   createHouse,
   addFoodToHouse,
   getHouseById,
   getFoodFromHouse,
-  getAllFoodFromHouse
+  getAllFoodFromHouse,
+  removeFoodFromHouse
 };
