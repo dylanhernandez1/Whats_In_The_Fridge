@@ -66,7 +66,7 @@ function Home({}) {
         const houseToUse =
           houses.defaultHouse != null
             ? houses.defaultHouse
-            : houses.housesByUser[0];
+            : houses.housesByUser[0]?.house;
         const res = await fetch(
           `https://${URL}/houses/${houseToUse._id}/food`,
           {
