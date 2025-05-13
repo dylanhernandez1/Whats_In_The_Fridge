@@ -28,7 +28,11 @@ const UserSchema = new mongoose.Schema(
         darkMode: false,
         language: "en",
         notifications: { email: false, sms: false },
-        defaultHouse: null
+        defaultHouse: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "House",
+          default: null
+        }
       })
     },
     emailVerified: { type: Boolean, default: false },

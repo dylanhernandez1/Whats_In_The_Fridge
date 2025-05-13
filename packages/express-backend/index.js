@@ -250,18 +250,15 @@ app.post("/houses", authenticateUser, async (req, res) => {
     // Save House
     const house = await houseServices.createHouse(houseData);
 
-    const userHouse = new UserHouse({
-      user: user._id,
-      house: house._id,
-      role: "owner"
-    });
-
     // Save UserHouse
-    await userHouse.save();
+    const userHouse = await userHouseServices.addUserToHouse(
+      user._id,
+      house._id,
+      "owner"
+    );
 
     // Set default house
-    user.preferences.defaultHouse = house._id;
-    await user.save();
+    await userServices.setDefaultHouse(user, house._id);
 
     // Success
     res.status(201).send({
@@ -406,24 +403,39 @@ app.get("/houses/:houseId/users", (req, res) => {
 
 //Get houses a user is a part of
 app.get("/userhouses", authenticateUser, async (req, res) => {
-  const user = await userServices.findUserByEmail(
-    req.userEmail
-  ); //Got userEmail from authentication
-  userHouseServices
-    .getHousesByUser(user._id)
-    .then((result) => {
-      if (!result.success)
-        return res.status(404).send(result.message);
+  try {
+    const user = await userServices.findUserByEmail(
+      req.userEmail
+    ); // Got userEmail from authentication
 
-      // Send both default house (if present) and all houses
-      res.send({
-        housesByUser: result.housesByUser,
-        defaultHouse: user.preferences?.defaultHouse ?? null
-      });
-    })
-    .catch((error) =>
-      res.status(500).send(`Internal Server Error: ${error}`)
+    if (!user) {
+      return res.status(404).send("User not found.");
+    }
+
+    // Get all houses the user is a part of
+    const result = await userHouseServices.getHousesByUser(
+      user._id
     );
+    if (!result.success) {
+      return res.status(404).send(result.message);
+    }
+
+    // Populate the default house (if present) along with all houses
+    const populatedUser = await user
+      .populate("preferences.defaultHouse") // Populate default house with full house data
+      .execPopulate();
+
+    // Send both default house (if present) and all houses
+    res.send({
+      housesByUser: result.housesByUser,
+      defaultHouse:
+        populatedUser.preferences?.defaultHouse ?? null
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .send(`Internal Server Error: ${error.message}`);
+  }
 });
 
 /* -------------------- FOOD -------------------- */
