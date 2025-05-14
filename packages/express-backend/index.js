@@ -197,7 +197,7 @@ app.post("/verify-email", async (req, res) => {
     subject: "What's In The Fridge Email Verification",
     text: `Hello, ${email.name}. 
 Please verify your email with this link : 
-http://localhost:5173/verify-email/${token}`
+https://white-stone-02cbbab1e.6.azurestaticapps.net/${token}`
   };
 
   transporter.sendMail(mailOptions, function (err, data) {
