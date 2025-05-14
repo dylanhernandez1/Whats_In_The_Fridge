@@ -29,7 +29,7 @@ function Food() {
   //state to store input values
   const [foodName, setFoodName] = useState("");
   const [foodType, setFoodType] = useState("Fruit");
-  const [location, setLocation] = useState("Fridge");
+  const [location, setLocation] = useState("fridge");
   const [quantity, setQuantity] = useState(1);
   const [date, setDate] = useState(new Date());
 
@@ -52,15 +52,20 @@ function Food() {
         }
       });
 
-      if (res.status === 401 || res.status === 404) {
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        const message =
+          errorData?.error || `HTTP ${res.status}`;
+        console.error("Error from /userhouses:", message);
         navigate("/login");
         return [];
-      } else {
-        const data = await res.json();
-        return data;
       }
+
+      const data = await res.json();
+      return data;
     } catch (err) {
       console.error("Error fetching houses:", err);
+      return [];
     }
   }
 
@@ -84,22 +89,25 @@ function Food() {
         const houseToUse =
           houses.defaultHouse != null
             ? houses.defaultHouse
-            : houses.housesByUser[0];
-        fetch(`/houses/${houseToUse._id}/food/${location}`, {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            FoodName: foodName,
-            FoodType: foodType,
-            Location: location,
-            Amount: quantity,
-            ExpirationDate: date
-          })
-        })
+            : houses.housesByUser[0]?.house;
+        fetch(
+          `https://${URL}/houses/${houseToUse._id}/food/${location}`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              FoodName: foodName,
+              FoodType: foodType,
+              Location: location,
+              Amount: quantity,
+              ExpirationDate: date
+            })
+          }
+        )
           .then((res) => {
             if (res.status == 201) {
               setButtonText(`${foodName} added`);
@@ -173,9 +181,9 @@ function Food() {
         }}
         onChange={(e) => setLocation(e.target.value)}
       >
-        <option value="Fridge">FRIDGE</option>
-        <option value="Freezer">FREEZER</option>
-        <option value="Pantry">PANTRY</option>
+        <option value="fridge">FRIDGE</option>
+        <option value="freezer">FREEZER</option>
+        <option value="pantry">PANTRY</option>
       </select>
 
       {/* Quantity Input */}

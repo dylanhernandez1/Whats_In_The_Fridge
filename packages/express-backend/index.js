@@ -250,18 +250,15 @@ app.post("/houses", authenticateUser, async (req, res) => {
     // Save House
     const house = await houseServices.createHouse(houseData);
 
-    const userHouse = new UserHouse({
-      user: user._id,
-      house: house._id,
-      role: "owner"
-    });
-
     // Save UserHouse
-    await userHouse.save();
+    const userHouse = await userHouseServices.addUserToHouse(
+      user._id,
+      house._id,
+      "owner"
+    );
 
     // Set default house
-    user.preferences.defaultHouse = house._id;
-    await user.save();
+    await userServices.setDefaultHouse(user, house._id);
 
     // Success
     res.status(201).send({
@@ -341,6 +338,33 @@ app.get(
   }
 );
 
+// Update a house after a food has been deleted
+// Update a house after a food has been deleted
+app.patch(
+  "/houses/updateFood/:houseId",
+  authenticateUser,
+  async (req, res) => {
+    const { houseId } = req.params;
+    const { deletedFoodId } = req.body;
+
+    try {
+      const result = await houseServices.removeFoodFromHouse(
+        houseId,
+        deletedFoodId
+      );
+
+      if (!result.success) {
+        return res.status(400).send(result.message);
+      }
+
+      res.status(200).send(result);
+    } catch (err) {
+      console.error("Error updating house:", err);
+      res.status(500).send("Internal server error.");
+    }
+  }
+);
+
 /* -------------------- USER-HOUSE -------------------- */
 //Add user to house
 app.post("/houses/:houseId/users/:userId", (req, res) => {
@@ -406,24 +430,39 @@ app.get("/houses/:houseId/users", (req, res) => {
 
 //Get houses a user is a part of
 app.get("/userhouses", authenticateUser, async (req, res) => {
-  const user = await userServices.findUserByEmail(
-    req.userEmail
-  ); //Got userEmail from authentication
-  userHouseServices
-    .getHousesByUser(user._id)
-    .then((result) => {
-      if (!result.success)
-        return res.status(404).send(result.message);
+  try {
+    const user = await userServices.findUserByEmail(
+      req.userEmail
+    ); // Got userEmail from authentication
 
-      // Send both default house (if present) and all houses
-      res.send({
-        housesByUser: result.housesByUser,
-        defaultHouse: user.preferences?.defaultHouse ?? null
-      });
-    })
-    .catch((error) =>
-      res.status(500).send(`Internal Server Error: ${error}`)
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    // Get all houses the user is a part of
+    const result = await userHouseServices.getHousesByUser(
+      user._id
     );
+    if (!result.success) {
+      return res.status(404).json({ error: result.message });
+    }
+
+    // Populate the default house (if present) along with all houses
+    const populatedUser = await user.populate(
+      "preferences.defaultHouse"
+    );
+
+    // Send both default house (if present) and all houses
+    res.status(200).json({
+      housesByUser: result.housesByUser,
+      defaultHouse:
+        populatedUser.preferences?.defaultHouse ?? null
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: `Internal Server Error: ${error.message}`
+    });
+  }
 });
 
 /* -------------------- FOOD -------------------- */
@@ -485,14 +524,14 @@ app.get("/expiring", authenticateUser, async (req, res) => {
     );
 });
 
-app.delete("/food", (req, res) => {
-  const foodId = req.body._id;
+app.delete("/food/:id", authenticateUser, async (req, res) => {
+  const foodId = req.params.id;
   console.log(`The foodId is: ${foodId}`);
   foodServices
     .deleteFoodById(foodId)
     .then((mongoRes) => {
       if (validateRes(mongoRes)) {
-        res.status(201).send("Successfully deleted!");
+        res.status(200).send("Successfully deleted!");
       } else {
         res
           .status(400)

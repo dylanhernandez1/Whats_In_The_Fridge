@@ -34,21 +34,27 @@ function Home({}) {
         }
       });
 
-      if (res.status === 401 || res.status === 404) {
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        const message =
+          errorData?.error || `HTTP ${res.status}`;
+        console.error("Error from /userhouses:", message);
         navigate("/login");
         return [];
-      } else {
-        const data = await res.json();
-        return data;
       }
+
+      const data = await res.json();
+      return data;
     } catch (err) {
       console.error("Error fetching houses:", err);
+      return [];
     }
   }
 
   async function getExpiringList(token) {
     if (token) {
       const houses = await getHouses(token);
+      console.log(houses);
       if (
         !houses.housesByUser ||
         (houses.housesByUser.length == 0 &&
@@ -61,7 +67,12 @@ function Home({}) {
         const houseToUse =
           houses.defaultHouse != null
             ? houses.defaultHouse
-            : houses.housesByUser[0];
+            : houses.housesByUser[0]?.house;
+        if (!houseToUse || !houseToUse._id) {
+          alert("No valid house found with an _id");
+          return;
+        }
+
         const res = await fetch(
           `https://${URL}/houses/${houseToUse._id}/food`,
           {
@@ -73,6 +84,14 @@ function Home({}) {
             }
           }
         );
+
+        if (!res.ok) {
+          const errorText = await res.text().catch(() => "");
+          throw new Error(
+            `Failed to fetch food: ${errorText || res.statusText}`
+          );
+        }
+
         return res;
       }
       /*
@@ -118,7 +137,7 @@ function Home({}) {
 
   useEffect(() => {
     const filteredFoods = foodList.filter(
-      (food) => food.Location === menuText
+      (food) => food.Location === menuText.toLowerCase()
     );
     const updatedList = filteredFoods.map((food) => {
       return food;
@@ -127,7 +146,7 @@ function Home({}) {
   }, [menuText]);
 
   const handleMenuSwitch = (text) => {
-    setMenuText(text);
+    setMenuText(text.toLowerCase());
   };
 
   useEffect(() => {
@@ -179,28 +198,76 @@ function Home({}) {
     setFoodInfo(undefined);
   }
 
-  function onDelete(id) {
-    fetch(`https://${URL}/food`, {
-      method: "DELETE",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        _id: id
-      })
-    })
-      .then((res) => {
-        if (res.status == 201) {
-          setFoodList(
-            foodList.filter((food) => food._id !== id)
-          );
-          setFoodInfo(undefined);
+  async function onDelete(id) {
+    const token = localStorage.getItem("token");
+
+    try {
+      // Delete the food item
+      const deleteRes = await fetch(
+        `https://${URL}/food/${id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          }
         }
-      })
-      .catch((error) => {
-        console.error("Error ", error);
-      });
+      );
+
+      if (deleteRes.status !== 200) {
+        const errorText = await deleteRes
+          .text()
+          .catch(() => "");
+        throw new Error(
+          `Delete failed: ${errorText || deleteRes.statusText}`
+        );
+      }
+
+      // Refresh the user's houses
+      const houses = await getHouses(token);
+      const houseToUse =
+        houses.defaultHouse != null
+          ? houses.defaultHouse
+          : houses.housesByUser[0]?.house;
+
+      if (!houseToUse) {
+        throw new Error("No house found for this user");
+      }
+
+      // Update house information
+      const updateRes = await fetch(
+        `https://${URL}/houses/updateFood/${houseToUse._id}`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ deletedFoodId: id })
+        }
+      );
+
+      if (!updateRes.ok) {
+        const errorText = await updateRes
+          .text()
+          .catch(() => "");
+        throw new Error(
+          `Failed to update house: ${errorText || updateRes.statusText}`
+        );
+      }
+
+      // Update UI state
+      setFoodList(foodList.filter((food) => food._id !== id));
+      setTempFoodList(
+        tempFoodList.filter((food) => food._id !== id)
+      );
+      setFoodInfo(undefined);
+    } catch (error) {
+      console.error("Error deleting food:", error);
+      // Optional: show a toast or UI error message
+    }
   }
 
   //Full table
