@@ -55,10 +55,10 @@ function CreateAccountPage() {
       return { bool: false, error: "Username Required" };
     if (!EmailValidation(email))
       return { bool: false, error: "Invalid Email" };
-    if (password.length <= 3)
+    if (password.length < 6)
       return {
         bool: false,
-        error: "Password Must Be More Than 3 Characters"
+        error: "Password Must Be At Least 6 Characters"
       };
     return true;
   }
@@ -73,6 +73,8 @@ function CreateAccountPage() {
       return false;
     }
 
+    navigate("/login", { state: { id: 1 } });
+
     const promise = fetch(`${URL}/verify-email`, {
       method: "POST",
       credentials: "include",
@@ -86,7 +88,6 @@ function CreateAccountPage() {
     })
       .then(async (res) => {
         if (res.status == 201) {
-          //REROUTE TO HOME PAGE
           console.log("Successfuly sent");
         } else if (res.status == 400) {
           const message = await res.text();
