@@ -5,9 +5,10 @@ import URL from "./Url";
 
 function VerifyEmailPage() {
   const { token } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(token);
+    console.log("Wer");
     const promise = fetch(`${URL}/verify-email/${token}`, {
       method: "GET",
       credentials: "include",
@@ -16,23 +17,19 @@ function VerifyEmailPage() {
       }
     })
       .then(async (res) => {
-        if (res.status == 200) {
-          //REROUTE TO HOME PAGE
+        console.log(res);
+        if (res.status === 200) {
+          navigate("/login", { state: { id: 2 } });
+
           console.log("Successfuly sent");
-        } else if (res.status == 400) {
-          const message = await res.text();
-          setError(message);
-          console.log("400 error: " + message);
-        } else if (res.status == 409) {
-          const message = await res.text();
-          setError(message);
-          console.log("409 error: " + message);
+        } else {
+          navigate("/login", { state: { id: 3 } });
         }
       })
       .catch((error) => {
         console.error("Error: ", error);
       });
-  });
+  }, [token]);
 
   return (
     <div className="login-container">

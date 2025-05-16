@@ -188,6 +188,10 @@ app.post("/login", async (req, res) => {
       return res.status(401).send("Invalid credentials.");
     }
 
+    if (!retrievedUser.emailVerified) {
+      return res.status(402).send("Email not verified.");
+    }
+
     // Successfully authenticated, generate and send token
     const token = generateAccessToken(email);
     return res.status(200).send({ token });
@@ -224,7 +228,7 @@ app.post("/verify-email", async (req, res) => {
     subject: "What's In The Fridge Email Verification",
     text: `Hello, ${email.name}. 
 Please verify your email with this link : 
-https://white-stone-02cbbab1e.6.azurestaticapps.net/${token}`
+https://white-stone-02cbbab1e.6.azurestaticapps.net/verify-email/${token}`
   };
 
   transporter.sendMail(mailOptions, function (err, data) {
@@ -239,7 +243,7 @@ https://white-stone-02cbbab1e.6.azurestaticapps.net/${token}`
 });
 
 app.get("/verify-email/:id", async (req, res) => {
-  console.log(req.params.id);
+  console.log(req);
   try {
     const decoded = jwt.verify(
       req.params.id,
@@ -252,7 +256,8 @@ app.get("/verify-email/:id", async (req, res) => {
       req.userEmail.email
     );
     user.emailVerified = true;
-    user.save();
+    await user.save();
+    return res.status(200).send();
   } catch (error) {
     console.log(error);
     return res.status(401).end();
@@ -278,15 +283,18 @@ app.post("/houses", authenticateUser, async (req, res) => {
     // Save House
     const house = await houseServices.createHouse(houseData);
 
+    const userHouse = new UserHouse({
+      user: user._id,
+      house: house._id,
+      role: "owner"
+    });
+
     // Save UserHouse
-    const userHouse = await userHouseServices.addUserToHouse(
-      user._id,
-      house._id,
-      "owner"
-    );
+    await userHouse.save();
 
     // Set default house
-    await userServices.setDefaultHouse(user, house._id);
+    user.preferences.defaultHouse = house._id;
+    await user.save();
 
     // Success
     res.status(201).send({
@@ -366,33 +374,6 @@ app.get(
   }
 );
 
-// Update a house after a food has been deleted
-// Update a house after a food has been deleted
-app.patch(
-  "/houses/updateFood/:houseId",
-  authenticateUser,
-  async (req, res) => {
-    const { houseId } = req.params;
-    const { deletedFoodId } = req.body;
-
-    try {
-      const result = await houseServices.removeFoodFromHouse(
-        houseId,
-        deletedFoodId
-      );
-
-      if (!result.success) {
-        return res.status(400).send(result.message);
-      }
-
-      res.status(200).send(result);
-    } catch (err) {
-      console.error("Error updating house:", err);
-      res.status(500).send("Internal server error.");
-    }
-  }
-);
-
 /* -------------------- USER-HOUSE -------------------- */
 //Add user to house
 app.post("/houses/:houseId/users/:userId", (req, res) => {
@@ -458,39 +439,24 @@ app.get("/houses/:houseId/users", (req, res) => {
 
 //Get houses a user is a part of
 app.get("/userhouses", authenticateUser, async (req, res) => {
-  try {
-    const user = await userServices.findUserByEmail(
-      req.userEmail
-    ); // Got userEmail from authentication
+  const user = await userServices.findUserByEmail(
+    req.userEmail
+  ); //Got userEmail from authentication
+  userHouseServices
+    .getHousesByUser(user._id)
+    .then((result) => {
+      if (!result.success)
+        return res.status(404).send(result.message);
 
-    if (!user) {
-      return res.status(404).json({ error: "User not found." });
-    }
-
-    // Get all houses the user is a part of
-    const result = await userHouseServices.getHousesByUser(
-      user._id
+      // Send both default house (if present) and all houses
+      res.send({
+        housesByUser: result.housesByUser,
+        defaultHouse: user.preferences?.defaultHouse ?? null
+      });
+    })
+    .catch((error) =>
+      res.status(500).send(`Internal Server Error: ${error}`)
     );
-    if (!result.success) {
-      return res.status(404).json({ error: result.message });
-    }
-
-    // Populate the default house (if present) along with all houses
-    const populatedUser = await user.populate(
-      "preferences.defaultHouse"
-    );
-
-    // Send both default house (if present) and all houses
-    res.status(200).json({
-      housesByUser: result.housesByUser,
-      defaultHouse:
-        populatedUser.preferences?.defaultHouse ?? null
-    });
-  } catch (error) {
-    res.status(500).json({
-      error: `Internal Server Error: ${error.message}`
-    });
-  }
 });
 
 /* -------------------- FOOD -------------------- */
@@ -552,14 +518,14 @@ app.get("/expiring", authenticateUser, async (req, res) => {
     );
 });
 
-app.delete("/food/:id", authenticateUser, async (req, res) => {
-  const foodId = req.params.id;
+app.delete("/food", (req, res) => {
+  const foodId = req.body._id;
   console.log(`The foodId is: ${foodId}`);
   foodServices
     .deleteFoodById(foodId)
     .then((mongoRes) => {
       if (validateRes(mongoRes)) {
-        res.status(200).send("Successfully deleted!");
+        res.status(201).send("Successfully deleted!");
       } else {
         res
           .status(400)
