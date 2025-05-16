@@ -132,6 +132,33 @@ app.get("/users", (req, res) => {
     );
 });
 
+//Get certain user that is logged in
+app.get("/user", authenticateUser, async (req, res) => {
+  try {
+    const user = await userServices.findUserByEmail(
+      req.userEmail
+    );
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    // Only return safe fields
+    return res.send({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      preferences: user.preferences,
+      createdAt: user.createdAt,
+      profileImage: user.profileImage
+    });
+  } catch (error) {
+    console.error("Error getting user:", error);
+    res
+      .status(500)
+      .send(`Internal Server Error: ${error.message}`);
+  }
+});
+
 /* -------------------- LOGIN -------------------- */
 //Validate login info
 app.post("/login", async (req, res) => {
@@ -225,6 +252,7 @@ app.get("/verify-email/:id", async (req, res) => {
       req.userEmail.email
     );
     user.emailVerified = true;
+    user.save();
   } catch (error) {
     console.log(error);
     return res.status(401).end();

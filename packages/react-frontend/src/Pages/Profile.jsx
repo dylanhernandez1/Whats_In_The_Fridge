@@ -19,6 +19,76 @@ function Profile() {
     country: "",
     town: ""
   });
+  const [userData, setUserData] = useState(null);
+  const [userHouses, setHouses] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const token = localStorage.getItem("token");
+      if (!token) return navigate("/login");
+
+      try {
+        // Get user info
+        const userRes = await fetch(`https://${URL}/user`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (!userRes.ok)
+          throw new Error(
+            `Failed user fetch: ${userRes.statusText}`
+          );
+        const userInfo = await userRes.json();
+        setUserData(userInfo);
+
+        // Get houses
+        const housesData = await getHouses(token);
+        setHouses(housesData.housesByUser);
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+        navigate("/login");
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  async function getHouses(token) {
+    if (!token) return [];
+    try {
+      const res = await fetch(`https://${URL}/userhouses`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        const message =
+          errorData?.error || `HTTP ${res.status}`;
+        console.error("Error from /userhouses:", message);
+        navigate("/login");
+        return [];
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      console.error("Error fetching houses:", err);
+      return [];
+    }
+  }
+
+  function getMembershipDuration(createdAt) {
+    const createdDate = new Date(createdAt);
+    const now = new Date();
+    const diffMonths =
+      (now.getFullYear() - createdDate.getFullYear()) * 12 +
+      (now.getMonth() - createdDate.getMonth());
+    return `${diffMonths} month${diffMonths !== 1 ? "s" : ""}`;
+  }
 
   function LogOut() {
     localStorage.removeItem("token");
@@ -77,28 +147,40 @@ function Profile() {
 
   //Renders content based on the Profile Toolbar selection
   function renderContent() {
+    if (!userData) {
+      return (
+        <div className="profile-content">
+          <p>Loading user data...</p>
+        </div>
+      );
+    }
     switch (selectedSection) {
       case "User":
         return (
           <div className="profile-content">
             <div className="user-header">
               <img
-                src="https://media.istockphoto.com/id/1447126543/photo/father-bonding-kiss-and-boy-child-hug-happy-in-nature-with-quality-time-together-outdoor.jpg?s=612x612&w=0&k=20&c=iujHdzYFrmfLgVLKcAzu4y1-awTR2xRo5m-rD9w35wU=" // ADD IMG HERE**
+                src={userData?.profileImage}
                 alt="Profile"
                 className="profile-picture"
               />
               <div className="user-info">
-                <h2>John Doe</h2>
-                <p>Member for 6 months</p>
+                <h2>{userData?.name || "Loading..."}</h2>
+                <p>
+                  Member for{" "}
+                  {userData?.createdAt
+                    ? getMembershipDuration(userData.createdAt)
+                    : "Loading..."}
+                </p>
               </div>
             </div>
             {/* User details table/list below the header */}
             <div className="user-details"></div>
             <p>
-              <strong>Name:</strong> John Doe
+              <strong>Name:</strong> {userData?.name}
             </p>
             <p>
-              <strong>Email:</strong> john.doe@example.com
+              <strong>Email:</strong> {userData?.email}
             </p>
             <p>
               <strong>Address:</strong> 1234 Main St,
@@ -130,31 +212,51 @@ function Profile() {
       case "Houses":
         return (
           <div className="profile-content">
-            <p>
-              <strong>House 1:</strong> 12 Cherry Lane, San
-              Diego, CA
-            </p>
-            <p>
-              <strong>House 2:</strong> 98 Ocean View Rd,
-              Monterey, CA
-            </p>
-            <p>
-              <strong>House 3:</strong> 300 Pine St, Portland,
-              OR
-            </p>
+            <h3>Your Houses</h3>
+            {userHouses.length === 0 ? (
+              <p>No houses found.</p>
+            ) : (
+              userHouses.map((userHouse) => (
+                <div
+                  key={userHouse.house._id}
+                  className="house-entry"
+                >
+                  <p>
+                    <strong>Name:</strong>{" "}
+                    {userHouse.house.houseName}
+                  </p>
+                  <p>
+                    <strong>Location:</strong>{" "}
+                    {userHouse.house.town},{" "}
+                    {userHouse.house.state},{" "}
+                    {userHouse.house.country}
+                  </p>
+                  <p>
+                    <strong>Role:</strong> {userHouse.role}
+                  </p>
+                </div>
+              ))
+            )}
           </div>
         );
       case "Other Settings":
         return (
           <div className="profile-content">
+            <h3>Preferences</h3>
             <p>
-              <strong>Notifications:</strong> Enabled
+              <strong>Notifications:</strong>{" "}
+              {userData?.preferences?.notifications
+                ? "Enabled"
+                : "Disabled"}
             </p>
             <p>
-              <strong>Language:</strong> English (US)
+              <strong>Language:</strong>{" "}
+              {userData?.preferences?.language ||
+                "English (US)"}
             </p>
             <p>
-              <strong>Theme:</strong> Light
+              <strong>Theme:</strong>{" "}
+              {userData?.preferences?.theme || "Light"}
             </p>
             <p>
               <strong>Account Status:</strong> Active
