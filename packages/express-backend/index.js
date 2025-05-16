@@ -189,7 +189,7 @@ app.post("/login", async (req, res) => {
     }
 
     if (!retrievedUser.emailVerified) {
-      return res.status(402).send("Email not verified.");
+      return res.status(403).send("Email not verified.");
     }
 
     // Successfully authenticated, generate and send token

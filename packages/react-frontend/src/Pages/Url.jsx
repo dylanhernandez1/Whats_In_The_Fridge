@@ -1,6 +1,5 @@
 const LOCAL_URL = "http://localhost:8000";
-const PRODUCTION_URL =
-  "https://whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
+const PRODUCTION_URL = "localhost:8000";
 
 const URL =
   import.meta.env.MODE === "development"

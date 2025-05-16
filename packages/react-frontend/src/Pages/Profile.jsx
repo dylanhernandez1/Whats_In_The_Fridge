@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "../Components/Profile_page.css";
 import ProfileToolbar from "../Components/profile_bar.jsx";
 import { FaSignOutAlt } from "react-icons/fa";
-const URL =
-  "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
+const URL = "localhost:8000";
 
 function Profile() {
   const navigate = useNavigate();
@@ -29,7 +28,7 @@ function Profile() {
 
       try {
         // Get user info
-        const userRes = await fetch(`https://${URL}/user`, {
+        const userRes = await fetch(`http://${URL}/user`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -55,7 +54,7 @@ function Profile() {
   async function getHouses(token) {
     if (!token) return [];
     try {
-      const res = await fetch(`https://${URL}/userhouses`, {
+      const res = await fetch(`http://${URL}/userhouses`, {
         method: "GET",
         credentials: "include",
         headers: {
@@ -103,7 +102,7 @@ function Profile() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`https://${URL}/houses`, {
+      const res = await fetch(`http://${URL}/houses`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -10,8 +10,7 @@ import IngredientSorting from "../Components/IngredientSorting.jsx";
 import Popup from "../Components/Popup.jsx";
 import "../Components/Header_Styling.css";
 import { useNavigate } from "react-router-dom";
-const URL =
-  "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
+const URL = "localhost:8000";
 
 function Home({}) {
   const [foodList, setFoodList] = useState([{}]);
@@ -25,7 +24,7 @@ function Home({}) {
   async function getHouses(token) {
     if (!token) return [];
     try {
-      const res = await fetch(`https://${URL}/userhouses`, {
+      const res = await fetch(`http://${URL}/userhouses`, {
         method: "GET",
         credentials: "include",
         headers: {
@@ -74,7 +73,7 @@ function Home({}) {
         }
 
         const res = await fetch(
-          `https://${URL}/houses/${houseToUse._id}/food`,
+          `http://${URL}/houses/${houseToUse._id}/food`,
           {
             method: "GET",
             credentials: "include",
@@ -204,7 +203,7 @@ function Home({}) {
     try {
       // Delete the food item
       const deleteRes = await fetch(
-        `https://${URL}/food/${id}`,
+        `http://${URL}/food/${id}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -237,7 +236,7 @@ function Home({}) {
 
       // Update house information
       const updateRes = await fetch(
-        `https://${URL}/houses/updateFood/${houseToUse._id}`,
+        `http://${URL}/houses/updateFood/${houseToUse._id}`,
         {
           method: "PATCH",
           credentials: "include",
