@@ -518,8 +518,8 @@ app.get("/expiring", authenticateUser, async (req, res) => {
     );
 });
 
-app.delete("/food", (req, res) => {
-  const foodId = req.body._id;
+app.delete("/food/:id", async (req, res) => {
+  const foodId = req.params.id;
   console.log(`The foodId is: ${foodId}`);
   foodServices
     .deleteFoodById(foodId)
