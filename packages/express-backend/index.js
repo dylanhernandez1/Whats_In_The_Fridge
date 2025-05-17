@@ -478,7 +478,8 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
         user.preferences?.get("defaultHouse");
 
       if (defaultHouseId) {
-        result = await houseServices.findHouseById(defaultHouseId);
+        result =
+          await houseServices.findHouseById(defaultHouseId);
         if (result.success) {
           defaultHouse = result.house;
         }
