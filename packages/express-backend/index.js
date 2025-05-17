@@ -374,6 +374,31 @@ app.get(
   }
 );
 
+app.patch(
+  "/houses/updateFood/:houseId",
+  authenticateUser,
+  async (req, res) => {
+    const { houseId } = req.params;
+    const { deletedFoodId } = req.body;
+
+    try {
+      const result = await houseServices.removeFoodFromHouse(
+        houseId,
+        deletedFoodId
+      );
+
+      if (!result.success) {
+        return res.status(400).send(result.message);
+      }
+
+      res.status(200).send(result);
+    } catch (err) {
+      console.error("Error updating house:", err);
+      res.status(500).send("Internal server error.");
+    }
+  }
+);
+
 /* -------------------- USER-HOUSE -------------------- */
 //Add user to house
 app.post("/houses/:houseId/users/:userId", (req, res) => {
