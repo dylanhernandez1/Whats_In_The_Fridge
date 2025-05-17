@@ -21,8 +21,7 @@ import Toolbar from "../Components/Toolbar.jsx";
 import DatePicker from "react-datepicker";
 import "./Food_Styling.css";
 import "react-datepicker/dist/react-datepicker.css";
-const URL =
-  "https://whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
+import URL from "./Url";
 
 function Food() {
   const navigate = useNavigate();

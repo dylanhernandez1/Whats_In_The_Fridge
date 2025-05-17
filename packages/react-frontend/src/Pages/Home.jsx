@@ -10,8 +10,7 @@ import IngredientSorting from "../Components/IngredientSorting.jsx";
 import Popup from "../Components/Popup.jsx";
 import "../Components/Header_Styling.css";
 import { useNavigate } from "react-router-dom";
-const URL =
-  "https://whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
+import URL from "./Url";
 
 function Home({}) {
   const [foodList, setFoodList] = useState([{}]);
