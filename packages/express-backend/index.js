@@ -283,18 +283,15 @@ app.post("/houses", authenticateUser, async (req, res) => {
     // Save House
     const house = await houseServices.createHouse(houseData);
 
-    const userHouse = new UserHouse({
-      user: user._id,
-      house: house._id,
-      role: "owner"
-    });
-
-    // Save UserHouse
-    await userHouse.save();
+    let userHouse = await userHouseServices.addUserToHouse(
+      user._id,
+      house._id,
+      "owner"
+    );
+    userHouse = userHouse.savedUserHouse;
 
     // Set default house
-    user.preferences.defaultHouse = house._id;
-    await user.save();
+    await userServices.setDefaultHouse(user, house._id);
 
     // Success
     res.status(201).send({
@@ -555,7 +552,7 @@ app.get("/expiring", authenticateUser, async (req, res) => {
     );
 });
 
-app.delete("/food/:id", async (req, res) => {
+app.delete("/food/:id", authenticateUser, async (req, res) => {
   const foodId = req.params.id;
   console.log(`The foodId is: ${foodId}`);
   foodServices

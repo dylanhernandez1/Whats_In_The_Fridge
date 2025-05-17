@@ -214,7 +214,7 @@ function Home({}) {
         }
       );
 
-      if (deleteRes.status !== 200) {
+      if (deleteRes.status !== 201) {
         const errorText = await deleteRes
           .text()
           .catch(() => "");
