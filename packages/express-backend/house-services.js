@@ -184,6 +184,24 @@ async function removeFoodFromHouse(houseId, foodId) {
   }
 }
 
+async function findHouseById(houseId) {
+  const houseModel = getDbConnection().model(
+    "House",
+    HouseSchema
+  );
+
+  try {
+    const house = await houseModel.findById(houseId);
+    if (!house) {
+      return { success: false, message: "House not found" };
+    }
+    return { success: true, house: house };
+  } catch (error) {
+    console.error("Error finding house:", error);
+    return { success: false, message: "Error finding house" };
+  }
+}
+
 export default {
   setConnection,
   createHouse,
@@ -191,5 +209,6 @@ export default {
   getHouseById,
   getFoodFromHouse,
   getAllFoodFromHouse,
-  removeFoodFromHouse
+  removeFoodFromHouse,
+  findHouseById
 };

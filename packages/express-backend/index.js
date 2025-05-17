@@ -469,14 +469,25 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
   ); //Got userEmail from authentication
   userHouseServices
     .getHousesByUser(user._id)
-    .then((result) => {
+    .then(async (result) => {
       if (!result.success)
         return res.status(404).send(result.message);
+
+      let defaultHouse = null;
+      const defaultHouseId =
+        user.preferences?.get("defaultHouse");
+
+      if (defaultHouseId) {
+        result = await houseServices.findHouseById(defaultHouseId);
+        if (result.success) {
+          defaultHouse = result.house;
+        }
+      }
 
       // Send both default house (if present) and all houses
       res.send({
         housesByUser: result.housesByUser,
-        defaultHouse: user.preferences?.defaultHouse ?? null
+        defaultHouse: defaultHouse
       });
     })
     .catch((error) =>
