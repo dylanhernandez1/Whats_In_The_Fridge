@@ -374,6 +374,31 @@ app.get(
   }
 );
 
+app.patch(
+  "/houses/updateFood/:houseId",
+  authenticateUser,
+  async (req, res) => {
+    const { houseId } = req.params;
+    const { deletedFoodId } = req.body;
+
+    try {
+      const result = await houseServices.removeFoodFromHouse(
+        houseId,
+        deletedFoodId
+      );
+
+      if (!result.success) {
+        return res.status(400).send(result.message);
+      }
+
+      res.status(200).send(result);
+    } catch (err) {
+      console.error("Error updating house:", err);
+      res.status(500).send("Internal server error.");
+    }
+  }
+);
+
 /* -------------------- USER-HOUSE -------------------- */
 //Add user to house
 app.post("/houses/:houseId/users/:userId", (req, res) => {
@@ -444,14 +469,26 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
   ); //Got userEmail from authentication
   userHouseServices
     .getHousesByUser(user._id)
-    .then((result) => {
+    .then(async (result) => {
       if (!result.success)
         return res.status(404).send(result.message);
+
+      let defaultHouse = null;
+      const defaultHouseId =
+        user.preferences?.get("defaultHouse");
+
+      if (defaultHouseId) {
+        result =
+          await houseServices.findHouseById(defaultHouseId);
+        if (result.success) {
+          defaultHouse = result.house;
+        }
+      }
 
       // Send both default house (if present) and all houses
       res.send({
         housesByUser: result.housesByUser,
-        defaultHouse: user.preferences?.defaultHouse ?? null
+        defaultHouse: defaultHouse
       });
     })
     .catch((error) =>
@@ -518,8 +555,8 @@ app.get("/expiring", authenticateUser, async (req, res) => {
     );
 });
 
-app.delete("/food", (req, res) => {
-  const foodId = req.body._id;
+app.delete("/food/:id", async (req, res) => {
+  const foodId = req.params.id;
   console.log(`The foodId is: ${foodId}`);
   foodServices
     .deleteFoodById(foodId)
