@@ -22,7 +22,7 @@ import DatePicker from "react-datepicker";
 import "./Food_Styling.css";
 import "react-datepicker/dist/react-datepicker.css";
 const URL =
-  "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
+  "https://whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
 
 function Food() {
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ function Food() {
   async function getHouses(token) {
     if (!token) return [];
     try {
-      const res = await fetch(`https://${URL}/userhouses`, {
+      const res = await fetch(`${URL}/userhouses`, {
         method: "GET",
         credentials: "include",
         headers: {
@@ -91,7 +91,7 @@ function Food() {
             ? houses.defaultHouse
             : houses.housesByUser[0]?.house;
         fetch(
-          `https://${URL}/houses/${houseToUse._id}/food/${location}`,
+          `${URL}/houses/${houseToUse._id}/food/${location}`,
           {
             method: "POST",
             credentials: "include",

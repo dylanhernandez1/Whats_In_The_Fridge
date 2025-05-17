@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Login_Styling.css";
 import { useLocation, useNavigate } from "react-router-dom";
-const URL = "localhost:8000";
+const URL =
+  "https://whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
 let debounce = false;
 
 function Login() {
@@ -55,7 +56,7 @@ function Login() {
 
   async function sendInformation() {
     try {
-      const res = await fetch(`http://${URL}/login`, {
+      const res = await fetch(`${URL}/login`, {
         method: "POST",
         credentials: "include",
         headers: {
