@@ -135,3 +135,27 @@ test("addFood successfully adds a food item", async () => {
   const foods = await foodServices.getFood();
   expect(foods.length).toBe(4);
 });
+
+
+test("Testing Delete Successful", async () => {
+  const newFood = {
+    FoodName: "Banana",
+    FoodType: "Fruit",
+    Amount: 12,
+    Location: "pantry",
+    ExpirationDate: new Date("2025-05-01")
+  };
+  const addedFood = await foodServices.addFood(newFood);
+
+  const deletedFood = await foodServices.deleteFoodById(addedFood._id);
+
+  expect(deletedFood).toBeTruthy();
+  expect(deletedFood.FoodName).toBe(addedFood.FoodName);
+  const foods = await foodServices.getFood();
+  expect(foods.length).toBe(3);
+});
+
+test("Testing Delete Not Successful", async () => {
+  const deletedFood = await foodServices.deleteFoodById(123);
+  expect(deletedFood).toBeFalsy();
+})
