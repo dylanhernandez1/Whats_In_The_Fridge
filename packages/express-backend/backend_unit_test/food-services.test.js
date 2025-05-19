@@ -136,7 +136,6 @@ test("addFood successfully adds a food item", async () => {
   expect(foods.length).toBe(4);
 });
 
-
 test("Testing Delete Successful", async () => {
   const newFood = {
     FoodName: "Banana",
@@ -147,7 +146,9 @@ test("Testing Delete Successful", async () => {
   };
   const addedFood = await foodServices.addFood(newFood);
 
-  const deletedFood = await foodServices.deleteFoodById(addedFood._id);
+  const deletedFood = await foodServices.deleteFoodById(
+    addedFood._id
+  );
 
   expect(deletedFood).toBeTruthy();
   expect(deletedFood.FoodName).toBe(addedFood.FoodName);
@@ -158,4 +159,4 @@ test("Testing Delete Successful", async () => {
 test("Testing Delete Not Successful", async () => {
   const deletedFood = await foodServices.deleteFoodById(123);
   expect(deletedFood).toBeFalsy();
-})
+});
