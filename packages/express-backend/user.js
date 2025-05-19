@@ -43,7 +43,13 @@ const UserSchema = new mongoose.Schema(
     },
     lastLogin: { type: Date },
     resetPasswordToken: { type: String },
-    resetPasswordExpires: { type: Date }
+    resetPasswordExpires: { type: Date },
+    friends: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+      }
+    ]
   },
   {
     collection: "users_list",

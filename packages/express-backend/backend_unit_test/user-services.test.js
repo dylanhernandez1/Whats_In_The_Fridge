@@ -175,3 +175,27 @@ test("Finding user by email -- found", async () => {
   expect(foundUser).toBeDefined();
   expect(foundUser._id.toString()).toBe(result._id.toString());
 });
+
+test("Adding User failue -- email in use", async () => {
+  const dummyUser = {
+    name: "JackieChanJr",
+    email: "jackiechan@example.com",
+    password: "password123"
+  };
+  const result = await userServices.addUser(dummyUser);
+
+  expect(result.status).toBeFalsy();
+  expect(result.message).toBe("Email already registered.");
+});
+
+test("Adding User failue -- name in use", async () => {
+  const dummyUser = {
+    name: "Jackie Chan",
+    email: "jackiechan1234@example.com",
+    password: "password123"
+  };
+  const result = await userServices.addUser(dummyUser);
+
+  expect(result.status).toBeFalsy();
+  expect(result.message).toBe("Name not available");
+});

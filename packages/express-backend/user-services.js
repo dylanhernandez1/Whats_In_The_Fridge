@@ -145,6 +145,17 @@ async function setDefaultHouse(user, houseId) {
   }
 }
 
+async function addFriend(user, friend_id) {
+  try {
+    user.friends.push(friend_id);
+    await user.save();
+    return true;
+  } catch (error) {
+    console.log("Adding friend error: ", error);
+    return false;
+  }
+}
+
 export default {
   addUser,
   getUsers,
@@ -154,5 +165,6 @@ export default {
   deleteUserById,
   deleteUserByEmail,
   setConnection,
-  setDefaultHouse
+  setDefaultHouse,
+  addFriend
 };
