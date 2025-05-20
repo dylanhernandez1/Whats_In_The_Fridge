@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import UserSchema from "../user.js";
 import userServices from "../user-services.js";
+import houseSchema from "../house.js";
+import houseServices from "../house-services.js";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
 let mongoServer;
@@ -13,6 +15,7 @@ beforeAll(async () => {
   conn = await mongoose.createConnection(uri);
 
   userModel = conn.model("User", UserSchema);
+  houseModel = conn.model("House", houseSchema);
 
   userServices.setConnection(conn);
 });
@@ -188,7 +191,7 @@ test("Adding User failue -- email in use", async () => {
   expect(result.message).toBe("Email already registered.");
 });
 
-test("Adding User failue -- name in use", async () => {
+test("Adding User failure -- name in use", async () => {
   const dummyUser = {
     name: "Jackie Chan",
     email: "jackiechan1234@example.com",
@@ -198,4 +201,143 @@ test("Adding User failue -- name in use", async () => {
 
   expect(result.status).toBeFalsy();
   expect(result.message).toBe("Name not available");
+});
+
+test("Getting user by id -- successful", async () => {
+  const dummyUser = {
+    name: "Luke Skywalker",
+    email: "DarthSon@gmail.com",
+    password: "password123"
+  };
+  const addedUser = await userServices.addUser(dummyUser);
+
+  const result = await userServices.getUsers({
+    id: addedUser._id
+  });
+
+  expect(result).toBeDefined();
+  expect(result._id.toString()).toBe(addedUser._id.toString());
+});
+
+test("Deleting user by email -- unsuccessful", async () => {
+  const dummyUser = {
+    name: "Luke Skywalker",
+    email: "DarthSon@gmail.com",
+    password: "password123"
+  };
+  await userServices.addUser(dummyUser);
+
+  const deletedUser = await userServices.deleteUserByEmail(
+    "DarthSon1234@gmail.com"
+  );
+
+  expect(deletedUser).toBeFalsy();
+});
+
+test("Setting user default house -- successful", async () => {
+  const dummyUser = {
+    name: "Luke Skywalker",
+    email: "DarthSon@gmail.com",
+    password: "password123"
+  };
+  const addedUser = await userServices.addUser(dummyUser);
+
+  expect(addedUser.preferences.defaultHouse).toBeFalsy();
+
+  const dummyHouse = {
+    houseName: "Test House",
+    state: "California",
+    country: "USA",
+    town: "San Luis Obispo",
+    createdBy: addedUser._id
+  };
+
+  const addedHouse =
+    await houseServices.createHouse(dummyHouse);
+
+  expect(addedHouse).toBeTruthy();
+
+  const result = await userServices.setDefaultHouse(
+    addedUser,
+    addedHouse._id
+  );
+
+  expect(result).toBeTruthy();
+  expect(addedUser.preferences.defaultHouse).toBeDefined();
+  expect(addedUser.preferences.defaultHouse).toBe(
+    addedHouse._id
+  );
+});
+
+test("Setting user default house -- unsuccessful due to bad id", async () => {
+  const dummyUser = {
+    name: "Luke Skywalker",
+    email: "DarthSon@gmail.com",
+    password: "password123"
+  };
+  const addedUser = await userServices.addUser(dummyUser);
+
+  expect(addedUser.preferences.defaultHouse).toBeFalsy();
+
+  const result = await userServices.setDefaultHouse(
+    addedUser,
+    "123"
+  );
+
+  expect(result).toBeFalsy();
+  expect(addedUser.preferences.defaultHouse).toBeFalsy();
+});
+
+test("Adding friends to User", async () => {
+  const user1 = await userServices.getUsers({
+    email: "cnor123@gmailexample.com"
+  });
+  const user2 = await userServices.getUsers({
+    email: "jackiechan@example.com"
+  });
+  const dummyUser = {
+    name: "Luke Skywalker",
+    email: "DarthSon@gmail.com",
+    password: "password123"
+  };
+  const addedUser = await userServices.addUser(dummyUser);
+
+  expect(addedUser.friends.length).toBe(0);
+
+  const result = await userServices.addFriend(
+    addedUser,
+    user1._id
+  );
+
+  expect(result).toBeTruthy();
+  expect(addedUser.friends.length).toBe(1);
+  expect(addedUser.friends[0].toString()).toBe(
+    user1._id.toString()
+  );
+
+  const result1 = await userServices.addFriend(
+    addedUser,
+    user2._id
+  );
+  expect(result1).toBeTruthy();
+  expect(addedUser.friends.length).toBe(2);
+});
+
+test("Adding friend to User -- failure invalid id", async () => {
+  const user1 = await userServices.getUsers({
+    email: "cnor123@gmailexample.com"
+  });
+  const user2 = await userServices.getUsers({
+    email: "jackiechan@example.com"
+  });
+  const dummyUser = {
+    name: "Luke Skywalker",
+    email: "DarthSon@gmail.com",
+    password: "password123"
+  };
+  const addedUser = await userServices.addUser(dummyUser);
+
+  const result = await userServices.addFriend(addedUser, 123);
+
+  expect(result).toBeFalsy();
 });

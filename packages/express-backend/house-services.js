@@ -32,7 +32,7 @@ async function createHouse(houseData) {
     const savedHouse = await newHouse.save();
     return savedHouse;
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return false;
   }
 }
@@ -72,7 +72,7 @@ async function addFoodToHouse(houseId, location, food) {
       return { success: false, message: "Invalid food item" };
     }
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return { success: false, message: "Error adding food" };
   }
 }
@@ -86,7 +86,7 @@ async function getHouseById(houseId) {
     const house = await houseModel.findById(houseId);
     return house;
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return null;
   }
 }
@@ -108,7 +108,7 @@ async function getFoodFromHouse(houseId, location) {
 
     return { success: true, foodItems: house[location] };
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return { success: false, message: "Error fetching food" };
   }
 }
@@ -131,7 +131,7 @@ async function getAllFoodFromHouse(houseId) {
 
     return { success: true, foodItems: allFood };
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return { success: false, message: "Error fetching food" };
   }
 }
@@ -179,7 +179,7 @@ async function removeFoodFromHouse(houseId, foodId) {
       };
     }
   } catch (error) {
-    console.error("Error removing food from house:", error);
+    console.log("Error removing food from house:", error);
     return { success: false, message: "Error updating house" };
   }
 }
@@ -197,7 +197,7 @@ async function findHouseById(houseId) {
     }
     return { success: true, house: house };
   } catch (error) {
-    console.error("Error finding house:", error);
+    console.log("Error finding house:", error);
     return { success: false, message: "Error finding house" };
   }
 }

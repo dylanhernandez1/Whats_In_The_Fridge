@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import UserSchema from "./user.js";
+import houseServices from "./house-services.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -45,7 +46,9 @@ async function addUser(user) {
     const savedUser = await userToAdd.save();
     return savedUser;
   } catch (error) {
+    // istanbul ignore next
     console.log("Add user error:", error);
+    // istanbul ignore next
     return false;
   }
 }
@@ -126,7 +129,9 @@ async function deleteUserByEmail(email) {
     });
     return deletedUser;
   } catch (error) {
+    // istanbul ignore next
     console.log("Delete user by email error:", error);
+    // istanbul ignore next
     return false;
   }
 }
@@ -136,22 +141,38 @@ async function deleteUserByEmail(email) {
  */
 async function setDefaultHouse(user, houseId) {
   try {
+    // Check if the house exists
+    const house = await houseServices.getHouseById(houseId);
+    if (!house) {
+      console.log("House not found with ID:", houseId);
+      return false;
+    }
     user.preferences.defaultHouse = houseId;
     await user.save();
     return true;
   } catch (error) {
+    // istanbul ignore next
     console.log("Set default house error:", error);
+    // istanbul ignore next
     return false;
   }
 }
 
 async function addFriend(user, friend_id) {
   try {
+    // Check if the user exists
+    const user1 = await getUsers({ id: friend_id });
+    if (!user1) {
+      console.log("User not found with ID:", user1);
+      return false;
+    }
     user.friends.push(friend_id);
     await user.save();
     return true;
   } catch (error) {
+    // istanbul ignore next
     console.log("Adding friend error: ", error);
+    // istanbul ignore next
     return false;
   }
 }
