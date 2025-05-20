@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Login_Styling.css";
-import { useNavigate } from "react-router-dom";
-const URL =
-  "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
+import { useLocation, useNavigate } from "react-router-dom";
+import URL from "./Url";
+let debounce = false;
 
 function Login() {
+  const location = useLocation();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,16 +24,38 @@ function Login() {
     document
       .getElementById("password-field")
       .addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
+        if (event.key === "Enter" && debounce == false) {
+          debounce = true;
           document.getElementById("sign-in").click();
-          return;
+
+          setTimeout(() => {
+            debounce = false;
+          }, 300);
         }
       });
   });
 
+  useEffect(() => {
+    if (
+      location.state !== undefined &&
+      location.state !== null
+    ) {
+      if (location.state.id === 1) {
+        setError(
+          "Email has been sent. Check your inbox or spam."
+        );
+      } else if (location.state.id === 2) {
+        setError("Email has been verified.");
+      } else if (location.state.id === 3) {
+        setError("Token invalid. Please retry.");
+      }
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location, navigate]);
+
   async function sendInformation() {
     try {
-      const res = await fetch(`https://${URL}/login`, {
+      const res = await fetch(`${URL}/login`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -40,7 +63,7 @@ function Login() {
         },
         body: JSON.stringify({ email, password })
       });
-
+      console.log(res.status);
       if (res.status === 200) {
         const data = await res.json();
         console.log("Login successful!", data.token);
@@ -51,6 +74,8 @@ function Login() {
         navigate("/");
       } else if (res.status === 401) {
         setError("Invalid email or password.");
+      } else if (res.status === 402) {
+        setError("Email not verified.");
       } else {
         setError("Error. Try again.");
       }

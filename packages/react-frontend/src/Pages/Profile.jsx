@@ -5,13 +5,89 @@ import { useNavigate } from "react-router-dom";
 import "../Components/Profile_page.css";
 import ProfileToolbar from "../Components/profile_bar.jsx";
 import { FaSignOutAlt } from "react-icons/fa";
-const URL =
-  "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
+import URL from "./Url";
 
 function Profile() {
   const navigate = useNavigate();
   const [selectedSection, setSelectedSection] =
     useState("User");
+  const [showHouseModal, setShowHouseModal] = useState(false);
+  const [newHouse, setNewHouse] = useState({
+    houseName: "",
+    state: "",
+    country: "",
+    town: ""
+  });
+  const [userData, setUserData] = useState(null);
+  const [userHouses, setHouses] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const token = localStorage.getItem("token");
+      if (!token) return navigate("/login");
+
+      try {
+        // Get user info
+        const userRes = await fetch(`${URL}/user`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (!userRes.ok)
+          throw new Error(
+            `Failed user fetch: ${userRes.statusText}`
+          );
+        const userInfo = await userRes.json();
+        setUserData(userInfo);
+
+        // Get houses
+        const housesData = await getHouses(token);
+        setHouses(housesData.housesByUser);
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+        navigate("/login");
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  async function getHouses(token) {
+    if (!token) return [];
+    try {
+      const res = await fetch(`${URL}/userhouses`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        const message =
+          errorData?.error || `HTTP ${res.status}`;
+        console.error("Error from /userhouses:", message);
+        navigate("/login");
+        return [];
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      console.error("Error fetching houses:", err);
+      return [];
+    }
+  }
+
+  function getMembershipDuration(createdAt) {
+    const createdDate = new Date(createdAt);
+    const now = new Date();
+    const diffMonths =
+      (now.getFullYear() - createdDate.getFullYear()) * 12 +
+      (now.getMonth() - createdDate.getMonth());
+    return `${diffMonths} month${diffMonths !== 1 ? "s" : ""}`;
+  }
 
   function LogOut() {
     localStorage.removeItem("token");
@@ -19,33 +95,91 @@ function Profile() {
   }
 
   function manageHouses() {
-    navigate("./houses");
+    setShowHouseModal(true);
+  }
+
+  async function submitHouse() {
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await fetch(`${URL}/houses`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ ...newHouse })
+      });
+
+      console.log(
+        "Request body:",
+        JSON.stringify({ ...newHouse })
+      );
+
+      if (res.ok) {
+        alert("House created!");
+        setShowHouseModal(false);
+        setNewHouse({
+          houseName: "",
+          state: "",
+          country: "",
+          town: ""
+        });
+      } else {
+        const rawText = await res.text();
+        let errorMessage;
+
+        try {
+          const errorJson = JSON.parse(rawText);
+          errorMessage =
+            errorJson.message || JSON.stringify(errorJson);
+        } catch {
+          errorMessage = `Server error ${res.status}: ${rawText}`;
+        }
+
+        alert("Error: " + errorMessage);
+      }
+    } catch (error) {
+      alert("Network or unexpected error: " + error.message);
+    }
   }
 
   //Renders content based on the Profile Toolbar selection
   function renderContent() {
+    if (!userData) {
+      return (
+        <div className="profile-content">
+          <p>Loading user data...</p>
+        </div>
+      );
+    }
     switch (selectedSection) {
       case "User":
         return (
           <div className="profile-content">
             <div className="user-header">
               <img
-                src="https://media.istockphoto.com/id/1447126543/photo/father-bonding-kiss-and-boy-child-hug-happy-in-nature-with-quality-time-together-outdoor.jpg?s=612x612&w=0&k=20&c=iujHdzYFrmfLgVLKcAzu4y1-awTR2xRo5m-rD9w35wU=" // ADD IMG HERE**
+                src={userData?.profileImage}
                 alt="Profile"
                 className="profile-picture"
               />
               <div className="user-info">
-                <h2>John Doe</h2>
-                <p>Member for 6 months</p>
+                <h2>{userData?.name || "Loading..."}</h2>
+                <p>
+                  Member for{" "}
+                  {userData?.createdAt
+                    ? getMembershipDuration(userData.createdAt)
+                    : "Loading..."}
+                </p>
               </div>
             </div>
             {/* User details table/list below the header */}
             <div className="user-details"></div>
             <p>
-              <strong>Name:</strong> John Doe
+              <strong>Name:</strong> {userData?.name}
             </p>
             <p>
-              <strong>Email:</strong> john.doe@example.com
+              <strong>Email:</strong> {userData?.email}
             </p>
             <p>
               <strong>Address:</strong> 1234 Main St,
@@ -57,44 +191,71 @@ function Profile() {
             <p>
               <strong>Birthday:</strong> January 1, 1990
             </p>
-            <button
-              className="log-out"
-              onClick={() => LogOut()}
-              //EVENTUALLY MAKE IT SO TOKEN IS BLACKLISTED SO CANT GO BACK
-            >
-              <FaSignOutAlt className="icon" />
-              <span className="button-text">Sign Out</span>
-            </button>
+            <div className="profile-buttons">
+              <button
+                className="add-house-button"
+                onClick={manageHouses}
+              >
+                + Add House
+              </button>
+              <button
+                className="log-out"
+                onClick={() => LogOut()}
+              >
+                <FaSignOutAlt className="icon" />
+                <span className="button-text">Sign Out</span>
+              </button>
+            </div>
           </div>
         );
       case "Houses":
         return (
           <div className="profile-content">
-            <p>
-              <strong>House 1:</strong> 12 Cherry Lane, San
-              Diego, CA
-            </p>
-            <p>
-              <strong>House 2:</strong> 98 Ocean View Rd,
-              Monterey, CA
-            </p>
-            <p>
-              <strong>House 3:</strong> 300 Pine St, Portland,
-              OR
-            </p>
+            <h3>Your Houses</h3>
+            {userHouses.length === 0 ? (
+              <p>No houses found.</p>
+            ) : (
+              userHouses.map((userHouse) => (
+                <div
+                  key={userHouse.house._id}
+                  className="house-entry"
+                >
+                  <p>
+                    <strong>Name:</strong>{" "}
+                    {userHouse.house.houseName}
+                  </p>
+                  <p>
+                    <strong>Location:</strong>{" "}
+                    {userHouse.house.town},{" "}
+                    {userHouse.house.state},{" "}
+                    {userHouse.house.country}
+                  </p>
+                  <p>
+                    <strong>Role:</strong> {userHouse.role}
+                  </p>
+                </div>
+              ))
+            )}
           </div>
         );
       case "Other Settings":
         return (
           <div className="profile-content">
+            <h3>Preferences</h3>
             <p>
-              <strong>Notifications:</strong> Enabled
+              <strong>Notifications:</strong>{" "}
+              {userData?.preferences?.notifications
+                ? "Enabled"
+                : "Disabled"}
             </p>
             <p>
-              <strong>Language:</strong> English (US)
+              <strong>Language:</strong>{" "}
+              {userData?.preferences?.language ||
+                "English (US)"}
             </p>
             <p>
-              <strong>Theme:</strong> Light
+              <strong>Theme:</strong>{" "}
+              {userData?.preferences?.theme || "Light"}
             </p>
             <p>
               <strong>Account Status:</strong> Active
@@ -123,6 +284,65 @@ function Profile() {
           selectedSection={selectedSection}
         />
         <div className="profile-content">{renderContent()}</div>
+        {showHouseModal && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <h2>Create a New House</h2>
+              <input
+                type="text"
+                placeholder="House Name"
+                value={newHouse.houseName}
+                onChange={(e) =>
+                  setNewHouse({
+                    ...newHouse,
+                    houseName: e.target.value
+                  })
+                }
+              />
+              <input
+                type="text"
+                placeholder="Town"
+                value={newHouse.town}
+                onChange={(e) =>
+                  setNewHouse({
+                    ...newHouse,
+                    town: e.target.value
+                  })
+                }
+              />
+              <input
+                type="text"
+                placeholder="State"
+                value={newHouse.state}
+                onChange={(e) =>
+                  setNewHouse({
+                    ...newHouse,
+                    state: e.target.value
+                  })
+                }
+              />
+              <input
+                type="text"
+                placeholder="Country"
+                value={newHouse.country}
+                onChange={(e) =>
+                  setNewHouse({
+                    ...newHouse,
+                    country: e.target.value
+                  })
+                }
+              />
+              <div className="modal-buttons">
+                <button onClick={submitHouse}>Create</button>
+                <button
+                  onClick={() => setShowHouseModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

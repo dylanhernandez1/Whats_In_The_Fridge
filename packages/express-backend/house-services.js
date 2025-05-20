@@ -50,17 +50,7 @@ async function addFoodToHouse(houseId, location, food) {
       return { success: false, message: "House not found" };
     }
 
-    // Validate location (fridge, freezer, pantry, groceryList)
-    const validLocations = [
-      "fridge",
-      "freezer",
-      "pantry",
-      "groceryList"
-    ];
-    if (!validLocations.includes(location)) {
-      return { success: false, message: "Invalid location" };
-    }
-
+    console.log(food);
     // Check that food item has required properties
     if (
       food.FoodName &&
@@ -76,6 +66,7 @@ async function addFoodToHouse(houseId, location, food) {
       house[location].push(savedFood);
       await house.save();
 
+      console.log("Returning ", savedFood);
       return { success: true, savedFood };
     } else {
       return { success: false, message: "Invalid food item" };
@@ -111,13 +102,7 @@ async function getFoodFromHouse(houseId, location) {
       return { success: false, message: "House not found" };
     }
 
-    const validLocations = [
-      "fridge",
-      "freezer",
-      "pantry",
-      "groceryList"
-    ];
-    if (!validLocations.includes(location)) {
+    if (!CheckFoodLocationValid(location)) {
       return { success: false, message: "Invalid location" };
     }
 
@@ -152,8 +137,69 @@ async function getAllFoodFromHouse(houseId) {
 }
 
 function CheckFoodLocationValid(str) {
-  const list = ["Fridge", "Freezer", "Pantry"];
+  const list = ["fridge", "freezer", "pantry"];
   return list.some((item) => str === item);
+}
+
+async function removeFoodFromHouse(houseId, foodId) {
+  const houseModel = getDbConnection().model(
+    "House",
+    HouseSchema
+  );
+  try {
+    const house = await houseModel.findById(houseId);
+    if (!house) {
+      return { success: false, message: "House not found" };
+    }
+
+    let updated = false;
+
+    // Go through each location and remove the food if present
+    ["fridge", "freezer", "pantry", "groceryList"].forEach(
+      (location) => {
+        const originalLength = house[location].length;
+        house[location] = house[location].filter(
+          (item) => item._id.toString() !== foodId.toString()
+        );
+        if (house[location].length !== originalLength)
+          updated = true;
+      }
+    );
+
+    if (updated) {
+      await house.save();
+      return {
+        success: true,
+        message: "Food removed from house"
+      };
+    } else {
+      return {
+        success: false,
+        message: "Food not found in house"
+      };
+    }
+  } catch (error) {
+    console.error("Error removing food from house:", error);
+    return { success: false, message: "Error updating house" };
+  }
+}
+
+async function findHouseById(houseId) {
+  const houseModel = getDbConnection().model(
+    "House",
+    HouseSchema
+  );
+
+  try {
+    const house = await houseModel.findById(houseId);
+    if (!house) {
+      return { success: false, message: "House not found" };
+    }
+    return { success: true, house: house };
+  } catch (error) {
+    console.error("Error finding house:", error);
+    return { success: false, message: "Error finding house" };
+  }
 }
 
 export default {
@@ -162,5 +208,7 @@ export default {
   addFoodToHouse,
   getHouseById,
   getFoodFromHouse,
-  getAllFoodFromHouse
+  getAllFoodFromHouse,
+  removeFoodFromHouse,
+  findHouseById
 };

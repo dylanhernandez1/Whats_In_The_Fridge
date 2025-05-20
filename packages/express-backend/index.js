@@ -132,6 +132,33 @@ app.get("/users", (req, res) => {
     );
 });
 
+//Get certain user that is logged in
+app.get("/user", authenticateUser, async (req, res) => {
+  try {
+    const user = await userServices.findUserByEmail(
+      req.userEmail
+    );
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    // Only return safe fields
+    return res.send({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      preferences: user.preferences,
+      createdAt: user.createdAt,
+      profileImage: user.profileImage
+    });
+  } catch (error) {
+    console.error("Error getting user:", error);
+    res
+      .status(500)
+      .send(`Internal Server Error: ${error.message}`);
+  }
+});
+
 /* -------------------- LOGIN -------------------- */
 //Validate login info
 app.post("/login", async (req, res) => {
@@ -159,6 +186,10 @@ app.post("/login", async (req, res) => {
     if (!isValid) {
       // Incorrect password
       return res.status(401).send("Invalid credentials.");
+    }
+
+    if (!retrievedUser.emailVerified) {
+      return res.status(403).send("Email not verified.");
     }
 
     // Successfully authenticated, generate and send token
@@ -197,7 +228,7 @@ app.post("/verify-email", async (req, res) => {
     subject: "What's In The Fridge Email Verification",
     text: `Hello, ${email.name}. 
 Please verify your email with this link : 
-http://localhost:5173/verify-email/${token}`
+https://white-stone-02cbbab1e.6.azurestaticapps.net/verify-email/${token}`
   };
 
   transporter.sendMail(mailOptions, function (err, data) {
@@ -212,7 +243,7 @@ http://localhost:5173/verify-email/${token}`
 });
 
 app.get("/verify-email/:id", async (req, res) => {
-  console.log(req.params.id);
+  console.log(req);
   try {
     const decoded = jwt.verify(
       req.params.id,
@@ -225,6 +256,8 @@ app.get("/verify-email/:id", async (req, res) => {
       req.userEmail.email
     );
     user.emailVerified = true;
+    await user.save();
+    return res.status(200).send();
   } catch (error) {
     console.log(error);
     return res.status(401).end();
@@ -250,18 +283,15 @@ app.post("/houses", authenticateUser, async (req, res) => {
     // Save House
     const house = await houseServices.createHouse(houseData);
 
-    const userHouse = new UserHouse({
-      user: user._id,
-      house: house._id,
-      role: "owner"
-    });
-
-    // Save UserHouse
-    await userHouse.save();
+    let userHouse = await userHouseServices.addUserToHouse(
+      user._id,
+      house._id,
+      "owner"
+    );
+    userHouse = userHouse.savedUserHouse;
 
     // Set default house
-    user.preferences.defaultHouse = house._id;
-    await user.save();
+    await userServices.setDefaultHouse(user, house._id);
 
     // Success
     res.status(201).send({
@@ -341,6 +371,31 @@ app.get(
   }
 );
 
+app.patch(
+  "/houses/updateFood/:houseId",
+  authenticateUser,
+  async (req, res) => {
+    const { houseId } = req.params;
+    const { deletedFoodId } = req.body;
+
+    try {
+      const result = await houseServices.removeFoodFromHouse(
+        houseId,
+        deletedFoodId
+      );
+
+      if (!result.success) {
+        return res.status(400).send(result.message);
+      }
+
+      res.status(200).send(result);
+    } catch (err) {
+      console.error("Error updating house:", err);
+      res.status(500).send("Internal server error.");
+    }
+  }
+);
+
 /* -------------------- USER-HOUSE -------------------- */
 //Add user to house
 app.post("/houses/:houseId/users/:userId", (req, res) => {
@@ -411,14 +466,26 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
   ); //Got userEmail from authentication
   userHouseServices
     .getHousesByUser(user._id)
-    .then((result) => {
+    .then(async (result) => {
       if (!result.success)
         return res.status(404).send(result.message);
+
+      let defaultHouse = null;
+      const defaultHouseId =
+        user.preferences?.get("defaultHouse");
+
+      if (defaultHouseId) {
+        result =
+          await houseServices.findHouseById(defaultHouseId);
+        if (result.success) {
+          defaultHouse = result.house;
+        }
+      }
 
       // Send both default house (if present) and all houses
       res.send({
         housesByUser: result.housesByUser,
-        defaultHouse: user.preferences?.defaultHouse ?? null
+        defaultHouse: defaultHouse
       });
     })
     .catch((error) =>
@@ -485,8 +552,8 @@ app.get("/expiring", authenticateUser, async (req, res) => {
     );
 });
 
-app.delete("/food", (req, res) => {
-  const foodId = req.body._id;
+app.delete("/food/:id", authenticateUser, async (req, res) => {
+  const foodId = req.params.id;
   console.log(`The foodId is: ${foodId}`);
   foodServices
     .deleteFoodById(foodId)

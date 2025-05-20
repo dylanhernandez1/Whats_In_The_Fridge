@@ -21,9 +21,9 @@ const Icons = {
   "Fats & Oils": FatsAndOilsWhite,
   "Sugars & Sweets": SugarsAndSweetsWhite,
   Drinks: DrinksWhite,
-  Fridge: Fridge,
-  Freezer: Freezer,
-  Pantry: Pantry
+  fridge: Fridge,
+  freezer: Freezer,
+  pantry: Pantry
 };
 
 /* iconInfo can be passed in two different ways:

@@ -34,21 +34,21 @@ beforeEach(async () => {
       FoodName: "Apple",
       FoodType: "Fruit",
       Amount: 10,
-      Location: "Fridge",
+      Location: "fridge",
       ExpirationDate: null
     },
     {
       FoodName: "Carrot",
       FoodType: "Vegetable",
       Amount: 5,
-      Location: "Pantry",
+      Location: "pantry",
       ExpirationDate: null
     },
     {
       FoodName: "Milk",
       FoodType: "Dairy",
       Amount: 2,
-      Location: "Fridge",
+      Location: "fridge",
       ExpirationDate: null
     }
   ];
@@ -94,14 +94,14 @@ test("findFoodByExpiration returns only food items with an ExpirationDate (sorte
       FoodName: "Cheese",
       FoodType: "Dairy",
       Amount: 1,
-      Location: "Fridge",
+      Location: "fridge",
       ExpirationDate: new Date("2025-04-01")
     },
     {
       FoodName: "Yogurt",
       FoodType: "Dairy",
       Amount: 3,
-      Location: "Fridge",
+      Location: "fridge",
       ExpirationDate: new Date("2025-03-20")
     }
   ];
@@ -123,7 +123,7 @@ test("addFood successfully adds a food item", async () => {
     FoodName: "Banana",
     FoodType: "Fruit",
     Amount: 12,
-    Location: "Pantry",
+    Location: "pantry",
     ExpirationDate: new Date("2025-05-01")
   };
   const addedFood = await foodServices.addFood(newFood);
@@ -134,4 +134,29 @@ test("addFood successfully adds a food item", async () => {
   // Confirm the new food item has been added (3 seeded + 1 new = 4).
   const foods = await foodServices.getFood();
   expect(foods.length).toBe(4);
+});
+
+test("Testing Delete Successful", async () => {
+  const newFood = {
+    FoodName: "Banana",
+    FoodType: "Fruit",
+    Amount: 12,
+    Location: "pantry",
+    ExpirationDate: new Date("2025-05-01")
+  };
+  const addedFood = await foodServices.addFood(newFood);
+
+  const deletedFood = await foodServices.deleteFoodById(
+    addedFood._id
+  );
+
+  expect(deletedFood).toBeTruthy();
+  expect(deletedFood.FoodName).toBe(addedFood.FoodName);
+  const foods = await foodServices.getFood();
+  expect(foods.length).toBe(3);
+});
+
+test("Testing Delete Not Successful", async () => {
+  const deletedFood = await foodServices.deleteFoodById(123);
+  expect(deletedFood).toBeFalsy();
 });

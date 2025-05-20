@@ -10,8 +10,7 @@ import IngredientSorting from "../Components/IngredientSorting.jsx";
 import Popup from "../Components/Popup.jsx";
 import "../Components/Header_Styling.css";
 import { useNavigate } from "react-router-dom";
-const URL =
-  "whats-in-the-fridge-e2f8g5etfbarcmdk.westus-01.azurewebsites.net";
+import URL from "./Url";
 
 function Home({}) {
   const [foodList, setFoodList] = useState([{}]);
@@ -25,7 +24,7 @@ function Home({}) {
   async function getHouses(token) {
     if (!token) return [];
     try {
-      const res = await fetch(`https://${URL}/userhouses`, {
+      const res = await fetch(`${URL}/userhouses`, {
         method: "GET",
         credentials: "include",
         headers: {
@@ -34,80 +33,124 @@ function Home({}) {
         }
       });
 
-      if (res.status === 401 || res.status === 404) {
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        const message =
+          errorData?.error || `HTTP ${res.status}`;
+        console.error("Error from /userhouses:", message);
         navigate("/login");
         return [];
-      } else {
-        const data = await res.json();
-        return data;
       }
+
+      const data = await res.json();
+      return data;
     } catch (err) {
       console.error("Error fetching houses:", err);
+      return [];
     }
   }
 
-  // Temporary function to create a default house if none is found
-  // Only for testing purposes, won't be used in the final product
-  async function createDefaultHouse(token) {
-    const res = await fetch(`https://${URL}/houses`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        houseName: "test",
-        state: "test",
-        country: "test",
-        town: "test"
-      })
-    });
-    return res;
-  }
-
-  async function checkForHouses(token) {
+  async function getExpiringList(token) {
     if (token) {
       const houses = await getHouses(token);
+      console.log(houses);
       if (
         !houses.housesByUser ||
         (houses.housesByUser.length == 0 &&
           !houses.defaultHouse)
       ) {
-        createDefaultHouse(token)
-          .then(async (res) => {
-            if (res.status === 201) {
-              // Successfully created a default house, now get the expiring list of the house
-              getExpiringList(token);
-            } else {
-              console.log("Error creating a default house");
-            }
-          })
-          .catch((error) => {
-            console.error("Error: ", error);
-          });
+        alert("No Houses found for your user");
+        //NO HOUSE, PROMPT TO CREATE HOUSE
       } else {
-        getExpiringList(token);
-      }
-    }
-  }
+        // Use the defaultHouse if it exists; otherwise, use the first house
+        const houseToUse =
+          houses.defaultHouse != null
+            ? houses.defaultHouse
+            : houses.housesByUser[0]?.house;
+        if (!houseToUse || !houseToUse._id) {
+          alert("No valid house found with an _id");
+          return;
+        }
 
-  async function getExpiringList(token) {
-    const houseToUse =
-      houses.defaultHouse != null
-        ? houses.defaultHouse
-        : houses.housesByUser[0];
-    await fetch(
-      `https://${URL}/houses/${houseToUse._id}/food`,
-      {
+        const res = await fetch(
+          `${URL}/houses/${houseToUse._id}/food`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+
+        if (!res.ok) {
+          const errorText = await res.text().catch(() => "");
+          throw new Error(
+            `Failed to fetch food: ${errorText || res.statusText}`
+          );
+        }
+
+        return res;
+      }
+      /*
+      //OLD CODE FOR FOOD
+      const promise = fetch(`http://localhost:8000/expiring`, {
         method: "GET",
-        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         }
-      }
-    )
+      });
+      return promise;
+    } else {
+      console.log("empty cookie");
+      return false;
+    }
+      */
+    }
+  }
+
+  //FOR SEARCHBAR
+
+  useEffect(() => {
+    const filteredFoods =
+      searchText.trim() == ""
+        ? foodList
+        : foodList.filter((food) =>
+            food.FoodName.toLowerCase().includes(
+              searchText.toLowerCase()
+            )
+          );
+    const updatedList = filteredFoods.map((food) => {
+      return food;
+    });
+    setTempFoodList(updatedList);
+  }, [searchText]);
+
+  const handleSearchText = (text) => {
+    setSearchText(text);
+  };
+
+  //FOR MENU
+
+  useEffect(() => {
+    const filteredFoods = foodList.filter(
+      (food) => food.Location === menuText.toLowerCase()
+    );
+    const updatedList = filteredFoods.map((food) => {
+      return food;
+    });
+    setTempFoodList(updatedList);
+  }, [menuText]);
+
+  const handleMenuSwitch = (text) => {
+    setMenuText(text.toLowerCase());
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    getExpiringList(token)
       .then(async (res) => {
         if (!res) {
           return [];
@@ -144,63 +187,6 @@ function Home({}) {
       .catch((error) => {
         console.error("Error: ", error);
       });
-  }
-  /*
-      //OLD CODE FOR FOOD
-      const promise = fetch(`http://localhost:8000/expiring`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
-      });
-      return promise;
-    } else {
-      console.log("empty cookie");
-      return false;
-    }
-      */
-
-  //FOR SEARCHBAR
-
-  useEffect(() => {
-    const filteredFoods =
-      searchText.trim() == ""
-        ? foodList
-        : foodList.filter((food) =>
-            food.FoodName.toLowerCase().includes(
-              searchText.toLowerCase()
-            )
-          );
-    const updatedList = filteredFoods.map((food) => {
-      return food;
-    });
-    setTempFoodList(updatedList);
-  }, [searchText]);
-
-  const handleSearchText = (text) => {
-    setSearchText(text);
-  };
-
-  //FOR MENU
-  useEffect(() => {
-    const filteredFoods = foodList.filter(
-      (food) => food.Location === menuText
-    );
-    const updatedList = filteredFoods.map((food) => {
-      return food;
-    });
-    setTempFoodList(updatedList);
-  }, [menuText]);
-
-  const handleMenuSwitch = (text) => {
-    setMenuText(text);
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    checkForHouses(token);
   }, [navigate]);
 
   function onCardClick(foodInfo) {
@@ -211,28 +197,73 @@ function Home({}) {
     setFoodInfo(undefined);
   }
 
-  function onDelete(id) {
-    fetch(`https://${URL}/food`, {
-      method: "DELETE",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        _id: id
-      })
-    })
-      .then((res) => {
-        if (res.status == 201) {
-          setFoodList(
-            foodList.filter((food) => food._id !== id)
-          );
-          setFoodInfo(undefined);
+  async function onDelete(id) {
+    const token = localStorage.getItem("token");
+
+    try {
+      // Delete the food item
+      const deleteRes = await fetch(`${URL}/food/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
         }
-      })
-      .catch((error) => {
-        console.error("Error ", error);
       });
+
+      if (deleteRes.status !== 201) {
+        const errorText = await deleteRes
+          .text()
+          .catch(() => "");
+        throw new Error(
+          `Delete failed: ${errorText || deleteRes.statusText}`
+        );
+      }
+
+      // Refresh the user's houses
+      const houses = await getHouses(token);
+      const houseToUse =
+        houses.defaultHouse != null
+          ? houses.defaultHouse
+          : houses.housesByUser[0]?.house;
+
+      if (!houseToUse) {
+        throw new Error("No house found for this user");
+      }
+
+      // Update house information
+      const updateRes = await fetch(
+        `${URL}/houses/updateFood/${houseToUse._id}`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ deletedFoodId: id })
+        }
+      );
+
+      if (!updateRes.ok) {
+        const errorText = await updateRes
+          .text()
+          .catch(() => "");
+        throw new Error(
+          `Failed to update house: ${errorText || updateRes.statusText}`
+        );
+      }
+
+      // Update UI state
+      setFoodList(foodList.filter((food) => food._id !== id));
+      setTempFoodList(
+        tempFoodList.filter((food) => food._id !== id)
+      );
+      setFoodInfo(undefined);
+    } catch (error) {
+      console.error("Error deleting food:", error);
+      // Optional: show a toast or UI error message
+    }
   }
 
   //Full table

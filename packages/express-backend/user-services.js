@@ -116,7 +116,7 @@ async function deleteUserById(id) {
 }
 
 /**
- * Delte a user by their email.
+ * Delete a user by their email.
  */
 async function deleteUserByEmail(email) {
   const userModel = getDbConnection().model("User", UserSchema);
@@ -131,6 +131,20 @@ async function deleteUserByEmail(email) {
   }
 }
 
+/**
+ * Set default House of a user
+ */
+async function setDefaultHouse(user, houseId) {
+  try {
+    user.preferences.defaultHouse = houseId;
+    await user.save();
+    return true;
+  } catch (error) {
+    console.log("Set default house error:", error);
+    return false;
+  }
+}
+
 export default {
   addUser,
   getUsers,
@@ -139,5 +153,6 @@ export default {
   findUserByName,
   deleteUserById,
   deleteUserByEmail,
-  setConnection
+  setConnection,
+  setDefaultHouse
 };

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import UserHouseSchema from "./UserHouse.js";
 import dotenv from "dotenv";
+import HouseSchema from "./house.js";
 dotenv.config();
 
 let dbConnection;
@@ -146,6 +147,9 @@ async function getUsersInHouse(houseId) {
 
 // Get all houses a user belongs to
 async function getHousesByUser(userId) {
+  const conn = getDbConnection();
+  conn.model("House", HouseSchema);
+
   const userHouseModel = getDbConnection().model(
     "UserHouse",
     UserHouseSchema
