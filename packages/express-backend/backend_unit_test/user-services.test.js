@@ -18,6 +18,7 @@ beforeAll(async () => {
   houseModel = conn.model("House", houseSchema);
 
   userServices.setConnection(conn);
+  houseServices.setConnection(conn);
 });
 
 afterAll(async () => {
@@ -70,12 +71,14 @@ beforeEach(async () => {
 
 afterEach(async () => {
   await userModel.deleteMany();
+  await houseModel.deleteMany();
 });
 
 test("Fetching all users", async () => {
   const users = await userServices.getUsers();
   expect(users).toBeDefined();
   expect(users.length).toBeGreaterThan(0);
+  expect(users.length).toBe(5);
 });
 
 test("Adding user -- successful path", async () => {
@@ -88,6 +91,8 @@ test("Adding user -- successful path", async () => {
   expect(result).toBeTruthy();
   expect(result.email).toBe(dummyUser.email);
   expect(result.name).toBe(dummyUser.name);
+  const users = await userServices.getUsers();
+  expect(users.length).toBe(6);
 });
 
 test("Adding user -- email and password are required", async () => {
@@ -133,6 +138,8 @@ test("Deleting user by ID -- successful path", async () => {
   expect(deletedUser._id.toString()).toBe(
     result._id.toString()
   );
+  const users = await userServices.getUsers();
+  expect(users.length).toBe(5);
 });
 
 test("Deleting user by ID -- invalid ID", async () => {

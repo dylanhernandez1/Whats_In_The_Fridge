@@ -37,6 +37,22 @@ async function createHouse(houseData) {
   }
 }
 
+async function getHouses() {
+  const houseModel = getDbConnection().model(
+    "House",
+    HouseSchema
+  );
+  try {
+    const houses = await houseModel.find({});
+    return houses;
+  } catch (error) {
+    // istanbul ignore next
+    console.error("Error retrieving houses:", error);
+    // istanbul ignore next
+    throw error;
+  }
+}
+
 async function addFoodToHouse(houseId, location, food) {
   const houseModel = getDbConnection().model(
     "House",
@@ -137,7 +153,7 @@ async function getAllFoodFromHouse(houseId) {
 }
 
 function CheckFoodLocationValid(str) {
-  const list = ["fridge", "freezer", "pantry"];
+  const list = ["fridge", "freezer", "pantry", "grocery_list"];
   return list.some((item) => str === item);
 }
 
@@ -184,6 +200,31 @@ async function removeFoodFromHouse(houseId, foodId) {
   }
 }
 
+async function deleteHouseById(houseId) {
+  const houseModel = getDbConnection().model(
+    "House",
+    HouseSchema
+  );
+
+  try {
+    const result = await houseModel.findByIdAndDelete(houseId);
+    if (!result) {
+      console.log(`No house found with id: ${houseId}`);
+      return null;
+    }
+    console.log(
+      `House with id ${houseId} deleted successfully.`
+    );
+    return result;
+  } catch (error) {
+    console.log(
+      `Error deleting house with id ${houseId}:`,
+      error
+    );
+    return null;
+  }
+}
+
 async function findHouseById(houseId) {
   const houseModel = getDbConnection().model(
     "House",
@@ -204,11 +245,13 @@ async function findHouseById(houseId) {
 
 export default {
   setConnection,
+  getHouses,
   createHouse,
   addFoodToHouse,
   getHouseById,
   getFoodFromHouse,
   getAllFoodFromHouse,
   removeFoodFromHouse,
+  deleteHouseById,
   findHouseById
 };
