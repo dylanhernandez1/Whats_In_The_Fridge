@@ -117,7 +117,11 @@ function CreateAccountPage() {
       .then(async (res) => {
         if (res.status == 201) {
           sendEmailVerification();
-          navigate("/login", { state: { id: 1 } });
+          navigate("/login", {
+            state: {
+              id: "Email has been sent. Check your inbox or spam."
+            }
+          });
           console.log("Successful add");
         } else if (res.status == 400) {
           const message = await res.text();
@@ -206,3 +210,28 @@ function CreateAccountPage() {
 }
 
 export default CreateAccountPage;
+
+//  -- FILE: packages/react-frontend/src/Pages/CreateAccount.jsx
+// Feature: Sign up
+
+//   Rule: Account is created or not created
+//
+//   Given: A valid username, email and password
+//          Then: An account will be created and saved into the database
+//   But: An if using an invalid username, email, or password
+//          Then: No account will be created and will display an error
+//   When: Pressing create an account, the information from the fields will be
+//         picked and sent into the backend to be saved.
+//   Background: Given a user named "Trash" with username: hello, password: somemaydie, email: itryhard@gmail.com
+//   Scenario: Trash created an account with the information above
+//             Given I am not Trash
+//             When I try to create an account with the information above
+//             Then the system will refuse to create an account with that information.
+//   Scenario: Trash has not yet made the account
+//             Given I am not Trash
+//             When I try to create an account with the information above
+//             Then the system will create the account and Trash has to use different information
+//   Scenario: Trash has not yet made the account and will make the account
+//             Given they are Trash
+//             When they try to create an account with the information above
+//             Then the system will create the account for Trash

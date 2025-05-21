@@ -53,12 +53,12 @@ export const routes = [
     protected: false
   }, // No props for now
   {
-    path: "/forgot-password",
+    path: "/forgot-password-change/:token",
     element: (props) => <ForgotPassword {...props} />,
     protected: false
   }, // No props for now
   {
-    path: "/",
+    path: "/forgot-password",
     element: (props) => <ForgotPasswordRequest {...props} />,
     protected: false
   } // No props for now

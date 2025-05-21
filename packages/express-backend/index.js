@@ -1,4 +1,4 @@
-import express from "express";
+import express, { text } from "express";
 import cors from "cors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -111,7 +111,6 @@ app.post("/users", async (req, res) => {
     }
     const token = generateAccessToken(email);
     console.log("JWT: ", token);
-    sendMail(req, res);
     res.status(201).send({ token });
   } catch (error) {
     console.error("Error adding user:", error);
@@ -227,7 +226,8 @@ function sendMail(req, res, subject, link) {
     from: "no-reply@whats-in-the-fridge.com <donotreply@whatsinthefridge@gmail.com>",
     to: email.email,
     subject: subject,
-    text: `Hello, ${email.name}. 
+    text: `Hello. 
+
 Please verify your email with this link : 
 ${link}${token}`
   };
@@ -274,11 +274,51 @@ app.get("/verify-email/:id", async (req, res) => {
 
 /* -------------------- FORGOT-PASSWORD -------------------- */
 
-app.post("/verify-email", async (req, res) => {
-  const subject = "What's In The Fridge Email Verification";
+app.post("/forgot-password", async (req, res) => {
+  const subject = "What's In The Fridge Password Reset";
   const link =
-    "https://white-stone-02cbbab1e.6.azurestaticapps.net/forgot-password/";
-  sendMail(req, res, subject, link);
+    "https://white-stone-02cbbab1e.6.azurestaticapps.net/forgot-password-change/";
+  try {
+    sendMail(req, res, subject, link);
+
+    return res.status(201).send();
+  } catch (error) {
+    console.log(error);
+    return res.status(401).end();
+  }
+});
+
+//SUBJECT TO CHANGE THIS PART NEEDS TO HAVE THE EMAIL OF THE USER BE SENT
+//FROM WHEN CREATING THE EMAIL SO STORE THAT AND SEND THAT WHEN DOING
+//THE PASSWORD CHANGE REQUEST
+
+app.post("/forgot-password-change", async (req, res) => {
+  const { name, email, password } = req.body;
+  if (!name || !password || !email) {
+    res.status(400).send("Bad request: Invalid input data.");
+  }
+  try {
+    const existingEmail = await userServices.getUsers({
+      email
+    });
+    if (existingEmail) {
+      const saltRounds = 10;
+      const hashedPwd = await bcrypt.hash(password, saltRounds);
+
+      existingEmail.password = hashedPwd;
+
+      const token = generateAccessToken(email);
+      console.log("JWT: ", token);
+      res.status(201).send({ token });
+    } else {
+      console.error("Error changing password error:", error);
+      res.status(500).send("Internal Server Error");
+    }
+    //HASH PASSWORD
+  } catch (error) {
+    console.error("Error changing password error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 /* -------------------- HOUSES -------------------- */

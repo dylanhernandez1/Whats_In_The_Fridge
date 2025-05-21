@@ -18,11 +18,15 @@ function VerifyEmailPage() {
       .then(async (res) => {
         console.log(res);
         if (res.status === 200) {
-          navigate("/login", { state: { id: 2 } });
+          navigate("/login", {
+            state: { id: "Email has been verified" }
+          });
 
           console.log("Successfuly sent");
         } else {
-          navigate("/login", { state: { id: 3 } });
+          navigate("/login", {
+            state: { id: "Token invalid. Please retry." }
+          });
         }
       })
       .catch((error) => {

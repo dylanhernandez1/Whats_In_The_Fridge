@@ -1,15 +1,87 @@
 import React, { useState, useEffect } from "react";
 import "./Food_Styling.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import URL from "./Url";
 let debounce = false;
 
-function ForgotPasswordRequest() {
+function ForgotPassword() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
+  const { token } = useParams();
+
+  // useEffect(() => {
+  //   const promise = fetch(`${URL}/forgot-password-change/${token}`, {
+  //     method: "GET",
+  //     credentials: "include",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     }
+  //   })
+  //     .then(async (res) => {
+  //       console.log(res);
+  //       if (res.status === 200) {
+  //         navigate("/login", { state: { id: 5 } });
+
+  //         console.log("Successfuly sent");
+  //       } else {
+  //         navigate("/login", { state: { id: 6 } });
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error: ", error);
+  //     });
+  // }, [token]);
+  function ValidatePassword() {
+    if (password.length < 6) {
+      setError("Password Must Be At Least 6 Characters.");
+      return false;
+    } else if (password !== passwordConfirm) {
+      setError("Passwords are not the same.");
+      return false;
+    }
+
+    return true;
+  }
+
+  function SendPassword() {
+    if (!ValidatePassword()) {
+      return;
+    }
+
+    console.log("Hey");
+    const promise = fetch(
+      `${URL}/forgot-password-change/${token}`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    )
+      .then(async (res) => {
+        console.log(res);
+        if (res.status === 200) {
+          navigate("/login", {
+            state: { id: "Password successfully changed." }
+          });
+
+          console.log("Successfuly sent");
+        } else {
+          navigate("/login", {
+            state: {
+              id: "Password could not be changed at this time. Please try again later."
+            }
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
+      });
+  }
 
   useEffect(() => {
     document
@@ -71,9 +143,7 @@ function ForgotPasswordRequest() {
           <button
             id="request-password-request"
             className="primary-button"
-            onClick={() =>
-              navigate("/login", { state: { id: 5 } })
-            }
+            onClick={() => SendPassword()}
           >
             Change Password
           </button>
@@ -83,4 +153,4 @@ function ForgotPasswordRequest() {
   );
 }
 
-export default ForgotPasswordRequest;
+export default ForgotPassword;
