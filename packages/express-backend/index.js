@@ -518,9 +518,15 @@ app.get("/houses/:houseId/users", (req, res) => {
 
 //Get houses a user is a part of
 app.get("/userhouses", authenticateUser, async (req, res) => {
-  const user = await userServices.findUserByEmail(
-    req.userEmail
-  ); //Got userEmail from authentication
+  const requestedEmail = req.query.email; // ?email=something@example.com
+
+  let emailToUse = req.userEmail; // Default to logged-in user's email
+
+  if (requestedEmail) {
+    emailToUse = requestedEmail;
+  }
+
+  const user = await userServices.findUserByEmail(emailToUse); //Got userEmail from authentication
   userHouseServices
     .getHousesByUser(user._id)
     .then(async (result) => {
