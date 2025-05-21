@@ -97,7 +97,7 @@ app.post("/users", async (req, res) => {
       email
     });
     if (existingEmail) {
-      return res.status(409).send("Email already taken");
+      return res.status(409).send("Email already in use");
     }
     //HASH PASSWORD
     const saltRounds = 10;
@@ -111,6 +111,7 @@ app.post("/users", async (req, res) => {
     }
     const token = generateAccessToken(email);
     console.log("JWT: ", token);
+    sendMail(req, res)
     res.status(201).send({ token });
   } catch (error) {
     console.error("Error adding user:", error);
@@ -188,9 +189,9 @@ app.post("/login", async (req, res) => {
       return res.status(401).send("Invalid credentials.");
     }
 
-    if (!retrievedUser.emailVerified) {
-      return res.status(403).send("Email not verified.");
-    }
+    // if (!retrievedUser.emailVerified) {
+    //   return res.status(403).send("Email not verified.");
+    // }
 
     // Successfully authenticated, generate and send token
     const token = generateAccessToken(email);
@@ -209,7 +210,7 @@ function generateVerificationToken(email) {
   });
 }
 
-app.post("/verify-email", async (req, res) => {
+function sendMail(req, res, subject, link){
   const email = req.body;
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -225,10 +226,10 @@ app.post("/verify-email", async (req, res) => {
   const mailOptions = {
     from: "no-reply@whats-in-the-fridge.com <donotreply@whatsinthefridge@gmail.com>",
     to: email.email,
-    subject: "What's In The Fridge Email Verification",
+    subject: subject,
     text: `Hello, ${email.name}. 
 Please verify your email with this link : 
-https://white-stone-02cbbab1e.6.azurestaticapps.net/verify-email/${token}`
+${link}${token}`
   };
 
   transporter.sendMail(mailOptions, function (err, data) {
@@ -240,6 +241,12 @@ https://white-stone-02cbbab1e.6.azurestaticapps.net/verify-email/${token}`
       return res.status(200);
     }
   });
+}
+
+app.post("/verify-email", async (req, res) => {
+  const subject = "What's In The Fridge Email Verification"
+  const link = "https://white-stone-02cbbab1e.6.azurestaticapps.net/verify-email/"
+  sendMail(req, res, subject, link)
 });
 
 app.get("/verify-email/:id", async (req, res) => {
@@ -263,6 +270,16 @@ app.get("/verify-email/:id", async (req, res) => {
     return res.status(401).end();
   }
 });
+
+/* -------------------- FORGOT-PASSWORD -------------------- */
+
+app.post("/verify-email", async (req, res) => {
+  const subject = "What's In The Fridge Email Verification"
+  const link = "https://white-stone-02cbbab1e.6.azurestaticapps.net/forgot-password/"
+  sendMail(req, res, subject, link)
+});
+
+
 
 /* -------------------- HOUSES -------------------- */
 //Add a house

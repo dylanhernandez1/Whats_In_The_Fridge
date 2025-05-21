@@ -8,7 +8,6 @@ function VerifyEmailPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Wer");
     const promise = fetch(`${URL}/verify-email/${token}`, {
       method: "GET",
       credentials: "include",
@@ -33,7 +32,7 @@ function VerifyEmailPage() {
 
   return (
     <div className="login-container">
-      <div className="logo">What's In The Fridge?</div>
+      <div className="logo"></div>
     </div>
   );
 }

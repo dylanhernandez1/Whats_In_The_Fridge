@@ -35,20 +35,20 @@ function Login() {
       });
   });
 
+  const ErrorList = [
+    "Email has been sent. Check your inbox or spam.",
+    "Email has been verified.",
+    "Token invalid. Please retry.",
+    "Forgot password request sent to your email.",
+    "Password successfully changed."
+  ]
+
   useEffect(() => {
     if (
       location.state !== undefined &&
       location.state !== null
     ) {
-      if (location.state.id === 1) {
-        setError(
-          "Email has been sent. Check your inbox or spam."
-        );
-      } else if (location.state.id === 2) {
-        setError("Email has been verified.");
-      } else if (location.state.id === 3) {
-        setError("Token invalid. Please retry.");
-      }
+      setError(ErrorList[location.state.id - 1]);
       navigate(location.pathname, { replace: true });
     }
   }, [location, navigate]);
@@ -77,6 +77,7 @@ function Login() {
       } else if (res.status === 402) {
         setError("Email not verified.");
       } else {
+        console.error("Error during login:", error);
         setError("Error. Try again.");
       }
     } catch (error) {
@@ -121,7 +122,10 @@ function Login() {
           Sign In
         </button>
 
-        <button className="link-button">
+        <button 
+        className="link-button"
+        onClick={() => navigate("/forgot-password")}
+        >
           Forgot Password?
         </button>
 
