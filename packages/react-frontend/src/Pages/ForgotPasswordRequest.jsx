@@ -16,7 +16,9 @@ function ForgotPasswordRequest() {
       .addEventListener("keydown", (event) => {
         if (event.key === "Enter" && debounce == false) {
           debounce = true;
-          document.getElementById("request-password-request").click();
+          document
+            .getElementById("request-password-request")
+            .click();
 
           setTimeout(() => {
             debounce = false;
@@ -25,7 +27,7 @@ function ForgotPasswordRequest() {
       });
   });
 
-  function SendPasswordRequest(){
+  function SendPasswordRequest() {
     const verifyPromise = fetch(`${URL}/verify-email`, {
       method: "POST",
       credentials: "include",
@@ -54,8 +56,7 @@ function ForgotPasswordRequest() {
         console.error("Error: ", error);
       });
 
-      navigate("/login", { state: { id: 4 }})
-
+    navigate("/login", { state: { id: 4 } });
   }
 
   return (
@@ -70,7 +71,7 @@ function ForgotPasswordRequest() {
 
       <div className="login-card">
         <h2>Forgot Your Password?</h2>
-      
+
         {error && <div className="invalid">{error}</div>}
 
         <div>
@@ -84,16 +85,14 @@ function ForgotPasswordRequest() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        
+
         <div>
           <button
             id="request-password-request"
             className="primary-button"
             onClick={SendPasswordRequest()}
-          
           >
             Request Email Password Request
-      
           </button>
         </div>
       </div>

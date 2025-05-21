@@ -62,8 +62,8 @@ function CreateAccountPage() {
       };
     return true;
   }
-  
-  function sendEmailVerification(){
+
+  function sendEmailVerification() {
     const verifyPromise = fetch(`${URL}/verify-email`, {
       method: "POST",
       credentials: "include",
@@ -91,7 +91,6 @@ function CreateAccountPage() {
       .catch((error) => {
         console.error("Error: ", error);
       });
-
   }
 
   function addUserToDatabase() {
@@ -103,7 +102,6 @@ function CreateAccountPage() {
       }, 3000);
       return false;
     }
-
 
     const createPromise = fetch(`${URL}/users`, {
       method: "POST",
@@ -133,8 +131,7 @@ function CreateAccountPage() {
       })
       .catch((error) => {
         console.error("Error: ", error);
-      })
-
+      });
   }
 
   return (

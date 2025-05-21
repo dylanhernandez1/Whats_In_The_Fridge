@@ -41,7 +41,7 @@ function Login() {
     "Token invalid. Please retry.",
     "Forgot password request sent to your email.",
     "Password successfully changed."
-  ]
+  ];
 
   useEffect(() => {
     if (
@@ -122,9 +122,9 @@ function Login() {
           Sign In
         </button>
 
-        <button 
-        className="link-button"
-        onClick={() => navigate("/forgot-password")}
+        <button
+          className="link-button"
+          onClick={() => navigate("/forgot-password")}
         >
           Forgot Password?
         </button>

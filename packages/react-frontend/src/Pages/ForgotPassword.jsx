@@ -17,7 +17,9 @@ function ForgotPasswordRequest() {
       .addEventListener("keydown", (event) => {
         if (event.key === "Enter" && debounce == false) {
           debounce = true;
-          document.getElementById("request-password-request").click();
+          document
+            .getElementById("request-password-request")
+            .click();
 
           setTimeout(() => {
             debounce = false;
@@ -25,7 +27,6 @@ function ForgotPasswordRequest() {
         }
       });
   });
-
 
   return (
     <div className="login-container">
@@ -39,7 +40,7 @@ function ForgotPasswordRequest() {
 
       <div className="login-card">
         <h2>Set a new password</h2>
-      
+
         {error && <div className="invalid">{error}</div>}
 
         <div>
@@ -54,7 +55,9 @@ function ForgotPasswordRequest() {
           />
         </div>
         <div>
-          <label htmlFor="confirm-password">Confirm Password</label>
+          <label htmlFor="confirm-password">
+            Confirm Password
+          </label>
           <input
             id="confirm-password-field"
             className="input-field"
@@ -68,11 +71,11 @@ function ForgotPasswordRequest() {
           <button
             id="request-password-request"
             className="primary-button"
-            onClick={()=> navigate("/login", { state: { id: 5 } })
-          }
+            onClick={() =>
+              navigate("/login", { state: { id: 5 } })
+            }
           >
             Change Password
-      
           </button>
         </div>
       </div>

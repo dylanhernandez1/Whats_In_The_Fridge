@@ -111,7 +111,7 @@ app.post("/users", async (req, res) => {
     }
     const token = generateAccessToken(email);
     console.log("JWT: ", token);
-    sendMail(req, res)
+    sendMail(req, res);
     res.status(201).send({ token });
   } catch (error) {
     console.error("Error adding user:", error);
@@ -210,7 +210,7 @@ function generateVerificationToken(email) {
   });
 }
 
-function sendMail(req, res, subject, link){
+function sendMail(req, res, subject, link) {
   const email = req.body;
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -244,9 +244,10 @@ ${link}${token}`
 }
 
 app.post("/verify-email", async (req, res) => {
-  const subject = "What's In The Fridge Email Verification"
-  const link = "https://white-stone-02cbbab1e.6.azurestaticapps.net/verify-email/"
-  sendMail(req, res, subject, link)
+  const subject = "What's In The Fridge Email Verification";
+  const link =
+    "https://white-stone-02cbbab1e.6.azurestaticapps.net/verify-email/";
+  sendMail(req, res, subject, link);
 });
 
 app.get("/verify-email/:id", async (req, res) => {
@@ -274,12 +275,11 @@ app.get("/verify-email/:id", async (req, res) => {
 /* -------------------- FORGOT-PASSWORD -------------------- */
 
 app.post("/verify-email", async (req, res) => {
-  const subject = "What's In The Fridge Email Verification"
-  const link = "https://white-stone-02cbbab1e.6.azurestaticapps.net/forgot-password/"
-  sendMail(req, res, subject, link)
+  const subject = "What's In The Fridge Email Verification";
+  const link =
+    "https://white-stone-02cbbab1e.6.azurestaticapps.net/forgot-password/";
+  sendMail(req, res, subject, link);
 });
-
-
 
 /* -------------------- HOUSES -------------------- */
 //Add a house
