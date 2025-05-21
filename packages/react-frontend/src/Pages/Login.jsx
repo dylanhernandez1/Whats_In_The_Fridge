@@ -35,20 +35,12 @@ function Login() {
       });
   });
 
-  const ErrorList = [
-    "Email has been sent. Check your inbox or spam.",
-    "Email has been verified.",
-    "Token invalid. Please retry.",
-    "Forgot password request sent to your email.",
-    "Password successfully changed."
-  ];
-
   useEffect(() => {
     if (
       location.state !== undefined &&
       location.state !== null
     ) {
-      setError(ErrorList[location.state.id - 1]);
+      setError(location.state.id);
       navigate(location.pathname, { replace: true });
     }
   }, [location, navigate]);

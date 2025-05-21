@@ -28,19 +28,23 @@ function ForgotPasswordRequest() {
   });
 
   function SendPasswordRequest() {
-    const verifyPromise = fetch(`${URL}/verify-email`, {
+    const verifyPromise = fetch(`${URL}/forgot-password`, {
       method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        name: name,
         email: email
       })
     })
       .then(async (res) => {
         if (res.status == 201) {
+          navigate("/login", {
+            state: {
+              id: "Password forgot request sent to your email."
+            }
+          });
           console.log("Successfuly sent");
         } else if (res.status == 400) {
           const message = await res.text();
@@ -55,8 +59,6 @@ function ForgotPasswordRequest() {
       .catch((error) => {
         console.error("Error: ", error);
       });
-
-    navigate("/login", { state: { id: 4 } });
   }
 
   return (
@@ -90,7 +92,7 @@ function ForgotPasswordRequest() {
           <button
             id="request-password-request"
             className="primary-button"
-            onClick={SendPasswordRequest()}
+            onClick={(e) => SendPasswordRequest()}
           >
             Request Email Password Request
           </button>
