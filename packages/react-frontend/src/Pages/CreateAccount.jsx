@@ -63,19 +63,8 @@ function CreateAccountPage() {
     return true;
   }
 
-  function addUserToDatabase() {
-    const result = Validation();
-    if (result.bool == false) {
-      setButtonText(result.error);
-      setTimeout(() => {
-        setButtonText("Create Account");
-      }, 3000);
-      return false;
-    }
-
-    navigate("/login", { state: { id: 1 } });
-
-    const promise = fetch(`${URL}/verify-email`, {
+  function sendEmailVerification() {
+    const verifyPromise = fetch(`${URL}/verify-email`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -89,6 +78,47 @@ function CreateAccountPage() {
       .then(async (res) => {
         if (res.status == 201) {
           console.log("Successfuly sent");
+        } else if (res.status == 400) {
+          const message = await res.text();
+          setError(message);
+          console.log("400 error: " + message);
+        } else if (res.status == 409) {
+          const message = await res.text();
+          setError(message);
+          console.log("409 error: " + message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
+      });
+  }
+
+  function addUserToDatabase() {
+    const result = Validation();
+    if (result.bool == false) {
+      setButtonText(result.error);
+      setTimeout(() => {
+        setButtonText("Create Account");
+      }, 3000);
+      return false;
+    }
+
+    const createPromise = fetch(`${URL}/users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        password: password
+      })
+    })
+      .then(async (res) => {
+        if (res.status == 201) {
+          sendEmailVerification();
+          navigate("/login", { state: { id: 1 } });
+          console.log("Successful add");
         } else if (res.status == 400) {
           const message = await res.text();
           setError(message);
@@ -123,6 +153,7 @@ function CreateAccountPage() {
           food, get recipe suggestions, and create grocery
           lists. It's easy and free!
         </p>
+        {error && <div className="invalid">{error}</div>}
 
         <div>
           <label htmlFor="name">Username</label>
@@ -169,8 +200,6 @@ function CreateAccountPage() {
             {addButtonText}
           </button>
         </div>
-
-        {error && <div className="error-message">{error}</div>}
       </div>
     </div>
   );

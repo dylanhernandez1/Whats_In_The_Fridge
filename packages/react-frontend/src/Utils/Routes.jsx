@@ -7,6 +7,8 @@ import Food from "../Pages/Food.jsx";
 import Login from "../Pages/Login.jsx";
 import CreateAccount from "../Pages/CreateAccount.jsx";
 import VerifyAccount from "../Pages/VerifyAccount.jsx";
+import ForgotPassword from "../Pages/ForgotPassword.jsx";
+import ForgotPasswordRequest from "../Pages/ForgotPasswordRequest.jsx";
 
 export const routes = [
   {
@@ -48,6 +50,16 @@ export const routes = [
   {
     path: "/verify-email/:token",
     element: (props) => <VerifyAccount {...props} />,
+    protected: false
+  }, // No props for now
+  {
+    path: "/forgot-password",
+    element: (props) => <ForgotPassword {...props} />,
+    protected: false
+  }, // No props for now
+  {
+    path: "/",
+    element: (props) => <ForgotPasswordRequest {...props} />,
     protected: false
   } // No props for now
 ];
