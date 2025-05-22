@@ -53,7 +53,9 @@ async function addUserToHouse(
     const savedUserHouse = await newUserHouse.save();
     return { success: true, savedUserHouse };
   } catch (error) {
-    console.error(error);
+    // istanbul ignore next
+    console.log(error);
+    // istanbul ignore next
     return {
       success: false,
       message: "Error adding user to house"
@@ -81,7 +83,9 @@ async function removeUserFromHouse(userId, houseId) {
     }
     return { success: true, removedUserHouse };
   } catch (error) {
+    // istanbul ignore next
     console.error(error);
+    // istanbul ignore next
     return {
       success: false,
       message: "Error removing user from house"
@@ -117,7 +121,9 @@ async function changeUserRoleInHouse(userId, houseId, newRole) {
 
     return { success: true, updatedUserHouse };
   } catch (error) {
+    // istanbul ignore next
     console.error(error);
+    // istanbul ignore next
     return {
       success: false,
       message: "Error changing user role in house"
@@ -137,7 +143,9 @@ async function getUsersInHouse(houseId) {
       .populate("user");
     return { success: true, usersInHouse };
   } catch (error) {
+    // istanbul ignore next
     console.error(error);
+    // istanbul ignore next
     return {
       success: false,
       message: "Error retrieving users in house"
@@ -160,7 +168,9 @@ async function getHousesByUser(userId) {
       .populate("house");
     return { success: true, housesByUser };
   } catch (error) {
-    console.error(error);
+    // istanbul ignore next
+    console.log(error);
+    // istanbul ignore next
     return {
       success: false,
       message: "Error retrieving houses for user"

@@ -85,6 +85,7 @@ beforeEach(async () => {
 afterEach(async () => {
   await userModel.deleteMany();
   await houseModel.deleteMany();
+  await foodModel.deleteMany();
 });
 
 test("Getting Houses", async () => {
