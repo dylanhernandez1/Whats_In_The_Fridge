@@ -31,6 +31,7 @@ function Food() {
   const [location, setLocation] = useState("fridge");
   const [quantity, setQuantity] = useState(1);
   const [date, setDate] = useState(new Date());
+  const [foodImage, setFoodImage] = useState(undefined);
 
   const [addButtonText, setButtonText] = useState("Add");
 
@@ -68,6 +69,12 @@ function Food() {
     }
   }
 
+  // Set the image parameter of the food item, then add the food to the database
+  function setImage(imgURL) {
+    setFoodImage(imgURL);
+    addFoodToDatabase();
+  }
+
   async function addFoodToDatabase() {
     setButtonText("Adding...");
 
@@ -103,25 +110,36 @@ function Food() {
               FoodType: foodType,
               Location: location,
               Amount: quantity,
-              ExpirationDate: date
+              ExpirationDate: date,
+              FoodImage: foodImage
             })
           }
         )
           .then((res) => {
-            if (res.status == 201) {
+            // Status code for success but no content, meaning the post was successful to the database
+            if (res.status == 204) {
               setButtonText(`${foodName} added`);
+              // TODO: reset foodImage to undefined
               setTimeout(() => {
                 setButtonText("Add");
               }, 1000);
+              // Status code for success but with content, meaning there are images for the user to select from
+              // Enable the images popup and wait for the user to select
+            } else if (res.status == 200) {
+              res.json().then((json) => {
+                console.log(json);
+              });
             } else {
               setButtonText("Invalid date");
               setTimeout(() => {
                 setButtonText("Add");
               }, 2000);
             }
+            console.log();
           })
           .catch((error) => {
             setButtonText(`Unable to add ${foodName}`);
+            // TODO: reset foodImage to undefined
             setTimeout(() => {
               setButtonText("Add");
             }, 1000);
@@ -207,7 +225,13 @@ function Food() {
 
       <button
         className="add-button"
-        onClick={() => addFoodToDatabase()}
+        onClick={() => {
+          // Only run if the database isn't in the process of adding food
+          if (addButtonText !== "Add") {
+            return;
+          }
+          addFoodToDatabase();
+        }}
         style={{
           fontStretch: "ultra-condensed",
           color: "black"

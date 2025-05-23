@@ -11,6 +11,7 @@ import foodServices from "./food-services.js";
 import houseServices from "./house-services.js";
 import userHouseServices from "./UserHouse-services.js";
 import { GiConsoleController } from "react-icons/gi";
+import { createApi } from "unsplash-js";
 import nodemailer from "nodemailer";
 
 dotenv.config(); //Load dotenv
@@ -19,6 +20,10 @@ mongoose.set("debug", true);
 //Initialize app and users list
 const app = express();
 const port = 8000;
+// Move api key to .env folder after
+const unsplashApi = createApi({
+  accessKey: process.env.UNSPLASH_API_KEY
+})
 
 //For Cross-Origin Resource Sharing and json
 app.use(
@@ -264,6 +269,18 @@ app.get("/verify-email/:id", async (req, res) => {
   }
 });
 
+/* -------------------- IMAGE FETCH -------------------- */
+
+async function generateImages(foodName) {
+    // User hasn't been prompted to select the food item, so fetch images using the unsplash Api
+    console.log("Attempting fetch");
+    const promise = unsplashApi.photos.getRandom({
+      query: foodName,
+      count: 30
+    });
+    return promise
+}
+
 /* -------------------- HOUSES -------------------- */
 //Add a house
 app.post("/houses", authenticateUser, async (req, res) => {
@@ -322,20 +339,17 @@ app.get("/houses/:houseId", (req, res) => {
     });
 });
 
-//Add food to certain location in house
-app.post(
-  "/houses/:houseId/food/:location",
-  authenticateUser,
-  async (req, res) => {
-    const houseId = req.params.houseId;
-    const location = req.params.location;
-    const foodItem = req.body;
+async function addFoodToHouse(req, res) {
+  console.log("Adding food to the database");
+      const houseId = req.params.houseId;
+      const location = req.params.location;
+      const foodItem = req.body;
 
-    houseServices
+      houseServices
       .addFoodToHouse(houseId, location, foodItem)
       .then((result) => {
         if (result.success) {
-          res.status(201).send(result.savedFood);
+          res.status(204).send();
         } else {
           res.status(400).send(result.message);
         }
@@ -343,6 +357,36 @@ app.post(
       .catch((error) => {
         res.status(500).send(`Internal Server Error: ${error}`);
       });
+}
+
+//Add food to certain location in house
+app.post(
+  "/houses/:houseId/food/:location",
+  authenticateUser,
+  async (req, res) => {
+    const foodImage = req.body.FoodImage
+    if (foodImage !== undefined) {
+      addFoodToHouse(req, res);
+    } else {
+      const foodName = req.body.FoodName;
+      console.log(`Generating images for ${foodName}`);
+      generateImages(foodName)
+      .then((result) => {
+      // Some error with retrieving photos, so save the food item to the database instead (with no image)
+      if (result.errors) {
+        console.log(`Unsplash API error: ${result.errors[0]}`);
+        // Empty string refers to any food item that doesn't have an image selected
+        req.body.FoodImage = ""
+        addFoodToHouse(req, res);
+      } else {
+        res.status(200).send(result.response);
+      }
+      }).catch((error) => {
+        console.log(`Internal Server Error: ${error}`);
+        // Internal server error
+        res.status(500).send([{}, `Internal Server Error: ${error}`]);
+      });
+    }
   }
 );
 
@@ -500,8 +544,12 @@ function validateRes(res) {
 
 //Add food
 app.post("/food", (req, res) => {
-  const foodToAdd = req.body;
-  foodServices
+  const image = req.body.foodImage
+  if (image != undefined) {
+    console.log("Attempting add");
+    // User has selected an image (or not), so attempt to add the food to the database
+    const foodToAdd = req.body;
+    foodServices
     .addFood(foodToAdd)
     .then((result) => {
       if (result) res.status(201).send(result);
@@ -510,6 +558,9 @@ app.post("/food", (req, res) => {
     .catch((error) =>
       res.status(500).send(`Internal Server Error: ${error}`)
     );
+  } else {
+    // generate images
+  }
 });
 
 //Get all food
