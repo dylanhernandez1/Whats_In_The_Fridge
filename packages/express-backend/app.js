@@ -73,7 +73,9 @@ function authenticateUser(req, res, next) {
 app.post("/users", async (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !password || !email) {
-    res.status(400).send("Bad request: Invalid input data.");
+    return res
+      .status(400)
+      .send("Bad request: Invalid input data.");
   }
   try {
     const existingName = await userServices.getUsers({ name });
@@ -101,7 +103,7 @@ app.post("/users", async (req, res) => {
     console.log("JWT: ", token);
     res.status(201).send({ token });
   } catch (error) {
-    console.error("Error adding user:", error);
+    console.log("Error adding user:", error);
     res.status(500).send("Internal Server Error");
   }
 });
@@ -140,7 +142,7 @@ app.get("/user", authenticateUser, async (req, res) => {
       profileImage: user.profileImage
     });
   } catch (error) {
-    console.error("Error getting user:", error);
+    console.log("Error getting user:", error);
     res
       .status(500)
       .send(`Internal Server Error: ${error.message}`);
@@ -184,7 +186,7 @@ app.post("/login", async (req, res) => {
     const token = generateAccessToken(email);
     return res.status(200).send({ token });
   } catch (error) {
-    console.error("Login Error:", error);
+    console.log("Login Error:", error);
     res.status(500).send("Internal Server Error");
   }
 });
@@ -299,12 +301,12 @@ app.post("/forgot-password-change", async (req, res) => {
       console.log("JWT: ", token);
       res.status(201).send({ token });
     } else {
-      console.error("Error changing password error:", error);
+      console.log("Error changing password error:", error);
       res.status(500).send("Internal Server Error");
     }
     //HASH PASSWORD
   } catch (error) {
-    console.error("Error changing password error:", error);
+    console.log("Error changing password error:", error);
     res.status(500).send("Internal Server Error");
   }
 });
@@ -344,7 +346,7 @@ app.post("/houses", authenticateUser, async (req, res) => {
       userHouse
     });
   } catch (error) {
-    console.error("Error creating house:", error);
+    console.log("Error creating house:", error);
     res.status(500).send(`Internal Server Error: ${error}`);
   }
 });
@@ -435,7 +437,7 @@ app.patch(
 
       res.status(200).send(result);
     } catch (err) {
-      console.error("Error updating house:", err);
+      console.log("Error updating house:", err);
       res.status(500).send("Internal server error.");
     }
   }
@@ -514,34 +516,34 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
     emailToUse = requestedEmail;
   }
 
-  const user = await userServices.findUserByEmail(emailToUse); //Got userEmail from authentication
-  userHouseServices
-    .getHousesByUser(user._id)
-    .then(async (result) => {
-      if (!result.success)
-        return res.status(404).send(result.message);
+  try {
+    const user = await userServices.findUserByEmail(emailToUse);
+    const housesResult =
+      await userHouseServices.getHousesByUser(user._id);
 
-      let defaultHouse = null;
-      const defaultHouseId =
-        user.preferences?.get("defaultHouse");
+    if (!housesResult.success) {
+      return res.status(404).send(housesResult.message);
+    }
 
-      if (defaultHouseId) {
-        result =
-          await houseServices.findHouseById(defaultHouseId);
-        if (result.success) {
-          defaultHouse = result.house;
-        }
+    let defaultHouse = null;
+    const defaultHouseId =
+      user.preferences?.get("defaultHouse");
+
+    if (defaultHouseId) {
+      const defaultHouseResult =
+        await houseServices.findHouseById(defaultHouseId);
+      if (defaultHouseResult.success) {
+        defaultHouse = defaultHouseResult.house;
       }
+    }
 
-      // Send both default house (if present) and all houses
-      res.send({
-        housesByUser: result.housesByUser,
-        defaultHouse: defaultHouse
-      });
-    })
-    .catch((error) =>
-      res.status(500).send(`Internal Server Error: ${error}`)
-    );
+    res.send({
+      housesByUser: housesResult.housesByUser,
+      defaultHouse
+    });
+  } catch (error) {
+    res.status(500).send(`Internal Server Error: ${error}`);
+  }
 });
 
 /* -------------------- FOOD -------------------- */
