@@ -1,19 +1,19 @@
-import request from 'supertest';
-import mongoose from 'mongoose';
-import { MongoMemoryServer } from 'mongodb-memory-server';
-import dotenv from 'dotenv';
-import { app } from '../app.js';
-import userServices from '../user-services.js';
-import houseServices from '../house-services.js';
-import UserHouseServices from '../UserHouse-services.js';
-import foodServices from '../food-services.js';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import request from "supertest";
+import mongoose from "mongoose";
+import { MongoMemoryServer } from "mongodb-memory-server";
+import dotenv from "dotenv";
+import { app } from "../app.js";
+import userServices from "../user-services.js";
+import houseServices from "../house-services.js";
+import UserHouseServices from "../UserHouse-services.js";
+import foodServices from "../food-services.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
-jest.mock('../user-services.js');
-jest.mock('../house-services.js');
-jest.mock('../UserHouse-services.js');
-jest.mock('../food-services.js');
+jest.mock("../user-services.js");
+jest.mock("../house-services.js");
+jest.mock("../UserHouse-services.js");
+jest.mock("../food-services.js");
 
 dotenv.config();
 
@@ -25,14 +25,19 @@ const authToken = jwt.sign(
   { expiresIn: "1h" }
 );
 
-const sampleFood = { FoodName: "Apple", FoodType: "Fruit", expirationDate: "2025-06-01" };
-
+const sampleFood = {
+  FoodName: "Apple",
+  FoodType: "Fruit",
+  expirationDate: "2025-06-01"
+};
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
-  await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
+  await mongoose.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
 });
 
 afterEach(async () => {
@@ -63,7 +68,11 @@ describe("User Routes", () => {
 
       const res = await request(app)
         .post("/users")
-        .send({ name: "testuser", email: "test@example.com", password: "pass" });
+        .send({
+          name: "testuser",
+          email: "test@example.com",
+          password: "pass"
+        });
 
       console.log("TEST TOKEN: ", authToken);
 
@@ -74,11 +83,17 @@ describe("User Routes", () => {
     it("should return 409 if email already exists", async () => {
       userServices.getUsers
         .mockImplementationOnce(() => Promise.resolve(null)) // name check
-        .mockImplementationOnce(() => Promise.resolve({ email: "test@example.com" })); // email check
+        .mockImplementationOnce(() =>
+          Promise.resolve({ email: "test@example.com" })
+        ); // email check
 
       const res = await request(app)
         .post("/users")
-        .send({ name: "newuser", email: "test@example.com", password: "pass" });
+        .send({
+          name: "newuser",
+          email: "test@example.com",
+          password: "pass"
+        });
 
       expect(res.statusCode).toBe(409);
       expect(res.text).toBe("Email already in use");
@@ -90,12 +105,19 @@ describe("User Routes", () => {
 
       const res = await request(app)
         .post("/users")
-        .send({ name: "user", email: "user@test.com", password: "password" });
+        .send({
+          name: "user",
+          email: "user@test.com",
+          password: "password"
+        });
 
       expect(res.statusCode).toBe(201);
       expect(res.body.token).toBeDefined();
 
-      const decoded = jwt.verify(res.body.token, process.env.TOKEN_SECRET);
+      const decoded = jwt.verify(
+        res.body.token,
+        process.env.TOKEN_SECRET
+      );
       expect(decoded.email).toBe("user@test.com");
     });
   });
@@ -140,15 +162,22 @@ describe("User Routes", () => {
       expect(res.statusCode).toBe(200);
       expect(res.body.token).toBeDefined();
 
-      const decoded = jwt.verify(res.body.token, process.env.TOKEN_SECRET);
+      const decoded = jwt.verify(
+        res.body.token,
+        process.env.TOKEN_SECRET
+      );
       expect(decoded.email).toBe("valid@test.com");
     });
   });
 
   describe("GET /user", () => {
-    const token = jwt.sign({ email: "getme@test.com" }, process.env.TOKEN_SECRET, {
-      expiresIn: "600s"
-    });
+    const token = jwt.sign(
+      { email: "getme@test.com" },
+      process.env.TOKEN_SECRET,
+      {
+        expiresIn: "600s"
+      }
+    );
 
     it("should return 401 if token is missing", async () => {
       const res = await request(app).get("/user");
@@ -213,7 +242,11 @@ describe("User Routes", () => {
 it("should return 400 if password is too short", async () => {
   const res = await request(app)
     .post("/users")
-    .send({ name: "tiny123", email: "short@test.com", password: "123" });
+    .send({
+      name: "tiny123",
+      email: "short@test.com",
+      password: "123"
+    });
 
   expect(res.statusCode).toBe(409);
 });
@@ -246,7 +279,6 @@ it("should return empty array if no users in DB", async () => {
   expect(res.body.length).toBe(0);
 });
 
-
 describe("GET /houses/:houseId", () => {
   it("should return the house when found", async () => {
     const mockHouse = { _id: "house123", name: "Test House" };
@@ -268,7 +300,9 @@ describe("GET /houses/:houseId", () => {
   });
 
   it("should return 500 on service error", async () => {
-    houseServices.getHouseById.mockRejectedValue(new Error("DB Error"));
+    houseServices.getHouseById.mockRejectedValue(
+      new Error("DB Error")
+    );
 
     const res = await request(app).get("/houses/house123");
 
@@ -278,7 +312,6 @@ describe("GET /houses/:houseId", () => {
 });
 
 describe("POST /houses/:houseId/food/:location", () => {
-
   it("should add food successfully", async () => {
     const foodItem = { name: "Banana", quantity: 6 };
     const savedFood = { ...foodItem, _id: "food123" };
@@ -313,7 +346,9 @@ describe("POST /houses/:houseId/food/:location", () => {
   });
 
   it("should return 500 on service error", async () => {
-    houseServices.addFoodToHouse.mockRejectedValue(new Error("DB Error"));
+    houseServices.addFoodToHouse.mockRejectedValue(
+      new Error("DB Error")
+    );
 
     const res = await request(app)
       .post("/houses/house123/food/fridge")
@@ -326,7 +361,6 @@ describe("POST /houses/:houseId/food/:location", () => {
 });
 
 describe("GET /houses/:houseId/food/:location?", () => {
-
   it("should get food from a specific location", async () => {
     const foodItems = [{ name: "Apple" }];
     houseServices.getFoodFromHouse.mockResolvedValue({
@@ -372,7 +406,9 @@ describe("GET /houses/:houseId/food/:location?", () => {
   });
 
   it("should return 500 on error", async () => {
-    houseServices.getFoodFromHouse.mockRejectedValue(new Error("Error"));
+    houseServices.getFoodFromHouse.mockRejectedValue(
+      new Error("Error")
+    );
 
     const res = await request(app)
       .get("/houses/house123/food/pantry")
@@ -391,21 +427,27 @@ describe("Food Routes", () => {
   describe("POST /food", () => {
     it("should add food and return 201", async () => {
       foodServices.addFood.mockResolvedValue(sampleFood);
-      const res = await request(app).post("/food").send(sampleFood);
+      const res = await request(app)
+        .post("/food")
+        .send(sampleFood);
       expect(res.status).toBe(201);
       expect(res.body).toEqual(sampleFood);
     });
 
     it("should return 400 if addFood returns null", async () => {
       foodServices.addFood.mockResolvedValue(null);
-      const res = await request(app).post("/food").send(sampleFood);
+      const res = await request(app)
+        .post("/food")
+        .send(sampleFood);
       expect(res.status).toBe(400);
       expect(res.text).toBe("Invalid date");
     });
 
     it("should return 500 on server error", async () => {
       foodServices.addFood.mockRejectedValue("DB Error");
-      const res = await request(app).post("/food").send(sampleFood);
+      const res = await request(app)
+        .post("/food")
+        .send(sampleFood);
       expect(res.status).toBe(500);
       expect(res.text).toContain("Internal Server Error");
     });
@@ -443,7 +485,9 @@ describe("Food Routes", () => {
 
   describe("GET /expiring", () => {
     it("should return expiring food when authenticated", async () => {
-      foodServices.findFoodByExpiration.mockResolvedValue([sampleFood]);
+      foodServices.findFoodByExpiration.mockResolvedValue([
+        sampleFood
+      ]);
       const res = await request(app)
         .get("/expiring")
         .set("Authorization", `Bearer ${authToken}`);

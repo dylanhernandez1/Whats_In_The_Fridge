@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 const port = 8000;
 
-
 dotenv.config(); //Load dotenv
 
 mongoose.set("debug", true);
