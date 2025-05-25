@@ -282,27 +282,30 @@ app.post("/forgot-password", async (req, res) => {
 //FROM WHEN CREATING THE EMAIL SO STORE THAT AND SEND THAT WHEN DOING
 //THE PASSWORD CHANGE REQUEST
 
-app.post("/forgot-password-change", async (req, res) => {
-  const { name, email, password } = req.body;
-  if (!name || !password || !email) {
-    res.status(400).send("Bad request: Invalid input data.");
-  }
+app.post("/forgot-password-change/:token", async (req, res) => {
+  const decoded = jwt.verify(
+    req.params.token,
+    process.env.TOKEN_SECRET
+  );
+  const email = decoded.email.email;
+  const { password } = req.body;
   try {
-    const existingEmail = await userServices.getUsers({
-      email
-    });
+    const existingEmail =
+      await userServices.findUserByEmail(email);
     if (existingEmail) {
       const saltRounds = 10;
       const hashedPwd = await bcrypt.hash(password, saltRounds);
 
       existingEmail.password = hashedPwd;
+      await existingEmail.save();
 
       const token = generateAccessToken(email);
-      console.log("JWT: ", token);
       res.status(201).send({ token });
     } else {
-      console.log("Error changing password error:", error);
-      res.status(500).send("Internal Server Error");
+      console.log(
+        "Error: user not found when trying to change"
+      );
+      res.status(404).send("Internal Server Error");
     }
     //HASH PASSWORD
   } catch (error) {
