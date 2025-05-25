@@ -32,7 +32,6 @@ function Food() {
   const [location, setLocation] = useState("fridge");
   const [quantity, setQuantity] = useState(1);
   const [date, setDate] = useState(new Date());
-  const [foodImage, setFoodImage] = useState(undefined);
   const [imageList, setImageList] = useState(undefined);
 
   const [addButtonText, setButtonText] = useState("Add");
@@ -73,11 +72,11 @@ function Food() {
 
   // Set the image parameter of the food item, then add the food to the database
   function selectImage(imgURL) {
-    setFoodImage(imgURL);
-    addFoodToDatabase();
+    setImageList(undefined);
+    addFoodToDatabase(imgURL);
   }
 
-  async function addFoodToDatabase() {
+  async function addFoodToDatabase(foodImage) {
     setButtonText("Adding...");
 
     const token = localStorage.getItem("token");
@@ -238,7 +237,7 @@ function Food() {
           if (addButtonText !== "Add") {
             return;
           }
-          addFoodToDatabase();
+          addFoodToDatabase(undefined);
         }}
         style={{
           fontStretch: "ultra-condensed",

@@ -74,8 +74,16 @@ function FoodPopup({foodInfo, onDelete, onClose}) {
             quantity={info ? info.Amount : 0}
           />
           <PopupFooter
-            onUpdateQty={onUpdateQtyClicked}
-            onDelete={onDeleteClicked}
+            buttonList={[
+                {color: "green",
+                 text: "Update Qty",
+                 onClick: onUpdateQtyClicked
+                },
+                {color: "red",
+                 text: "Delete",
+                 onClick: onDeleteClicked
+                }
+            ]}
           />
         </div>
       </div>

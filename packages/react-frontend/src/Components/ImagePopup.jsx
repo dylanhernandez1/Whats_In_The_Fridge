@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import ExitButton from "./popup/ExitButton.jsx";
+import ImageDisplayer from "./popup/ImageDisplayer.jsx";
 import PopupFooter from "./popup/PopupFooter.jsx";
 import "./Popup.css";
 
-function ImagePopup({foodInfo, onDelete, onClose}) {
-    const [status, setStatus] = useState("popup-hidden");
+function ImagePopup({foodInfo, onDelete}) {
+  const [status, setStatus] = useState("popup-hidden");
+  const [displayedImage, setDisplayedImage] = useState("");
   const [info, setInfo] = useState(undefined);
 
   if (foodInfo === undefined && status !== "popup-hidden") {
@@ -15,18 +17,34 @@ function ImagePopup({foodInfo, onDelete, onClose}) {
     foodInfo !== undefined
   ) {
     setInfo(foodInfo);
+    if(foodInfo !== undefined && foodInfo.length > 0) {
+        const imageURL = foodInfo[0].urls.regular;
+        onThumbnailChange(imageURL);
+    } 
     setStatus("popup-active");
   }
 
-  /* The function to be called to close the popup.
-       Handles resetting the values to their original state 
-       when foodInfo is set to undefined in Home.jsx */
+  /* reset the popup to its default settings */
+  function closePopup() {
+    setDisplayedImage("");
+    setStatus("popup-hidden");
+  }
+
+  /* The function to be called to close the popup. */
+  /* return an empty string, meaning no selected image/url */
   function onCloseClicked() {
-    onClose();
+    onDelete("");
+    closePopup()
   }
 
   function onSelectClicked() {
-    onDelete(info._id);
+    const imageURL = displayedImage;
+    onDelete(imageURL);
+    closePopup()
+  }
+
+  function onThumbnailChange(imageURL) {
+    setDisplayedImage(imageURL);
   }
 
   return (
@@ -34,6 +52,15 @@ function ImagePopup({foodInfo, onDelete, onClose}) {
       <div className={`popup-frame-start`}>
         <div className="popup-frame-clip">
           <ExitButton onClick={onCloseClicked} />
+          <ImageDisplayer images={info} onThumbnailChange={onThumbnailChange}/>
+          <PopupFooter
+            buttonList={[
+                {color: "green",
+                 text: "Select",
+                 onClick: onSelectClicked
+                }
+            ]}
+            />
         </div>
       </div>
     </div>
