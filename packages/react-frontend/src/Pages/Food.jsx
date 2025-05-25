@@ -19,6 +19,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Toolbar from "../Components/Toolbar.jsx";
 import DatePicker from "react-datepicker";
+import Popup from "../Components/Popup.jsx";
 import "./Food_Styling.css";
 import "react-datepicker/dist/react-datepicker.css";
 import URL from "./Url";
@@ -32,6 +33,7 @@ function Food() {
   const [quantity, setQuantity] = useState(1);
   const [date, setDate] = useState(new Date());
   const [foodImage, setFoodImage] = useState(undefined);
+  const [imageList, setImageList] = useState(undefined);
 
   const [addButtonText, setButtonText] = useState("Add");
 
@@ -70,7 +72,7 @@ function Food() {
   }
 
   // Set the image parameter of the food item, then add the food to the database
-  function setImage(imgURL) {
+  function selectImage(imgURL) {
     setFoodImage(imgURL);
     addFoodToDatabase();
   }
@@ -127,6 +129,7 @@ function Food() {
               // Enable the images popup and wait for the user to select
             } else if (res.status == 200) {
               res.json().then((json) => {
+                setImageList(json);
                 console.log(json);
               });
             } else {
@@ -150,7 +153,12 @@ function Food() {
   }
 
   return (
-    <div className="food-container">
+    <div className="content-container-spaced">
+      <Popup 
+        popupType="ImagePopup"
+        foodInfo={imageList}
+        onDelete={selectImage}
+      />
       <Toolbar selected="Food" />
 
       {/* Back Button */}
