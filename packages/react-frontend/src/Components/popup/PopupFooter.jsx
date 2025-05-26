@@ -7,27 +7,19 @@ import "./PopupFooter.css";
     2) delete
    Button logic is handled in the footer
 */
-function PopupFooter({ onUpdateQty, onDelete }) {
-  function onUpdateClick() {
-    onUpdateQty();
-  }
 
-  function onDeleteClick() {
-    onDelete();
-  }
-
+function PopupFooter({ buttonList }) {
   return (
     <div className="popup-footer-container">
-      <PopupButton
-        buttonColor="green"
-        text="Update Qty"
-        onClick={onUpdateClick}
-      />
-      <PopupButton
-        buttonColor="red"
-        text="Delete"
-        onClick={onDeleteClick}
-      />
+      {buttonList?.map((button) => {
+          return (
+            <PopupButton
+              buttonColor={button.color}
+              text={button.text}
+              onClick={button.onClick}
+            />
+          );
+        })}
     </div>
   );
 }

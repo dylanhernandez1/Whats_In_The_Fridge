@@ -1,11 +1,9 @@
-.food-container {
+/* Add extra margin to the left of the content container */
+.content-container-spaced {
+  margin-left: 90px;
+  margin-right: 10px;
   display: flex;
   flex-direction: column;
-  align-items: left;
-  gap: 10px;
-  margin-left: 80px;
-  padding: 20px;
-  max-width: 100%;
 }
 
 .title {
@@ -28,6 +26,7 @@
 }
 
 .add-button {
+  margin-top: 10px;
   background-color: transparent;
   border-color: lightgrey;
   color: black;
@@ -50,8 +49,9 @@
 
 /* Mobile adjustments */
 @media (max-width: 600px) {
-  .food-container {
-    margin-left: 0px;
+    .content-container-spaced {
+    margin-left: 5px;
+    margin-right: 5px;
   }
 
   .back-button {

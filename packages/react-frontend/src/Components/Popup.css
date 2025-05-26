@@ -14,12 +14,15 @@
 }
 
 .popup-active {
-  position: relative;
+  position: absolute;
   display: flex;
-  flex-direction: row;
   justify-content: center;
-  width: 100%;
+  align-items: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   height: 0;
+  z-index: 999;
 }
 
 /* The following three css rules determine the sizing of the popup 

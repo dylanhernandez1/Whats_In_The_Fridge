@@ -1,0 +1,195 @@
+/* constants */
+/* variables */
+:root {
+  --transparency-none: 0.75;
+  --transparency-slight: 0.5;
+  --transparency-full: 0;
+
+  --size-tall: 30px;
+  --size-small: 20px;
+  --size-none: 0px;
+
+  --transition: 0.3s;
+}
+
+/* make all the navigator-icons a circle */
+.navigator-icon {
+  background-color: #ffffffc8;
+  border-radius: 50%;
+}
+
+/* make every navigator the same size 
+       the first three lines horizontally center the three elements */
+.navigator {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  bottom: 20%;
+  width: 190px;
+  height: 30px;
+}
+
+/* set the margin for all the individual elements since 
+       this won't change between different navigator positions */
+.navigate-left {
+  margin-left: 30px;
+}
+.navigate-right {
+  margin-right: 30px;
+}
+.navigate-center {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+/* css for center positoning */
+.navigator.center {
+  transform: translateX(0);
+}
+
+.navigator.center .navigator-icon.invis-left {
+  width: var(--size-none);
+  height: var(--size-none);
+}
+
+.navigator.center .navigator-icon.invis-right {
+  width: var(--size-none);
+  height: var(--size-none);
+}
+
+.navigator.center .navigator-icon.navigate-left {
+  width: var(--size-small);
+  height: var(--size-small);
+  opacity: var(--transparency-slight);
+  cursor: pointer;
+}
+
+.navigator.center .navigator-icon.navigate-right {
+  width: var(--size-small);
+  height: var(--size-small);
+  opacity: var(--transparency-slight);
+  cursor: pointer;
+}
+
+.navigator.center .navigator-icon.navigate-center {
+  width: var(--size-tall);
+  height: var(--size-tall);
+  opacity: var(--transparency-none);
+}
+
+/* css for left properties/animations */
+.navigator.left {
+  transform: translateX(0);
+  animation: slide-left var(--transition) forwards;
+}
+
+.navigator.left .navigator-icon.invis-left {
+  width: var(--size-none);
+  height: var(--size-none);
+  animation: to-none var(--transition) forwards;
+}
+
+.navigator.left .navigator-icon.invis-right {
+  width: var(--size-none);
+  height: var(--size-none);
+  opacity: var(--transparency-full);
+  animation: to-small var(--transition) forwards;
+}
+
+.navigator.left .navigator-icon.navigate-left {
+  width: var(--size-small);
+  height: var(--size-small);
+  opacity: var(--transparency-slight);
+  animation: to-none var(--transition) forwards;
+}
+
+.navigator.left .navigator-icon.navigate-right {
+  width: var(--size-small);
+  height: var(--size-small);
+  opacity: var(--transparency-slight);
+  animation: to-tall var(--transition) forwards;
+}
+
+.navigator.left .navigator-icon.navigate-center {
+  width: var(--size-tall);
+  height: var(--size-tall);
+  opacity: var(--transparency-none);
+  animation: to-small var(--transition) forwards;
+}
+
+/* css for right properties/animations */
+.navigator.right {
+  transform: translateX(0);
+  animation: slide-right var(--transition) forwards;
+}
+
+.navigator.right .navigator-icon.invis-left {
+  width: var(--size-none);
+  height: var(--size-none);
+  opacity: var(--transparency-full);
+  animation: to-small var(--transition) forwards;
+}
+
+.navigator.right .navigator-icon.invis-right {
+  width: var(--size-none);
+  height: var(--size-none);
+  animation: to-none var(--transition) forwards;
+}
+
+.navigator.right .navigator-icon.navigate-left {
+  width: var(--size-small);
+  height: var(--size-small);
+  opacity: var(--transparency-slight);
+  animation: to-tall var(--transition) forwards;
+}
+
+.navigator.right .navigator-icon.navigate-right {
+  width: var(--size-small);
+  height: var(--size-small);
+  opacity: var(--transparency-slight);
+  animation: to-none var(--transition) forwards;
+}
+
+.navigator.right .navigator-icon.navigate-center {
+  width: var(--size-tall);
+  height: var(--size-tall);
+  opacity: var(--transparency-none);
+  animation: to-small var(--transition) forwards;
+}
+
+/* animations */
+@keyframes slide-left {
+  100% {
+    transform: translateX(-30px);
+  }
+}
+
+@keyframes slide-right {
+  100% {
+    transform: translateX(30px);
+  }
+}
+
+@keyframes to-none {
+  100% {
+    width: var(--size-none);
+    height: var(--size-none);
+  }
+}
+
+@keyframes to-small {
+  100% {
+    width: var(--size-small);
+    height: var(--size-small);
+    opacity: var(--transparency-slight);
+  }
+}
+
+@keyframes to-tall {
+  100% {
+    width: var(--size-tall);
+    height: var(--size-tall);
+    opacity: var(--transparency-none);
+  }
+}
