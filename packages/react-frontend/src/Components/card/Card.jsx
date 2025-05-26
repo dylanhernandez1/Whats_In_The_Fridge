@@ -22,10 +22,13 @@ function Card({ itemInfo, onClick }) {
 
   const format = determineNameFormat();
 
-  return (
+  // if image URL is present
+  if(itemInfo.FoodImage && itemInfo.FoodImage !== "") {
+    return (
     <>
       <div className="card-container" onClick={onCardClick}>
-        <img className="card-img"></img>
+        <img className="card-img" src={itemInfo.FoodImage}></img>
+        <div className="card-background"></div>
         <div className="card-description">
           <div className="card-title">
             <b>{format}</b>
@@ -37,6 +40,22 @@ function Card({ itemInfo, onClick }) {
       </div>
     </>
   );
+  } else {
+    return (
+    <>
+      <div className="card-container" onClick={onCardClick}>
+        <div className="card-description">
+          <div className="card-title">
+            <b>{format}</b>
+          </div>
+          <ExpirationTag
+            daysRemaining={itemInfo.ExpirationDate}
+          />
+        </div>
+      </div>
+    </>
+  );
+  }
 }
 
 export default Card;

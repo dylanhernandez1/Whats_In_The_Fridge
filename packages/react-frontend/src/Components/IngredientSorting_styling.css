@@ -89,6 +89,7 @@ body {
   max-height: 50vh;
   overflow-y: auto;
   padding-right: 5px;
+  padding-top: 10px;
   scrollbar-width: thin;
 }
 
