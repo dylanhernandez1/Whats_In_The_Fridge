@@ -19,6 +19,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Toolbar from "../Components/Toolbar.jsx";
 import DatePicker from "react-datepicker";
+import Popup from "../Components/Popup.jsx";
 import "./Food_Styling.css";
 import "react-datepicker/dist/react-datepicker.css";
 import URL from "./Url";
@@ -31,6 +32,7 @@ function Food() {
   const [location, setLocation] = useState("fridge");
   const [quantity, setQuantity] = useState(1);
   const [date, setDate] = useState(new Date());
+  const [imageList, setImageList] = useState(undefined);
 
   const [addButtonText, setButtonText] = useState("Add");
 
@@ -68,7 +70,13 @@ function Food() {
     }
   }
 
-  async function addFoodToDatabase() {
+  // Set the image parameter of the food item, then add the food to the database
+  function selectImage(imgURL) {
+    setImageList(undefined);
+    addFoodToDatabase(imgURL);
+  }
+
+  async function addFoodToDatabase(foodImage) {
     setButtonText("Adding...");
 
     const token = localStorage.getItem("token");
@@ -103,25 +111,37 @@ function Food() {
               FoodType: foodType,
               Location: location,
               Amount: quantity,
-              ExpirationDate: date
+              ExpirationDate: date,
+              FoodImage: foodImage
             })
           }
         )
           .then((res) => {
-            if (res.status == 201) {
+            // Status code for success but no content, meaning the post was successful to the database
+            if (res.status == 204) {
               setButtonText(`${foodName} added`);
+              // TODO: reset foodImage to undefined
               setTimeout(() => {
                 setButtonText("Add");
               }, 1000);
+              // Status code for success but with content, meaning there are images for the user to select from
+              // Enable the images popup and wait for the user to select
+            } else if (res.status == 200) {
+              res.json().then((json) => {
+                setImageList(json);
+                console.log(json);
+              });
             } else {
               setButtonText("Invalid date");
               setTimeout(() => {
                 setButtonText("Add");
               }, 2000);
             }
+            console.log();
           })
           .catch((error) => {
             setButtonText(`Unable to add ${foodName}`);
+            // TODO: reset foodImage to undefined
             setTimeout(() => {
               setButtonText("Add");
             }, 1000);
@@ -132,7 +152,12 @@ function Food() {
   }
 
   return (
-    <div className="food-container">
+    <div className="content-container-spaced">
+      <Popup
+        popupType="ImagePopup"
+        foodInfo={imageList}
+        onDelete={selectImage}
+      />
       <Toolbar selected="Food" />
 
       {/* Back Button */}
@@ -207,7 +232,13 @@ function Food() {
 
       <button
         className="add-button"
-        onClick={() => addFoodToDatabase()}
+        onClick={() => {
+          // Only run if the database isn't in the process of adding food
+          if (addButtonText !== "Add") {
+            return;
+          }
+          addFoodToDatabase(undefined);
+        }}
         style={{
           fontStretch: "ultra-condensed",
           color: "black"

@@ -31,7 +31,6 @@ async function addUser(user) {
   const userModel = getDbConnection().model("User", UserSchema);
 
   if (!user.email || !user.name || !user.password) return false;
-
   if ((await getUsers({ email: user.email })) != null) {
     return {
       status: false,

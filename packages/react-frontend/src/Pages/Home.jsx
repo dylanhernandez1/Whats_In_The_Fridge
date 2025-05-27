@@ -279,6 +279,7 @@ function Home({}) {
         </header>
         <SearchBar onTextSubmit={handleSearchText} />
         <Popup
+          popupType="FoodPopup"
           foodInfo={foodInfo}
           onDelete={onDelete}
           onClose={onClose}

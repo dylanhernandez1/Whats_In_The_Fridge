@@ -51,20 +51,22 @@ function ForgotPassword() {
       return;
     }
 
-    console.log("Hey");
     const promise = fetch(
       `${URL}/forgot-password-change/${token}`,
       {
-        method: "GET",
+        method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json"
-        }
+        },
+        body: JSON.stringify({
+          password: password
+        })
       }
     )
       .then(async (res) => {
         console.log(res);
-        if (res.status === 200) {
+        if (res.status === 201) {
           navigate("/login", {
             state: { id: "Password successfully changed." }
           });
