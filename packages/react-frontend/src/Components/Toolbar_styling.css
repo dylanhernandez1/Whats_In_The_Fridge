@@ -13,7 +13,11 @@ body {
   top: 0;
   height: 100vh;
   width: 80px;
-  background: linear-gradient(var(--accent-blue), var(--accent-dark-blue), #00142a);
+  background: linear-gradient(
+    var(--accent-blue),
+    var(--accent-dark-blue),
+    #00142a
+  );
   border-right: 1px solid #aac0d4;
   display: flex;
   flex-direction: column; /* Stack buttons vertically */
@@ -27,7 +31,7 @@ body {
 
 /* Button styles */
 .toolbar button {
-  color:white;
+  color: white;
   display: flex;
   background: none;
   border: none;
