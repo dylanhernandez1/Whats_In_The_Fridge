@@ -1,3 +1,8 @@
+:root {
+  --accent-blue: #4a90e2;
+  --accent-dark-blue: #043369;
+}
+
 /* Add extra margin to the left of the content container */
 .content-container-spaced {
   margin-left: 90px;
@@ -15,7 +20,7 @@
 .search-bar-container-icon {
   margin-left: 10px;
   font-size: 24px; /* Adjust icon size */
-  color: #2e302b;
+  color: #1f2d3d;
   transition: color 0.3s ease-in-out;
 }
 
@@ -25,7 +30,7 @@
   display: flex;
   align-items: center;
   justify-content: left;
-  background-color: #f8f3f3;
+  background-color: #d2deec;
   border-radius: 5px;
   overflow: hidden;
 }
@@ -49,11 +54,11 @@
 }
 
 .search-bar-container button:hover {
-  background-color: #f0f0f0;
+  background-color: var(--accent-dark-blue);
 }
 
 .search-bar-container button:hover .icon {
-  color: #555;
+  color: #3b78c2;
 }
 
 /* Search bar input field */
@@ -66,7 +71,7 @@
   margin-top: 10px;
   padding: 6px;
   border: none;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid #aac0d4;
 }
 
 /* Header container adjustments */
@@ -79,6 +84,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
   justify-content: space-between;
+  color: var(--accent-dark-blue)
 }
 
 /* Notifications container */
@@ -89,27 +95,34 @@
 }
 
 .notifications-button {
+  background-color: white;
+  border: 1px solid #043369;
+  border-radius: 50%;
   margin-left: auto;
   background: none;
-  border: none;
+  border: var(--accent-dark-blue);
   cursor: pointer;
   padding: 10px;
 }
 
+button.notifications-button .icon {
+  fill: var(--accent-dark-blue);
+}
+
 .notifications-button:hover {
-  background-color: #f0f0f0;
+  background-color: #00428d;
 }
 
 .notifications-button:hover .icon {
-  color: #555;
+  color: var(--accent-dark-blue);
 }
 
 .notifications-dropdown {
   position: absolute;
   top: 110%;
   right: 0;
-  background-color: #fff;
-  border: 1px solid #ccc;
+  background-color: #dbe7f3;
+  border: 1px solid #aac0d4;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 220px;
@@ -133,31 +146,35 @@
   z-index: 2;
 }
 
+button.menu-button .icon {
+  fill: var(--accent-dark-blue);
+}
+
 .menu-item {
   outline-color: transparent;
   padding: 20px;
-  border-bottom: 1px solid #eee;
-  background-color: lightgray;
+  border-bottom: 1px solid #aac0d4;
+  background-color: #dbe7f3;
   font-size: 14px;
   text-align: center;
   margin-left: 10%;
   width: 80%;
-  color: #2e302b;
+  color: #1f2d3d;
 }
 
 .menu-item:hover {
   outline-color: transparent;
-  border-bottom: 1px solid #eee;
-  background-color: gray;
+  border-bottom: 1px solid #aac0d4;
+  background-color: var(--accent-blue);
   width: 80%;
-  color: #2e302b;
+  color: white;
 }
 
 .notification-item {
   padding: 8px 12px;
   border-bottom: 1px solid #eee;
   font-size: 14px;
-  color: #2e302b;
+  color: #5a6b7d;
 }
 
 .notification-item:last-child {

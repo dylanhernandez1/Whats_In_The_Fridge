@@ -1,6 +1,6 @@
 :root {
-  --light-green: #94d15d;
-  --dark-green: #99c420;
+  --accent-blue: #4a90e2;
+  --accent-dark-blue: #043369;
 }
 
 .ingredient-button-white {
@@ -11,7 +11,8 @@
   border-radius: 60px;
   white-space: nowrap;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  color: rgb(209, 209, 209);
+  color: white;
+  background-color: var(--accent-dark-blue);
   transition: all 0.3s ease-out;
   z-index: 1;
 }
@@ -25,9 +26,10 @@
   white-space: nowrap;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   color: white;
+  background-color: white;
   background-image: linear-gradient(
-    var(--light-green),
-    var(--dark-green)
+    var(--accent-blue),
+    var(--accent-dark-blue)
   );
   transition: all 0.3s ease-out;
   z-index: 1;
@@ -41,7 +43,8 @@
   border-radius: 60px;
   white-space: nowrap;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  color: rgb(209, 209, 209);
+  color: white;
+  background-color: var(--accent-blue);
   transition: all 0.3s ease-out;
   z-index: 1;
 }
@@ -56,8 +59,8 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   color: white;
   background-image: linear-gradient(
-    var(--light-green),
-    var(--dark-green)
+    var(--accent-blue),
+    var(--accent-dark-blue)
   );
   transition: all 0.3s ease-out;
   z-index: 1;
@@ -80,7 +83,7 @@
 
 .ingredient-button-white:hover {
   transform: translateY(-5px);
-  color: white;
+  color: var(--accent-dark-blue);
   z-index: 1;
 }
 

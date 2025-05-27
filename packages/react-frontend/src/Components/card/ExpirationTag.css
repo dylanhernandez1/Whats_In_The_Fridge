@@ -3,6 +3,8 @@
   --dark-green: #99c420;
   --light-red: #ff5635;
   --dark-red: rgb(229, 0, 0);
+  --accent-blue: #4a90e2;
+  --accent-dark-blue: #043369;
 }
 
 .expiration-tag {

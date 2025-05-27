@@ -1,8 +1,10 @@
 :root {
   --light-green: #94d15d;
   --dark-green: #99c420;
-  --light-red: #ff5635;
-  --dark-red: rgb(229, 0, 0);
+  --light-red: #ea7a7a;
+  --dark-red: rgb(143, 0, 0);
+  --accent-blue: #4a90e2;
+  --accent-dark-blue: #043369;
 }
 
 .popup-button {
@@ -22,8 +24,8 @@
 
 .green {
   background-image: linear-gradient(
-    var(--light-green),
-    var(--dark-green)
+    var(--accent-blue),
+    var(--accent-dark-blue)
   );
 }
 

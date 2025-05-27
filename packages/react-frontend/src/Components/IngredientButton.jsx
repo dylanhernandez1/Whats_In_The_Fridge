@@ -1,12 +1,12 @@
 import React from "react";
-import Fruit from "../Assets/Fruit.png";
-import Vegetable from "../Assets/Vegetable.png";
-import Dairy from "../Assets/Dairy.png";
-import Protein from "../Assets/Protein.png";
-import FatsAndOils from "../Assets/Fats & Oils.png";
-import Grains from "../Assets/Grains.png";
-import SugarsAndSweets from "../Assets/Sugars & Sweets.png";
-import Drinks from "../Assets/Drinks.png";
+import Fruit from "../Assets/FruitWhite.png";
+import Vegetable from "../Assets/VegetableWhite.png";
+import Dairy from "../Assets/DairyWhite.png";
+import Protein from "../Assets/ProteinWhite.png";
+import FatsAndOils from "../Assets/Fats & OilsWhite.png";
+import Grains from "../Assets/GrainsWhite.png";
+import SugarsAndSweets from "../Assets/Sugars & SweetsWhite.png";
+import Drinks from "../Assets/DrinksWhite.png";
 import SideDecor from "../Assets/PopupSideDecoration.png";
 import "./IngredientButton.css";
 

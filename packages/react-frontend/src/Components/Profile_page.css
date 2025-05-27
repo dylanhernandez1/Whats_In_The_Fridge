@@ -1,3 +1,8 @@
+:root {
+  --accent-blue: #4a90e2;
+  --accent-dark-blue: #043369;
+}
+
 /* Add extra margin to the left of the content container */
 .content-container-spaced {
   margin-left: 90px;
@@ -35,11 +40,15 @@
 }
 
 .log-out {
-  background-color: #f9f9f9;
+  background-color: var(--accent-blue);
   border-radius: 10px;
   border: transparent;
   font-size: 16px;
   line-height: 1.6;
+}
+
+.log-out:hover {
+  background-color: var(--accent-dark-blue);
 }
 
 .user-header {
@@ -121,7 +130,7 @@
 
 /* Add House button style */
 .add-house-button {
-  background-color: #4caf50;
+  background-color: var(--accent-blue);
   color: white;
   font-size: 16px;
   padding: 10px 20px;
@@ -132,7 +141,7 @@
 }
 
 .add-house-button:hover {
-  background-color: #45a049;
+  background-color: var(--accent-dark-blue);
 }
 
 /* Improve mobile layout */
