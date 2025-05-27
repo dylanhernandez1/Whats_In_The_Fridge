@@ -1,0 +1,51 @@
+.content-container-spaced {
+  margin-left: 90px;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 10px;
+  font-stretch: ultra-condensed;
+}
+
+.suggest-button {
+  width: fit-content; /* Make it only as wide as its content */
+  padding: 10px 20px; /* Add some space inside */
+  background-color: #4a90e2; /* Change to your preferred color */
+  color: white; /* Text color */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Cursor effect */
+  font-size: 16px;
+  margin: 10px auto; /* Center the button horizontally */
+  display: block;
+  transition: background-color 0.3s;
+}
+
+.suggest-button:hover {
+  background-color: #043369; /* Slightly darker on hover */
+}
+
+.result-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.error-message {
+  color: red;
+}
+
+.recipe-result {
+  margin-top: 15px;
+}
+
+@media (max-width: 600px) {
+  .content-container-spaced {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+}
