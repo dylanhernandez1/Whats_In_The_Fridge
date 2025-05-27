@@ -12,14 +12,14 @@ function PopupFooter({ buttonList }) {
   return (
     <div className="popup-footer-container">
       {buttonList?.map((button) => {
-          return (
-            <PopupButton
-              buttonColor={button.color}
-              text={button.text}
-              onClick={button.onClick}
-            />
-          );
-        })}
+        return (
+          <PopupButton
+            buttonColor={button.color}
+            text={button.text}
+            onClick={button.onClick}
+          />
+        );
+      })}
     </div>
   );
 }

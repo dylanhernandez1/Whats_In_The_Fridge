@@ -4,7 +4,7 @@ import ImageDisplayer from "./popup/ImageDisplayer.jsx";
 import PopupFooter from "./popup/PopupFooter.jsx";
 import "./Popup.css";
 
-function ImagePopup({foodInfo, onDelete}) {
+function ImagePopup({ foodInfo, onDelete }) {
   const [status, setStatus] = useState("popup-hidden");
   const [displayedImage, setDisplayedImage] = useState("");
   const [info, setInfo] = useState(undefined);
@@ -17,10 +17,10 @@ function ImagePopup({foodInfo, onDelete}) {
     foodInfo !== undefined
   ) {
     setInfo(foodInfo);
-    if(foodInfo !== undefined && foodInfo.length > 0) {
-        const imageURL = foodInfo[0].urls.regular;
-        onThumbnailChange(imageURL);
-    } 
+    if (foodInfo !== undefined && foodInfo.length > 0) {
+      const imageURL = foodInfo[0].urls.regular;
+      onThumbnailChange(imageURL);
+    }
     setStatus("popup-active");
   }
 
@@ -34,13 +34,13 @@ function ImagePopup({foodInfo, onDelete}) {
   /* return an empty string, meaning no selected image/url */
   function onCloseClicked() {
     onDelete("");
-    closePopup()
+    closePopup();
   }
 
   function onSelectClicked() {
     const imageURL = displayedImage;
     onDelete(imageURL);
-    closePopup()
+    closePopup();
   }
 
   function onThumbnailChange(imageURL) {
@@ -52,15 +52,19 @@ function ImagePopup({foodInfo, onDelete}) {
       <div className={`popup-frame-start`}>
         <div className="popup-frame-clip">
           <ExitButton onClick={onCloseClicked} />
-          <ImageDisplayer images={info} onThumbnailChange={onThumbnailChange}/>
+          <ImageDisplayer
+            images={info}
+            onThumbnailChange={onThumbnailChange}
+          />
           <PopupFooter
             buttonList={[
-                {color: "green",
-                 text: "Select",
-                 onClick: onSelectClicked
-                }
+              {
+                color: "green",
+                text: "Select",
+                onClick: onSelectClicked
+              }
             ]}
-            />
+          />
         </div>
       </div>
     </div>

@@ -23,38 +23,41 @@ function Card({ itemInfo, onClick }) {
   const format = determineNameFormat();
 
   // if image URL is present
-  if(itemInfo.FoodImage && itemInfo.FoodImage !== "") {
+  if (itemInfo.FoodImage && itemInfo.FoodImage !== "") {
     return (
-    <>
-      <div className="card-container" onClick={onCardClick}>
-        <img className="card-img" src={itemInfo.FoodImage}></img>
-        <div className="card-background"></div>
-        <div className="card-description">
-          <div className="card-title">
-            <b>{format}</b>
+      <>
+        <div className="card-container" onClick={onCardClick}>
+          <img
+            className="card-img"
+            src={itemInfo.FoodImage}
+          ></img>
+          <div className="card-background"></div>
+          <div className="card-description">
+            <div className="card-title">
+              <b>{format}</b>
+            </div>
+            <ExpirationTag
+              daysRemaining={itemInfo.ExpirationDate}
+            />
           </div>
-          <ExpirationTag
-            daysRemaining={itemInfo.ExpirationDate}
-          />
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
   } else {
     return (
-    <>
-      <div className="card-container" onClick={onCardClick}>
-        <div className="card-description">
-          <div className="card-title">
-            <b>{format}</b>
+      <>
+        <div className="card-container" onClick={onCardClick}>
+          <div className="card-description">
+            <div className="card-title">
+              <b>{format}</b>
+            </div>
+            <ExpirationTag
+              daysRemaining={itemInfo.ExpirationDate}
+            />
           </div>
-          <ExpirationTag
-            daysRemaining={itemInfo.ExpirationDate}
-          />
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
   }
 }
 

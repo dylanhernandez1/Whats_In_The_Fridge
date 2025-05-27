@@ -153,7 +153,7 @@ function Food() {
 
   return (
     <div className="content-container-spaced">
-      <Popup 
+      <Popup
         popupType="ImagePopup"
         foodInfo={imageList}
         onDelete={selectImage}

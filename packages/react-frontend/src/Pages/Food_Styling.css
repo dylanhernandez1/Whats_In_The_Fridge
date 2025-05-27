@@ -49,7 +49,7 @@
 
 /* Mobile adjustments */
 @media (max-width: 600px) {
-    .content-container-spaced {
+  .content-container-spaced {
     margin-left: 5px;
     margin-right: 5px;
   }

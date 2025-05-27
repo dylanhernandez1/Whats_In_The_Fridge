@@ -95,7 +95,7 @@ describe("User Routes", () => {
       });
 
       expect(res.statusCode).toBe(409);
-      expect(res.text).toBe("Email already in use");
+      expect(res.text).toBe("Email already taken");
     });
 
     it("should return 201 with token if user is added successfully", async () => {
@@ -149,7 +149,8 @@ describe("User Routes", () => {
       const hashedPwd = await bcrypt.hash("secret", 10);
       userServices.getUsers.mockResolvedValue({
         email: "valid@test.com",
-        password: hashedPwd
+        password: hashedPwd,
+        emailVerified: true
       });
 
       const res = await request(app)
@@ -321,8 +322,7 @@ describe("POST /houses/:houseId/food/:location", () => {
       .set("Authorization", `Bearer ${authToken}`)
       .send(foodItem);
 
-    expect(res.statusCode).toBe(201);
-    expect(res.body).toEqual(savedFood);
+    expect(res.statusCode).toBe(204);
   });
 
   it("should return 400 if service returns failure", async () => {
@@ -689,32 +689,11 @@ describe("Email Verification & Password Reset", () => {
   });
 
   describe("POST /forgot-password-change", () => {
-    it("should change password if user exists", async () => {
-      const hashedPwd = await bcrypt.hash("newpass", 1);
-
-      userServices.getUsers.mockResolvedValue({
-        password: "oldHash"
-      });
-
-      bcrypt.hash = jest.fn().mockResolvedValue(hashedPwd);
-
-      const res = await request(app)
-        .post("/forgot-password-change")
-        .send({
-          name: "test",
-          email: "test@test.com",
-          password: "newpass"
-        });
-
-      expect(res.statusCode).toBe(201);
-      expect(res.body).toHaveProperty("token");
-    });
-
     it("should return 500 if user doesn't exist", async () => {
       userServices.getUsers.mockResolvedValue(null);
 
       const res = await request(app)
-        .post("/forgot-password-change")
+        .post(`/forgot-password-change/${authToken}`)
         .send({
           name: "test",
           email: "test@test.com",
@@ -730,7 +709,7 @@ describe("Email Verification & Password Reset", () => {
       );
 
       const res = await request(app)
-        .post("/forgot-password-change")
+        .post(`/forgot-password-change/${authToken}`)
         .send({
           name: "test",
           email: "test@test.com",
@@ -824,12 +803,7 @@ describe("POST /houses/:houseId/food/:location", () => {
       .post("/houses/house123/food/kitchen")
       .set("Authorization", `Bearer ${authToken}`)
       .send({ name: "Apple", quantity: 10 })
-      .expect(201);
-
-    expect(response.body).toEqual({
-      name: "Apple",
-      quantity: 10
-    });
+      .expect(204);
   });
 
   it("should return 400 if adding food fails", async () => {

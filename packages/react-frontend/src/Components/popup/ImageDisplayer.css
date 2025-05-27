@@ -1,13 +1,13 @@
 .image-displayer-container {
-    display: flex;
-    width: 280px;
-    height: 270px;
-    justify-content: center;
+  display: flex;
+  width: 280px;
+  height: 270px;
+  justify-content: center;
 }
 
 .image-displayer {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

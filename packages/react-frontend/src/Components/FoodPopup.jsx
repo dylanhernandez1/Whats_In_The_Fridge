@@ -6,8 +6,8 @@ import PopupFooter from "./popup/PopupFooter.jsx";
 import Incrementor from "./popup/Incrementor.jsx";
 import "./Popup.css";
 
-function FoodPopup({foodInfo, onDelete, onClose}) {
-    const [status, setStatus] = useState("popup-hidden");
+function FoodPopup({ foodInfo, onDelete, onClose }) {
+  const [status, setStatus] = useState("popup-hidden");
   const [info, setInfo] = useState(undefined);
   const [size, setSize] = useState("start");
 
@@ -75,14 +75,16 @@ function FoodPopup({foodInfo, onDelete, onClose}) {
           />
           <PopupFooter
             buttonList={[
-                {color: "green",
-                 text: "Update Qty",
-                 onClick: onUpdateQtyClicked
-                },
-                {color: "red",
-                 text: "Delete",
-                 onClick: onDeleteClicked
-                }
+              {
+                color: "green",
+                text: "Update Qty",
+                onClick: onUpdateQtyClicked
+              },
+              {
+                color: "red",
+                text: "Delete",
+                onClick: onDeleteClicked
+              }
             ]}
           />
         </div>

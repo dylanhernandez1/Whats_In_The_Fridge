@@ -2,15 +2,15 @@ import FoodPopup from "./FoodPopup.jsx";
 import ImagePopup from "./ImagePopup.jsx";
 
 function Popup({ popupType, foodInfo, onDelete, onClose }) {
-  if(popupType === "FoodPopup") {
+  if (popupType === "FoodPopup") {
     return (
-      <FoodPopup 
+      <FoodPopup
         foodInfo={foodInfo}
         onDelete={onDelete}
-        onClose={onClose}    
+        onClose={onClose}
       />
     );
-  } else if(popupType === "ImagePopup") {
+  } else if (popupType === "ImagePopup") {
     return (
       <ImagePopup
         foodInfo={foodInfo}
@@ -18,7 +18,7 @@ function Popup({ popupType, foodInfo, onDelete, onClose }) {
         onClose={onClose}
       />
     );
-  };
+  }
 }
 
 export default Popup;
