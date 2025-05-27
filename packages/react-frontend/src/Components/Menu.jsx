@@ -49,41 +49,42 @@ function Menu({ onMenuSwitch }) {
   }
 
   return (
-    <div className="">
-      <button
-        onClick={() => setShow(!show)}
-        style={{ backgroundColor: "transparent", border: 0 }}
-      >
-        <FaBars className="icon" />
-        <span className="button-text"></span>
-      </button>
-      {show && (
-        <div className="menu-dropdown">
-          <button
-            className="menu-item"
-            style={{ border: 0 }}
-            onClick={() => setCurrentContainer("Fridge")}
-          >
-            Fridge
-          </button>
-          <button
-            className="menu-item"
-            style={{ border: 0 }}
-            onClick={() => setCurrentContainer("Freezer")}
-          >
-            Freezer
-          </button>
-          <button
-            className="menu-item"
-            style={{ border: 0 }}
-            onClick={() => setCurrentContainer("Pantry")}
-          >
-            Pantry
-          </button>
-        </div>
-      )}
-    </div>
-  );
+  <div>
+    <button
+      className="menu-button"
+      onClick={() => setShow(!show)}
+      style={{ backgroundColor: "transparent", border: 0 }}
+    >
+      <FaBars className="icon" />
+      <span className="button-text"></span>
+    </button>
+    {show && (
+      <div className="menu-dropdown">
+        <button
+          className="menu-item"
+          style={{ border: 0 }}
+          onClick={() => setCurrentContainer("Fridge")}
+        >
+          Fridge
+        </button>
+        <button
+          className="menu-item"
+          style={{ border: 0 }}
+          onClick={() => setCurrentContainer("Freezer")}
+        >
+          Freezer
+        </button>
+        <button
+          className="menu-item"
+          style={{ border: 0 }}
+          onClick={() => setCurrentContainer("Pantry")}
+        >
+          Pantry
+        </button>
+      </div>
+    )}
+  </div>
+);
 }
 
 export default Menu;

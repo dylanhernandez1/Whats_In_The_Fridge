@@ -1,6 +1,6 @@
 :root {
-  --light-green: #94d15d;
-  --dark-green: #99c420;
+  --accent-blue: #4a90e2;
+  --accent-dark-blue: #043369;
 }
 
 body {
@@ -13,8 +13,8 @@ body {
   top: 0;
   height: 100vh;
   width: 80px;
-  background-color: white;
-  border-right: 1px solid #ccc;
+  background: linear-gradient(var(--accent-blue), var(--accent-dark-blue), #00142a);
+  border-right: 1px solid #aac0d4;
   display: flex;
   flex-direction: column; /* Stack buttons vertically */
   align-items: center;
@@ -27,6 +27,7 @@ body {
 
 /* Button styles */
 .toolbar button {
+  color:white;
   display: flex;
   background: none;
   border: none;
@@ -43,36 +44,37 @@ body {
 /* Icon styles */
 .icon {
   font-size: 24px; /* Adjust icon size */
-  color: #2e302b;
+  /*color: white;*/
+  fill: white;
   transition: color 0.3s ease-in-out;
 }
 
 /* Hover effect */
 /* background-color: #f0f0f0; */
 .toolbar button:hover {
-  background-color: #94d15d;
+  background-color: var(--accent-blue);
   border: 0;
 }
 
 .toolbar button:hover .icon {
-  color: white; /* Darker icon on hover */
+  color: white;
 }
 
 .toolbar button:hover .button-text {
-  color: White;
+  color: white;
 }
 
 /* Button text */
 .button-text {
   font-size: 12px;
   margin-top: 5px;
-  color: #2e302b;
+  color: #ffffff;
   transition: color 0.3s ease-in-out;
 }
 
 /* Selected button style */
 .toolbar button.selected {
-  background-color: #94d15d;
+  background-color: var(--accent-dark-blue);
   border: 0;
 }
 
@@ -93,7 +95,7 @@ body {
     bottom: 0;
     top: auto;
     border-right: none;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #ffffff;
     justify-content: space-around; /* Even spacing between icons */
     padding: 0;
     z-index: 999;

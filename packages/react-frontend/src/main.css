@@ -383,8 +383,8 @@ html {
 }
 
 body {
-  color: #404040;
-  background: white;
+  color: #1f2d3d;
+  background: #e9f4fb;
   font-size: 1rem;
 }
 
@@ -419,7 +419,7 @@ h5 {
     Arial,
     sans-serif;
   line-height: 1.2;
-  color: #404040;
+  color: #1f2d3d;
 }
 
 h1:not(:first-child),
@@ -480,19 +480,19 @@ h5 {
 }
 
 a {
-  color: #0366ee;
+  color: #4a90e2;
   text-decoration: none;
 }
 
 a:hover,
 a:active,
 a:focus {
-  color: #0246a2;
+  color: #3b78c2;
   text-decoration: underline;
 }
 
 mark {
-  background: #ffeea8;
+  background: #3b78c2;
   padding: 0 0.2rem;
 }
 
@@ -833,8 +833,8 @@ button:hover,
 [type="submit"]:hover,
 [type="reset"]:hover,
 [type="button"]:hover {
-  border: 1px solid #0250bc;
-  background: #0250bc;
+  border: 1px solid #3b78c2;
+  background: #3b78c2;
   color: #ffffff;
   text-decoration: none;
 }
@@ -870,8 +870,8 @@ button::-moz-focus-inner,
 .accent-button,
 a.accent-button {
   color: #ffffff;
-  border: 1px solid #29de7d;
-  background: #29de7d;
+  border: 1px solid #aac0d4;
+  background: #4a90e2;
 }
 
 .accent-button:hover,
@@ -881,15 +881,15 @@ a.accent-button:hover,
 a.accent-button:focus,
 a.accent-button:active {
   color: #ffffff;
-  border: 1px solid #1cb864;
-  background: #1cb864;
+  border: 1px solid #aac0d4;
+  background: #3b78c2;
 }
 
 .muted-button,
 a.muted-button {
   background: transparent;
-  border: 1px solid #cdcdcd;
-  color: #4e4e4e;
+  border: 1px solid #aac0d4;
+  color: #5a6b7d;
 }
 
 .muted-button:hover,
@@ -1135,7 +1135,7 @@ caption {
 }
 
 .striped-table tbody tr:nth-child(odd) {
-  background-color: #f8f8f8;
+  background-color: #dbe7f3;
 }
 
 .contain-table {

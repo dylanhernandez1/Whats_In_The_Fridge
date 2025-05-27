@@ -274,7 +274,7 @@ function Home({}) {
       <div className="content-container-spaced">
         <header className="header-container">
           <Menu onMenuSwitch={handleMenuSwitch} />
-          <b>What's In My Fridge?</b>
+          <b>What's In The Fridge?</b>
           <Notifications foodList={foodList} />
         </header>
         <SearchBar onTextSubmit={handleSearchText} />

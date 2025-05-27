@@ -49,20 +49,20 @@ body {
   border: none;
   margin: 0;
   cursor: pointer;
-  background-color: #7a7878;
+  background-color: #5a6b7d;
   border-radius: 0px;
   transition: background-color 0.3s ease;
   white-space: nowrap;
 }
 
 .ingredient-categories button.active {
-  background-color: #64b8d7;
+  background-color: #4a90e2;
   color: white;
   border: 0;
 }
 
 .ingredient-categories button:hover {
-  background-color: #64b8e9;
+  background-color: #3b78c2;
   border: 0;
 }
 
@@ -95,17 +95,17 @@ body {
 /* Ingredient Items */
 .ingredient-item {
   padding: 12px;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #aac0d4;
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   text-align: center;
   font-size: 16px;
-  color: #2e302b;
+  color: #1f2d3d;
 }
 
 /* Empty State */
 .no-ingredients {
-  color: #7c7c7c;
+  color: #5a6b7d;
   padding: 16px;
   font-style: italic;
   text-align: center;

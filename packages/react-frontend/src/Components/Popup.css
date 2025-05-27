@@ -33,9 +33,9 @@
   width: var(--width);
   height: var(--original-height);
   margin-top: 25px;
-  background-color: white;
+  background-color: var(--popup-bg, #f9f9f9);
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   z-index: 999;
 }
 
@@ -46,9 +46,9 @@
   width: var(--width);
   height: var(--expanded-height);
   margin-top: 25px;
-  background-color: white;
+  background-color: var(--popup-bg, #f9f9f9);
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   z-index: 999;
   animation: to-original-height var(--transition-time) forwards;
 }
@@ -60,9 +60,9 @@
   width: var(--width);
   height: var(--original-height);
   margin-top: 25px;
-  background-color: white;
+  background-color: var(--popup-bg, #f9f9f9);
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   z-index: 999;
   animation: to-expanded-height var(--transition-time) forwards;
 }
