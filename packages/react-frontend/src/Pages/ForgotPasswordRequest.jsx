@@ -42,7 +42,7 @@ function ForgotPasswordRequest() {
         if (res.status == 201) {
           navigate("/login", {
             state: {
-              id: "Password forgot request sent to your email."
+              id: "Password request sent to your email."
             }
           });
           console.log("Successfuly sent");

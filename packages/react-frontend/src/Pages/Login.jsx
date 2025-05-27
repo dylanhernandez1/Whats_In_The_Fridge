@@ -66,7 +66,7 @@ function Login() {
         navigate("/");
       } else if (res.status === 401) {
         setError("Invalid email or password.");
-      } else if (res.status === 402) {
+      } else if (res.status === 403) {
         setError("Email not verified.");
       } else {
         console.error("Error during login:", error);
