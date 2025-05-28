@@ -39,6 +39,41 @@ describe("Add new user", () => {
     });
   });
 
+  context("Unsuccessful post -- user already exists", () => {
+    it("GIVEN I navigate to the create account page", () => {});
+
+    it("WHEN I enter valid user information (but the username already exists) and click create account button", () => {
+      cy.visit(`${FRONTEND_URL}/create-account`);
+      cy.intercept("POST", `${BACKEND_URL}/users`).as(
+        "addUser"
+      );
+      cy.get("#username-field").type(
+        "uniqueUserNameForThisAPPTEST123"
+      );
+      cy.get("#email-field").type(
+        "whateve23094324r@example.com"
+      );
+      cy.get("#password-field").type("password123!");
+      cy.get("#create-account").click();
+      cy.wait("@addUser");
+
+      cy.get(".invalid").should(
+        "contain",
+        "Username already taken"
+      );
+    });
+
+    it("THEN error message is set to 'Username already taken'\nAND user is not added to the database", () => {
+      cy.request({
+        url: `${BACKEND_URL}/users?email=whateve23094324r@example.com`,
+        failOnStatusCode: false
+      }).then((response) => {
+        assert.equal(response.status, 404);
+        assert.equal(response.body, "Resource not found.");
+      });
+    });
+  });
+
   after(() => {
     cy.request(
       "DELETE",
@@ -54,10 +89,10 @@ describe("Add new user", () => {
     it("WHEN I enter mostly valid information, but not a long enough password (shorter than 6 characters)", () => {
       cy.visit(`${FRONTEND_URL}/create-account`);
       cy.get("#username-field").type(
-        "uniqueUserNameForThisAPPTEST123"
+        "sdkfjwldsfjlsjdflkjsfawepfasoef2394"
       );
       cy.get("#email-field").type(
-        "somethingrandome@example.com"
+        "seslkdfjlsdjfljsdlfjsljdfkljl@example.com"
       );
       cy.get("#password-field").type("123");
       cy.get("#create-account").click();
@@ -67,6 +102,14 @@ describe("Add new user", () => {
       );
     });
 
-    it("THEN error message is set to 'Password Must Be At Least 6 Characters'", () => {});
+    it("THEN error message is set to 'Password Must Be At Least 6 Characters'\nAND user is not added to the database", () => {
+      cy.request({
+        url: `${BACKEND_URL}/users?email=seslkdfjlsdjfljsdlfjsljdfkljl@example.com`,
+        failOnStatusCode: false
+      }).then((response) => {
+        assert.equal(response.status, 404);
+        assert.equal(response.body, "Resource not found.");
+      });
+    });
   });
 });
