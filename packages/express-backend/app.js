@@ -113,7 +113,7 @@ app.post("/users", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-//Comment
+
 //Get users or specific users with query
 app.get("/users", (req, res) => {
   userServices
@@ -152,6 +152,36 @@ app.get("/user", authenticateUser, async (req, res) => {
     res
       .status(500)
       .send(`Internal Server Error: ${error.message}`);
+  }
+});
+
+app.delete("/users", async (req, res) => {
+  const { email, id } = req.query;
+
+  try {
+    let deletedUser = null;
+
+    if (id) {
+      deletedUser = await userServices.deleteUserById(id);
+    } else if (email) {
+      deletedUser = await userServices.deleteUserByEmail(email);
+    } else {
+      return res
+        .status(400)
+        .send("Missing 'email' or 'id' in query.");
+    }
+
+    if (!deletedUser) {
+      return res.status(404).send("User not found.");
+    }
+
+    res.send({
+      message: "User deleted successfully",
+      user: deletedUser
+    });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
