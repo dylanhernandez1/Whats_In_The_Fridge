@@ -402,6 +402,22 @@ app.post("/houses", authenticateUser, async (req, res) => {
   }
 });
 
+app.delete("/houses/:id", async (req, res) => {
+  const houseId = req.params.id;
+
+  const deletedHouse =
+    await houseServices.deleteHouseById(houseId);
+
+  if (!deletedHouse) {
+    return res.status(404).json({ message: "House not found" });
+  }
+
+  return res.status(200).json({
+    message: "House deleted successfully",
+    house: deletedHouse
+  });
+});
+
 //Get a certain house by id
 app.get("/houses/:houseId", (req, res) => {
   const houseId = req.params.houseId;

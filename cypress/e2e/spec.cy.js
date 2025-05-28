@@ -113,3 +113,142 @@ describe("Add new user", () => {
     });
   });
 });
+
+describe("API Posting and Getting User", () => {
+  context("Successful Post User", () => {
+    before(() => {});
+
+    let user = {};
+
+    it("GIVEN My user object has valid fields (name and email and password)", () => {
+      user = {
+        name: "dillpickle1234433212341234",
+        email: "whateverwhateverwhatever@example.com",
+        password: "password123!"
+      };
+    });
+
+    it("WHEN I attempt to post the user obj", () => {
+      cy.request("POST", `${BACKEND_URL}/users`, user).then(
+        (response) => {
+          assert.equal(
+            response.status,
+            201,
+            "THEN I receive a successful response (code 201)"
+          );
+          assert.exists(
+            response.body.token,
+            "AND the response object contains a token"
+          );
+        }
+      );
+    });
+  });
+
+  context("Unsuccessful post User", () => {
+    before(() => {});
+
+    let user = {};
+
+    it("GIVEN My user object has no password", () => {
+      user = {
+        name: "somethignskdfjsldjflsjd",
+        email: "sdflksjdflkjsldfj@example.com"
+      };
+    });
+
+    it("WHEN I attempt to post the user obj", () => {
+      cy.request({
+        method: "POST",
+        url: `${BACKEND_URL}/users`,
+        body: user,
+        failOnStatusCode: false
+      }).then((response) => {
+        assert.equal(
+          response.status,
+          400,
+          "THEN I receive a failure response (code 400)"
+        );
+        assert.equal(
+          response.body,
+          "Bad request: Invalid input data.",
+          "AND I receive an error message"
+        );
+      });
+    });
+  });
+
+  context("Successful get User", () => {
+    let user = {};
+
+    it("GIVEN My user email exists in a given account", () => {
+      user = {
+        name: "dillpickle1234433212341234",
+        email: "whateverwhateverwhatever@example.com",
+        password: "password123!"
+      };
+    });
+
+    it("WHEN I attempt to get the user obj by the email", () => {
+      cy.request(
+        `${BACKEND_URL}/users?email=whateverwhateverwhatever@example.com`
+      ).then((response) => {
+        assert.equal(
+          response.status,
+          200,
+          "THEN I receive a successful response (code 200)"
+        );
+        assert.equal(
+          response.body.name,
+          user.name,
+          "AND the response object contains the same name and email I passed earlier"
+        );
+        assert.equal(
+          response.body.email,
+          user.email,
+          "AND the response object contains the same name and email I passed earlier"
+        );
+      });
+    });
+  });
+
+  context("Unsuccessful get User", () => {
+    let user = {};
+
+    it("GIVEN My user email does not exist in a given account", () => {
+      user = {
+        name: "dillpickle1234433212341234",
+        email:
+          "somethingthatdoesntexistforreal12345@something.com",
+        password: "password123!"
+      };
+    });
+
+    it("WHEN I attempt to get the user obj by the email", () => {
+      cy.request({
+        url: `${BACKEND_URL}/users?email=somethingthatdoesntexistforreal12345@something.com`,
+        failOnStatusCode: false
+      }).then((response) => {
+        assert.equal(
+          response.status,
+          404,
+          "THEN I receive a successful response (code 200)"
+        );
+        assert.equal(
+          response.body,
+          "Resource not found.",
+          "AND I receive an error message"
+        );
+      });
+    });
+
+    after(() => {
+      cy.request(
+        "DELETE",
+        `${BACKEND_URL}/users?email=whateverwhateverwhatever@example.com`
+      ).then((response) => {
+        expect(response.status).to.equal(200);
+      });
+    });
+  });
+});
