@@ -331,8 +331,17 @@ app.get("/verify-email/:id", async (req, res) => {
     console.log(decoded);
     //WE VERIFY EMAIL HERE WITH A NON EXPIRED TOKEN
     req.userEmail = decoded.email;
-    userServices.verifyUserByEmail(req.userEmail.email);
-    return res.status(200).send();
+    try {
+      const verification = await userServices.verifyUserByEmail(
+        req.userEmail.email
+      );
+      if (verification) {
+        return res.status(200).send();
+      }
+    } catch (error) {
+      console.log("Error verifying email");
+      res.status(404).send("Internal Server Error", error);
+    }
   } catch (error) {
     console.log(error);
     return res.status(401).end();
