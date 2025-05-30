@@ -205,7 +205,8 @@ function generateVerificationToken(email) {
   });
 }
 
-function sendMail(req, res, subject, link) {
+function sendMail(req, res, subject, link, extra) {
+  if (extra == null){extra = ""}
   const email = req.body;
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -225,7 +226,7 @@ function sendMail(req, res, subject, link) {
     text: `Hello. 
 
 Please verify your email with this link : 
-${link}${token}`
+${link}${token}/${extra}`
   };
 
   transporter.sendMail(mailOptions, function (err, data) {
@@ -597,6 +598,24 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
   } catch (error) {
     res.status(500).send(`Internal Server Error: ${error}`);
   }
+});
+
+//SEND REQUEST TO USER WITH HOUSE ID
+app.post("/house-invitation/:houseId/users/:userId/", async (req, res) => {
+  const { houseId } = req.body;
+  const user = await userServices.findUserByEmail(req.body.email)
+  const id = `${houseId}/${user.id}`
+
+  const subject = "What's In The Fridge House Invitation";
+  const link =
+    "https://white-stone-02cbbab1e.6.azurestaticapps.net/house-invitation/";
+    try {
+      sendMail(req, res, subject, link, id);
+      return res.status(201).send();
+    } catch (error) {
+      console.log(error);
+      return res.status(401).end();
+    }
 });
 
 /* -------------------- FOOD -------------------- */

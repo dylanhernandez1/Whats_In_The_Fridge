@@ -12,28 +12,6 @@ function ForgotPassword() {
   const navigate = useNavigate();
   const { token } = useParams();
 
-  // useEffect(() => {
-  //   const promise = fetch(`${URL}/forgot-password-change/${token}`, {
-  //     method: "GET",
-  //     credentials: "include",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     }
-  //   })
-  //     .then(async (res) => {
-  //       console.log(res);
-  //       if (res.status === 200) {
-  //         navigate("/login", { state: { id: 5 } });
-
-  //         console.log("Successfuly sent");
-  //       } else {
-  //         navigate("/login", { state: { id: 6 } });
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error: ", error);
-  //     });
-  // }, [token]);
   function ValidatePassword() {
     if (password.length < 6) {
       setError("Password Must Be At Least 6 Characters.");
