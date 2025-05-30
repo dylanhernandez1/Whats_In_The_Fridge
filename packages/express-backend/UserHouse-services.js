@@ -178,11 +178,33 @@ async function getHousesByUser(userId) {
   }
 }
 
+async function findUserHouse(userId, houseId) {
+  const userHouseModel = getDbConnection().model(
+    "UserHouse",
+    UserHouseSchema
+  );
+
+  try {
+    const userHouse = await userHouseModel.findOne({
+      user: userId,
+      house: houseId
+    });
+    return { success: true, userHouse };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      message: "Error retrieving user house object"
+    };
+  }
+}
+
 export default {
   setConnection,
   addUserToHouse,
   removeUserFromHouse,
   changeUserRoleInHouse,
   getUsersInHouse,
-  getHousesByUser
+  getHousesByUser,
+  findUserHouse
 };

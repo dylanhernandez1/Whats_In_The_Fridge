@@ -180,7 +180,7 @@ app.delete("/users", async (req, res) => {
       user: deletedUser
     });
   } catch (error) {
-    console.error("Error deleting user:", error);
+    console.log("Error deleting user:", error);
     res.status(500).send("Internal Server Error");
   }
 });
@@ -538,6 +538,56 @@ app.patch(
     } catch (err) {
       console.log("Error updating house:", err);
       res.status(500).send("Internal server error.");
+    }
+  }
+);
+
+// Update a house by ID
+app.patch(
+  "/houses/:houseId",
+  authenticateUser,
+  async (req, res) => {
+    const { houseId } = req.params;
+    const updateData = req.body;
+
+    try {
+      const user = await userServices.findUserByEmail(
+        req.userEmail
+      );
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+
+      // check if user is owner or authorized
+      const result = await userHouseServices.findUserHouse(
+        user._id,
+        houseId
+      );
+      const userHouse = null;
+      if (result.success) {
+        userHouse = result.userHouse;
+      } else {
+        return res.status(500).send(result.message);
+      }
+
+      if (!userHouse || userHouse.role !== "owner") {
+        return res
+          .status(403)
+          .send("You are not authorized to update this house.");
+      }
+
+      const updatedHouse = await houseServices.updateHouseById(
+        houseId,
+        updateData
+      );
+      if (!updatedHouse) {
+        return res.status(404).send("House not found.");
+      }
+
+      res.status(200).send(updatedHouse);
+    } catch (error) {
+      console.log("Error updating house:", error);
+      res.status(500).send(`Internal Server Error: ${error}`);
     }
   }
 );

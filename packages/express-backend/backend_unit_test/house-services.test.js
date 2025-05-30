@@ -561,3 +561,58 @@ test("Handles invalid house ID format", async () => {
   expect(result.success).toBeFalsy();
   expect(result.message).toBe("Error finding house");
 });
+
+test("Update House -- successful update", async () => {
+  const house = await houseModel.findOne({
+    houseName: "Test House"
+  });
+
+  const updateData = {
+    town: "Santa Barbara",
+    state: "California"
+  };
+
+  const result = await houseServices.updateHouseById(
+    house._id,
+    updateData
+  );
+
+  expect(result.success).toBeTruthy();
+  expect(result.updatedHouse).toBeTruthy();
+  expect(result.updatedHouse.town).toBe("Santa Barbara");
+  expect(result.updatedHouse.state).toBe("California");
+});
+
+test("Update House -- house not found", async () => {
+  const fakeId = new mongoose.Types.ObjectId();
+
+  const updateData = {
+    town: "Santa Cruz"
+  };
+
+  const result = await houseServices.updateHouseById(
+    fakeId,
+    updateData
+  );
+
+  expect(result.success).toBeFalsy();
+  expect(result.message).toBe("House not found");
+});
+
+test("Update House -- invalid update data", async () => {
+  const house = await houseModel.findOne({
+    houseName: "Sunset Villa"
+  });
+
+  const updateData = {
+    state: ""
+  };
+
+  const result = await houseServices.updateHouseById(
+    house._id,
+    updateData
+  );
+
+  expect(result.success).toBeFalsy();
+  expect(result.message).toBe("Error updating house");
+});

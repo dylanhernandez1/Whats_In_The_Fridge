@@ -1075,3 +1075,114 @@ describe("GET /userhouses", () => {
     expect(response.text).toContain("DB error");
   });
 });
+
+describe("DELETE /users", () => {
+  it("should delete a user by ID", async () => {
+    const mockUser = { id: "123", email: "test@example.com" };
+    userServices.deleteUserById = jest
+      .fn()
+      .mockResolvedValue(mockUser);
+
+    const response = await request(app)
+      .delete("/users")
+      .query({ id: "123" })
+      .expect(200);
+
+    expect(response.body).toEqual({
+      message: "User deleted successfully",
+      user: mockUser
+    });
+    expect(userServices.deleteUserById).toHaveBeenCalledWith(
+      "123"
+    );
+  });
+
+  it("should delete a user by email", async () => {
+    const mockUser = { id: "456", email: "delete@example.com" };
+    userServices.deleteUserByEmail = jest
+      .fn()
+      .mockResolvedValue(mockUser);
+
+    const response = await request(app)
+      .delete("/users")
+      .query({ email: "delete@example.com" })
+      .expect(200);
+
+    expect(response.body).toEqual({
+      message: "User deleted successfully",
+      user: mockUser
+    });
+    expect(userServices.deleteUserByEmail).toHaveBeenCalledWith(
+      "delete@example.com"
+    );
+  });
+
+  it("should return 400 if neither id nor email is provided", async () => {
+    const response = await request(app)
+      .delete("/users")
+      .expect(400);
+
+    expect(response.text).toBe(
+      "Missing 'email' or 'id' in query."
+    );
+  });
+
+  it("should return 404 if user not found by id", async () => {
+    userServices.deleteUserById = jest
+      .fn()
+      .mockResolvedValue(null);
+
+    const response = await request(app)
+      .delete("/users")
+      .query({ id: "nonexistent" })
+      .expect(404);
+
+    expect(response.text).toBe("User not found.");
+  });
+
+  it("should return 500 if an error occurs", async () => {
+    userServices.deleteUserById = jest
+      .fn()
+      .mockRejectedValue(new Error("DB failure"));
+
+    const response = await request(app)
+      .delete("/users")
+      .query({ id: "123" })
+      .expect(500);
+
+    expect(response.text).toBe("Internal Server Error");
+  });
+});
+
+describe("POST /houses/:houseId/food/:location", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should call addFoodToHouse directly if FoodImage is present", async () => {
+    const addFoodToHouseMock = jest
+      .spyOn(houseServices, "addFoodToHouse")
+      .mockResolvedValue({ success: true });
+
+    const response = await request(app)
+      .post("/houses/house123/food/kitchen")
+      .send({
+        FoodName: "Apple",
+        FoodImage: "image_url.jpg",
+        quantity: 1
+      })
+      .set("Authorization", `Bearer ${authToken}`)
+      .expect(204);
+
+    expect(addFoodToHouseMock).toHaveBeenCalledWith(
+      "house123",
+      "kitchen",
+      {
+        FoodName: "Apple",
+        FoodImage: "image_url.jpg",
+        quantity: 1
+      }
+    );
+    expect(response.text).toBe("");
+  });
+});

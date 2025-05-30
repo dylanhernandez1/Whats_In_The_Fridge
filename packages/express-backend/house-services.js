@@ -243,6 +243,30 @@ async function findHouseById(houseId) {
   }
 }
 
+async function updateHouseById(houseId, updateData) {
+  const houseModel = getDbConnection().model(
+    "House",
+    HouseSchema
+  );
+
+  try {
+    const updatedHouse = await houseModel.findByIdAndUpdate(
+      houseId,
+      updateData,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedHouse) {
+      return { success: false, message: "House not found" };
+    }
+
+    return { success: true, updatedHouse };
+  } catch (error) {
+    console.log("Error updating house:", error);
+    return { success: false, message: "Error updating house" };
+  }
+}
+
 export default {
   setConnection,
   getHouses,
@@ -253,5 +277,6 @@ export default {
   getAllFoodFromHouse,
   removeFoodFromHouse,
   deleteHouseById,
-  findHouseById
+  findHouseById,
+  updateHouseById
 };

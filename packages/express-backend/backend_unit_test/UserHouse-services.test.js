@@ -288,3 +288,72 @@ test("Get houses by user", async () => {
     "Maple Cottage"
   );
 });
+
+test("findUserHouse - success", async () => {
+  const user = await userServices.getUsers({
+    email: "cnor123@gmailexample.com"
+  });
+  const house = await houseModel.findOne({
+    houseName: "Test House"
+  });
+
+  await userHouseServices.addUserToHouse(
+    user._id,
+    house._id,
+    "member"
+  );
+
+  const result = await userHouseServices.findUserHouse(
+    user._id,
+    house._id
+  );
+
+  expect(result.success).toBeTruthy();
+  expect(result.userHouse).toBeDefined();
+  expect(result.userHouse.user.toString()).toBe(
+    user._id.toString()
+  );
+  expect(result.userHouse.house.toString()).toBe(
+    house._id.toString()
+  );
+});
+
+test("findUserHouse - user not in house", async () => {
+  const user = await userServices.getUsers({
+    email: "brucelee@example.com"
+  });
+  const house = await houseModel.findOne({
+    houseName: "Test House"
+  });
+
+  const result = await userHouseServices.findUserHouse(
+    user._id,
+    house._id
+  );
+
+  expect(result.success).toBeTruthy(); // Query succeeds, but no match found
+  expect(result.userHouse).toBeNull();
+});
+
+test("findUserHouse - database error", async () => {
+  const userId = new mongoose.Types.ObjectId();
+  const houseId = new mongoose.Types.ObjectId();
+
+  const originalModel = conn.model;
+  conn.model = jest.fn().mockImplementation(() => ({
+    findOne: () => {
+      throw new Error("DB error");
+    }
+  }));
+
+  const result = await userHouseServices.findUserHouse(
+    userId,
+    houseId
+  );
+  expect(result.success).toBeFalsy();
+  expect(result.message).toBe(
+    "Error retrieving user house object"
+  );
+
+  conn.model = originalModel; // Restore original method
+});
