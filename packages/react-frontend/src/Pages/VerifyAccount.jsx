@@ -17,7 +17,7 @@ function VerifyEmailPage() {
     })
       .then(async (res) => {
         console.log(res);
-        if (res.status === 200) {
+        if (res.status == 200) {
           navigate("/login", {
             state: { id: "Email has been verified" }
           });

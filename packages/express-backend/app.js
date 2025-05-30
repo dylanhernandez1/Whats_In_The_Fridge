@@ -277,7 +277,9 @@ function generateVerificationToken(email) {
 }
 
 function sendMail(req, res, subject, link, extra) {
-  if (extra == null){extra = ""}
+  if (extra == null) {
+    extra = "";
+  }
   const email = req.body;
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -297,7 +299,7 @@ function sendMail(req, res, subject, link, extra) {
     text: `Hello. 
 
 Please verify your email with this link : 
-${link}${token}/${extra}`
+${link}${token}`
   };
 
   transporter.sendMail(mailOptions, function (err, data) {
@@ -319,20 +321,17 @@ app.post("/verify-email", async (req, res) => {
 });
 
 app.get("/verify-email/:id", async (req, res) => {
-  console.log(req);
+  const token = req.params.id;
+  console.log(token);
   try {
     const decoded = jwt.verify(
       req.params.id,
       process.env.TOKEN_SECRET
     );
-
+    console.log(decoded);
     //WE VERIFY EMAIL HERE WITH A NON EXPIRED TOKEN
     req.userEmail = decoded.email;
-    const user = userServices.findUserByEmail(
-      req.userEmail.email
-    );
-    user.emailVerified = true;
-    await user.save();
+    userServices.verifyUserByEmail(req.userEmail.email);
     return res.status(200).send();
   } catch (error) {
     console.log(error);
@@ -737,14 +736,18 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
 });
 
 //SEND REQUEST TO USER WITH HOUSE ID
-app.post("/house-invitation/:houseId/users/:userId/", async (req, res) => {
-  const { houseId } = req.body;
-  const user = await userServices.findUserByEmail(req.body.email)
-  const id = `${houseId}/${user.id}`
+app.post(
+  "/house-invitation/:houseId/users/:userId/",
+  async (req, res) => {
+    const { houseId } = req.body;
+    const user = await userServices.findUserByEmail(
+      req.body.email
+    );
+    const id = `${houseId}/${user.id}`;
 
-  const subject = "What's In The Fridge House Invitation";
-  const link =
-    "https://white-stone-02cbbab1e.6.azurestaticapps.net/house-invitation/";
+    const subject = "What's In The Fridge House Invitation";
+    const link =
+      "https://white-stone-02cbbab1e.6.azurestaticapps.net/house-invitation/";
     try {
       sendMail(req, res, subject, link, id);
       return res.status(201).send();
@@ -752,7 +755,8 @@ app.post("/house-invitation/:houseId/users/:userId/", async (req, res) => {
       console.log(error);
       return res.status(401).end();
     }
-});
+  }
+);
 
 /* -------------------- FOOD -------------------- */
 function validateRes(res) {

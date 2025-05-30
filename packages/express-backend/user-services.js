@@ -102,6 +102,22 @@ async function findUserByName(name) {
 }
 
 /**
+ * Verify user email
+ */
+async function verifyUserByEmail(email) {
+  const userModel = getDbConnection().model("User", UserSchema);
+  try {
+    const user = await userModel.findOne({ email });
+    user.emailVerified = true;
+    await user.save();
+    return true;
+  } catch (error) {
+    console.log("Trouble saving:", error);
+    return false;
+  }
+}
+
+/**
  * Delete a user by their MongoDB _id.
  */
 async function deleteUserById(id) {
@@ -186,5 +202,6 @@ export default {
   deleteUserByEmail,
   setConnection,
   setDefaultHouse,
-  addFriend
+  addFriend,
+  verifyUserByEmail
 };

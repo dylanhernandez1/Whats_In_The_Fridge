@@ -128,23 +128,25 @@ function Profile() {
   function manageHouses() {
     setShowHouseModal(true);
   }
-  
+
   async function sendHouse() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`${URL}/house-invitation/:houseId/users/:userId/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          email: "cameron.ung0@gmail.com",
-          houseId: "6828e37d2f2e9a33a5adb318"
-        })
-      })
-
+      const res = await fetch(
+        `${URL}/house-invitation/:houseId/users/:userId/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            email: "cameron.ung0@gmail.com",
+            houseId: "6828e37d2f2e9a33a5adb318"
+          })
+        }
+      );
     } catch (error) {
       alert("Network or unexpected error: " + error.message);
     }
@@ -244,7 +246,7 @@ function Profile() {
               <strong>Birthday:</strong> January 1, 1990
             </p>
             <div className="profile-buttons">
-            <button
+              <button
                 className="add-house-button"
                 onClick={sendHouse}
               >

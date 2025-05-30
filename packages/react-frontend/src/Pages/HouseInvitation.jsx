@@ -8,24 +8,25 @@ function HouseInvitation() {
   const navigate = useNavigate();
   const { token, houseId, userId } = useParams();
 
-
   useEffect(() => {
-    const sendInvitation = async() => {
+    const sendInvitation = async () => {
       try {
-        const res = await fetch(`${URL}/houses/${houseId}/users/${userId}/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          },
-        })
-       navigate("/");
-
+        const res = await fetch(
+          `${URL}/houses/${houseId}/users/${userId}/`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+        navigate("/");
       } catch (error) {
         alert("Network or unexpected error: " + error.message);
       }
-    }
-   sendInvitation();
+    };
+    sendInvitation();
   });
 
   return 0;

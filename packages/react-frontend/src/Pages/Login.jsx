@@ -11,6 +11,35 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  function sendEmailVerification() {
+    const verifyPromise = fetch(`${URL}/verify-email`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email
+      })
+    })
+      .then(async (res) => {
+        if (res.status == 201) {
+          console.log("Successfuly sent");
+        } else if (res.status == 400) {
+          const message = await res.text();
+          setError(message);
+          console.log("400 error: " + message);
+        } else if (res.status == 409) {
+          const message = await res.text();
+          setError(message);
+          console.log("409 error: " + message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
+      });
+  }
+
   useEffect(() => {
     document
       .getElementById("email-field")
@@ -67,6 +96,7 @@ function Login() {
       } else if (res.status === 401) {
         setError("Invalid email or password.");
       } else if (res.status === 403) {
+        sendEmailVerification();
         setError("Email not verified.");
       } else {
         console.error("Error during login:", error);
