@@ -199,6 +199,24 @@ async function findUserHouse(userId, houseId) {
   }
 }
 
+async function deleteUserHouses(filter) {
+  const userHouseModel = getDbConnection().model(
+    "UserHouse",
+    UserHouseSchema
+  );
+
+  try {
+    const result = await userHouseModel.deleteMany(filter);
+    return { success: true, deletedCount: result.deletedCount };
+  } catch (error) {
+    console.log("Error deleting user houses:", error);
+    return {
+      success: false,
+      message: "Failed to delete user houses"
+    };
+  }
+}
+
 export default {
   setConnection,
   addUserToHouse,
@@ -206,5 +224,6 @@ export default {
   changeUserRoleInHouse,
   getUsersInHouse,
   getHousesByUser,
-  findUserHouse
+  findUserHouse,
+  deleteUserHouses
 };

@@ -199,7 +199,11 @@ app.delete(
         return res.status(404).send("User not found");
       }
 
-      console.log("TRYING TO DELETE: ", req.userEmail);
+      //Delete houses
+      console.log("USER ID:", user._id);
+      await userHouseServices.deleteUserHouses({
+        user: user._id
+      });
 
       const deletedUser = await userServices.deleteUserByEmail(
         req.userEmail
