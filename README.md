@@ -4,7 +4,7 @@
 
 1. Run `npm install` and `npm install react-router-dom` and `npm install react-icons` and `npm install dotenv` and `npm install bcrypt jsonwebtoken` and `npm install react-datepicker --save` and `npm install jwt-decode` from the root for application to run
 2. Run `npm install nodemailer` and `npm i --save unsplash-js` inside the backend folder
-3. Run `npm install --save-dev jest` and `npm install @testing-library/react @testing-library/user-event react-router-dom jest` and `npm install jest-environment-jsdom --save-dev` and `npm install util --save-dev` and `npm install --save-dev babel-jest @babel/core @babel/preset-env @babel/preset-react` and `npm install --save-dev @testing-library/react @testing-library/jest-dom` and `npm install --save-dev identity-obj-proxy` and `npm install mongodb-memory-server` and `npm install mockingoose` from root for tests to run
+3. Run `npm install --save-dev jest` and `npm install @testing-library/react @testing-library/user-event react-router-dom jest` and `npm install jest-environment-jsdom --save-dev` and `npm install util --save-dev` and `npm install --save-dev babel-jest @babel/core @babel/preset-env @babel/preset-react` and `npm install --save-dev @testing-library/react @testing-library/jest-dom` and `npm install --save-dev identity-obj-proxy` and `npm install mongodb-memory-server` and `npm install mockingoose` and `npm install cypress --save-dev` from root for tests to run
 4. Coverage npm test -- --coverage
 5. To run the backend, create a .env file `touch .env` and copy and paste this in `MONGODB_URI = "mongodb+srv://whats-in-the-fridge-user:DWIRaCXhO11dWbPY@cluster0.dmiyl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"`.
    DWIRaCXhO11dWbPY is our temporary testing database password.

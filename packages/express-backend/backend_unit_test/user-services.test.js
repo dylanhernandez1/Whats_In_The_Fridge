@@ -249,7 +249,7 @@ test("Setting user default house -- successful", async () => {
   };
   const addedUser = await userServices.addUser(dummyUser);
 
-  expect(addedUser.preferences.defaultHouse).toBeFalsy();
+  expect(addedUser.defaultHouse).toBeFalsy();
 
   const dummyHouse = {
     houseName: "Test House",
@@ -270,10 +270,8 @@ test("Setting user default house -- successful", async () => {
   );
 
   expect(result).toBeTruthy();
-  expect(addedUser.preferences.defaultHouse).toBeDefined();
-  expect(addedUser.preferences.defaultHouse).toBe(
-    addedHouse._id
-  );
+  expect(addedUser.defaultHouse).toBeDefined();
+  expect(addedUser.defaultHouse).toBe(addedHouse._id);
 });
 
 test("Setting user default house -- unsuccessful due to bad id", async () => {
@@ -284,7 +282,7 @@ test("Setting user default house -- unsuccessful due to bad id", async () => {
   };
   const addedUser = await userServices.addUser(dummyUser);
 
-  expect(addedUser.preferences.defaultHouse).toBeFalsy();
+  expect(addedUser.defaultHouse).toBeFalsy();
 
   const result = await userServices.setDefaultHouse(
     addedUser,
@@ -292,7 +290,7 @@ test("Setting user default house -- unsuccessful due to bad id", async () => {
   );
 
   expect(result).toBeFalsy();
-  expect(addedUser.preferences.defaultHouse).toBeFalsy();
+  expect(addedUser.defaultHouse).toBeFalsy();
 });
 
 test("Adding friends to User", async () => {

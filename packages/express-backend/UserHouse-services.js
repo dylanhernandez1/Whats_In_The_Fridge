@@ -178,11 +178,52 @@ async function getHousesByUser(userId) {
   }
 }
 
+async function findUserHouse(userId, houseId) {
+  const userHouseModel = getDbConnection().model(
+    "UserHouse",
+    UserHouseSchema
+  );
+
+  try {
+    const userHouse = await userHouseModel.findOne({
+      user: userId,
+      house: houseId
+    });
+    return { success: true, userHouse };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      message: "Error retrieving user house object"
+    };
+  }
+}
+
+async function deleteUserHouses(filter) {
+  const userHouseModel = getDbConnection().model(
+    "UserHouse",
+    UserHouseSchema
+  );
+
+  try {
+    const result = await userHouseModel.deleteMany(filter);
+    return { success: true, deletedCount: result.deletedCount };
+  } catch (error) {
+    console.log("Error deleting user houses:", error);
+    return {
+      success: false,
+      message: "Failed to delete user houses"
+    };
+  }
+}
+
 export default {
   setConnection,
   addUserToHouse,
   removeUserFromHouse,
   changeUserRoleInHouse,
   getUsersInHouse,
-  getHousesByUser
+  getHousesByUser,
+  findUserHouse,
+  deleteUserHouses
 };

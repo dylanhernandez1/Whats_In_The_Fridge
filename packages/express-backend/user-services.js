@@ -146,7 +146,7 @@ async function setDefaultHouse(user, houseId) {
       console.log("House not found with ID:", houseId);
       return false;
     }
-    user.preferences.defaultHouse = houseId;
+    user.defaultHouse = houseId;
     await user.save();
     return true;
   } catch (error) {

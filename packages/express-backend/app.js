@@ -113,7 +113,7 @@ app.post("/users", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-//Comment
+
 //Get users or specific users with query
 app.get("/users", (req, res) => {
   userServices
@@ -154,6 +154,77 @@ app.get("/user", authenticateUser, async (req, res) => {
       .send(`Internal Server Error: ${error.message}`);
   }
 });
+
+app.delete("/users", async (req, res) => {
+  const { email, id } = req.query;
+
+  try {
+    let deletedUser = null;
+
+    if (id) {
+      deletedUser = await userServices.deleteUserById(id);
+    } else if (email) {
+      deletedUser = await userServices.deleteUserByEmail(email);
+    } else {
+      return res
+        .status(400)
+        .send("Missing 'email' or 'id' in query.");
+    }
+
+    if (!deletedUser) {
+      return res.status(404).send("User not found.");
+    }
+
+    res.send({
+      message: "User deleted successfully",
+      user: deletedUser
+    });
+  } catch (error) {
+    console.log("Error deleting user:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+// Delete the currently authenticated user
+app.delete(
+  "/currentUser",
+  authenticateUser,
+  async (req, res) => {
+    try {
+      const user = await userServices.findUserByEmail(
+        req.userEmail
+      );
+
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+
+      //Delete houses
+      console.log("USER ID:", user._id);
+      await userHouseServices.deleteUserHouses({
+        user: user._id
+      });
+
+      const deletedUser = await userServices.deleteUserByEmail(
+        req.userEmail
+      );
+
+      if (deletedUser) {
+        return res.status(200).json({
+          message: "User account successfully deleted",
+          user: deletedUser
+        });
+      } else {
+        return res.status(500).send("Failed to delete user");
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      res
+        .status(500)
+        .send(`Internal Server Error: ${error.message}`);
+    }
+  }
+);
 
 /* -------------------- LOGIN -------------------- */
 //Validate login info
@@ -373,6 +444,22 @@ app.post("/houses", authenticateUser, async (req, res) => {
   }
 });
 
+app.delete("/houses/:id", async (req, res) => {
+  const houseId = req.params.id;
+
+  const deletedHouse =
+    await houseServices.deleteHouseById(houseId);
+
+  if (!deletedHouse) {
+    return res.status(404).json({ message: "House not found" });
+  }
+
+  return res.status(200).json({
+    message: "House deleted successfully",
+    house: deletedHouse
+  });
+});
+
 //Get a certain house by id
 app.get("/houses/:houseId", (req, res) => {
   const houseId = req.params.houseId;
@@ -497,6 +584,56 @@ app.patch(
   }
 );
 
+// Update a house by ID
+app.patch(
+  "/houses/:houseId",
+  authenticateUser,
+  async (req, res) => {
+    const { houseId } = req.params;
+    const updateData = req.body;
+
+    try {
+      const user = await userServices.findUserByEmail(
+        req.userEmail
+      );
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+
+      // check if user is owner or authorized
+      const result = await userHouseServices.findUserHouse(
+        user._id,
+        houseId
+      );
+      const userHouse = null;
+      if (result.success) {
+        userHouse = result.userHouse;
+      } else {
+        return res.status(500).send(result.message);
+      }
+
+      if (!userHouse || userHouse.role !== "owner") {
+        return res
+          .status(403)
+          .send("You are not authorized to update this house.");
+      }
+
+      const updatedHouse = await houseServices.updateHouseById(
+        houseId,
+        updateData
+      );
+      if (!updatedHouse) {
+        return res.status(404).send("House not found.");
+      }
+
+      res.status(200).send(updatedHouse);
+    } catch (error) {
+      console.log("Error updating house:", error);
+      res.status(500).send(`Internal Server Error: ${error}`);
+    }
+  }
+);
+
 /* -------------------- USER-HOUSE -------------------- */
 //Add user to house
 app.post("/houses/:houseId/users/:userId", (req, res) => {
@@ -580,8 +717,7 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
     }
 
     let defaultHouse = null;
-    const defaultHouseId =
-      user.preferences?.get("defaultHouse");
+    const defaultHouseId = user.defaultHouse;
 
     if (defaultHouseId) {
       const defaultHouseResult =

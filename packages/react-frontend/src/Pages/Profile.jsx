@@ -94,6 +94,37 @@ function Profile() {
     navigate("/login");
   }
 
+  async function handleDeleteAccount() {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete your account? This action cannot be undone."
+    );
+    if (!confirmDelete) return;
+
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`${URL}/currentUser`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (res.ok) {
+        alert("Your account has been deleted.");
+        localStorage.removeItem("token");
+        navigate("/login");
+      } else {
+        const errorData = await res.json().catch(() => null);
+        const message =
+          errorData?.error || `HTTP ${res.status}`;
+        alert("Error deleting account: " + message);
+      }
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      alert("Unexpected error occurred.");
+    }
+  }
+
   function manageHouses() {
     setShowHouseModal(true);
   }
@@ -231,6 +262,12 @@ function Profile() {
               >
                 <FaSignOutAlt className="icon" />
                 <span className="button-text">Sign Out</span>
+              </button>
+              <button
+                className="delete-account"
+                onClick={handleDeleteAccount}
+              >
+                Delete Account
               </button>
             </div>
           </div>
