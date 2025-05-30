@@ -185,6 +185,43 @@ app.delete("/users", async (req, res) => {
   }
 });
 
+// Delete the currently authenticated user
+app.delete(
+  "/currentUser",
+  authenticateUser,
+  async (req, res) => {
+    try {
+      const user = await userServices.findUserByEmail(
+        req.userEmail
+      );
+
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+
+      console.log("TRYING TO DELETE: ", req.userEmail);
+
+      const deletedUser = await userServices.deleteUserByEmail(
+        req.userEmail
+      );
+
+      if (deletedUser) {
+        return res.status(200).json({
+          message: "User account successfully deleted",
+          user: deletedUser
+        });
+      } else {
+        return res.status(500).send("Failed to delete user");
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      res
+        .status(500)
+        .send(`Internal Server Error: ${error.message}`);
+    }
+  }
+);
+
 /* -------------------- LOGIN -------------------- */
 //Validate login info
 app.post("/login", async (req, res) => {
@@ -675,8 +712,7 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
     }
 
     let defaultHouse = null;
-    const defaultHouseId =
-      user.preferences?.get("defaultHouse");
+    const defaultHouseId = user.defaultHouse;
 
     if (defaultHouseId) {
       const defaultHouseResult =

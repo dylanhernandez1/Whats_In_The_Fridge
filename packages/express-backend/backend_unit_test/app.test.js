@@ -984,7 +984,7 @@ describe("GET /userhouses", () => {
   it("returns houses and default house for logged-in user", async () => {
     const mockUser = {
       _id: "user123",
-      preferences: new Map([["defaultHouse", "house456"]])
+      defaultHouse: "house456"
     };
     const mockHouses = {
       success: true,
