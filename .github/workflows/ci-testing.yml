@@ -7,6 +7,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    env:
+      UNSPLASH_API_KEY: ${{ secrets.UNSPLASH_API_KEY }}
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
