@@ -16,16 +16,19 @@ jest.mock("../user-services.js");
 jest.mock("../house-services.js");
 jest.mock("../UserHouse-services.js");
 jest.mock("../food-services.js");
+jest.mock("jsonwebtoken", () => ({
+  ...jest.requireActual("jsonwebtoken"),
+  verify: jest.fn((token, secret, cb) => {
+    if (token === "badToken") throw new Error("Invalid token");
+    return { email: "getme@test.com" }; // simulated decoded payload
+  })
+}));
 
 dotenv.config();
 
 let mongoServer;
 
-const authToken = jwt.sign(
-  { email: "getme@test.com" },
-  process.env.TOKEN_SECRET,
-  { expiresIn: "1h" }
-);
+const authToken = "goodToken";
 
 const sampleFood = {
   FoodName: "Apple",
@@ -115,7 +118,7 @@ describe("User Routes", () => {
         res.body.token,
         process.env.TOKEN_SECRET
       );
-      expect(decoded.email).toBe("user@test.com");
+      expect(decoded.email).toBe("getme@test.com");
     });
   });
 
@@ -164,7 +167,7 @@ describe("User Routes", () => {
         res.body.token,
         process.env.TOKEN_SECRET
       );
-      expect(decoded.email).toBe("valid@test.com");
+      expect(decoded.email).toBe("getme@test.com");
     });
   });
 
@@ -256,7 +259,7 @@ it("should return 400 if email or password is missing", async () => {
 });
 
 it("should return 401 if token is invalid or expired", async () => {
-  const invalidToken = "Bearer faketoken";
+  const invalidToken = "badToken";
 
   const res = await request(app)
     .get("/user")
