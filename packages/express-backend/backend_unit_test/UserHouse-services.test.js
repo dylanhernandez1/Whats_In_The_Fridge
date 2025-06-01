@@ -383,7 +383,9 @@ test("Delete all user houses by user ID", async () => {
   );
 
   // Confirm both links exist
-  let preDelete = await userHouseModel.find({ user: user._id });
+  const preDelete = await userHouseModel.find({
+    user: user._id
+  });
   expect(preDelete.length).toBe(2);
 
   // Delete all user-house links for this user
