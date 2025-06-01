@@ -7,27 +7,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v3
         with:
           node-version: 22
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests
-        run: npm run test
-        env:
-          TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
-
-      - name: Run lint
-        run: npm run lint
-        env:
-          TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
-
-      - name: Build frontend
-        run: npm run -w react-frontend build
-        env:
-          TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+      - run: npm ci
+      - run: npm run test
+      - run: npm run lint
+      - run: npm run -w react-frontend build
