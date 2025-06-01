@@ -172,13 +172,7 @@ describe("User Routes", () => {
   });
 
   describe("GET /user", () => {
-    const token = jwt.sign(
-      { email: "getme@test.com" },
-      process.env.TOKEN_SECRET,
-      {
-        expiresIn: "600s"
-      }
-    );
+    const token = "goodToken";
 
     it("should return 401 if token is missing", async () => {
       const res = await request(app).get("/user");
