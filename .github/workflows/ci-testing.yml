@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     env:
       TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
     steps:
@@ -15,7 +17,13 @@ jobs:
         with:
           node-version: 22
       - name: Debug (TEMPORARY)
-        run: echo "$MY_SECRET"
+        run: |
+          if [ -z "$TOKEN_SECRET" ]; then
+            echo "❌ TOKEN_SECRET is not set"
+            exit 1
+          else
+            echo "✅ TOKEN_SECRET is set"
+          fi
         env:
           TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
       - run: npm ci
