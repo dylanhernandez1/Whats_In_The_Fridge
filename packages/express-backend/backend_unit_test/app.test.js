@@ -17,10 +17,14 @@ jest.mock("../house-services.js");
 jest.mock("../UserHouse-services.js");
 jest.mock("../food-services.js");
 jest.mock("jsonwebtoken", () => ({
-  ...jest.requireActual("jsonwebtoken"),
   verify: jest.fn((token, secret, cb) => {
-    if (token === "badToken") throw new Error("Invalid token");
-    return { email: "getme@test.com" }; // simulated decoded payload
+    if (token === "badToken") {
+      throw new Error("Invalid token");
+    }
+    return { email: "getme@test.com" }; // Simulated decoded token
+  }),
+  sign: jest.fn((payload, secret, options) => {
+    return "mocked.jwt.token"; // Fake token
   })
 }));
 
