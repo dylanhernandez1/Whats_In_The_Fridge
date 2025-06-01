@@ -93,21 +93,6 @@ function Home({}) {
 
         return res;
       }
-      /*
-      //OLD CODE FOR FOOD
-      const promise = fetch(`http://localhost:8000/expiring`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
-      });
-      return promise;
-    } else {
-      console.log("empty cookie");
-      return false;
-    }
-      */
     }
   }
 

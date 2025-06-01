@@ -153,7 +153,7 @@ async function getAllFoodFromHouse(houseId) {
 }
 
 function CheckFoodLocationValid(str) {
-  const list = ["fridge", "freezer", "pantry", "grocery_list"];
+  const list = ["fridge", "freezer", "pantry", "groceryList"];
   return list.some((item) => str === item);
 }
 

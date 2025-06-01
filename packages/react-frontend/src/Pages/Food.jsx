@@ -208,6 +208,7 @@ function Food() {
         <option value="fridge">FRIDGE</option>
         <option value="freezer">FREEZER</option>
         <option value="pantry">PANTRY</option>
+        <option value="groceryList">GROCERY LIST</option>
       </select>
 
       {/* Quantity Input */}
