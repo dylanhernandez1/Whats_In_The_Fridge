@@ -150,8 +150,8 @@ function Profile() {
             Authorization: `Bearer ${token}`
           },
           body: JSON.stringify({
-            email: "cameron.ung0@gmail.com",
-            houseId: "6828e37d2f2e9a33a5adb318"
+            email: "cameron.ung0@gmail.com", //REPLACE THESE
+            houseId: "6828e37d2f2e9a33a5adb318" //TO PASSED IN THING
           })
         }
       );

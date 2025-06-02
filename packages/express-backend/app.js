@@ -370,8 +370,8 @@ function sendMail(req, res, subject, link, extra) {
     subject: subject,
     text: `Hello. 
 
-Please verify your email with this link : 
-${link}${token}`
+Please click the following link : 
+${link}${token}/${extra}`
   };
 
   transporter.sendMail(mailOptions, function (err, data) {
