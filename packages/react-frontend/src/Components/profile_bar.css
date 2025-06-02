@@ -15,10 +15,7 @@ body {
   border: 1px solid #aac0d4;
   border-radius: 8px;
   width: fit-content;
-  background: linear-gradient(
-    #cde7ff,
-    var(--accent-blue)
-  );
+  background: linear-gradient(#cde7ff, var(--accent-blue));
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   overflow-x: auto;
   margin: 0 auto;
