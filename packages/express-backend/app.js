@@ -12,6 +12,10 @@ import userHouseServices from "./UserHouse-services.js";
 import { GiConsoleController } from "react-icons/gi";
 import { createApi } from "unsplash-js";
 import nodemailer from "nodemailer";
+import multer from "multer";
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 dotenv.config(); //Load dotenv
 
@@ -222,6 +226,74 @@ app.delete(
       res
         .status(500)
         .send(`Internal Server Error: ${error.message}`);
+    }
+  }
+);
+
+app.put(
+  "/currentUser",
+  authenticateUser,
+  upload.single("profileImage"),
+  async (req, res) => {
+    try {
+      const user = await userServices.findUserByEmail(
+        req.userEmail
+      );
+      if (!user) {
+        return res
+          .status(404)
+          .json({ message: "User not found" });
+      }
+
+      const { email, name, ...otherFields } = req.body;
+
+      // Check for name conflict
+      if (name && name !== user.name) {
+        const existingNameUser =
+          await userServices.findUserByName(name);
+        if (existingNameUser) {
+          return res
+            .status(409)
+            .json({ message: "Name already in use" });
+        }
+      }
+
+      // Check for email conflict
+      if (email && email !== user.email) {
+        const existingEmailUser =
+          await userServices.findUserByEmail(email);
+        if (existingEmailUser) {
+          return res
+            .status(409)
+            .json({ message: "Email already in use" });
+        }
+      }
+
+      // Prepare update fields
+      const updateFields = {
+        email: email || user.email,
+        name: name || user.name,
+        ...otherFields
+      };
+
+      // If an image is uploaded, convert and add it
+      if (req.file) {
+        const base64Image = req.file.buffer.toString("base64");
+        const mimeType = req.file.mimetype;
+        const dataUri = `data:${mimeType};base64,${base64Image}`;
+        updateFields.profileImage = dataUri;
+      }
+
+      const updatedUser = await userServices.updateUserById(
+        user._id,
+        updateFields
+      );
+      return res.status(200).json({ user: updatedUser });
+    } catch (error) {
+      console.error("Error updating user:", error);
+      res
+        .status(500)
+        .json({ message: "Internal Server Error" });
     }
   }
 );

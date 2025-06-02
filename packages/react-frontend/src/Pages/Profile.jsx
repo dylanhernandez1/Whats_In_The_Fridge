@@ -6,6 +6,7 @@ import "../Components/Profile_page.css";
 import ProfileToolbar from "../Components/profile_bar.jsx";
 import { FaSignOutAlt } from "react-icons/fa";
 import URL from "./Url";
+import defaultProfileImage from "../assets/default-profile.png";
 
 function Profile() {
   const navigate = useNavigate();
@@ -20,6 +21,13 @@ function Profile() {
   });
   const [userData, setUserData] = useState(null);
   const [userHouses, setHouses] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedUser, setEditedUser] = useState({
+    name: "",
+    email: "",
+    profileImageFile: "",
+    profileImagePreview: ""
+  });
 
   useEffect(() => {
     async function fetchData() {
@@ -198,6 +206,68 @@ function Profile() {
     }
   }
 
+  function handleEditToggle() {
+    setEditedUser({
+      name: userData.name,
+      email: userData.email,
+      profileImagePreview:
+        userData?.profileImage || defaultProfileImage
+    });
+    setIsEditing(!isEditing);
+  }
+
+  async function handleSave() {
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+
+    formData.append("name", editedUser.name);
+    formData.append("email", editedUser.email);
+    if (editedUser.profileImageFile) {
+      formData.append(
+        "profileImage",
+        editedUser.profileImageFile
+      );
+    }
+
+    try {
+      const res = await fetch(`${URL}/currentUser`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      if (!res.ok) {
+        let errorMessage = "Unknown error";
+
+        const contentType = res.headers.get("content-type");
+        if (
+          contentType &&
+          contentType.includes("application/json")
+        ) {
+          const errorData = await res.json();
+          errorMessage = errorData.message || errorMessage;
+        } else {
+          errorMessage = await res.text(); // fallback if it's plain text
+        }
+
+        console.error("Error response:", errorMessage);
+        alert(`Failed to update user info: ${errorMessage}`);
+        return;
+      } else {
+        const data = await res.json();
+        setUserData(data.user); // Use the `user` object from response
+        setIsEditing(false);
+        alert("User info updated successfully!");
+      }
+    } catch (error) {
+      console.error("Update error:", error);
+      alert("Unexpected error.");
+    }
+  }
+
   //Renders content based on the Profile Toolbar selection
   function renderContent() {
     if (!userData) {
@@ -212,39 +282,113 @@ function Profile() {
         return (
           <div className="profile-content">
             <div className="user-header">
-              <img
-                src={userData?.profileImage}
-                alt="Profile"
-                className="profile-picture"
-              />
-              <div className="user-info">
-                <h2>{userData?.name || "Loading..."}</h2>
-                <p>
-                  Member for{" "}
-                  {userData?.createdAt
-                    ? getMembershipDuration(userData.createdAt)
-                    : "Loading..."}
-                </p>
+              {/* View mode */}
+              {!isEditing ? (
+                <>
+                  <img
+                    src={
+                      userData?.profileImage ||
+                      defaultProfileImage
+                    }
+                    alt="Profile"
+                    className="profile-picture"
+                  />
+                  <div className="user-info">
+                    <h2>{userData?.name || "Loading..."}</h2>
+                    <p>
+                      Member for{" "}
+                      {userData?.createdAt
+                        ? getMembershipDuration(
+                            userData.createdAt
+                          )
+                        : "Loading..."}
+                    </p>
+                    <div className="user-details">
+                      <p>
+                        <strong>Name:</strong> {userData?.name}
+                      </p>
+                      <p>
+                        <strong>Email:</strong>{" "}
+                        {userData?.email}
+                      </p>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                // Edit mode
+                <>
+                  <img
+                    src={
+                      editedUser?.profileImagePreview ||
+                      editedUser?.profileImage ||
+                      "../assets/default-profile.png"
+                    }
+                    alt="Profile Preview"
+                    className="profile-picture"
+                  />
+                  <div className="user-info">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setEditedUser({
+                              ...editedUser,
+                              profileImagePreview:
+                                reader.result,
+                              profileImageFile: file
+                            });
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                    />
+                    <input
+                      type="text"
+                      value={editedUser.name}
+                      onChange={(e) =>
+                        setEditedUser({
+                          ...editedUser,
+                          name: e.target.value
+                        })
+                      }
+                    />
+                    <input
+                      type="email"
+                      value={editedUser.email}
+                      onChange={(e) =>
+                        setEditedUser({
+                          ...editedUser,
+                          email: e.target.value
+                        })
+                      }
+                    />
+                  </div>
+                </>
+              )}
+
+              <div style={{ marginLeft: "auto" }}>
+                {isEditing ? (
+                  <button
+                    className="delete-account"
+                    onClick={handleSave}
+                  >
+                    Save
+                  </button>
+                ) : (
+                  <button
+                    className="delete-account"
+                    onClick={handleEditToggle}
+                  >
+                    Edit
+                  </button>
+                )}
               </div>
             </div>
-            {/* User details table/list below the header */}
-            <div className="user-details"></div>
-            <p>
-              <strong>Name:</strong> {userData?.name}
-            </p>
-            <p>
-              <strong>Email:</strong> {userData?.email}
-            </p>
-            <p>
-              <strong>Address:</strong> 1234 Main St,
-              Springfield, USA
-            </p>
-            <p>
-              <strong>Phone:</strong> (555) 123-4567
-            </p>
-            <p>
-              <strong>Birthday:</strong> January 1, 1990
-            </p>
+
             <div className="profile-buttons">
               <button
                 className="add-house-button"

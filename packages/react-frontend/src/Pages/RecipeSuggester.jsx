@@ -8,21 +8,76 @@ function RecipeSuggester() {
   const [recipe, setRecipe] = useState(null);
   const [error, setError] = useState(null);
 
+  async function getHouses(token) {
+    if (!token) return [];
+    try {
+      const res = await fetch(`${URL}/userhouses`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
+        const message =
+          errorData?.error || `HTTP ${res.status}`;
+        console.error("Error from /userhouses:", message);
+        navigate("/login");
+        return [];
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      console.error("Error fetching houses:", err);
+      return [];
+    }
+  }
+
   const getRecipeSuggestion = async () => {
     setIsLoading(true);
     setError(null);
     setRecipe(null);
-    try {
-      const response = await fetch(`${URL}/suggest-recipe`); //Update route
-      if (!response.ok) {
-        throw new Error("Failed to fetch recipe");
+    const token = localStorage.getItem("token");
+    if (token) {
+      const houses = await getHouses(token);
+      console.log(houses);
+      if (
+        !houses.housesByUser ||
+        (houses.housesByUser.length == 0 &&
+          !houses.defaultHouse)
+      ) {
+        alert("No Houses found for your user");
+        //NO HOUSE, PROMPT TO CREATE HOUSE
+      } else {
+        // Use the defaultHouse if it exists; otherwise, use the first house
+        const houseToUse =
+          houses.defaultHouse != null
+            ? houses.defaultHouse
+            : houses.housesByUser[0]?.house;
+        if (!houseToUse || !houseToUse._id) {
+          alert("No valid house found with an _id");
+          return;
+        }
+        try {
+          const response = await fetch(
+            `${URL}/suggest-recipe/${houseToUse._id}`
+          ); //Update route if needed
+          if (!response.ok) {
+            throw new Error("Failed to fetch recipe");
+          }
+          //ADJUST PULLING RESPONSE HERE ONCE BACKEND READY
+          const data = await response.json();
+          setRecipe(data.recipe); //Get the output
+        } catch (err) {
+          setError(err.message);
+        }
+        setIsLoading(false);
       }
-      const data = await response.json();
-      setRecipe(data.recipe); //Get the output
-    } catch (err) {
-      setError(err.message);
     }
-    setIsLoading(false);
   };
 
   return (
