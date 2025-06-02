@@ -299,6 +299,7 @@ function Profile() {
                   <p>
                     <strong>Role:</strong> {userHouse.role}
                   </p>
+                  <hr />
                 </div>
               ))
             )}
