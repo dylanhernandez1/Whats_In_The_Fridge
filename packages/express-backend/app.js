@@ -749,21 +749,27 @@ app.post(
   "/house-invitation/:houseId/users/:userId/",
   async (req, res) => {
     const { houseId } = req.body;
-    const user = await userServices.findUserByEmail(
-      req.body.email
-    );
-    const id = `${houseId}/${user.id}`;
 
-    const subject = "What's In The Fridge House Invitation";
-    const link =
-      "https://white-stone-02cbbab1e.6.azurestaticapps.net/house-invitation/";
     try {
-      sendMail(req, res, subject, link, id);
-      return res.status(201).send();
-    } catch (error) {
-      console.log(error);
-      return res.status(401).end();
+      const user = await userServices.findUserByEmail(
+        req.body.email
+      );
+      const id = `${houseId}/${user.id}`;
+  
+      const subject = "What's In The Fridge House Invitation";
+      const link =
+        "https://white-stone-02cbbab1e.6.azurestaticapps.net/house-invitation/";
+      try {
+        sendMail(req, res, subject, link, id);
+        return res.status(201).send();
+      } catch (error) {
+        console.log(error);
+        return res.status(401).end();
+      }
+    } catch (err){
+      res.status(404).send(`Invalid email: ${err}`);
     }
+   
   }
 );
 

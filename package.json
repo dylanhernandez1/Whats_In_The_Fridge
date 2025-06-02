@@ -18,7 +18,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@babel/core": "^7.27.1",
+    "@babel/core": "^7.27.4",
     "@babel/preset-env": "^7.27.2",
     "@babel/preset-react": "^7.27.1",
     "@testing-library/jest-dom": "^6.6.3",
@@ -38,7 +38,7 @@
     "nodemon": "^3.1.9",
     "npm": "^11.3.0",
     "prettier": "^3.4.2",
-    "react-router-dom": "^7.6.0",
+    "react-router-dom": "^7.6.1",
     "util": "^0.12.5"
   },
   "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
@@ -66,7 +66,7 @@
     "react-cookie": "^8.0.1",
     "react-datepicker": "^8.4.0",
     "react-icons": "^5.5.0",
-    "react-router-dom": "^7.6.1",
-    "supertest": "^7.1.1"
+    "supertest": "^7.1.1",
+    "unsplash-js": "^7.0.19"
   }
 }

@@ -672,6 +672,66 @@ describe("Email Verification & Password Reset", () => {
       expect(res.statusCode).toBe(500);
     });
   });
+
+  describe("POST /verify-email", () => {
+    it("should return 500 on email send error", async () => {
+      const sendMailMock = jest.fn((opts, cb) =>
+        cb(new Error("Send failed"))
+      );
+      nodemailer.createTransport.mockReturnValue({
+        sendMail: sendMailMock
+      });
+
+      const res = await request(app)
+        .post("/verify-email")
+        .set("Authorization", `Bearer ${authToken}`)
+        .send({ email: "user@example.com" });
+
+      expect(res.statusCode).toBe(500);
+    });
+  });
+
+
+  describe("POST /verify-email", () => {
+    it("should return 500 on email send error", async () => {
+      const sendMailMock = jest.fn((opts, cb) =>
+        cb(new Error("Send failed"))
+      );
+      nodemailer.createTransport.mockReturnValue({
+        sendMail: sendMailMock
+      });
+
+      const res = await request(app)
+        .post("/verify-email")
+        .set("Authorization", `Bearer ${authToken}`)
+        .send({ email: "user@example.com" });
+
+      expect(res.statusCode).toBe(500);
+    });
+  });
+
+  describe("POST /house-invitation/:houseId/users/:userId/", () => {
+
+    it("should return 500 on email send error", async () => {
+      const res = await request(app)
+        .post(`/house-invitation/house123/users/user123/`)
+
+      expect(res.statusCode).toBe(404);
+    });
+
+
+    it("should return 201 on email send error", async () => {
+      const res = await request(app)
+        .post(`/house-invitation/house123/users/user123/`)
+        .send({
+          email: "test@test.com",
+          houseId: "house123",
+          userId: "user123",
+        });
+
+      expect(res.statusCode).toBe(201);
+    });
+  });
 });
 
 describe("POST /houses", () => {
@@ -1186,4 +1246,5 @@ describe("POST /houses/:houseId/food/:location", () => {
     );
     expect(response.text).toBe("");
   });
+
 });
