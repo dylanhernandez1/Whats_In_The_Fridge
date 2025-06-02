@@ -192,6 +192,27 @@ async function addFriend(user, friend_id) {
   }
 }
 
+/**
+ * Update a user by their MongoDB _id.
+ * Accepts an object of fields to update (e.g., { name, email, profileImage }).
+ */
+async function updateUserById(id, updatedFields) {
+  const userModel = getDbConnection().model("User", UserSchema);
+  if (!mongoose.Types.ObjectId.isValid(id)) return null;
+
+  try {
+    const updatedUser = await userModel.findByIdAndUpdate(
+      id,
+      { $set: updatedFields },
+      { new: true } // return the updated document
+    );
+    return updatedUser;
+  } catch (error) {
+    console.log("Update user error:", error);
+    return null;
+  }
+}
+
 export default {
   addUser,
   getUsers,
@@ -203,5 +224,6 @@ export default {
   setConnection,
   setDefaultHouse,
   addFriend,
-  verifyUserByEmail
+  verifyUserByEmail,
+  updateUserById
 };
