@@ -10,6 +10,7 @@
    DWIRaCXhO11dWbPY is our temporary testing database password.
 6. In this same .env file, you need to generate TOKEN_SECRET, use this call `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` and paste `TOKEN_SECRET = output` into the .env file.
    If not running run `npm install node-gyp -g` `npm install bcrypt -g` `npm install bcrypt --save`
+7. To run acceptance testing, go to root, run `npm run cy:open`
 
 ## How to Run On Web
 
