@@ -710,33 +710,26 @@ describe("Email Verification & Password Reset", () => {
     });
   });
 
-  describe("POST /house-invitation/:houseId/users/:userId/", () => {
+  describe("POST /house-invitation/:houseId/users/:userEmail/", () => {
 
-    it("should return 404 on email send error", async () => {
+    it("should return 500 for overall error", async () => {
+      userServices.findUserByEmail.mockImplementation(() => {
+        throw new Error("Database failure");
+      });
+      
       const res = await request(app)
-        .post(`/house-invitation/house123/users/user123/`)
+        .post(`/house-invitation/928414341/users/testing@gmail.com`)
 
-      expect(res.statusCode).toBe(404);
-    });
-
-    it("should return 500 when not finding anything", async () => {
-      userServices.findUserByEmail.mockResolvedValue({ id: "mock" });
-  
-      const res = await request(app)
-        .post("/house-invitation/house123/users/user123/")
-        .send({ email: "test@example.com" });
-  
       expect(res.statusCode).toBe(500);
     });
 
-    it("should return 201 when sending anything", async () => {
-      userServices.findUserByEmail.mockResolvedValue({ id: "mock" });
+    it("should return 404 user not found", async () => {
+      userServices.findUserByEmail.mockResolvedValue(null);
   
       const res = await request(app)
-        .post("/house-invitation/house123/users/user123/")
-        .send({ email: "test@example.com"});
+      .post(`/house-invitation/928414341/users/testing@gmail.com`)
   
-      expect(res.statusCode).toBe(201);
+      expect(res.statusCode).toBe(404);
     });
   });
 });

@@ -362,6 +362,48 @@ app.put(
   }
 );
 
+// Set default house of current user
+app.put(
+  "/defaultHouse/:houseId",
+  authenticateUser,
+  async (req, res) => {
+    try {
+      const { houseId } = req.params;
+      const user = await userServices.findUserByEmail(
+        req.userEmail
+      );
+
+      if (!user) {
+        return res
+          .status(404)
+          .json({ message: "User not found" });
+      }
+
+      const success = await userServices.setDefaultHouse(
+        user,
+        houseId
+      );
+
+      if (success) {
+        return res
+          .status(200)
+          .json({
+            message: "Default house updated successfully"
+          });
+      } else {
+        return res
+          .status(404)
+          .json({ message: "House not found" });
+      }
+    } catch (error) {
+      console.error("Error setting default house:", error);
+      res
+        .status(500)
+        .json({ message: "Internal Server Error" });
+    }
+  }
+);
+
 /* -------------------- LOGIN -------------------- */
 //Validate login info
 app.post("/login", async (req, res) => {
@@ -884,28 +926,31 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
 
 //SEND REQUEST TO USER WITH HOUSE ID
 app.post(
-  "/house-invitation/:houseId/users/:userId/",
+  "/house-invitation/:houseId/users/:userEmail",
   async (req, res) => {
-    const { houseId } = req.params;
+    const { houseId, userEmail } = req.params;
+    const user = await userServices.findUserByEmail(userEmail);
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    const result = await userHouseServices.findUserHouse(
+      user._id,
+      houseId
+    );
+    if (result.userHouse) {
+      return res.status(403).send("User already in house");
+    }
+
+    const id = `${houseId}/${user._id}`;
 
     try {
-      const user = await userServices.findUserByEmail(
-        req.body.email
-      );
-      const id = `${houseId}/${user.id}`;
-  
-      const subject = "What's In The Fridge House Invitation";
-      const link =
-        "https://white-stone-02cbbab1e.6.azurestaticapps.net/house-invitation/";
-      try {
-        sendMail(req, res, subject, link, id);
-        return res.status(201).send();
-      } catch (error) {
-        console.log(error);
-        return res.status(401).end();
-      }
-    } catch (err){
-      res.status(404).send(`Invalid email: ${err}`);
+      sendMail(req, res, subject, link, id);
+      return res.status(201).send();
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send();
     }
   }
 );
