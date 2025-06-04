@@ -3,14 +3,15 @@
 ## Instructions:
 
 1. Run `npm install` and `npm install react-router-dom` and `npm install react-icons` and `npm install dotenv` and `npm install bcrypt jsonwebtoken` and `npm install react-datepicker --save` and `npm install jwt-decode` from the root for application to run
-2. Run `npm install nodemailer` and `npm i --save unsplash-js` and ` npm install --save-dev multer` inside the backend folder
-3. Run `npm install --save-dev jest` and `npm install @testing-library/react @testing-library/user-event react-router-dom jest` and `npm install jest-environment-jsdom --save-dev` and `npm install util --save-dev` and `npm install --save-dev babel-jest @babel/core @babel/preset-env @babel/preset-react` and `npm install --save-dev @testing-library/react @testing-library/jest-dom` and `npm install --save-dev identity-obj-proxy` and `npm install mongodb-memory-server` and `npm install mockingoose` and `npm install cypress --save-dev` from root for tests to run
-4. Coverage npm test -- --coverage
-5. To run the backend, create a .env file `touch .env` and copy and paste this in `MONGODB_URI = "mongodb+srv://whats-in-the-fridge-user:DWIRaCXhO11dWbPY@cluster0.dmiyl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"`.
+2. Run `npm install nodemailer` and `npm i --save unsplash-js` and ` npm install --save-dev multer` and `npm install --save groq-sdk` inside the backend folder
+3. Run `npm install react-markdown` inside the frontend folder
+4. Run `npm install --save-dev jest` and `npm install @testing-library/react @testing-library/user-event react-router-dom jest` and `npm install jest-environment-jsdom --save-dev` and `npm install util --save-dev` and `npm install --save-dev babel-jest @babel/core @babel/preset-env @babel/preset-react` and `npm install --save-dev @testing-library/react @testing-library/jest-dom` and `npm install --save-dev identity-obj-proxy` and `npm install mongodb-memory-server` and `npm install mockingoose` and `npm install cypress --save-dev` from root for tests to run
+5. Coverage npm test -- --coverage
+6. To run the backend, create a .env file `touch .env` and copy and paste this in `MONGODB_URI = "mongodb+srv://whats-in-the-fridge-user:DWIRaCXhO11dWbPY@cluster0.dmiyl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"`.
    DWIRaCXhO11dWbPY is our temporary testing database password.
-6. In this same .env file, you need to generate TOKEN_SECRET, use this call `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` and paste `TOKEN_SECRET = output` into the .env file.
+7. In this same .env file, you need to generate TOKEN_SECRET, use this call `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` and paste `TOKEN_SECRET = output` into the .env file.
    If not running run `npm install node-gyp -g` `npm install bcrypt -g` `npm install bcrypt --save`
-7. To run acceptance testing, go to root, run `npm run cy:open`
+8. To run acceptance testing, go to root, run `npm run cy:open`
 
 ## How to Run On Web
 
