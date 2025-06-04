@@ -464,49 +464,44 @@ function Profile() {
             {userHouses.length === 0 ? (
               <p>No houses found.</p>
             ) : (
-              userHouses.map((userHouse) => {
-                const isDefault =
-                  defaultHouseId === userHouse.house._id;
-                return (
-                  <div
-                    key={userHouse.house._id}
-                    className="house-entry"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px"
-                    }}
-                  >
-                    <div style={{ flexGrow: 1 }}>
-                      <p>
-                        <strong>Name:</strong>{" "}
-                        {userHouse.house.houseName}
-                        {isDefault && <span>✔️</span>}
-                      </p>
-                      <p>
-                        <strong>Location:</strong>{" "}
-                        {userHouse.house.town},{" "}
-                        {userHouse.house.state},{" "}
-                        {userHouse.house.country}
-                      </p>
-                      <p>
-                        <strong>Role:</strong> {userHouse.role}
-                      </p>
-                    </div>
-                    {!isDefault && (
+              userHouses.map((userHouse) => (
+                <div
+                  key={userHouse.house._id}
+                  className="house-entry"
+                >
+                  <p>
+                    <strong>Name:</strong>{" "}
+                    {userHouse.house.houseName}
+                  </p>
+                  <p>
+                    <strong>Location:</strong>{" "}
+                    {userHouse.house.town},{" "}
+                    {userHouse.house.state},{" "}
+                    {userHouse.house.country}
+                  </p>
+                  <p>
+                    <strong>Role:</strong> {userHouse.role}
+                    {/* new house buttons to set default */}
+                    <div className="house-buttons">
                       <button
-                        className="delete-account"
-                        onClick={() =>
-                          setDefaultHouse(userHouse.house._id)
-                        }
+                        className="add-member-button"
+                        onClick={sendHouse}
                       >
-                        Set as Default
+                        Add Member
                       </button>
-                    )}
-                  </div>
-                );
-              })
+                    </div>
+                  </p>
+                  <hr />
+                </div>
+              ))
             )}
+            {/* added a button to add house in the house section of profile */}
+            <button
+                className="add-house-button"
+                onClick={manageHouses}
+              >
+                + Add House
+              </button>
           </div>
         );
       case "Other Settings":
