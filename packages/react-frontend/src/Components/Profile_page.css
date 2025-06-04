@@ -139,6 +139,28 @@
   }
 }
 
+.set-default-button {
+  background-color: var(--accent-blue);
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.set-default-button:hover {
+  background-color: var(--accent-dark-blue);
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
 /* Button group container */
 .profile-buttons {
   display: flex;
