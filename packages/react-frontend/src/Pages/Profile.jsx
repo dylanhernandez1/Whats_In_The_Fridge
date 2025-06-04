@@ -298,13 +298,13 @@ function Profile() {
                   </p>
                   <p>
                     <strong>Role:</strong> {userHouse.role}
-                    {/* new house buttons to set default */}
+                    <br/>
                     <div className="house-buttons">
                       <button
-                        className="set-default-button"
-                        onClick={sendHouse}
+                        className="add-user"
+                        onClick={setHouses}
                       >
-                        Set House as Default
+                        + Add Member
                       </button>
                     </div>
                   </p>
@@ -312,7 +312,6 @@ function Profile() {
                 </div>
               ))
             )}
-            {/* added a button to add house in the house section of profile */}
             <button
                 className="add-house-button"
                 onClick={manageHouses}
