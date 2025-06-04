@@ -944,12 +944,12 @@ app.post(
       return res.status(403).send("User already in house");
     }
 
-    const house = await houseServices.findHouseById(houseId);
-
+    const houseResult =
+      await houseServices.findHouseById(houseId);
     const id = `${houseId}/${user._id}`;
     req.body = { email: email };
 
-    const subject = `What's In The Fridge House Invitation to ${house.houseName} from ${req.userEmail}`;
+    const subject = `What's In The Fridge House Invitation to ${houseResult.house.houseName} from ${req.userEmail}`;
     const link =
       "https://white-stone-02cbbab1e.6.azurestaticapps.net/house-invitation/";
     try {
