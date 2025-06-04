@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Markdown from "react-markdown";
 import Toolbar from "../Components/Toolbar.jsx";
 import "../Components/RecipeSuggestor_styling.css";
 import URL from "./Url";
@@ -63,15 +64,26 @@ function RecipeSuggester() {
           return;
         }
         try {
-          const response = await fetch(
+          const response = fetch(
             `${URL}/suggest-recipe/${houseToUse._id}`
           ); //Update route if needed
-          if (!response.ok) {
-            throw new Error("Failed to fetch recipe");
-          }
-          //ADJUST PULLING RESPONSE HERE ONCE BACKEND READY
-          const data = await response.json();
-          setRecipe(data.recipe); //Get the output
+
+          response
+          .then((result) => {
+            if (result.status === 200) {
+              result.json()
+              .then((json) => {
+                const recipe = json.choices[0]?.message?.content || ""
+                setRecipe(recipe); //Get the output
+              })
+              .catch((error) => {
+                console.log("Failed with the following error: " + error)
+              })
+            }
+          })
+          .catch((error) => {
+            console.log("Failed with the following error: " + error)
+          })
         } catch (err) {
           setError(err.message);
         }
@@ -101,8 +113,9 @@ function RecipeSuggester() {
 
         {recipe && (
           <div className="recipe-result">
-            <h2>Suggested Recipe:</h2>
-            <p>{recipe}</p>
+            <Markdown>
+              {recipe}
+            </Markdown>
           </div>
         )}
       </div>

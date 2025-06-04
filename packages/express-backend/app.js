@@ -11,6 +11,7 @@ import houseServices from "./house-services.js";
 import userHouseServices from "./UserHouse-services.js";
 import { GiConsoleController } from "react-icons/gi";
 import { createApi } from "unsplash-js";
+import Groq from "groq-sdk"
 import nodemailer from "nodemailer";
 import multer from "multer";
 
@@ -22,9 +23,13 @@ dotenv.config(); //Load dotenv
 //Initialize app and users list
 const app = express();
 
-// Move api key to .env folder after
 const unsplashApi = createApi({
   accessKey: process.env.UNSPLASH_API_KEY
+});
+
+// Groq for recipe suggesting
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY
 });
 
 //For Cross-Origin Resource Sharing and json
@@ -41,6 +46,65 @@ app.use(
 app.use(express.json());
 
 app.options("*", cors());
+
+/* ------------  RECEIPE SUGGESTION -------------- */
+
+// Generate the prompt to send to Groq from the list of expiring food items
+function generatePrompt(foodItems) {
+  let prompt = "Generate different receipes you could make with the following ingredients, prioritising foods that are earlier in the list:";
+  const millisPerDay = 24 * 60 * 60 * 1000;
+  const currentDate = new Date();
+  foodItems.forEach((food) => {
+    if (food.ExpirationDate != undefined) {
+      const toDateObj = new Date(food.ExpirationDate);
+      food.ExpirationDate = Math.round(
+        (toDateObj - currentDate) / millisPerDay
+      );
+    }
+  });
+  foodItems.sort(
+    (a, b) => a.ExpirationDate - b.ExpirationDate
+  );
+
+  for(let index = 0; index < foodItems.length; index++) {
+    prompt += " " + foodItems[index].FoodName + ","
+  }
+  
+  return prompt;
+}
+
+app.get("/suggest-recipe/:house", async(req, res) => {
+  const houseId = req.params.house;
+
+    getExpiringFoodList(houseId)
+      .then((result) => {
+        if (result.success) {
+          const prompt = generatePrompt(result.foodItems);
+          console.log(prompt);
+
+          groq.chat.completions.create({
+          messages: [
+            {
+              role: "user",
+              content: prompt,
+            },
+          ],
+          model: "llama-3.3-70b-versatile",
+          })
+          .then((result) => {
+            res.status(200).send(result);
+          })
+          .catch((error) => {
+            res.status(500).send(`Internal Server Error: ${error}`);
+          });
+        } else {
+          res.status(400).send(result.message);
+        }
+      })
+      .catch((error) => {
+        res.status(500).send(`Internal Server Error: ${error}`);
+      });
+});
 
 /* -------------------- USERS -------------------- */
 function generateAccessToken(email) {
@@ -614,18 +678,20 @@ app.post(
   }
 );
 
+async function getExpiringFoodList(houseId, location) {
+    const service = location
+      ? houseServices.getFoodFromHouse(houseId, location)
+      : houseServices.getAllFoodFromHouse(houseId);
+
+    return service;
+}
+
 //Get all food items from a specific location in a house
 app.get(
   "/houses/:houseId/food/:location?",
   authenticateUser,
   async (req, res) => {
-    const { houseId, location } = req.params;
-
-    const service = location
-      ? houseServices.getFoodFromHouse(houseId, location)
-      : houseServices.getAllFoodFromHouse(houseId);
-
-    service
+    getExpiringFoodList(req.params.houseId, req.params.location)
       .then((result) => {
         if (result.success) {
           res.send(result.foodItems);
