@@ -90,6 +90,14 @@
   color: #777;
 }
 
+.house-entry {
+  background-color: #e9f4fb;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
 .house-entry hr {
   height: 1px;
   background-color: rgba(114, 114, 186, 0.3);
@@ -140,25 +148,39 @@
 }
 
 .add-member-button {
-  background-color: var(--accent-blue);
+  background-color: #4a90e2;
   color: white;
-  font-size: 16px;
-  padding: 10px 20px;
   border: none;
-  border-radius: 10px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s;
+  margin-right: 10px;
 }
 
 .add-member-button:hover {
-  background-color: var(--accent-dark-blue);
-  color: white;
-  font-size: 16px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
+  background-color: #043369;
+}
+
+.set-default-text {
+  color: var(--accent-blue);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-style: italic;
+  font-size: 14px;
+  margin-left: 10px;
+  transition: color 0.2s ease;
+}
+
+.set-default-text:hover {
+  color: var(--accent-dark-blue);
+}
+
+.default-label {
+  color: gray;
+  font-size: 14px;
+  font-style: italic;
+  margin-left: 10px;
 }
 
 /* Button group container */

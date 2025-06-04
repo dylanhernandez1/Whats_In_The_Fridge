@@ -195,7 +195,7 @@ function Profile() {
       );
 
       if (res.ok) {
-        alert("Set Default House successfully!");
+        alert("Set Default House successfully! Please reload page.");
       } else {
         const data = await res.json().catch(() => ({}));
         const message =
@@ -481,18 +481,16 @@ function Profile() {
                     className="house-entry"
                   >
                     <p>
-                      <strong>Name:</strong>{" "}
-                      {userHouse.house.houseName}
-                      {isDefault && <span>✔️</span>}
-                      {!isDefault && (
-                        <button
-                          className="delete-account"
-                          onClick={() =>
-                            setDefaultHouse(userHouse.house._id)
-                          }
+                      <strong>Name:</strong> {userHouse.house.houseName}{" "}
+                      {isDefault ? (
+                        <span className="default-label">(Default)</span>
+                      ) : (
+                        <span
+                          className="set-default-text"
+                          onClick={() => setDefaultHouse(userHouse.house._id)}
                         >
-                          Set as Default
-                        </button>
+                          [Set as Default]
+                        </span>
                       )}
                     </p>
                     <p>
@@ -503,24 +501,20 @@ function Profile() {
                     </p>
                     <p>
                       <strong>Role:</strong> {userHouse.role}
-                      {/* new house buttons to set default */}
-                      {userHouse.role === "owner" && (
-                        <div className="house-buttons">
-                          <button
-                            className="add-member-button"
-                            onClick={() => {
-                              setInviteHouseId(
-                                userHouse.house._id
-                              );
-                              setShowInviteModal(true);
-                            }}
-                          >
-                            Add Member
-                          </button>
-                        </div>
-                      )}
                     </p>
-                    <hr />
+                    {userHouse.role === "owner" && (
+                      <div className="house-buttons" style={{ marginTop: "8px" }}>
+                        <button
+                          className="add-member-button"
+                          onClick={() => {
+                            setInviteHouseId(userHouse.house._id);
+                            setShowInviteModal(true);
+                          }}
+                        >
+                          Add Member
+                        </button>
+                      </div>
+                    )}
                   </div>
                 );
               })
