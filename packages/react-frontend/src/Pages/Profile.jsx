@@ -301,10 +301,10 @@ function Profile() {
                     {/* new house buttons to set default */}
                     <div className="house-buttons">
                       <button
-                        className="set-default-button"
+                        className="add-member-button"
                         onClick={sendHouse}
                       >
-                        Set House as Default
+                        Add Member
                       </button>
                     </div>
                   </p>
