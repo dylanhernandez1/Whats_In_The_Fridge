@@ -346,3 +346,62 @@ test("Adding friend to User -- failure invalid id", async () => {
 
   expect(result).toBeFalsy();
 });
+
+test("Updating user by ID -- successful update", async () => {
+  const user = await userServices.getUsers({
+    email: "cnor123@gmailexample.com"
+  });
+
+  const updatedFields = {
+    name: "Chuck Norris Prime",
+    password: "evenMoreSecurePassword456"
+  };
+
+  const updatedUser = await userServices.updateUserById(user._id, updatedFields);
+
+  expect(updatedUser).toBeTruthy();
+  expect(updatedUser.name).toBe("Chuck Norris Prime");
+  expect(updatedUser.email).toBe("cnor123@gmailexample.com"); // unchanged
+});
+
+test("Updating user by ID -- invalid ID", async () => {
+  const updatedFields = {
+    name: "Invalid Update"
+  };
+
+  const updatedUser = await userServices.updateUserById("123", updatedFields);
+
+  expect(updatedUser).toBeNull();
+});
+
+test("Updating user by ID -- non-existent valid ObjectId", async () => {
+  const nonExistentId = new mongoose.Types.ObjectId(); // creates a valid but unused ObjectId
+
+  const updatedUser = await userServices.updateUserById(nonExistentId.toString(), {
+    name: "Ghost User"
+  });
+
+  expect(updatedUser).toBeNull();
+});
+
+test("Verifying user by email — successful path", async () => {
+  const dummyUser = {
+    name: "Hermione Granger",
+    email: "hermione@example.com",
+    password: "spell123"
+  };
+
+  const addedUser = await userServices.addUser(dummyUser);
+  expect(addedUser.emailVerified).toBeFalsy();
+
+  const result = await userServices.verifyUserByEmail(addedUser.email);
+  expect(result).toBe(true);
+
+  const verifiedUser = await userServices.findUserByEmail(addedUser.email);
+  expect(verifiedUser.emailVerified).toBe(true);
+});
+
+test("Verifying user by email — user not found", async () => {
+  const result = await userServices.verifyUserByEmail("nonexistent@example.com");
+  expect(result).toBe(false);
+});

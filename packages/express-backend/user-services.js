@@ -208,7 +208,9 @@ async function updateUserById(id, updatedFields) {
     );
     return updatedUser;
   } catch (error) {
+    // istanbul ignore next
     console.log("Update user error:", error);
+    // istanbul ignore next
     return null;
   }
 }
