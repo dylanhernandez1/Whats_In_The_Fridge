@@ -28,6 +28,7 @@ function Profile() {
     profileImageFile: "",
     profileImagePreview: ""
   });
+  const [defaultHouseId, setDefaultHouseId] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -50,6 +51,13 @@ function Profile() {
         // Get houses
         const housesData = await getHouses(token);
         setHouses(housesData.housesByUser);
+        if (housesData.defaultHouse) {
+          setDefaultHouseId(housesData.defaultHouse._id);
+        } else {
+          setDefaultHouseId(
+            housesData.housesByUser[0]?.house._id
+          );
+        }
       } catch (error) {
         console.error("Error fetching profile data:", error);
         navigate("/login");
@@ -137,24 +145,55 @@ function Profile() {
     setShowHouseModal(true);
   }
 
-  async function sendHouse() {
+  async function sendHouse(houseId, userEmail) {
     const token = localStorage.getItem("token");
 
     try {
       const res = await fetch(
-        `${URL}/house-invitation/:houseId/users/:userId/`,
+        `${URL}/house-invitation/${houseId}/users/${userEmail}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            email: "cameron.ung0@gmail.com", //REPLACE THESE
-            houseId: "6828e37d2f2e9a33a5adb318" //TO PASSED IN THING
-          })
+          }
         }
       );
+
+      const responseText = await res.text();
+
+      if (res.ok) {
+        alert("Invitation sent successfully!");
+      } else {
+        alert(`Failed to send invitation: ${responseText}`);
+      }
+    } catch (error) {
+      alert("Network or unexpected error: " + error.message);
+    }
+  }
+
+  async function setDefaultHouse(houseId) {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(
+        `${URL}/defaultHouse/${houseId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      if (res.ok) {
+        alert("Set Default House successfully!");
+      } else {
+        const data = await res.json().catch(() => ({}));
+        const message =
+          data.message || "Unknown error occurred";
+        alert(`Failed to set default house: ${message}`);
+      }
     } catch (error) {
       alert("Network or unexpected error: " + error.message);
     }
@@ -425,26 +464,48 @@ function Profile() {
             {userHouses.length === 0 ? (
               <p>No houses found.</p>
             ) : (
-              userHouses.map((userHouse) => (
-                <div
-                  key={userHouse.house._id}
-                  className="house-entry"
-                >
-                  <p>
-                    <strong>Name:</strong>{" "}
-                    {userHouse.house.houseName}
-                  </p>
-                  <p>
-                    <strong>Location:</strong>{" "}
-                    {userHouse.house.town},{" "}
-                    {userHouse.house.state},{" "}
-                    {userHouse.house.country}
-                  </p>
-                  <p>
-                    <strong>Role:</strong> {userHouse.role}
-                  </p>
-                </div>
-              ))
+              userHouses.map((userHouse) => {
+                const isDefault =
+                  defaultHouseId === userHouse.house._id;
+                return (
+                  <div
+                    key={userHouse.house._id}
+                    className="house-entry"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px"
+                    }}
+                  >
+                    <div style={{ flexGrow: 1 }}>
+                      <p>
+                        <strong>Name:</strong>{" "}
+                        {userHouse.house.houseName}
+                        {isDefault && <span>✔️</span>}
+                      </p>
+                      <p>
+                        <strong>Location:</strong>{" "}
+                        {userHouse.house.town},{" "}
+                        {userHouse.house.state},{" "}
+                        {userHouse.house.country}
+                      </p>
+                      <p>
+                        <strong>Role:</strong> {userHouse.role}
+                      </p>
+                    </div>
+                    {!isDefault && (
+                      <button
+                        className="delete-account"
+                        onClick={() =>
+                          setDefaultHouse(userHouse.house._id)
+                        }
+                      >
+                        Set as Default
+                      </button>
+                    )}
+                  </div>
+                );
+              })
             )}
           </div>
         );
