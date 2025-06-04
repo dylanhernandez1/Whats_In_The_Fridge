@@ -886,7 +886,7 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
 app.post(
   "/house-invitation/:houseId/users/:userId/",
   async (req, res) => {
-    const { houseId } = req.body;
+    const { houseId } = req.params;
 
     try {
       const user = await userServices.findUserByEmail(
@@ -907,7 +907,6 @@ app.post(
     } catch (err){
       res.status(404).send(`Invalid email: ${err}`);
     }
-   
   }
 );
 

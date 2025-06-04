@@ -712,23 +712,30 @@ describe("Email Verification & Password Reset", () => {
 
   describe("POST /house-invitation/:houseId/users/:userId/", () => {
 
-    it("should return 500 on email send error", async () => {
+    it("should return 404 on email send error", async () => {
       const res = await request(app)
         .post(`/house-invitation/house123/users/user123/`)
 
       expect(res.statusCode).toBe(404);
     });
 
-
-    it("should return 201 on email send error", async () => {
+    it("should return 500 when not finding anything", async () => {
+      userServices.findUserByEmail.mockResolvedValue({ id: "mock" });
+  
       const res = await request(app)
-        .post(`/house-invitation/house123/users/user123/`)
-        .send({
-          email: "test@test.com",
-          houseId: "house123",
-          userId: "user123",
-        });
+        .post("/house-invitation/house123/users/user123/")
+        .send({ email: "test@example.com" });
+  
+      expect(res.statusCode).toBe(500);
+    });
 
+    it("should return 201 when sending anything", async () => {
+      userServices.findUserByEmail.mockResolvedValue({ id: "mock" });
+  
+      const res = await request(app)
+        .post("/house-invitation/house123/users/user123/")
+        .send({ email: "test@example.com"});
+  
       expect(res.statusCode).toBe(201);
     });
   });
