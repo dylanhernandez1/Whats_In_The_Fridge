@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "../Components/Profile_page.css";
 import ProfileToolbar from "../Components/profile_bar.jsx";
 import { FaSignOutAlt } from "react-icons/fa";
+import { FaUserPlus } from "react-icons/fa";
 import URL from "./Url";
 import defaultProfileImage from "../assets/default-profile.png";
 
@@ -511,6 +512,7 @@ function Profile() {
                             setShowInviteModal(true);
                           }}
                         >
+                          <FaUserPlus style={{ marginRight: "6px" }} />
                           Add Member
                         </button>
                       </div>
