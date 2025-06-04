@@ -29,6 +29,9 @@ function Profile() {
     profileImagePreview: ""
   });
   const [defaultHouseId, setDefaultHouseId] = useState(null);
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const [inviteEmail, setInviteEmail] = useState("");
+  const [inviteHouseId, setInviteHouseId] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -145,12 +148,14 @@ function Profile() {
     setShowHouseModal(true);
   }
 
-  async function sendHouse(houseId, userEmail) {
+  async function sendHouse() {
+    if (!inviteHouseId || !inviteEmail)
+      return alert("Missing data");
     const token = localStorage.getItem("token");
 
     try {
       const res = await fetch(
-        `${URL}/house-invitation/${houseId}/users/${userEmail}`,
+        `${URL}/house-invitation/${inviteHouseId}/users/${inviteEmail}`,
         {
           method: "POST",
           headers: {
@@ -164,6 +169,9 @@ function Profile() {
 
       if (res.ok) {
         alert("Invitation sent successfully!");
+        setShowInviteModal(false);
+        setInviteEmail("");
+        setInviteHouseId(null);
       } else {
         alert(`Failed to send invitation: ${responseText}`);
       }
@@ -471,42 +479,58 @@ function Profile() {
                   <div
                     key={userHouse.house._id}
                     className="house-entry"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px"
-                    }}
                   >
-                    <div style={{ flexGrow: 1 }}>
-                      <p>
-                        <strong>Name:</strong>{" "}
-                        {userHouse.house.houseName}
-                        {isDefault && <span>✔️</span>}
-                      </p>
-                      <p>
-                        <strong>Location:</strong>{" "}
-                        {userHouse.house.town},{" "}
-                        {userHouse.house.state},{" "}
-                        {userHouse.house.country}
-                      </p>
-                      <p>
-                        <strong>Role:</strong> {userHouse.role}
-                      </p>
-                    </div>
-                    {!isDefault && (
-                      <button
-                        className="delete-account"
-                        onClick={() =>
-                          setDefaultHouse(userHouse.house._id)
-                        }
-                      >
-                        Set as Default
-                      </button>
-                    )}
+                    <p>
+                      <strong>Name:</strong>{" "}
+                      {userHouse.house.houseName}
+                      {isDefault && <span>✔️</span>}
+                      {!isDefault && (
+                        <button
+                          className="delete-account"
+                          onClick={() =>
+                            setDefaultHouse(userHouse.house._id)
+                          }
+                        >
+                          Set as Default
+                        </button>
+                      )}
+                    </p>
+                    <p>
+                      <strong>Location:</strong>{" "}
+                      {userHouse.house.town},{" "}
+                      {userHouse.house.state},{" "}
+                      {userHouse.house.country}
+                    </p>
+                    <p>
+                      <strong>Role:</strong> {userHouse.role}
+                      {/* new house buttons to set default */}
+                      {userHouse.role === "owner" && (
+                        <div className="house-buttons">
+                          <button
+                            className="add-member-button"
+                            onClick={() => {
+                              setInviteHouseId(
+                                userHouse.house._id
+                              );
+                              setShowInviteModal(true);
+                            }}
+                          >
+                            Add Member
+                          </button>
+                        </div>
+                      )}
+                    </p>
+                    <hr />
                   </div>
                 );
               })
             )}
+            <button
+              className="add-house-button"
+              onClick={manageHouses}
+            >
+              + Add House
+            </button>
           </div>
         );
       case "Other Settings":
@@ -607,6 +631,33 @@ function Profile() {
                 <button onClick={submitHouse}>Create</button>
                 <button
                   onClick={() => setShowHouseModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {showInviteModal && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <h2>Invite User to House</h2>
+              <input
+                type="email"
+                placeholder="Enter user email"
+                value={inviteEmail}
+                onChange={(e) => setInviteEmail(e.target.value)}
+              />
+              <div className="modal-buttons">
+                <button onClick={sendHouse}>
+                  Send Invitation
+                </button>
+                <button
+                  onClick={() => {
+                    setShowInviteModal(false);
+                    setInviteEmail("");
+                    setInviteHouseId(null);
+                  }}
                 >
                   Cancel
                 </button>
