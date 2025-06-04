@@ -298,10 +298,27 @@ function Profile() {
                   </p>
                   <p>
                     <strong>Role:</strong> {userHouse.role}
+                    {/* new house buttons to set default */}
+                    <div className="house-buttons">
+                      <button
+                        className="set-default-button"
+                        onClick={sendHouse}
+                      >
+                        Set House as Default
+                      </button>
+                    </div>
                   </p>
+                  <hr />
                 </div>
               ))
             )}
+            {/* added a button to add house in the house section of profile */}
+            <button
+                className="add-house-button"
+                onClick={manageHouses}
+              >
+                + Add House
+              </button>
           </div>
         );
       case "Other Settings":

@@ -30,7 +30,7 @@
 }
 
 .profile-content {
-  background-color: #f9f9f9;
+  background-color: #dbe7f3;
   padding: 20px;
   margin-top: 15px;
   margin-bottom: 20px;
@@ -90,6 +90,12 @@
   color: #777;
 }
 
+.house-entry hr {
+  height: 1px;
+  background-color: rgba(114, 114, 186, 0.3);
+  margin: 10px 0;
+}
+
 /* Overlay */
 .modal-overlay {
   position: fixed;
@@ -104,7 +110,7 @@
 }
 
 .modal {
-  background: white;
+  background: #e9f4fb;
   border-radius: 10px;
   padding: 2rem;
   width: 400px;
@@ -131,6 +137,28 @@
     width: 100%;
     margin-left: 10px;
   }
+}
+
+.set-default-button {
+  background-color: var(--accent-blue);
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.set-default-button:hover {
+  background-color: var(--accent-dark-blue);
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 /* Button group container */
