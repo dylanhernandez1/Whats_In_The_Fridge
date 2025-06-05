@@ -520,6 +520,8 @@ app.get("/verify-email/:id", async (req, res) => {
       );
       if (verification) {
         return res.status(200).send();
+      } else {
+        return res.status(403).send();
       }
     } catch (error) {
       console.log("Error verifying email");
@@ -550,8 +552,7 @@ app.post("/forgot-password", async (req, res) => {
   const link =
     "https://white-stone-02cbbab1e.6.azurestaticapps.net/forgot-password-change/";
   try {
-    sendMail(req, res, subject, link);
-
+    await sendMail(req, res, subject, link);
     return res.status(201).send();
   } catch (error) {
     console.log(error);
