@@ -440,12 +440,6 @@ function Profile() {
             <div className="profile-buttons">
               <button
                 className="add-house-button"
-                onClick={sendHouse}
-              >
-                + Temp Send House Request
-              </button>
-              <button
-                className="add-house-button"
                 onClick={manageHouses}
               >
                 + Add House
