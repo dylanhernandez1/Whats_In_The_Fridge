@@ -7,7 +7,7 @@ import ProfileToolbar from "../Components/profile_bar.jsx";
 import { FaSignOutAlt } from "react-icons/fa";
 import { FaUserPlus } from "react-icons/fa";
 import URL from "./Url";
-import defaultProfileImage from "../assets/default-profile.png";
+import defaultProfileImage from "../Assets/default-profile.png";
 
 function Profile() {
   const navigate = useNavigate();
