@@ -622,12 +622,23 @@ describe("Email Verification & Password Reset", () => {
       expect(res.statusCode).toBe(401);
     });
 
+    it("should return 404 on valid token", async () => {
+      userServices.verifyUserByEmail.mockReturnValue(null);
+
+      const res = await request(app)
+      .get("/verify-email/34234")
+
+      expect(res.statusCode).toBe(403);
+    });
+
     it("should return 200 on valid token", async () => {
       userServices.verifyUserByEmail.mockReturnValue({
         email: "example@gmail.com"
       });
 
-      const res = await request(app).get("/verify-email/34234");
+      const res = await request(app)
+      .get("/verify-email/34234")
+
       expect(res.statusCode).toBe(200);
     });
   });
@@ -681,7 +692,36 @@ describe("Email Verification & Password Reset", () => {
 
       expect(res.statusCode).toBe(500);
     });
+
+    it("should return 201 on success", async () => {
+      userServices.findUserByEmail.mockResolvedValue({
+        email: "test@test.com",
+        password: "oldHashedPassword",
+        save: jest.fn().mockResolvedValue()
+      });
+    
+      const res = await request(app)
+        .post(`/forgot-password-change/${authToken}`)
+        .send({
+          password: "pass"
+        });
+    
+      expect(res.statusCode).toBe(201);
+    });
+
+    it("should return 404 on success", async () => {
+      userServices.findUserByEmail.mockResolvedValue(null);
+    
+      const res = await request(app)
+        .post(`/forgot-password-change/${authToken}`)
+        .send({
+          password: "pass"
+        });
+    
+      expect(res.statusCode).toBe(404);
+    });
   });
+
 
   describe("POST /verify-email", () => {
     it("should return 500 on email send error", async () => {
@@ -742,6 +782,7 @@ describe("Email Verification & Password Reset", () => {
   });
 
   describe("POST /house-invitation/:houseId/users/:email/", () => {
+
     it("should return 404 invalid house", async () => {
       userServices.findUserByEmail.mockResolvedValue(null);
 
@@ -770,7 +811,7 @@ describe("Email Verification & Password Reset", () => {
 
       expect(res.statusCode).toBe(402);
     });
-
+ 
     it("should return 500 invalid house", async () => {
       userServices.findUserByEmail.mockResolvedValue({
         _id: "mockUser123",
@@ -824,6 +865,8 @@ describe("Email Verification & Password Reset", () => {
 
       expect(res.statusCode).toBe(201);
     });
+
+
   });
 });
 
@@ -867,6 +910,64 @@ describe("POST /houses", () => {
       houseId: "house123",
       role: "owner"
     });
+  });
+});
+
+describe("POST /houses/:houseId/users/:userId", () => {
+  it("201 add user to house", async () => {
+    const houseId = "house123";
+    const userId = "user123";
+
+    userHouseServices.addUserToHouse = jest.fn().mockResolvedValue({
+      success: true,
+      savedUserHouse: {
+        userId,
+        houseId,
+        role: "member"
+      }
+    });
+
+    const res = await request(app)
+      .post(`/houses/${houseId}/users/${userId}`)
+      .send({ role: "member" });
+
+    expect(res.statusCode).toBe(201);
+  });
+
+  it("400 add user to house no success", async () => {
+    const houseId = "house123";
+    const userId = "user123";
+
+    userHouseServices.addUserToHouse = jest.fn().mockResolvedValue({
+      success: false,
+      savedUserHouse: {
+        userId,
+        houseId,
+        role: "member"
+      }
+    });
+
+    const res = await request(app)
+      .post(`/houses/${houseId}/users/${userId}`)
+      .send({ role: "member" });
+
+    expect(res.statusCode).toBe(400);
+  });
+
+  it("500 add user to house", async () => {
+    const houseId = "house123";
+    const userId = "user123";
+
+    userHouseServices.addUserToHouse.mockImplementation(() => {
+        throw new Error("Database failure");
+      }
+    );
+
+    const res = await request(app)
+      .post(`/houses/${houseId}/users/${userId}`)
+      .send({ role: "member" });
+
+    expect(res.statusCode).toBe(500);
   });
 });
 
@@ -1015,6 +1116,18 @@ describe("DELETE /houses/:houseId/users/:userId", () => {
 
     expect(response.text).toBe("User not found in house");
   });
+
+  it("should return 500 ", async () => {
+    userHouseServices.removeUserFromHouse.mockImplementation(() => {
+      throw new Error("Database failure");
+    });
+
+    const response = await request(app)
+      .delete("/houses/house123/users/user123")
+      .expect(500);
+
+  });
+
 });
 
 describe("PATCH /houses/updateFood/:houseId", () => {
@@ -1346,6 +1459,19 @@ describe("POST /houses/:houseId/food/:location", () => {
     });
 
     it("should return 200 valid ", async () => {
+      houseServices.getAllFoodFromHouse.mockResolvedValue({
+        success: true,
+        foodItems: ["eggs", "milk"]
+      });
+
+      const res = await request(app).get(
+        `/suggest-recipe/35234`
+      );
+
+      expect(res.statusCode).toBe(200);
+    });
+
+     it("should return 500 groq invalid ", async () => {
       houseServices.getAllFoodFromHouse.mockResolvedValue({
         success: true,
         foodItems: ["eggs", "milk"]
