@@ -69,21 +69,28 @@ function RecipeSuggester() {
           ); //Update route if needed
 
           response
-          .then((result) => {
-            if (result.status === 200) {
-              result.json()
-              .then((json) => {
-                const recipe = json.choices[0]?.message?.content || ""
-                setRecipe(recipe); //Get the output
-              })
-              .catch((error) => {
-                console.log("Failed with the following error: " + error)
-              })
-            }
-          })
-          .catch((error) => {
-            console.log("Failed with the following error: " + error)
-          })
+            .then((result) => {
+              if (result.status === 200) {
+                result
+                  .json()
+                  .then((json) => {
+                    const recipe =
+                      json.choices[0]?.message?.content || "";
+                    setRecipe(recipe); //Get the output
+                  })
+                  .catch((error) => {
+                    console.log(
+                      "Failed with the following error: " +
+                        error
+                    );
+                  });
+              }
+            })
+            .catch((error) => {
+              console.log(
+                "Failed with the following error: " + error
+              );
+            });
         } catch (err) {
           setError(err.message);
         }
@@ -113,9 +120,7 @@ function RecipeSuggester() {
 
         {recipe && (
           <div className="recipe-result">
-            <Markdown>
-              {recipe}
-            </Markdown>
+            <Markdown>{recipe}</Markdown>
           </div>
         )}
       </div>

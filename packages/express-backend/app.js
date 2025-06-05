@@ -11,7 +11,7 @@ import houseServices from "./house-services.js";
 import userHouseServices from "./UserHouse-services.js";
 import { GiConsoleController } from "react-icons/gi";
 import { createApi } from "unsplash-js";
-import Groq from "groq-sdk"
+import Groq from "groq-sdk";
 import nodemailer from "nodemailer";
 import multer from "multer";
 
@@ -51,7 +51,8 @@ app.options("*", cors());
 
 // Generate the prompt to send to Groq from the list of expiring food items
 function generatePrompt(foodItems) {
-  let prompt = "Generate different receipes you could make with the following ingredients, prioritising foods that are earlier in the list:";
+  let prompt =
+    "Generate different receipes you could make with the following ingredients, prioritising foods that are earlier in the list:";
   const millisPerDay = 24 * 60 * 60 * 1000;
   const currentDate = new Date();
   foodItems.forEach((food) => {
@@ -62,48 +63,49 @@ function generatePrompt(foodItems) {
       );
     }
   });
-  foodItems.sort(
-    (a, b) => a.ExpirationDate - b.ExpirationDate
-  );
+  foodItems.sort((a, b) => a.ExpirationDate - b.ExpirationDate);
 
-  for(let index = 0; index < foodItems.length; index++) {
-    prompt += " " + foodItems[index].FoodName + ","
+  for (let index = 0; index < foodItems.length; index++) {
+    prompt += " " + foodItems[index].FoodName + ",";
   }
-  
+
   return prompt;
 }
 
-app.get("/suggest-recipe/:house", async(req, res) => {
+app.get("/suggest-recipe/:house", async (req, res) => {
   const houseId = req.params.house;
 
-    getExpiringFoodList(houseId)
-      .then((result) => {
-        if (result.success) {
-          const prompt = generatePrompt(result.foodItems);
-          console.log(prompt);
+  getExpiringFoodList(houseId)
+    .then((result) => {
+      if (result.success) {
+        const prompt = generatePrompt(result.foodItems);
+        console.log(prompt);
 
-          groq.chat.completions.create({
-          messages: [
-            {
-              role: "user",
-              content: prompt,
-            },
-          ],
-          model: "llama-3.3-70b-versatile",
+        groq.chat.completions
+          .create({
+            messages: [
+              {
+                role: "user",
+                content: prompt
+              }
+            ],
+            model: "llama-3.3-70b-versatile"
           })
           .then((result) => {
             res.status(200).send(result);
           })
           .catch((error) => {
-            res.status(500).send(`Internal Server Error: ${error}`);
+            res
+              .status(500)
+              .send(`Internal Server Error: ${error}`);
           });
-        } else {
-          res.status(400).send(result.message);
-        }
-      })
-      .catch((error) => {
-        res.status(500).send(`Internal Server Error: ${error}`);
-      });
+      } else {
+        res.status(400).send(result.message);
+      }
+    })
+    .catch((error) => {
+      res.status(500).send(`Internal Server Error: ${error}`);
+    });
 });
 
 /* -------------------- USERS -------------------- */
@@ -385,11 +387,9 @@ app.put(
       );
 
       if (success) {
-        return res
-          .status(200)
-          .json({
-            message: "Default house updated successfully"
-          });
+        return res.status(200).json({
+          message: "Default house updated successfully"
+        });
       } else {
         return res
           .status(404)
@@ -721,11 +721,11 @@ app.post(
 );
 
 async function getExpiringFoodList(houseId, location) {
-    const service = location
-      ? houseServices.getFoodFromHouse(houseId, location)
-      : houseServices.getAllFoodFromHouse(houseId);
+  const service = location
+    ? houseServices.getFoodFromHouse(houseId, location)
+    : houseServices.getAllFoodFromHouse(houseId);
 
-    return service;
+  return service;
 }
 
 //Get all food items from a specific location in a house
@@ -926,10 +926,11 @@ app.get("/userhouses", authenticateUser, async (req, res) => {
 
 //SEND REQUEST TO USER WITH HOUSE ID
 app.post(
-  "/house-invitation/:houseId/users/:userEmail",
+  "/house-invitation/:houseId/users/:email",
+  authenticateUser,
   async (req, res) => {
-    const { houseId, userEmail } = req.params;
-    const user = await userServices.findUserByEmail(userEmail);
+    const { houseId, email } = req.params;
+    const user = await userServices.findUserByEmail(email);
 
     if (!user) {
       return res.status(404).send("User not found");
@@ -939,12 +940,18 @@ app.post(
       user._id,
       houseId
     );
-    if (result.userHouse) {
+    if (result?.userHouse) {
       return res.status(403).send("User already in house");
     }
 
+    const houseResult =
+      await houseServices.findHouseById(houseId);
     const id = `${houseId}/${user._id}`;
+    req.body = { email: email };
 
+    const subject = `What's In The Fridge House Invitation to ${houseResult.house.houseName} from ${req.userEmail}`;
+    const link =
+      "https://white-stone-02cbbab1e.6.azurestaticapps.net/house-invitation/";
     try {
       sendMail(req, res, subject, link, id);
       return res.status(201).send();

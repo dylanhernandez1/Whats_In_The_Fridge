@@ -711,12 +711,7 @@ describe("Email Verification & Password Reset", () => {
   });
 
   describe("POST /house-invitation/:houseId/users/:userEmail/", () => {
-
     it("should return 500 for overall error", async () => {
-      userServices.findUserByEmail.mockImplementation(() => {
-        throw new Error("Database failure");
-      });
-      
       const res = await request(app)
         .post(`/house-invitation/928414341/users/testing@gmail.com`)
 

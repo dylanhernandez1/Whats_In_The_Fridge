@@ -15,7 +15,7 @@ body {
   border: 1px solid #aac0d4;
   border-radius: 8px;
   width: fit-content;
-  background: linear-gradient(#cde7ff, var(--accent-blue));
+  background: linear-gradient(145deg, #aac0d4, var(--accent-blue), var(--accent-dark-blue));
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   overflow-x: auto;
   margin: 0 auto;
@@ -38,11 +38,13 @@ body {
   transition: background-color 0.3s ease-in-out;
   white-space: nowrap;
   font-size: 16px;
-  color: #333;
+  color: #ffffff;
 }
 
 .toolbar-button:hover {
-  background-color: #f0f0f0;
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur();
+  color: white;
   border: 0;
 }
 
@@ -54,12 +56,13 @@ body {
 }
 
 .toolbar-button:hover .profile-button-text {
-  color: var(--accent-blue);
+  color: white;
 }
 
 /* Selected state */
 .toolbar-button.selected {
-  background-color: var(--accent-blue);
+  background-color: rgba(0, 12, 70, 0.2);
+  backdrop-filter: blur();
   color: white;
   font-weight: bold;
   border: 0;

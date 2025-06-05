@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "../Components/Profile_page.css";
 import ProfileToolbar from "../Components/profile_bar.jsx";
 import { FaSignOutAlt } from "react-icons/fa";
+import { FaUserPlus } from "react-icons/fa";
 import URL from "./Url";
 import defaultProfileImage from "../assets/default-profile.png";
 
@@ -29,6 +30,9 @@ function Profile() {
     profileImagePreview: ""
   });
   const [defaultHouseId, setDefaultHouseId] = useState(null);
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const [inviteEmail, setInviteEmail] = useState("");
+  const [inviteHouseId, setInviteHouseId] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -145,12 +149,14 @@ function Profile() {
     setShowHouseModal(true);
   }
 
-  async function sendHouse(houseId, userEmail) {
+  async function sendHouse() {
+    if (!inviteHouseId || !inviteEmail)
+      return alert("Missing data");
     const token = localStorage.getItem("token");
 
     try {
       const res = await fetch(
-        `${URL}/house-invitation/${houseId}/users/${userEmail}`,
+        `${URL}/house-invitation/${inviteHouseId}/users/${inviteEmail}`,
         {
           method: "POST",
           headers: {
@@ -164,6 +170,9 @@ function Profile() {
 
       if (res.ok) {
         alert("Invitation sent successfully!");
+        setShowInviteModal(false);
+        setInviteEmail("");
+        setInviteHouseId(null);
       } else {
         alert(`Failed to send invitation: ${responseText}`);
       }
@@ -187,7 +196,7 @@ function Profile() {
       );
 
       if (res.ok) {
-        alert("Set Default House successfully!");
+        alert("Set Default House successfully! Please reload page.");
       } else {
         const data = await res.json().catch(() => ({}));
         const message =
@@ -431,12 +440,6 @@ function Profile() {
             <div className="profile-buttons">
               <button
                 className="add-house-button"
-                onClick={sendHouse}
-              >
-                + Temp Send House Request
-              </button>
-              <button
-                className="add-house-button"
                 onClick={manageHouses}
               >
                 + Add House
@@ -464,44 +467,60 @@ function Profile() {
             {userHouses.length === 0 ? (
               <p>No houses found.</p>
             ) : (
-              userHouses.map((userHouse) => (
-                <div
-                  key={userHouse.house._id}
-                  className="house-entry"
-                >
-                  <p>
-                    <strong>Name:</strong>{" "}
-                    {userHouse.house.houseName}
-                  </p>
-                  <p>
-                    <strong>Location:</strong>{" "}
-                    {userHouse.house.town},{" "}
-                    {userHouse.house.state},{" "}
-                    {userHouse.house.country}
-                  </p>
-                  <p>
-                    <strong>Role:</strong> {userHouse.role}
-                    {/* new house buttons to set default */}
-                    <div className="house-buttons">
-                      <button
-                        className="add-member-button"
-                        onClick={sendHouse}
-                      >
-                        Add Member
-                      </button>
-                    </div>
-                  </p>
-                  <hr />
-                </div>
-              ))
+              userHouses.map((userHouse) => {
+                const isDefault =
+                  defaultHouseId === userHouse.house._id;
+                return (
+                  <div
+                    key={userHouse.house._id}
+                    className="house-entry"
+                  >
+                    <p>
+                      <strong>Name:</strong> {userHouse.house.houseName}{" "}
+                      {isDefault ? (
+                        <span className="default-label">(Default)</span>
+                      ) : (
+                        <span
+                          className="set-default-text"
+                          onClick={() => setDefaultHouse(userHouse.house._id)}
+                        >
+                          [Set as Default]
+                        </span>
+                      )}
+                    </p>
+                    <p>
+                      <strong>Location:</strong>{" "}
+                      {userHouse.house.town},{" "}
+                      {userHouse.house.state},{" "}
+                      {userHouse.house.country}
+                    </p>
+                    <p>
+                      <strong>Role:</strong> {userHouse.role}
+                    </p>
+                    {userHouse.role === "owner" && (
+                      <div className="house-buttons" style={{ marginTop: "8px" }}>
+                        <button
+                          className="add-member-button"
+                          onClick={() => {
+                            setInviteHouseId(userHouse.house._id);
+                            setShowInviteModal(true);
+                          }}
+                        >
+                          <FaUserPlus style={{ marginRight: "6px" }} />
+                          Add Member
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                );
+              })
             )}
-            {/* added a button to add house in the house section of profile */}
             <button
-                className="add-house-button"
-                onClick={manageHouses}
-              >
-                + Add House
-              </button>
+              className="add-house-button"
+              onClick={manageHouses}
+            >
+              + Add House
+            </button>
           </div>
         );
       case "Other Settings":
@@ -543,7 +562,7 @@ function Profile() {
       <Toolbar selected="Profile" />
       <div className="content-container-spaced">
         <header className="header-container">
-          <b>User</b>
+          <b>Profile</b>
         </header>
         <ProfileToolbar
           onSelectSection={setSelectedSection}
@@ -602,6 +621,33 @@ function Profile() {
                 <button onClick={submitHouse}>Create</button>
                 <button
                   onClick={() => setShowHouseModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {showInviteModal && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <h2>Invite User to House</h2>
+              <input
+                type="email"
+                placeholder="Enter user email"
+                value={inviteEmail}
+                onChange={(e) => setInviteEmail(e.target.value)}
+              />
+              <div className="modal-buttons">
+                <button onClick={sendHouse}>
+                  Send Invitation
+                </button>
+                <button
+                  onClick={() => {
+                    setShowInviteModal(false);
+                    setInviteEmail("");
+                    setInviteHouseId(null);
+                  }}
                 >
                   Cancel
                 </button>

@@ -357,7 +357,10 @@ test("Updating user by ID -- successful update", async () => {
     password: "evenMoreSecurePassword456"
   };
 
-  const updatedUser = await userServices.updateUserById(user._id, updatedFields);
+  const updatedUser = await userServices.updateUserById(
+    user._id,
+    updatedFields
+  );
 
   expect(updatedUser).toBeTruthy();
   expect(updatedUser.name).toBe("Chuck Norris Prime");
@@ -369,7 +372,10 @@ test("Updating user by ID -- invalid ID", async () => {
     name: "Invalid Update"
   };
 
-  const updatedUser = await userServices.updateUserById("123", updatedFields);
+  const updatedUser = await userServices.updateUserById(
+    "123",
+    updatedFields
+  );
 
   expect(updatedUser).toBeNull();
 });
@@ -377,9 +383,12 @@ test("Updating user by ID -- invalid ID", async () => {
 test("Updating user by ID -- non-existent valid ObjectId", async () => {
   const nonExistentId = new mongoose.Types.ObjectId(); // creates a valid but unused ObjectId
 
-  const updatedUser = await userServices.updateUserById(nonExistentId.toString(), {
-    name: "Ghost User"
-  });
+  const updatedUser = await userServices.updateUserById(
+    nonExistentId.toString(),
+    {
+      name: "Ghost User"
+    }
+  );
 
   expect(updatedUser).toBeNull();
 });
@@ -394,14 +403,20 @@ test("Verifying user by email — successful path", async () => {
   const addedUser = await userServices.addUser(dummyUser);
   expect(addedUser.emailVerified).toBeFalsy();
 
-  const result = await userServices.verifyUserByEmail(addedUser.email);
+  const result = await userServices.verifyUserByEmail(
+    addedUser.email
+  );
   expect(result).toBe(true);
 
-  const verifiedUser = await userServices.findUserByEmail(addedUser.email);
+  const verifiedUser = await userServices.findUserByEmail(
+    addedUser.email
+  );
   expect(verifiedUser.emailVerified).toBe(true);
 });
 
 test("Verifying user by email — user not found", async () => {
-  const result = await userServices.verifyUserByEmail("nonexistent@example.com");
+  const result = await userServices.verifyUserByEmail(
+    "nonexistent@example.com"
+  );
   expect(result).toBe(false);
 });
