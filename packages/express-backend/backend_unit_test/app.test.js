@@ -10,6 +10,7 @@ import foodServices from "../food-services.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
+import { response } from "express";
 
 jest.mock("nodemailer");
 jest.mock("../user-services.js");
@@ -620,6 +621,15 @@ describe("Email Verification & Password Reset", () => {
       );
       expect(res.statusCode).toBe(401);
     });
+
+    it("should return 200 on valid token", async () => {
+      userServices.verifyUserByEmail.mockReturnValue({
+        email: "example@gmail.com"
+      });
+
+      const res = await request(app).get("/verify-email/34234");
+      expect(res.statusCode).toBe(200);
+    });
   });
 
   describe("POST /forgot-password", () => {
@@ -670,6 +680,149 @@ describe("Email Verification & Password Reset", () => {
         });
 
       expect(res.statusCode).toBe(500);
+    });
+  });
+
+  describe("POST /verify-email", () => {
+    it("should return 500 on email send error", async () => {
+      const sendMailMock = jest.fn((opts, cb) =>
+        cb(new Error("Send failed"))
+      );
+      nodemailer.createTransport.mockReturnValue({
+        sendMail: sendMailMock
+      });
+
+      const res = await request(app)
+        .post("/verify-email")
+        .set("Authorization", `Bearer ${authToken}`)
+        .send({ email: "user@example.com" });
+
+      expect(res.statusCode).toBe(500);
+    });
+
+    it("should return 201 on email send", async () => {
+      const sendMailMock = jest.fn((opts, cb) =>
+        cb(null, { response: "OK" })
+      );
+      nodemailer.createTransport.mockReturnValue({
+        sendMail: sendMailMock
+      });
+
+      userServices.findUserByEmail.mockResolvedValue(null);
+
+      userServices.verifyUserByEmail.mockResolvedValue({
+        email: "testing@gmail.com"
+      });
+
+      const res = await request(app)
+        .post("/verify-email")
+        .set("Authorization", `Bearer ${authToken}`)
+        .send({ email: "user@example.com" });
+
+      expect(res.statusCode).toBe(201);
+    });
+
+    it("should return 404 on email send invalid", async () => {
+      const sendMailMock = jest.fn((opts, cb) =>
+        cb(null, { response: "OK" })
+      );
+      nodemailer.createTransport.mockReturnValue({
+        sendMail: null
+      });
+
+      userServices.findUserByEmail.mockResolvedValue(null);
+
+      const res = await request(app)
+        .post("/verify-email")
+        .set("Authorization", `Bearer ${authToken}`)
+        .send({ email: "user@example.com" });
+
+      expect(res.statusCode).toBe(404);
+    });
+  });
+
+  describe("POST /house-invitation/:houseId/users/:email/", () => {
+    it("should return 404 invalid house", async () => {
+      userServices.findUserByEmail.mockResolvedValue(null);
+
+      const res = await request(app)
+        .post(
+          `/house-invitation/928414341/users/testing@gmail.com`
+        )
+        .set("Authorization", `Bearer ${authToken}`);
+
+      expect(res.statusCode).toBe(404);
+    });
+
+    it("should return 402 house undefined", async () => {
+      userServices.findUserByEmail.mockResolvedValue({
+        _id: "mockUser123",
+        email: "testing@gmail.com"
+      });
+
+      houseServices.findHouseById.mockResolvedValue(null);
+
+      const res = await request(app)
+        .post(
+          `/house-invitation/928414341/users/testing@gmail.com`
+        )
+        .set("Authorization", `Bearer ${authToken}`);
+
+      expect(res.statusCode).toBe(402);
+    });
+
+    it("should return 500 invalid house", async () => {
+      userServices.findUserByEmail.mockResolvedValue({
+        _id: "mockUser123",
+        email: "testing@gmail.com"
+      });
+
+      houseServices.findHouseById.mockResolvedValue({
+        _id: "928414341",
+        houseName: "mockHouse"
+      });
+
+      const sendMailMock = jest.fn((opts, cb) =>
+        cb(new Error("Send failed"))
+      );
+      nodemailer.createTransport.mockReturnValue({
+        sendMail: sendMailMock
+      });
+
+      const res = await request(app)
+        .post(
+          `/house-invitation/928414341/users/testing@gmail.com`
+        )
+        .set("Authorization", `Bearer ${authToken}`);
+
+      expect(res.statusCode).toBe(500);
+    });
+
+    it("should return 201 valid send email", async () => {
+      userServices.findUserByEmail.mockResolvedValue({
+        _id: "mockUser123",
+        email: "testing@gmail.com"
+      });
+
+      houseServices.findHouseById.mockResolvedValue({
+        _id: "928414341",
+        houseName: "mockHouse"
+      });
+
+      const sendMailMock = jest.fn((opts, cb) =>
+        cb(null, { response: "ok" })
+      );
+      nodemailer.createTransport.mockReturnValue({
+        sendMail: sendMailMock
+      });
+
+      const res = await request(app)
+        .post(
+          `/house-invitation/928414341/users/testing@gmail.com`
+        )
+        .set("Authorization", `Bearer ${authToken}`);
+
+      expect(res.statusCode).toBe(201);
     });
   });
 });
@@ -1185,5 +1338,51 @@ describe("POST /houses/:houseId/food/:location", () => {
       }
     );
     expect(response.text).toBe("");
+  });
+
+  describe("GET /suggest-recipe/:house", () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it("should return 200 valid ", async () => {
+      houseServices.getAllFoodFromHouse.mockResolvedValue({
+        success: true,
+        foodItems: ["eggs", "milk"]
+      });
+
+      const res = await request(app).get(
+        `/suggest-recipe/35234`
+      );
+
+      expect(res.statusCode).toBe(200);
+    });
+
+    it("should return 400 invalid ", async () => {
+      houseServices.getAllFoodFromHouse.mockResolvedValue({
+        success: false,
+        foodItems: ["eggs", "milk"]
+      });
+
+      const res = await request(app).get(
+        `/suggest-recipe/35234`
+      );
+
+      expect(res.statusCode).toBe(400);
+    });
+
+    it("should return 500 invalid ", async () => {
+      houseServices.getAllFoodFromHouse.mockImplementation(
+        () => {
+          throw new Error("Database failure");
+        }
+      );
+
+      const res = await request(app).get(
+        `/suggest-recipe/35234`
+      );
+
+      expect(res.statusCode).toBe(500);
+    });
   });
 });

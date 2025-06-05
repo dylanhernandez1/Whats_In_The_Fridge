@@ -495,7 +495,12 @@ app.post("/verify-email", async (req, res) => {
   const subject = "What's In The Fridge Email Verification";
   const link =
     "https://white-stone-02cbbab1e.6.azurestaticapps.net/verify-email/";
-  sendMail(req, res, subject, link);
+  try {
+    await sendMail(req, res, subject, link);
+    return res.status(201).send();
+  } catch (error) {
+    return res.status(404).send();
+  }
 });
 
 app.get("/verify-email/:id", async (req, res) => {
@@ -522,7 +527,7 @@ app.get("/verify-email/:id", async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    return res.status(401).end();
+    return res.status(401).send();
   }
 });
 
@@ -949,11 +954,15 @@ app.post(
     const id = `${houseId}/${user._id}`;
     req.body = { email: email };
 
-    const subject = `What's In The Fridge House Invitation to ${houseResult.house.houseName} from ${req.userEmail}`;
+    if (houseResult == undefined) {
+      return res.status(402).send("House is undefined");
+    }
+
+    const subject = `What's In The Fridge House Invitation to ${houseResult.houseName} from ${req.userEmail}`;
     const link =
       "https://white-stone-02cbbab1e.6.azurestaticapps.net/house-invitation/";
     try {
-      sendMail(req, res, subject, link, id);
+      await sendMail(req, res, subject, link, id);
       return res.status(201).send();
     } catch (error) {
       console.log(error);
