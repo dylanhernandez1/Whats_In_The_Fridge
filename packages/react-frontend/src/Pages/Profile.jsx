@@ -562,7 +562,7 @@ function Profile() {
       <Toolbar selected="Profile" />
       <div className="content-container-spaced">
         <header className="header-container">
-          <b>User</b>
+          <b>Profile</b>
         </header>
         <ProfileToolbar
           onSelectSection={setSelectedSection}
