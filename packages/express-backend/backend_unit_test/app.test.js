@@ -625,8 +625,7 @@ describe("Email Verification & Password Reset", () => {
     it("should return 404 on valid token", async () => {
       userServices.verifyUserByEmail.mockReturnValue(null);
 
-      const res = await request(app)
-      .get("/verify-email/34234")
+      const res = await request(app).get("/verify-email/34234");
 
       expect(res.statusCode).toBe(403);
     });
@@ -636,8 +635,7 @@ describe("Email Verification & Password Reset", () => {
         email: "example@gmail.com"
       });
 
-      const res = await request(app)
-      .get("/verify-email/34234")
+      const res = await request(app).get("/verify-email/34234");
 
       expect(res.statusCode).toBe(200);
     });
@@ -699,29 +697,28 @@ describe("Email Verification & Password Reset", () => {
         password: "oldHashedPassword",
         save: jest.fn().mockResolvedValue()
       });
-    
+
       const res = await request(app)
         .post(`/forgot-password-change/${authToken}`)
         .send({
           password: "pass"
         });
-    
+
       expect(res.statusCode).toBe(201);
     });
 
     it("should return 404 on success", async () => {
       userServices.findUserByEmail.mockResolvedValue(null);
-    
+
       const res = await request(app)
         .post(`/forgot-password-change/${authToken}`)
         .send({
           password: "pass"
         });
-    
+
       expect(res.statusCode).toBe(404);
     });
   });
-
 
   describe("POST /verify-email", () => {
     it("should return 500 on email send error", async () => {
@@ -782,7 +779,6 @@ describe("Email Verification & Password Reset", () => {
   });
 
   describe("POST /house-invitation/:houseId/users/:email/", () => {
-
     it("should return 404 invalid house", async () => {
       userServices.findUserByEmail.mockResolvedValue(null);
 
@@ -811,7 +807,7 @@ describe("Email Verification & Password Reset", () => {
 
       expect(res.statusCode).toBe(402);
     });
- 
+
     it("should return 500 invalid house", async () => {
       userServices.findUserByEmail.mockResolvedValue({
         _id: "mockUser123",
@@ -865,8 +861,6 @@ describe("Email Verification & Password Reset", () => {
 
       expect(res.statusCode).toBe(201);
     });
-
-
   });
 });
 
@@ -918,14 +912,16 @@ describe("POST /houses/:houseId/users/:userId", () => {
     const houseId = "house123";
     const userId = "user123";
 
-    userHouseServices.addUserToHouse = jest.fn().mockResolvedValue({
-      success: true,
-      savedUserHouse: {
-        userId,
-        houseId,
-        role: "member"
-      }
-    });
+    userHouseServices.addUserToHouse = jest
+      .fn()
+      .mockResolvedValue({
+        success: true,
+        savedUserHouse: {
+          userId,
+          houseId,
+          role: "member"
+        }
+      });
 
     const res = await request(app)
       .post(`/houses/${houseId}/users/${userId}`)
@@ -938,14 +934,16 @@ describe("POST /houses/:houseId/users/:userId", () => {
     const houseId = "house123";
     const userId = "user123";
 
-    userHouseServices.addUserToHouse = jest.fn().mockResolvedValue({
-      success: false,
-      savedUserHouse: {
-        userId,
-        houseId,
-        role: "member"
-      }
-    });
+    userHouseServices.addUserToHouse = jest
+      .fn()
+      .mockResolvedValue({
+        success: false,
+        savedUserHouse: {
+          userId,
+          houseId,
+          role: "member"
+        }
+      });
 
     const res = await request(app)
       .post(`/houses/${houseId}/users/${userId}`)
@@ -959,9 +957,8 @@ describe("POST /houses/:houseId/users/:userId", () => {
     const userId = "user123";
 
     userHouseServices.addUserToHouse.mockImplementation(() => {
-        throw new Error("Database failure");
-      }
-    );
+      throw new Error("Database failure");
+    });
 
     const res = await request(app)
       .post(`/houses/${houseId}/users/${userId}`)
@@ -1118,16 +1115,16 @@ describe("DELETE /houses/:houseId/users/:userId", () => {
   });
 
   it("should return 500 ", async () => {
-    userHouseServices.removeUserFromHouse.mockImplementation(() => {
-      throw new Error("Database failure");
-    });
+    userHouseServices.removeUserFromHouse.mockImplementation(
+      () => {
+        throw new Error("Database failure");
+      }
+    );
 
     const response = await request(app)
       .delete("/houses/house123/users/user123")
       .expect(500);
-
   });
-
 });
 
 describe("PATCH /houses/updateFood/:houseId", () => {
@@ -1471,7 +1468,7 @@ describe("POST /houses/:houseId/food/:location", () => {
       expect(res.statusCode).toBe(200);
     });
 
-     it("should return 500 groq invalid ", async () => {
+    it("should return 500 groq invalid ", async () => {
       houseServices.getAllFoodFromHouse.mockResolvedValue({
         success: true,
         foodItems: ["eggs", "milk"]
