@@ -455,7 +455,6 @@ function generateVerificationToken(email) {
 }
 
 function sendMail(req, res, subject, link, extra) {
- 
   if (extra == null) {
     extra = "";
   }
@@ -499,7 +498,7 @@ app.post("/verify-email", async (req, res) => {
   try {
     await sendMail(req, res, subject, link);
     return res.status(201).send();
-  } catch (error){
+  } catch (error) {
     return res.status(404).send();
   }
 });
@@ -955,7 +954,7 @@ app.post(
     const id = `${houseId}/${user._id}`;
     req.body = { email: email };
 
-    if (houseResult == undefined){
+    if (houseResult == undefined) {
       return res.status(402).send("House is undefined");
     }
 

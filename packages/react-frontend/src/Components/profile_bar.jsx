@@ -1,10 +1,7 @@
 import "./profile_bar.css";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  FaUser,
-  FaHouseUser
-} from "react-icons/fa";
+import { FaUser, FaHouseUser } from "react-icons/fa";
 
 import { FaGear } from "react-icons/fa6";
 

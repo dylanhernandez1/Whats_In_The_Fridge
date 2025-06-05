@@ -196,7 +196,9 @@ function Profile() {
       );
 
       if (res.ok) {
-        alert("Set Default House successfully! Please reload page.");
+        alert(
+          "Set Default House successfully! Please reload page."
+        );
       } else {
         const data = await res.json().catch(() => ({}));
         const message =
@@ -476,13 +478,18 @@ function Profile() {
                     className="house-entry"
                   >
                     <p>
-                      <strong>Name:</strong> {userHouse.house.houseName}{" "}
+                      <strong>Name:</strong>{" "}
+                      {userHouse.house.houseName}{" "}
                       {isDefault ? (
-                        <span className="default-label">(Default)</span>
+                        <span className="default-label">
+                          (Default)
+                        </span>
                       ) : (
                         <span
                           className="set-default-text"
-                          onClick={() => setDefaultHouse(userHouse.house._id)}
+                          onClick={() =>
+                            setDefaultHouse(userHouse.house._id)
+                          }
                         >
                           [Set as Default]
                         </span>
@@ -498,15 +505,22 @@ function Profile() {
                       <strong>Role:</strong> {userHouse.role}
                     </p>
                     {userHouse.role === "owner" && (
-                      <div className="house-buttons" style={{ marginTop: "8px" }}>
+                      <div
+                        className="house-buttons"
+                        style={{ marginTop: "8px" }}
+                      >
                         <button
                           className="add-member-button"
                           onClick={() => {
-                            setInviteHouseId(userHouse.house._id);
+                            setInviteHouseId(
+                              userHouse.house._id
+                            );
                             setShowInviteModal(true);
                           }}
                         >
-                          <FaUserPlus style={{ marginRight: "6px" }} />
+                          <FaUserPlus
+                            style={{ marginRight: "6px" }}
+                          />
                           Add Member
                         </button>
                       </div>

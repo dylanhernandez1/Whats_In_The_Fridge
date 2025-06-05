@@ -625,11 +625,9 @@ describe("Email Verification & Password Reset", () => {
     it("should return 200 on valid token", async () => {
       userServices.verifyUserByEmail.mockReturnValue({
         email: "example@gmail.com"
-      })
+      });
 
-      const res = await request(app).get(
-        "/verify-email/34234"
-      );
+      const res = await request(app).get("/verify-email/34234");
       expect(res.statusCode).toBe(200);
     });
   });
@@ -704,7 +702,7 @@ describe("Email Verification & Password Reset", () => {
 
     it("should return 201 on email send", async () => {
       const sendMailMock = jest.fn((opts, cb) =>
-        cb(null, {response: "OK"})
+        cb(null, { response: "OK" })
       );
       nodemailer.createTransport.mockReturnValue({
         sendMail: sendMailMock
@@ -726,14 +724,13 @@ describe("Email Verification & Password Reset", () => {
 
     it("should return 404 on email send invalid", async () => {
       const sendMailMock = jest.fn((opts, cb) =>
-        cb(null, {response: "OK"})
+        cb(null, { response: "OK" })
       );
       nodemailer.createTransport.mockReturnValue({
-        sendMail: (null)
+        sendMail: null
       });
 
       userServices.findUserByEmail.mockResolvedValue(null);
-
 
       const res = await request(app)
         .post("/verify-email")
@@ -745,14 +742,15 @@ describe("Email Verification & Password Reset", () => {
   });
 
   describe("POST /house-invitation/:houseId/users/:email/", () => {
-
     it("should return 404 invalid house", async () => {
       userServices.findUserByEmail.mockResolvedValue(null);
 
-    const res = await request(app)
-      .post(`/house-invitation/928414341/users/testing@gmail.com`)
-      .set("Authorization", `Bearer ${authToken}`)
-  
+      const res = await request(app)
+        .post(
+          `/house-invitation/928414341/users/testing@gmail.com`
+        )
+        .set("Authorization", `Bearer ${authToken}`);
+
       expect(res.statusCode).toBe(404);
     });
 
@@ -764,10 +762,12 @@ describe("Email Verification & Password Reset", () => {
 
       houseServices.findHouseById.mockResolvedValue(null);
 
-    const res = await request(app)
-      .post(`/house-invitation/928414341/users/testing@gmail.com`)
-      .set("Authorization", `Bearer ${authToken}`)
-  
+      const res = await request(app)
+        .post(
+          `/house-invitation/928414341/users/testing@gmail.com`
+        )
+        .set("Authorization", `Bearer ${authToken}`);
+
       expect(res.statusCode).toBe(402);
     });
 
@@ -783,16 +783,18 @@ describe("Email Verification & Password Reset", () => {
       });
 
       const sendMailMock = jest.fn((opts, cb) =>
-      cb(new Error("Send failed"))
-    );
-    nodemailer.createTransport.mockReturnValue({
-      sendMail: sendMailMock
-    });
-  
-    const res = await request(app)
-      .post(`/house-invitation/928414341/users/testing@gmail.com`)
-      .set("Authorization", `Bearer ${authToken}`)
-  
+        cb(new Error("Send failed"))
+      );
+      nodemailer.createTransport.mockReturnValue({
+        sendMail: sendMailMock
+      });
+
+      const res = await request(app)
+        .post(
+          `/house-invitation/928414341/users/testing@gmail.com`
+        )
+        .set("Authorization", `Bearer ${authToken}`);
+
       expect(res.statusCode).toBe(500);
     });
 
@@ -808,16 +810,18 @@ describe("Email Verification & Password Reset", () => {
       });
 
       const sendMailMock = jest.fn((opts, cb) =>
-      cb(null, {response: "ok"})
-    );
-    nodemailer.createTransport.mockReturnValue({
-      sendMail: sendMailMock
-    });
-  
-    const res = await request(app)
-      .post(`/house-invitation/928414341/users/testing@gmail.com`)
-      .set("Authorization", `Bearer ${authToken}`)
-  
+        cb(null, { response: "ok" })
+      );
+      nodemailer.createTransport.mockReturnValue({
+        sendMail: sendMailMock
+      });
+
+      const res = await request(app)
+        .post(
+          `/house-invitation/928414341/users/testing@gmail.com`
+        )
+        .set("Authorization", `Bearer ${authToken}`);
+
       expect(res.statusCode).toBe(201);
     });
   });
@@ -1336,21 +1340,21 @@ describe("POST /houses/:houseId/food/:location", () => {
     expect(response.text).toBe("");
   });
 
-
   describe("GET /suggest-recipe/:house", () => {
     beforeEach(() => {
       jest.clearAllMocks();
     });
-  
+
     it("should return 200 valid ", async () => {
       houseServices.getAllFoodFromHouse.mockResolvedValue({
         success: true,
         foodItems: ["eggs", "milk"]
       });
 
-      const res = await request(app)
-      .get(`/suggest-recipe/35234`)
-  
+      const res = await request(app).get(
+        `/suggest-recipe/35234`
+      );
+
       expect(res.statusCode).toBe(200);
     });
 
@@ -1360,19 +1364,23 @@ describe("POST /houses/:houseId/food/:location", () => {
         foodItems: ["eggs", "milk"]
       });
 
-      const res = await request(app)
-      .get(`/suggest-recipe/35234`)
-  
+      const res = await request(app).get(
+        `/suggest-recipe/35234`
+      );
+
       expect(res.statusCode).toBe(400);
     });
 
     it("should return 500 invalid ", async () => {
-      houseServices.getAllFoodFromHouse.mockImplementation(() => {
-        throw new Error("Database failure")
-      });
-      
-      const res = await request(app)
-      .get(`/suggest-recipe/35234`)
+      houseServices.getAllFoodFromHouse.mockImplementation(
+        () => {
+          throw new Error("Database failure");
+        }
+      );
+
+      const res = await request(app).get(
+        `/suggest-recipe/35234`
+      );
 
       expect(res.statusCode).toBe(500);
     });
