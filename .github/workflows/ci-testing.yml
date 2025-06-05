@@ -12,6 +12,7 @@ jobs:
       UNSPLASH_API_KEY: ${{ secrets.UNSPLASH_API_KEY }}
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
       TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
 
     steps:
       - uses: actions/checkout@v4
