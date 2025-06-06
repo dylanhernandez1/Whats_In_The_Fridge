@@ -9,6 +9,18 @@ function RecipeSuggester() {
   const [recipe, setRecipe] = useState(null);
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const recipe = localStorage.getItem("recipe");
+    if (recipe) {
+      setRecipe(recipe);
+    }
+  }, []);
+
+  function setRecipeInStorage(recipe) {
+    localStorage.setItem("recipe", recipe);
+    setRecipe(recipe);
+  }
+
   async function getHouses(token) {
     if (!token) return [];
     try {
@@ -76,7 +88,7 @@ function RecipeSuggester() {
                   .then((json) => {
                     const recipe =
                       json.choices[0]?.message?.content || "";
-                    setRecipe(recipe); //Get the output
+                    setRecipeInStorage(recipe);
                   })
                   .catch((error) => {
                     console.log(

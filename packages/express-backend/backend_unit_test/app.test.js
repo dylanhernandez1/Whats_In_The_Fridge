@@ -1509,3 +1509,57 @@ describe("POST /houses/:houseId/food/:location", () => {
     });
   });
 });
+
+describe("PUT /currentUser", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should return 404 with not found user", async () => {
+    userServices.findUserByEmail.mockImplementation(() => {
+      throw new Error("Database failure");
+    });
+
+    const res = await request(app)
+      .put(`/currentuser`)
+      .set("Authorization", `Bearer ${authToken}`);
+
+    expect(res.statusCode).toBe(500);
+  });
+
+  it("should return 200 when user is updated", async () => {
+    userServices.findUserByEmail.mockResolvedValue({
+      _id: "user123",
+      name: "tington",
+      email: "new@example.com"
+    });
+
+    userServices.findUserByName.mockResolvedValue(null);
+    userServices.updateUserById.mockResolvedValue({
+      _id: "user123",
+      name: "tington",
+      email: "new@example.com"
+    });
+
+    const res = await request(app)
+      .put("/currentUser")
+      .set("Authorization", `Bearer ${authToken}`)
+      .send({ name: "newerName", email: "new@example.com" });
+
+    expect(res.statusCode).toBe(200);
+  });
+});
+
+describe("DELETE /currentUser", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should return 200 when user is deleted", async () => {
+    const res = await request(app)
+      .delete("/currentUser")
+      .set("Authorization", `Bearer ${authToken}`);
+
+    expect(res.statusCode).toBe(200);
+  });
+});
