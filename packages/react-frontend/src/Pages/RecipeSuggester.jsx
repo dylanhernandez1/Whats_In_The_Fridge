@@ -10,7 +10,7 @@ function RecipeSuggester() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const recipe = localStorage.getItem("recipe")
+    const recipe = localStorage.getItem("recipe");
     if (recipe) {
       setRecipe(recipe);
     }
